@@ -11,32 +11,121 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as HelloWorldRouteImport } from './routes/hello-world/route'
+import { Route as PagelayoutImport } from './routes/_page_layout'
+import { Route as DashboardlayoutImport } from './routes/_dashboard_layout'
+import { Route as PagelayoutIndexImport } from './routes/_page_layout/index'
+import { Route as DashboardlayoutIndexImport } from './routes/_dashboard_layout/index'
+import { Route as PagelayoutSalesRouteImport } from './routes/_page_layout/sales/route'
+import { Route as PagelayoutPosIndexImport } from './routes/_page_layout/pos/index'
+import { Route as DashboardlayoutInventoryIndexImport } from './routes/_dashboard_layout/inventory/index'
 
 // Create/Update Routes
 
-const HelloWorldRouteRoute = HelloWorldRouteImport.update({
-  path: '/hello-world',
+const PagelayoutRoute = PagelayoutImport.update({
+  id: '/_page_layout',
   getParentRoute: () => rootRoute,
 } as any)
+
+const DashboardlayoutRoute = DashboardlayoutImport.update({
+  id: '/_dashboard_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const PagelayoutIndexRoute = PagelayoutIndexImport.update({
+  path: '/',
+  getParentRoute: () => PagelayoutRoute,
+} as any)
+
+const DashboardlayoutIndexRoute = DashboardlayoutIndexImport.update({
+  path: '/',
+  getParentRoute: () => DashboardlayoutRoute,
+} as any)
+
+const PagelayoutSalesRouteRoute = PagelayoutSalesRouteImport.update({
+  path: '/sales',
+  getParentRoute: () => PagelayoutRoute,
+} as any)
+
+const PagelayoutPosIndexRoute = PagelayoutPosIndexImport.update({
+  path: '/pos/',
+  getParentRoute: () => PagelayoutRoute,
+} as any)
+
+const DashboardlayoutInventoryIndexRoute =
+  DashboardlayoutInventoryIndexImport.update({
+    path: '/inventory/',
+    getParentRoute: () => DashboardlayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/hello-world': {
-      id: '/hello-world'
-      path: '/hello-world'
-      fullPath: '/hello-world'
-      preLoaderRoute: typeof HelloWorldRouteImport
+    '/_dashboard_layout': {
+      id: '/_dashboard_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof DashboardlayoutImport
       parentRoute: typeof rootRoute
+    }
+    '/_page_layout': {
+      id: '/_page_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof PagelayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_page_layout/sales': {
+      id: '/_page_layout/sales'
+      path: '/sales'
+      fullPath: '/sales'
+      preLoaderRoute: typeof PagelayoutSalesRouteImport
+      parentRoute: typeof PagelayoutImport
+    }
+    '/_dashboard_layout/': {
+      id: '/_dashboard_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof DashboardlayoutIndexImport
+      parentRoute: typeof DashboardlayoutImport
+    }
+    '/_page_layout/': {
+      id: '/_page_layout/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof PagelayoutIndexImport
+      parentRoute: typeof PagelayoutImport
+    }
+    '/_dashboard_layout/inventory/': {
+      id: '/_dashboard_layout/inventory/'
+      path: '/inventory'
+      fullPath: '/inventory'
+      preLoaderRoute: typeof DashboardlayoutInventoryIndexImport
+      parentRoute: typeof DashboardlayoutImport
+    }
+    '/_page_layout/pos/': {
+      id: '/_page_layout/pos/'
+      path: '/pos'
+      fullPath: '/pos'
+      preLoaderRoute: typeof PagelayoutPosIndexImport
+      parentRoute: typeof PagelayoutImport
     }
   }
 }
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ HelloWorldRouteRoute })
+export const routeTree = rootRoute.addChildren({
+  DashboardlayoutRoute: DashboardlayoutRoute.addChildren({
+    DashboardlayoutIndexRoute,
+    DashboardlayoutInventoryIndexRoute,
+  }),
+  PagelayoutRoute: PagelayoutRoute.addChildren({
+    PagelayoutSalesRouteRoute,
+    PagelayoutIndexRoute,
+    PagelayoutPosIndexRoute,
+  }),
+})
 
 /* prettier-ignore-end */
 
@@ -46,11 +135,44 @@ export const routeTree = rootRoute.addChildren({ HelloWorldRouteRoute })
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/hello-world"
+        "/_dashboard_layout",
+        "/_page_layout"
       ]
     },
-    "/hello-world": {
-      "filePath": "hello-world/route.tsx"
+    "/_dashboard_layout": {
+      "filePath": "_dashboard_layout.tsx",
+      "children": [
+        "/_dashboard_layout/",
+        "/_dashboard_layout/inventory/"
+      ]
+    },
+    "/_page_layout": {
+      "filePath": "_page_layout.tsx",
+      "children": [
+        "/_page_layout/sales",
+        "/_page_layout/",
+        "/_page_layout/pos/"
+      ]
+    },
+    "/_page_layout/sales": {
+      "filePath": "_page_layout/sales/route.tsx",
+      "parent": "/_page_layout"
+    },
+    "/_dashboard_layout/": {
+      "filePath": "_dashboard_layout/index.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_page_layout/": {
+      "filePath": "_page_layout/index.tsx",
+      "parent": "/_page_layout"
+    },
+    "/_dashboard_layout/inventory/": {
+      "filePath": "_dashboard_layout/inventory/index.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_page_layout/pos/": {
+      "filePath": "_page_layout/pos/index.tsx",
+      "parent": "/_page_layout"
     }
   }
 }
