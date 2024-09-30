@@ -14,10 +14,12 @@ jobs:
             host: ${{secrets.SSH_HOST}}
             username: ${{secrets.SSH_USERNAME}}
             password: ${{secrets.SSH_PASSWORD}}
-            script: |              
+            script: |           
+              rm -rf karas-frontend   
               echo "Clone repo"
               git clone git@github.com:Indraneers/karas-frontend.git
               cd ./karas-frontend
+              git checkout development
               
               echo "Deploy image"
               docker compose down 
