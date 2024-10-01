@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_page_layout')({
 
 function PageLayout() {
   return (
-    <div>
+    <div className='font-body'>
       <Outlet />
     </div>
   );

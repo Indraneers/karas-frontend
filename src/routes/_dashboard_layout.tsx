@@ -6,7 +6,7 @@ export const Route = createFileRoute('/_dashboard_layout')({
 
 function DashboardLayout() {
   return (
-    <div className='grid grid-cols-6'>
+    <div className='grid grid-cols-6 font-body'>
       <div>
         sidebar
       </div>
