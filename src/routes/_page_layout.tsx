@@ -1,3 +1,4 @@
+import { MainContent } from '@/components/main-content';
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_page_layout')({
@@ -6,8 +7,10 @@ export const Route = createFileRoute('/_page_layout')({
 
 function PageLayout() {
   return (
-    <div className='bg-background font-body'>
-      <Outlet />
+    <div className='bg-background h-screen font-body'>
+      <MainContent>
+        <Outlet />
+      </MainContent>
     </div>
   );
 }
