@@ -41,7 +41,7 @@ function DashboardLayout() {
         </div>
       </Sidebar>
       <div className='col-span-5 w-full'>
-        <MainContent>
+        <MainContent isContainer={true}>
           <Outlet />
         </MainContent>
       </div>
