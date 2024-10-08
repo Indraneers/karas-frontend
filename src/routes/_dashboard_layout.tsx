@@ -6,6 +6,7 @@ import { SidebarList } from '@/components/sidebar/components/sidebar-list';
 import { MainContent } from '@/components/main-content';
 import { Logo } from '@/components/logo';
 import { AccountCard } from '@/features/account/components/account-card';
+import { Button } from '@/components/ui/button';
 
 export const Route = createFileRoute('/_dashboard_layout')({
   component: () => <DashboardLayout />
@@ -26,6 +27,18 @@ function DashboardLayout() {
             ))
           }
         </SidebarList>
+        <div className="h-full">
+          <div className="place-items-center grid h-full">
+            <ul className='flex flex-col gap-4'>
+              <li>
+                <Button className='text-accent text-lg' variant="ghost">Support</Button>
+              </li>
+              <li>
+                <Button className='text-accent text-lg' variant="ghost">Sign Out</Button>
+              </li>
+            </ul>
+          </div>
+        </div>
       </Sidebar>
       <div className='col-span-5 w-full'>
         <MainContent>
