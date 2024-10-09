@@ -1,5 +1,5 @@
 import { Button } from '@/components/ui/button';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { ChevronLeft, Plus } from 'lucide-react';
 
 export const Route = createFileRoute('/_page_layout/pos/')({
@@ -7,10 +7,15 @@ export const Route = createFileRoute('/_page_layout/pos/')({
 });
 
 function PosPage() {
+  const navigate = useNavigate();
   return (
     <div className='px-8 py-4 h-full'>
       {/* Top Navigate Back Button */}
-      <Button variant='ghost' className='hover:bg-transparent p-0 font-semibold text-accent hover:text-primary-foreground uppercase'>
+      <Button
+        onClick={() => navigate({ to: '/' })}
+        variant='ghost' 
+        className='hover:bg-transparent p-0 font-semibold text-accent hover:text-primary-foreground uppercase'
+      >
         <span><ChevronLeft size={13} /></span>
         Dashboard
       </Button>
