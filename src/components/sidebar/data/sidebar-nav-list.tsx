@@ -29,7 +29,7 @@ export const sidebarNavList: SideBarNavDataItem[] = [
   },
   {
     Icon: Wrench,
-    content: 'Sales & Order Mgt',
+    content: 'Maintenance Mgt',
     to: '/maintenance'
   }
 ];
