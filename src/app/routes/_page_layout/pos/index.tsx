@@ -3,6 +3,7 @@ import { ClearCartBtn } from '@/features/pos/components/clear-cart-btn';
 import { CreateCustomer } from '@/features/pos/components/create-customer';
 import { CreateProductButton } from '@/features/pos/components/create-product-btn';
 import { CustomerSearch } from '@/features/pos/components/customer-search';
+import { CustomerVehicleForm } from '@/features/pos/components/customer-vehicle-form';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_page_layout/pos/')({
@@ -27,8 +28,9 @@ function PosPage() {
             <CustomerSearch />
             <CreateCustomer />
           </div>
-          <div>
-
+          {/* Customer and Vehicle Details */}
+          <div className='mt-10'>
+            <CustomerVehicleForm />
           </div>
         </div>
       </div>
