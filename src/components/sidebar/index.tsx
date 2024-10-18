@@ -4,7 +4,7 @@ interface SidebarProps {
 
 export function Sidebar({ children }: SidebarProps) {
   return (
-    <div className="flex flex-col p-2 pt-4 h-full">
+    <div className="flex flex-col px-4 py-2 pt-4 h-full">
       {children}
     </div>
   );  
