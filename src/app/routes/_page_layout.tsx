@@ -7,7 +7,7 @@ export const Route = createFileRoute('/_page_layout')({
 
 function PageLayout() {
   return (
-    <div className='bg-background h-screen font-body'>
+    <div className='bg-background h-screen max-h-screen font-body'>
       <MainContent>
         <Outlet />
       </MainContent>

@@ -22,7 +22,31 @@ export function ItemOrderTable({ className }: ItemOrderTableProps) {
         </TableHead>
       </TableHeader>
       {/* Table Body */}
-      <TableBody>
+      <TableBody className="mt-8">
+        <ItemOrderRow
+          img={ValvolineOilSample}
+          name="VALVOLINE VR1 RACING MOTOR OIL SAE 20W-50"
+          price={5000}
+          quantity={1}
+        />
+        <ItemOrderRow
+          img={ValvolineOilSample}
+          name="VALVOLINE VR1 RACING MOTOR OIL SAE 20W-50"
+          price={5000}
+          quantity={1}
+        />
+        <ItemOrderRow
+          img={ValvolineOilSample}
+          name="VALVOLINE VR1 RACING MOTOR OIL SAE 20W-50"
+          price={5000}
+          quantity={1}
+        />
+        <ItemOrderRow
+          img={ValvolineOilSample}
+          name="VALVOLINE VR1 RACING MOTOR OIL SAE 20W-50"
+          price={5000}
+          quantity={1}
+        />
         <ItemOrderRow
           img={ValvolineOilSample}
           name="VALVOLINE VR1 RACING MOTOR OIL SAE 20W-50"

@@ -5,6 +5,7 @@ import { CreateProductButton } from '@/features/pos/components/create-product-bt
 import { CustomerSearch } from '@/features/pos/components/customer-search';
 import { CustomerVehicleForm } from '@/features/pos/components/customer-vehicle-form';
 import { ItemOrderTable } from '@/features/pos/components/item-order-table';
+import { OrderInfoPayment } from '@/features/pos/components/order-info-payment';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_page_layout/pos/')({
@@ -13,21 +14,27 @@ export const Route = createFileRoute('/_page_layout/pos/')({
 
 function PosPage() {
   return (
-    <div className='px-8 py-4 h-full'>
+    <div className='flex flex-col items-start px-8 py-4 h-full max-h-full'>
       <NavigateBackButton />
-      <div className='gap-12 grid grid-cols-[2fr,3fr] h-full'>
+      <div className='gap-12 grid grid-cols-[2fr,3fr] h-[calc(100vh-4rem)] max-h-[calc(100vh-4rem)] overflow-hidden'>
         {/* POS's left side */}
-        <div>
+        <div className='grid grid-rows-[auto,1fr,auto] auto-rows-fr'>
           {/* POS Button Headers */}
-          <div className='flex justify-end gap-6'>
+          <div className='flex justify-end gap-6 mb-4'>
             <CreateProductButton />
             <ClearCartBtn />
           </div>
-          {/* Item Order Table */}
-          <ItemOrderTable className='mt-8' />
+          <div className='relative m-h-full h-full'>
+            {/* Item Order Table */}
+            <div className='absolute w-full h-full'>
+              <ItemOrderTable />
+            </div>
+          </div>
+          {/* Order Info and Payement */}
+          <OrderInfoPayment className='mt-8'/>
         </div>
         {/* POS's right side */}
-        <div>
+        <div className='h-full'>
           {/* Customer Retrieval & Creation */}
           <div className='gap-16 grid grid-cols-[3fr,1fr,1fr]'>
             <CustomerSearch />
