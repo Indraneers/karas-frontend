@@ -1,13 +1,21 @@
 import * as React from "react";
 import {
-  CaretSortIcon,
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon
 } from "@radix-ui/react-icons";
 import * as SelectPrimitive from "@radix-ui/react-select";
 
+import DarkArrowDown from '@/assets/DarkArrowDown.svg';
+import WhiteArrowDown from '@/assets/WhiteArrowDown.svg';
+
 import { cn } from "@/lib/utils";
+
+interface CustomSelectVariant 
+  extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>  {
+  isLight?: boolean,
+  border?: boolean,
+}
 
 const Select = SelectPrimitive.Root;
 
@@ -17,19 +25,36 @@ const SelectValue = SelectPrimitive.Value;
 
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
-  React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>
->(({ className, children, ...props }, ref) => (
+  CustomSelectVariant
+>(({ className, children, isLight = false, border = false, ...props }, ref) => (
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex h-4 w-full items-center justify-between whitespace-nowrap rounded-md border border-input bg-transparent px-1 py-2 text-sm shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
-      className
+      "flex h-4 w-full items-center justify-between whitespace-nowrap rounded-md bg-transparent px-[2px] py-2 shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+      className,
+      isLight ? 'bg-transparent text-primary-foreground' : 'bg-primary-foreground/50 text-background',
+      border ? 'border border-input' : 'border-none'
     )}
     {...props}
   >
-    {children}
+    <div className="px-2 text-xs">
+      {children}
+    </div>
     <SelectPrimitive.Icon asChild>
-      <CaretSortIcon className="opacity-50 w-4 h-4" />
+      {
+        isLight ?
+          <div className="place-content-center grid bg-primary-foreground border rounded w-3 h-3">
+            <img
+              src={WhiteArrowDown}
+            />
+          </div>
+          :
+          <div className="place-content-center grid bg-background border rounded w-3 h-3">
+            <img
+              src={DarkArrowDown}
+            />
+          </div>
+      }
     </SelectPrimitive.Icon>
   </SelectPrimitive.Trigger>
 ));
