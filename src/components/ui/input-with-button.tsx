@@ -6,16 +6,22 @@ export interface InputWithIconProps
 extends React.InputHTMLAttributes<HTMLInputElement> {
     startIcon?: React.ReactElement;
     endIcon?: React.ReactElement;
+    startIconWrapperClassName?: string;
+    endIconWrapperClassName?: string;
 }
 
 const InputWithIcon = React.forwardRef<HTMLInputElement, InputWithIconProps>(
-  ({ className, type, startIcon, endIcon, ...props }, ref) => {
+  ({ className, startIconWrapperClassName, endIconWrapperClassName, type, startIcon, endIcon, ...props }, ref) => {
     const StartIcon = startIcon;
     const EndIcon = endIcon;
     return (
-      <div className="relative w-full h-10">
+      <div className="relative m-h-10 w-full">
         {StartIcon && (
-          <div className="top-1/2 left-3 absolute transform -translate-y-1/2">
+          <div className={
+            cn(
+              "top-1/2 left-3 absolute transform -translate-y-1/2",
+              startIconWrapperClassName)
+          }>
             <StartIcon.type
               className={cn('h-[18px] w-[18px]')}
               {...startIcon.props}
@@ -34,7 +40,13 @@ const InputWithIcon = React.forwardRef<HTMLInputElement, InputWithIconProps>(
           {...props}
         />
         {EndIcon && (
-          <div className="top-1/2 right-3 absolute transform -translate-y-1/2">
+          <div className={
+            cn(
+              "top-1/2 right-3 absolute transform -translate-y-1/2", 
+              endIconWrapperClassName
+            )
+          }
+          >
             <EndIcon.type
               className={cn('h-[18px] w-[18px]')}
               {...endIcon.props}

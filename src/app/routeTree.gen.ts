@@ -11,6 +11,7 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as PagelayoutImport } from './routes/_page_layout'
 import { Route as DashboardlayoutImport } from './routes/_dashboard_layout'
 import { Route as PagelayoutIndexImport } from './routes/_page_layout/index'
@@ -20,6 +21,11 @@ import { Route as PagelayoutPosIndexImport } from './routes/_page_layout/pos/ind
 import { Route as DashboardlayoutInventoryIndexImport } from './routes/_dashboard_layout/inventory/index'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const PagelayoutRoute = PagelayoutImport.update({
   id: '/_page_layout',
@@ -75,6 +81,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagelayoutImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/_page_layout/sales': {
       id: '/_page_layout/sales'
       path: '/sales'
@@ -125,6 +138,7 @@ export const routeTree = rootRoute.addChildren({
     PagelayoutIndexRoute,
     PagelayoutPosIndexRoute,
   }),
+  LoginRoute,
 })
 
 /* prettier-ignore-end */
@@ -136,7 +150,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/_dashboard_layout",
-        "/_page_layout"
+        "/_page_layout",
+        "/login"
       ]
     },
     "/_dashboard_layout": {
@@ -153,6 +168,9 @@ export const routeTree = rootRoute.addChildren({
         "/_page_layout/",
         "/_page_layout/pos/"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/_page_layout/sales": {
       "filePath": "_page_layout/sales/route.tsx",

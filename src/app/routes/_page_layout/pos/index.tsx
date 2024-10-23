@@ -25,8 +25,8 @@ function PosPage() {
             <CreateProductButton />
             <ClearCartBtn />
           </div>
+          {/* Item Order Table */}
           <div className='relative m-h-full h-full'>
-            {/* Item Order Table */}
             <div className='absolute w-full h-full'>
               <ItemOrderTable />
             </div>
