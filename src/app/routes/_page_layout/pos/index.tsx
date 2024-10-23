@@ -17,7 +17,7 @@ function PosPage() {
   return (
     <div className='flex flex-col items-start px-8 py-4 h-full max-h-full'>
       <NavigateBackButton />
-      <div className='gap-12 grid grid-cols-[2fr,3fr] h-full'>
+      <div className='gap-12 grid grid-cols-[2fr,3fr] w-full h-full'>
         {/* POS's left side */}
         <div className='grid grid-rows-[auto,1fr,auto]'>
           {/* POS Button Headers */}
