@@ -1,12 +1,16 @@
-import CustomerSearchIcon from './assets/customer-search.svg';
 import { InputWithIcon } from "@/components/ui/input-with-button";
+import CustomerSearchIcon from '@/assets/customer-search.svg';
 
-export function CustomerSearch() {
+interface SearchProps {
+  placeholder?: string;
+}
+
+export function Search({ placeholder = '' }: SearchProps) {
   const CustomerSearchIconElement = <img src={CustomerSearchIcon} alt="Search Customers" />;
   return (
     <InputWithIcon
       startIcon={CustomerSearchIconElement}
-      placeholder="Seach for a customer"
+      placeholder={placeholder}
     />
   );
 }
