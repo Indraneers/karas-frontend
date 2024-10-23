@@ -19,7 +19,7 @@ function PosPage() {
       <NavigateBackButton />
       <div className='gap-12 grid grid-cols-[2fr,3fr] w-full h-full'>
         {/* POS's left side */}
-        <div className='grid grid-rows-[auto,1fr,auto]'>
+        <div className='grid grid-rows-[auto,1fr,auto] p-1'>
           {/* POS Button Headers */}
           <div className='flex justify-end gap-6 mb-4'>
             <CreateProductButton />
@@ -35,7 +35,7 @@ function PosPage() {
           <OrderInfoPayment className='mt-8'/>
         </div>
         {/* POS's right side */}
-        <div className='grid grid-rows-[auto,auto,1fr] overflow-hidden'>
+        <div className='grid grid-rows-[auto,auto,1fr] p-1 overflow-hidden'>
           {/* Customer Retrieval & Creation  */}
           <div className='grid grid-cols-[3fr,1fr,1fr] h-auto'>
             <CustomerSearch />
