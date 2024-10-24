@@ -3,12 +3,14 @@ import CustomerSearchIcon from '@/assets/customer-search.svg';
 
 interface SearchProps {
   placeholder?: string;
+  className?: string;
 }
 
-export function Search({ placeholder = '' }: SearchProps) {
+export function Search({ className, placeholder = '' }: SearchProps) {
   const CustomerSearchIconElement = <img src={CustomerSearchIcon} alt="Search Customers" />;
   return (
     <InputWithIcon
+      className={className}
       startIcon={CustomerSearchIconElement}
       placeholder={placeholder}
     />
