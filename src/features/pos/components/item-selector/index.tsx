@@ -1,6 +1,6 @@
 import { ItemSelectionBreadcrumb } from "./components/item-selection-breadcrumb";
 import { ItemSelectionList } from "./components/item-selection-list";
-import { ProductSearch } from "./components/product-search";
+import { ProductSearch } from "@/components/product-search";
 
 export function ItemSelector({ className = '' }) {
   return (

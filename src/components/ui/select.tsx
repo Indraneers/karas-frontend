@@ -8,13 +8,15 @@ import * as SelectPrimitive from "@radix-ui/react-select";
 
 import DarkArrowDown from '@/assets/DarkArrowDown.svg';
 import WhiteArrowDown from '@/assets/WhiteArrowDown.svg';
+import GreenArrowDown from '@/assets/green-arrow-down.svg';
 
 import { cn } from "@/lib/utils";
 
 interface CustomSelectVariant 
   extends React.ComponentPropsWithoutRef<typeof SelectPrimitive.Trigger>  {
-  isLight?: boolean,
-  border?: boolean,
+  arrowColor?: 'green' | 'white' | 'black';
+  arrowClassName?: string;
+  border?: boolean;
 }
 
 const Select = SelectPrimitive.Root;
@@ -26,38 +28,73 @@ const SelectValue = SelectPrimitive.Value;
 const SelectTrigger = React.forwardRef<
   React.ElementRef<typeof SelectPrimitive.Trigger>,
   CustomSelectVariant
->(({ className, children, isLight = false, border = false, ...props }, ref) => (
-  <SelectPrimitive.Trigger
-    ref={ref}
-    className={cn(
-      "flex h-4 w-full items-center justify-between whitespace-nowrap rounded-md bg-transparent px-[2px] py-2 shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
-      className,
-      isLight ? 'bg-transparent text-primary-foreground' : 'bg-primary-foreground/50 text-background',
-      border ? 'border border-input' : 'border-none'
-    )}
-    {...props}
-  >
-    <div className="px-2 text-xs">
-      {children}
-    </div>
-    <SelectPrimitive.Icon asChild>
-      {
-        isLight ?
-          <div className="place-content-center grid bg-primary-foreground border rounded w-3 h-3">
-            <img
-              src={WhiteArrowDown}
-            />
-          </div>
-          :
-          <div className="place-content-center grid bg-background border rounded w-3 h-3">
-            <img
-              src={DarkArrowDown}
-            />
-          </div>
-      }
-    </SelectPrimitive.Icon>
-  </SelectPrimitive.Trigger>
-));
+>(({ className, children, arrowClassName = '', arrowColor = 'black', border = false, ...props }, ref) => {
+  let arrowComponent: React.ReactNode;
+
+  switch (arrowColor) {
+  case 'green':
+    arrowComponent = (
+      <div className={"grid rounded w-3 h-3 " + arrowClassName}>
+        <img
+          className="w-full h-full"
+          src={GreenArrowDown}
+        />
+      </div>
+    );
+    break;
+  case 'black':
+    arrowComponent = (
+      <div className={"place-content-center grid border rounded w-3 h-3 " + arrowClassName}>
+        <img
+          className="w-full h-full"
+          src={DarkArrowDown}
+        />
+      </div>
+    );
+    break;
+  case 'white':
+    arrowComponent = (
+      <div className={"place-content-center grid border rounded w-3 h-3 " + arrowClassName}>
+        <img
+          className="w-full h-full"
+          src={WhiteArrowDown}
+        />
+      </div>
+    );
+    break;
+  default:
+    arrowComponent = (
+      <div className={"place-content-center grid border rounded w-3 h-3 " + arrowClassName}>
+        <img
+          className="w-full h-full"
+          src={WhiteArrowDown}
+        />
+      </div>
+    );
+    break;
+  }
+  return (
+    <SelectPrimitive.Trigger
+      ref={ref}
+      className={cn(
+        "flex h-4 w-full items-center justify-between whitespace-nowrap rounded-md bg-transparent px-[2px] py-2 shadow-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-ring disabled:cursor-not-allowed disabled:opacity-50 [&>span]:line-clamp-1",
+        // isLight ? 'bg-transparent text-primary-foreground' : 'bg-primary-foreground/50 text-background',
+        border ? 'border border-input' : 'border-none',
+        className
+      )}
+      {...props}
+    >
+      <div className="px-2 text-sm">
+        {children}
+      </div>
+      <SelectPrimitive.Icon asChild>
+        {
+          arrowComponent
+        }
+      </SelectPrimitive.Icon>
+    </SelectPrimitive.Trigger>
+  );
+});
 SelectTrigger.displayName = SelectPrimitive.Trigger.displayName;
 
 const SelectScrollUpButton = React.forwardRef<
