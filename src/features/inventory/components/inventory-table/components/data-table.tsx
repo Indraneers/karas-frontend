@@ -55,7 +55,7 @@ export function DataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="border-b-primary-foreground/20 font-medium text-sm"
+                className="hover:bg-[#56CE94]/10 border-b-primary-foreground/20 font-medium text-sm"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
