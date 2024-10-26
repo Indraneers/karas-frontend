@@ -1,7 +1,7 @@
 import { Editable } from "@/components/editable";
 import { TableCell, TableRow } from "@/components/ui/custom-table";
 import { ItemCounter } from "../../item-counter";
-import Trash from "@/assets/trash.svg";
+import TrashIcon from "@/assets/trash.svg?react";
 import { Button } from "@/components/ui/button";
 
 interface ItemOrderRow {
@@ -46,7 +46,7 @@ export function ItemOrderRow({ img, name, price }: ItemOrderRow) {
       <TableCell className="p-4">
         <div className="place-content-center grid w-full h-full">
           <Button className="hover:bg-transparent" variant="ghost" size="icon">
-            <img src={Trash} loading='lazy' />
+            <TrashIcon />
           </Button>
         </div>
       </TableCell>
