@@ -12,7 +12,7 @@ export const Route = createFileRoute('/_dashboard_layout/inventory/')({
 function InventoryPage() {
   return (
     <div className='py-12'>
-      {/* Product Functionalit */}
+      {/* Product Functionality */}
       <div className='gap-8 grid grid-cols-[3fr,1fr,1fr,1fr]'>
         <ProductSearch className='h-10' />
         <SelectCategory />

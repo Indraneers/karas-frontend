@@ -4,5 +4,6 @@ export interface Unit {
   name: string;
   quantity: number;
   price: number;
-  product?: Product;
+  product: Product;
+  sku: string;
 }

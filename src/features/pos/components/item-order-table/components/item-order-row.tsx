@@ -1,5 +1,5 @@
 import { Editable } from "@/components/editable";
-import { TableCell, TableRow } from "@/components/ui/table";
+import { TableCell, TableRow } from "@/components/ui/custom-table";
 import { ItemCounter } from "../../item-counter";
 import Trash from "@/assets/trash.svg";
 import { Button } from "@/components/ui/button";
