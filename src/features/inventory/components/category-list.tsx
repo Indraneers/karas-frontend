@@ -18,7 +18,7 @@ export function CategoryList({ categories, className }: CategoryListProps) {
       )
     }>
       { categories.map((c) => (
-        <Button className="px-8 py-1 h-auto text-sm" key={c.name}>
+        <Button className="px-8 py-1 h-auto text-sm" key={c.id}>
           {c.name}
         </Button>
       )) }

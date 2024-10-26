@@ -1,5 +1,6 @@
 import { ProductSearch } from '@/components/product-search';
 import { CategoryList } from '@/features/inventory/components/category-list';
+import { InventoryTable } from '@/features/inventory/components/inventory-table';
 
 import { NewProductButton } from '@/features/inventory/components/new-product-button';
 import { RestockButton } from '@/features/inventory/components/restock-button';
@@ -23,6 +24,8 @@ function InventoryPage() {
       </div>
       {/* Category List and Filter */}
       <CategoryList className='mt-6' categories={categories} />
+      {/* Product Datatable */}
+      <InventoryTable className='mt-8' />
     </div>
   );
 }
