@@ -1,9 +1,9 @@
 import { InputWithIcon } from '@/components/ui/input-with-button';
 import { createFileRoute } from '@tanstack/react-router';
 
-import LockIcon from '@/features/auth/assets/lock.svg';
-import UserIcon from '@/features/auth/assets/user.svg';
-import VisibilityIcon from '@/features/auth/assets/visibility.svg';
+import LockIcon from '@/features/auth/assets/lock.svg?react';
+import UserIcon from '@/features/auth/assets/user.svg?react';
+import VisibilityIcon from '@/features/auth/assets/visibility.svg?react';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Button } from '@/components/ui/button';
 
@@ -12,9 +12,9 @@ export const Route = createFileRoute('/login')({
 });
 
 function LoginPage() {
-  const LockIconElement = <img className='h-6' loading='lazy' src={LockIcon} />;
-  const UserIconElement = <img className='h-6' loading='lazy' src={UserIcon} />;
-  const visibilityIconElement = <button><img loading='lazy' src={VisibilityIcon} /></button>;
+  const LockIconElement = <LockIcon className='h-6' />;
+  const UserIconElement = <UserIcon className='h-6' />;
+  const visibilityIconElement = <button><VisibilityIcon /></button>;
   return (
     <div className='place-content-center grid bg-background h-screen font-body font-medium'>
       <div className='w-[30vw] h-full'>

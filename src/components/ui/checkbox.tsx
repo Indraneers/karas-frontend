@@ -4,10 +4,15 @@ import { CheckIcon } from "@radix-ui/react-icons";
 
 import { cn } from "@/lib/utils";
 
+interface CheckBoxProps 
+  extends React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root> {
+  iconClassName?: string;
+}
+
 const Checkbox = React.forwardRef<
   React.ElementRef<typeof CheckboxPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof CheckboxPrimitive.Root>
->(({ className, ...props }, ref) => (
+  CheckBoxProps
+>(({ className, iconClassName, ...props }, ref) => (
   <CheckboxPrimitive.Root
     ref={ref}
     className={cn(
@@ -19,7 +24,7 @@ const Checkbox = React.forwardRef<
     <CheckboxPrimitive.Indicator
       className={cn("flex items-center w-full h-full justify-center text-current")}
     >
-      <CheckIcon className="w-4 h-4 text-white" />
+      <CheckIcon className={cn("w-4 h-4 text-white", iconClassName)} />
     </CheckboxPrimitive.Indicator>
   </CheckboxPrimitive.Root>
 ));

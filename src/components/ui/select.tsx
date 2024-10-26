@@ -6,9 +6,9 @@ import {
 } from "@radix-ui/react-icons";
 import * as SelectPrimitive from "@radix-ui/react-select";
 
-import DarkArrowDown from '@/assets/DarkArrowDown.svg';
-import WhiteArrowDown from '@/assets/WhiteArrowDown.svg';
-import GreenArrowDown from '@/assets/green-arrow-down.svg';
+import DarkArrowDown from '@/assets/DarkArrowDown.svg?react';
+import WhiteArrowDown from '@/assets/WhiteArrowDown.svg?react';
+import GreenArrowDown from '@/assets/green-arrow-down.svg?react';
 
 import { cn } from "@/lib/utils";
 
@@ -34,10 +34,9 @@ const SelectTrigger = React.forwardRef<
   switch (arrowColor) {
   case 'green':
     arrowComponent = (
-      <div className={"grid rounded w-3 h-3 " + arrowClassName}>
-        <img
+      <div className={"grid rounded w-3 h-3 mr-1 " + arrowClassName}>
+        <GreenArrowDown
           className="w-full h-full"
-          src={GreenArrowDown}
         />
       </div>
     );
@@ -45,9 +44,8 @@ const SelectTrigger = React.forwardRef<
   case 'black':
     arrowComponent = (
       <div className={"place-content-center grid border rounded w-3 h-3 " + arrowClassName}>
-        <img
+        <DarkArrowDown
           className="w-full h-full"
-          src={DarkArrowDown}
         />
       </div>
     );
@@ -55,9 +53,8 @@ const SelectTrigger = React.forwardRef<
   case 'white':
     arrowComponent = (
       <div className={"place-content-center grid border rounded w-3 h-3 " + arrowClassName}>
-        <img
+        <WhiteArrowDown
           className="w-full h-full"
-          src={WhiteArrowDown}
         />
       </div>
     );
@@ -65,9 +62,8 @@ const SelectTrigger = React.forwardRef<
   default:
     arrowComponent = (
       <div className={"place-content-center grid border rounded w-3 h-3 " + arrowClassName}>
-        <img
+        <WhiteArrowDown
           className="w-full h-full"
-          src={WhiteArrowDown}
         />
       </div>
     );

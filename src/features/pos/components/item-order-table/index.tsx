@@ -1,4 +1,4 @@
-import { Table, TableHead, TableHeader, TableBody } from "@/components/ui/table";
+import { Table, TableHead, TableHeader, TableBody } from "@/components/ui/custom-table";
 import ValvolineOilSample from './asset/valvoline-oil.png';
 import { ItemOrderRow } from "./components/item-order-row";
 
