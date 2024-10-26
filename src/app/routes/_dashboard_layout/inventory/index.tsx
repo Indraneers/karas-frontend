@@ -1,8 +1,10 @@
 import { ProductSearch } from '@/components/product-search';
+import { CategoryList } from '@/features/inventory/components/category-list';
 
 import { NewProductButton } from '@/features/inventory/components/new-product-button';
 import { RestockButton } from '@/features/inventory/components/restock-button';
 import { SelectCategory } from '@/features/inventory/components/select-category';
+import { categories } from '@/features/inventory/data/sample-categories';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_dashboard_layout/inventory/')({
@@ -19,6 +21,8 @@ function InventoryPage() {
         <NewProductButton />
         <RestockButton />
       </div>
+      {/* Category List and Filter */}
+      <CategoryList className='mt-6' categories={categories} />
     </div>
   );
 }

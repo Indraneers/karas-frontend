@@ -34,7 +34,7 @@ const SelectTrigger = React.forwardRef<
   switch (arrowColor) {
   case 'green':
     arrowComponent = (
-      <div className={"grid rounded w-3 h-3 " + arrowClassName}>
+      <div className={"grid rounded w-3 h-3 mr-1 " + arrowClassName}>
         <img
           className="w-full h-full"
           src={GreenArrowDown}
