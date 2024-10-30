@@ -20,6 +20,10 @@ jobs:
               git clone git@github.com:Indraneers/karas-frontend.git
               cd ./karas-frontend
               git checkout development
+
+              echo "Make ENV file"
+              touch .env
+              echo "${{secrets.PROD_ENV_FILE}}" > .env
               
               echo "Deploy image"
               docker compose down 

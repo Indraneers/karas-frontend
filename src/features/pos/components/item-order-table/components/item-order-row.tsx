@@ -1,8 +1,6 @@
 import { Editable } from "@/components/editable";
 import { TableCell, TableRow } from "@/components/ui/custom-table";
 import { ItemCounter } from "../../item-counter";
-import TrashIcon from "@/assets/trash.svg?react";
-import { Button } from "@/components/ui/button";
 import { DeleteButton } from "@/components/delete-button";
 
 interface ItemOrderRow {

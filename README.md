@@ -29,6 +29,16 @@ cd karas-frontend
 npm install
 ```
 
+### Environment Variable
+Use the following env template or the one found `.env.example`.
+```
+# frontend port
+PORT=
+
+# backend api url
+VITE_BACKEND_API_URL=
+```
+
 ### Running the app locally
 To start a local server, run
 ```bash

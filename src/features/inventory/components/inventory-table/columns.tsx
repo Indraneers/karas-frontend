@@ -40,7 +40,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="py-6" key={u.id + '-sku-' + u.sku}>
+        <div className="mx-8 py-6" key={u.id + '-sku-' + u.sku}>
           {u.sku}
         </div>
       ));
@@ -52,7 +52,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="py-6" key={u.id + u.name}>
+        <div className="mx-8 py-6" key={u.id + u.name}>
           {u.name}
         </div>
       ));
@@ -64,7 +64,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="py-6" key={u.id + '-price-' + u.price}>
+        <div className="mx-8 py-6" key={u.id + '-price-' + u.price}>
           {'$' + (u.price/100).toFixed(2)}
         </div>
       ));
@@ -76,7 +76,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="py-6" key={u.id + '-quantity-' + u.quantity}>
+        <div className="mx-8 py-6" key={u.id + '-quantity-' + u.quantity}>
           {u.quantity}
         </div>
       ));
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="py-6" key={u.id + '-delete'}>
+        <div className="mx-8 py-6" key={u.id + '-delete'}>
           <DeleteButton />
         </div>
       ));

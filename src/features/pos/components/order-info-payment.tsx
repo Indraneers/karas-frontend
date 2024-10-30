@@ -19,7 +19,12 @@ export function OrderInfoPayment({ className }: OrderInfoPaymentProps) {
         </div>
         {/* Order Discount */}
         <div className="flex justify-between mt-2">
-          Product Total Discount: <span className="text-primary-foreground"><Editable><div className="px-1">$20.00</div></Editable></span>
+          Product Total Discount: 
+          <span className="text-primary-foreground">
+            <Editable>
+              <div className="px-1">$20.00</div>
+            </Editable>
+          </span>
         </div>
         {/* Total */}
         <div className="flex justify-between mt-8 font-semibold text-primary">

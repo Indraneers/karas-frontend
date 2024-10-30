@@ -6,10 +6,11 @@ import ResetIcon from '../assets/reset.svg?react';
 
 interface CategoryListProps {
   className?: string;
-  categories: Category[];
+  categories: Category[] | undefined;
 }
 
 export function CategoryList({ categories, className }: CategoryListProps) {
+  console.log(categories);
   return (
     <div className={
       cn(
@@ -17,11 +18,13 @@ export function CategoryList({ categories, className }: CategoryListProps) {
         className
       )
     }>
-      { categories.map((c) => (
-        <Button className="px-8 py-1 h-auto text-sm" key={c.id}>
-          {c.name}
-        </Button>
-      )) }
+      { 
+        categories && categories.map((c) => (
+          <Button className="px-8 py-1 h-auto text-sm" key={c.id}>
+            {c.name}
+          </Button>
+        )) 
+      }
       <Button className="hover:bg-background py-1 h-auto text-sm hover:text-primary-foreground">
         <span className="mr-1"><ResetIcon className="text-white" /></span>
         Reset

@@ -13,6 +13,12 @@ RUN npm install && npm install typescript -g
 # Copy the rest of the application code to the container
 COPY . .
 
+# Define build arguments for environment variables
+ARG VITE_BACKEND_API_URL
+
+# Set environment variables during the build process
+ENV VITE_BACKEND_API_URL $VITE_BACKEND_API_URL
+
 # Build the React app
 RUN npm run build
 
