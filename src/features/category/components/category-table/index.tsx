@@ -2,16 +2,16 @@ import { cn } from "@/lib/utils";
 import { columns } from "./columns";
 import { InventoryDataTable } from "../../../../components/inventory-data-table";
 import { useQuery } from "@tanstack/react-query";
-import { getUnits } from "../../api/unit";
+import { getCategories } from "../../api/category";
 
-interface UnitTablePage {
+interface CategoryTablePage {
   className?: string;
 }
 
-export function UnitTable({ className }: UnitTablePage) {
+export function CategoryTable({ className }: CategoryTablePage) {
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['units'],
-    queryFn: async () => await getUnits()
+    queryKey: ['categories'],
+    queryFn: async () => await getCategories()
   });
 
   if (isError) {

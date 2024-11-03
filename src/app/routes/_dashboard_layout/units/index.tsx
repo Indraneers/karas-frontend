@@ -9,10 +9,10 @@ import { UnitSearch } from '@/features/unit/components/unit-search';
 import { UnitTable } from '@/features/unit/components/unit-table';
 
 export const Route = createFileRoute('/_dashboard_layout/units/')({
-  component: () => <InventoryPage />
+  component: () => <UnitPage />
 });
 
-function InventoryPage() {
+function UnitPage() {
   const [ categoryResult ] = useQueries({
     queries: [
       {
@@ -31,11 +31,8 @@ function InventoryPage() {
     return "loading";
   }
 
-  console.log(categoryResult.data);
-
   return (
     <div className='py-12'>
-      {/* Product Functionality */}
       <div className='gap-8 grid grid-cols-2'>
         <UnitSearch className='h-10' />
       </div>
