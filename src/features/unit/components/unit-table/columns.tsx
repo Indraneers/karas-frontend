@@ -10,6 +10,7 @@ export const columns: ColumnDef<Product>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
+        className="w-5 h-5"
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")
