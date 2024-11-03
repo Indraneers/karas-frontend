@@ -1,15 +1,15 @@
 import { ProductSearch } from '@/components/product-search';
-import { getCategories } from '@/features/inventory/api/inventory';
-import { CategoryList } from '@/features/inventory/components/category-list';
-import { InventoryTable } from '@/features/inventory/components/inventory-table';
+import { getCategories } from '@/features/unit/api/inventory';
+import { CategoryList } from '@/features/unit/components/category-list';
+import { InventoryTable } from '@/features/unit/components/unit-table';
 
-import { NewProductButton } from '@/features/inventory/components/new-product-button';
-import { RestockButton } from '@/features/inventory/components/restock-button';
-import { SelectCategory } from '@/features/inventory/components/select-category';
+import { NewProductButton } from '@/features/unit/components/new-product-button';
+import { RestockButton } from '@/features/unit/components/restock-button';
+import { SelectCategory } from '@/features/unit/components/select-category';
 import { useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_dashboard_layout/inventory/')({
+export const Route = createFileRoute('/_dashboard_layout/units/')({
   component: () => <InventoryPage />
 });
 

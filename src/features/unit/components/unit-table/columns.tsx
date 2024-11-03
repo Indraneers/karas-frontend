@@ -1,20 +1,22 @@
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Product } from "@/types/product";
 import { ColumnDef } from "@tanstack/react-table";
 
-import AddIcon from '../../assets/add.svg?react';
 import { Unit } from "@/types/unit";
 import { DeleteButton } from "@/components/delete-button";
 
 export const columns: ColumnDef<Product>[] = [
   {
     id: 'select',
-    header: () => (
-      <Button className="border-0 bg-secondary rounded-b-none rounded-tl-md rounded-tr-none w-full h-full font-bold text-base text-white">
-        <span className="mr-1"><AddIcon /></span>
-        Add Unit/Size
-      </Button>
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
     ),
     cell: ({ row }) => (
       <div className="place-content-center grid">      
@@ -40,7 +42,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="mx-8 py-6" key={u.id + '-sku-' + u.sku}>
+        <div key={u.id + '-sku-' + u.sku}>
           {u.sku}
         </div>
       ));
@@ -52,7 +54,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="mx-8 py-6" key={u.id + u.name}>
+        <div key={u.id + u.name}>
           {u.name}
         </div>
       ));
@@ -64,7 +66,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="mx-8 py-6" key={u.id + '-price-' + u.price}>
+        <div key={u.id + '-price-' + u.price}>
           {'$' + (u.price/100).toFixed(2)}
         </div>
       ));
@@ -76,7 +78,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="mx-8 py-6" key={u.id + '-quantity-' + u.quantity}>
+        <div key={u.id + '-quantity-' + u.quantity}>
           {u.quantity}
         </div>
       ));
@@ -88,7 +90,7 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => {
       const units = row.getValue('units') as Unit[];
       return units.map((u) => (
-        <div className="mx-8 py-6" key={u.id + '-delete'}>
+        <div key={u.id + '-delete'}>
           <DeleteButton />
         </div>
       ));

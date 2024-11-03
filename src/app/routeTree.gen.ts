@@ -18,7 +18,7 @@ import { Route as PagelayoutIndexImport } from './routes/_page_layout/index'
 import { Route as DashboardlayoutIndexImport } from './routes/_dashboard_layout/index'
 import { Route as PagelayoutSalesRouteImport } from './routes/_page_layout/sales/route'
 import { Route as PagelayoutPosIndexImport } from './routes/_page_layout/pos/index'
-import { Route as DashboardlayoutInventoryIndexImport } from './routes/_dashboard_layout/inventory/index'
+import { Route as DashboardlayoutUnitsIndexImport } from './routes/_dashboard_layout/units/index'
 
 // Create/Update Routes
 
@@ -57,11 +57,10 @@ const PagelayoutPosIndexRoute = PagelayoutPosIndexImport.update({
   getParentRoute: () => PagelayoutRoute,
 } as any)
 
-const DashboardlayoutInventoryIndexRoute =
-  DashboardlayoutInventoryIndexImport.update({
-    path: '/inventory/',
-    getParentRoute: () => DashboardlayoutRoute,
-  } as any)
+const DashboardlayoutUnitsIndexRoute = DashboardlayoutUnitsIndexImport.update({
+  path: '/units/',
+  getParentRoute: () => DashboardlayoutRoute,
+} as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -109,11 +108,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PagelayoutIndexImport
       parentRoute: typeof PagelayoutImport
     }
-    '/_dashboard_layout/inventory/': {
-      id: '/_dashboard_layout/inventory/'
-      path: '/inventory'
-      fullPath: '/inventory'
-      preLoaderRoute: typeof DashboardlayoutInventoryIndexImport
+    '/_dashboard_layout/units/': {
+      id: '/_dashboard_layout/units/'
+      path: '/units'
+      fullPath: '/units'
+      preLoaderRoute: typeof DashboardlayoutUnitsIndexImport
       parentRoute: typeof DashboardlayoutImport
     }
     '/_page_layout/pos/': {
@@ -131,7 +130,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   DashboardlayoutRoute: DashboardlayoutRoute.addChildren({
     DashboardlayoutIndexRoute,
-    DashboardlayoutInventoryIndexRoute,
+    DashboardlayoutUnitsIndexRoute,
   }),
   PagelayoutRoute: PagelayoutRoute.addChildren({
     PagelayoutSalesRouteRoute,
@@ -158,7 +157,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_dashboard_layout.tsx",
       "children": [
         "/_dashboard_layout/",
-        "/_dashboard_layout/inventory/"
+        "/_dashboard_layout/units/"
       ]
     },
     "/_page_layout": {
@@ -184,8 +183,8 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_page_layout/index.tsx",
       "parent": "/_page_layout"
     },
-    "/_dashboard_layout/inventory/": {
-      "filePath": "_dashboard_layout/inventory/index.tsx",
+    "/_dashboard_layout/units/": {
+      "filePath": "_dashboard_layout/units/index.tsx",
       "parent": "/_dashboard_layout"
     },
     "/_page_layout/pos/": {

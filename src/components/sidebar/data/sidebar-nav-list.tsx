@@ -1,4 +1,4 @@
-import { BadgeDollarSign, Factory, House, ListTodo, LucideIcon, Wrench } from "lucide-react";
+import { BadgeDollarSign, Box, Factory, House, LayoutGrid, ListTodo, LucideIcon, Wrench } from "lucide-react";
 
 interface SideBarNavDataItem {
   Icon: LucideIcon;
@@ -14,22 +14,32 @@ export const sidebarNavList: SideBarNavDataItem[] = [
   },
   {
     Icon: BadgeDollarSign,
-    content: 'Point of Sales',
+    content: 'POS',
     to: '/pos'
   },
   {
     Icon: ListTodo,
-    content: 'Inventory & Stock Mgt',
-    to: '/inventory'
+    content: 'Unit Stocks',
+    to: '/units'
+  },
+  {
+    Icon: Box,
+    content: 'Products',
+    to: '/products'
+  },
+  {
+    Icon: LayoutGrid,
+    content: 'Categories',
+    to: '/categories'
   },
   {
     Icon: Factory,
-    content: 'Sales & Order Mgt',
+    content: 'Sales & Orders',
     to: '/sales'
   },
   {
     Icon: Wrench,
-    content: 'Maintenance Mgt',
+    content: 'Maintenancet',
     to: '/maintenance'
   }
 ];
