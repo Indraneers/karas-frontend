@@ -16,9 +16,12 @@ import { Route as PagelayoutImport } from './routes/_page_layout'
 import { Route as DashboardlayoutImport } from './routes/_dashboard_layout'
 import { Route as PagelayoutIndexImport } from './routes/_page_layout/index'
 import { Route as DashboardlayoutIndexImport } from './routes/_dashboard_layout/index'
-import { Route as PagelayoutSalesRouteImport } from './routes/_page_layout/sales/route'
+import { Route as DashboardlayoutSalesRouteImport } from './routes/_dashboard_layout/sales/route'
 import { Route as PagelayoutPosIndexImport } from './routes/_page_layout/pos/index'
 import { Route as DashboardlayoutUnitsIndexImport } from './routes/_dashboard_layout/units/index'
+import { Route as DashboardlayoutProductsIndexImport } from './routes/_dashboard_layout/products/index'
+import { Route as DashboardlayoutMaintenanceIndexImport } from './routes/_dashboard_layout/maintenance/index'
+import { Route as DashboardlayoutCategoriesIndexImport } from './routes/_dashboard_layout/categories/index'
 
 // Create/Update Routes
 
@@ -47,9 +50,9 @@ const DashboardlayoutIndexRoute = DashboardlayoutIndexImport.update({
   getParentRoute: () => DashboardlayoutRoute,
 } as any)
 
-const PagelayoutSalesRouteRoute = PagelayoutSalesRouteImport.update({
+const DashboardlayoutSalesRouteRoute = DashboardlayoutSalesRouteImport.update({
   path: '/sales',
-  getParentRoute: () => PagelayoutRoute,
+  getParentRoute: () => DashboardlayoutRoute,
 } as any)
 
 const PagelayoutPosIndexRoute = PagelayoutPosIndexImport.update({
@@ -61,6 +64,24 @@ const DashboardlayoutUnitsIndexRoute = DashboardlayoutUnitsIndexImport.update({
   path: '/units/',
   getParentRoute: () => DashboardlayoutRoute,
 } as any)
+
+const DashboardlayoutProductsIndexRoute =
+  DashboardlayoutProductsIndexImport.update({
+    path: '/products/',
+    getParentRoute: () => DashboardlayoutRoute,
+  } as any)
+
+const DashboardlayoutMaintenanceIndexRoute =
+  DashboardlayoutMaintenanceIndexImport.update({
+    path: '/maintenance/',
+    getParentRoute: () => DashboardlayoutRoute,
+  } as any)
+
+const DashboardlayoutCategoriesIndexRoute =
+  DashboardlayoutCategoriesIndexImport.update({
+    path: '/categories/',
+    getParentRoute: () => DashboardlayoutRoute,
+  } as any)
 
 // Populate the FileRoutesByPath interface
 
@@ -87,12 +108,12 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_page_layout/sales': {
-      id: '/_page_layout/sales'
+    '/_dashboard_layout/sales': {
+      id: '/_dashboard_layout/sales'
       path: '/sales'
       fullPath: '/sales'
-      preLoaderRoute: typeof PagelayoutSalesRouteImport
-      parentRoute: typeof PagelayoutImport
+      preLoaderRoute: typeof DashboardlayoutSalesRouteImport
+      parentRoute: typeof DashboardlayoutImport
     }
     '/_dashboard_layout/': {
       id: '/_dashboard_layout/'
@@ -107,6 +128,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof PagelayoutIndexImport
       parentRoute: typeof PagelayoutImport
+    }
+    '/_dashboard_layout/categories/': {
+      id: '/_dashboard_layout/categories/'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof DashboardlayoutCategoriesIndexImport
+      parentRoute: typeof DashboardlayoutImport
+    }
+    '/_dashboard_layout/maintenance/': {
+      id: '/_dashboard_layout/maintenance/'
+      path: '/maintenance'
+      fullPath: '/maintenance'
+      preLoaderRoute: typeof DashboardlayoutMaintenanceIndexImport
+      parentRoute: typeof DashboardlayoutImport
+    }
+    '/_dashboard_layout/products/': {
+      id: '/_dashboard_layout/products/'
+      path: '/products'
+      fullPath: '/products'
+      preLoaderRoute: typeof DashboardlayoutProductsIndexImport
+      parentRoute: typeof DashboardlayoutImport
     }
     '/_dashboard_layout/units/': {
       id: '/_dashboard_layout/units/'
@@ -129,11 +171,14 @@ declare module '@tanstack/react-router' {
 
 export const routeTree = rootRoute.addChildren({
   DashboardlayoutRoute: DashboardlayoutRoute.addChildren({
+    DashboardlayoutSalesRouteRoute,
     DashboardlayoutIndexRoute,
+    DashboardlayoutCategoriesIndexRoute,
+    DashboardlayoutMaintenanceIndexRoute,
+    DashboardlayoutProductsIndexRoute,
     DashboardlayoutUnitsIndexRoute,
   }),
   PagelayoutRoute: PagelayoutRoute.addChildren({
-    PagelayoutSalesRouteRoute,
     PagelayoutIndexRoute,
     PagelayoutPosIndexRoute,
   }),
@@ -156,14 +201,17 @@ export const routeTree = rootRoute.addChildren({
     "/_dashboard_layout": {
       "filePath": "_dashboard_layout.tsx",
       "children": [
+        "/_dashboard_layout/sales",
         "/_dashboard_layout/",
+        "/_dashboard_layout/categories/",
+        "/_dashboard_layout/maintenance/",
+        "/_dashboard_layout/products/",
         "/_dashboard_layout/units/"
       ]
     },
     "/_page_layout": {
       "filePath": "_page_layout.tsx",
       "children": [
-        "/_page_layout/sales",
         "/_page_layout/",
         "/_page_layout/pos/"
       ]
@@ -171,9 +219,9 @@ export const routeTree = rootRoute.addChildren({
     "/login": {
       "filePath": "login.tsx"
     },
-    "/_page_layout/sales": {
-      "filePath": "_page_layout/sales/route.tsx",
-      "parent": "/_page_layout"
+    "/_dashboard_layout/sales": {
+      "filePath": "_dashboard_layout/sales/route.tsx",
+      "parent": "/_dashboard_layout"
     },
     "/_dashboard_layout/": {
       "filePath": "_dashboard_layout/index.tsx",
@@ -182,6 +230,18 @@ export const routeTree = rootRoute.addChildren({
     "/_page_layout/": {
       "filePath": "_page_layout/index.tsx",
       "parent": "/_page_layout"
+    },
+    "/_dashboard_layout/categories/": {
+      "filePath": "_dashboard_layout/categories/index.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_dashboard_layout/maintenance/": {
+      "filePath": "_dashboard_layout/maintenance/index.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_dashboard_layout/products/": {
+      "filePath": "_dashboard_layout/products/index.tsx",
+      "parent": "/_dashboard_layout"
     },
     "/_dashboard_layout/units/": {
       "filePath": "_dashboard_layout/units/index.tsx",
