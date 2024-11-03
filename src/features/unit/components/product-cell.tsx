@@ -23,7 +23,5 @@ export function ProductCell({ productId }: ProductCellProps) {
     return '';
   }
 
-  return (
-    <div>{data?.name}</div>
-  );
+  return data?.name;
 }
