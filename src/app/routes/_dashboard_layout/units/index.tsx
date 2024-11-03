@@ -1,14 +1,12 @@
-import { ProductSearch } from '@/components/product-search';
-import { getCategories } from '@/features/unit/api/inventory';
+import { getCategories } from '@/features/category/api/category';
 import { CategoryList } from '@/features/unit/components/category-list';
-import { InventoryTable } from '@/features/unit/components/unit-table';
 
-import { NewProductButton, NewUnitButton } from '@/features/unit/components/new-unit-button';
+import { NewUnitButton } from '@/features/unit/components/new-unit-button';
 import { RestockButton } from '@/features/unit/components/restock-button';
-import { SelectCategory } from '@/features/unit/components/select-category';
 import { useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { UnitSearch } from '@/features/unit/components/unit-search';
+import { UnitTable } from '@/features/unit/components/unit-table';
 
 export const Route = createFileRoute('/_dashboard_layout/units/')({
   component: () => <InventoryPage />
@@ -48,8 +46,8 @@ function InventoryPage() {
         <RestockButton />
         <NewUnitButton />
       </div>
-      {/* Product Datatable */}
-      <InventoryTable className='mt-8' />
+      {/* Unit Datatable */}
+      <UnitTable className='mt-8' />
     </div>
   );
 }

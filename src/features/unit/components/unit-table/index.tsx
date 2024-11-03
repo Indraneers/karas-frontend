@@ -1,16 +1,30 @@
 import { cn } from "@/lib/utils";
-import { products } from "../../data/sample-products";
 import { columns } from "./columns";
-import { DataTable } from "./components/data-table";
+import { InventoryDataTable } from "../../../../components/inventory-data-table";
+import { useQuery } from "@tanstack/react-query";
+import { getUnits } from "../../api/unit";
 
 interface InventoryTablePage {
   className?: string;
 }
 
-export function InventoryTable({ className }: InventoryTablePage) {
+export function UnitTable({ className }: InventoryTablePage) {
+  const { isError, isLoading, data } = useQuery({
+    queryKey: ['units'],
+    queryFn: async () => await getUnits()
+  });
+
+  if (isError) {
+    return 'error';
+  }
+
+  if (isLoading) {
+    return 'loading';
+  }
+
   return (
     <div className={cn(className)}>
-      <DataTable columns={columns} data={products} />
+      <InventoryDataTable columns={columns} data={data || []} />
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
-import { Product } from "@/types/product";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Unit } from "@/types/unit";
 import { DeleteButton } from "@/components/delete-button";
+import { ProductCell } from "../product-cell";
 
-export const columns: ColumnDef<Product>[] = [
+export const columns: ColumnDef<Unit>[] = [
   {
     id: 'select',
     header: ({ table }) => (
@@ -34,67 +34,33 @@ export const columns: ColumnDef<Product>[] = [
     enableHiding: false
   },
   {
+    accessorKey: 'productId',
+    header: 'Product',
+    cell: ({ row }) => (
+      <ProductCell productId={row.getValue('productId')} />
+    )
+  },
+  {
     accessorKey: 'name',
-    header: 'Product'
+    header: 'Unit'
   },
   {
     accessorKey: 'sku',
-    header: 'SKU',
-    cell: ({ row }) => {
-      const units = row.getValue('units') as Unit[];
-      return units.map((u) => (
-        <div key={u.id + '-sku-' + u.sku}>
-          {u.sku}
-        </div>
-      ));
-    }
-  },
-  {
-    accessorKey: 'units',
-    header: 'Unit',
-    cell: ({ row }) => {
-      const units = row.getValue('units') as Unit[];
-      return units.map((u) => (
-        <div key={u.id + u.name}>
-          {u.name}
-        </div>
-      ));
-    }
+    header: 'SKU'
   },
   {
     accessorKey: 'price',
-    header: 'Price',
-    cell: ({ row }) => {
-      const units = row.getValue('units') as Unit[];
-      return units.map((u) => (
-        <div key={u.id + '-price-' + u.price}>
-          {'$' + (u.price/100).toFixed(2)}
-        </div>
-      ));
-    }
+    header: 'Price'
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantity',
-    cell: ({ row }) => {
-      const units = row.getValue('units') as Unit[];
-      return units.map((u) => (
-        <div key={u.id + '-quantity-' + u.quantity}>
-          {u.quantity}
-        </div>
-      ));
-    }
+    header: 'Quantity'
   },
   {
     accessorKey: 'delete',
     header: 'Delete',
-    cell: ({ row }) => {
-      const units = row.getValue('units') as Unit[];
-      return units.map((u) => (
-        <div key={u.id + '-delete'}>
-          <DeleteButton />
-        </div>
-      ));
-    }
+    cell: () => (
+      <DeleteButton />
+    )
   }
 ];

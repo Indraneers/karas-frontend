@@ -4,7 +4,7 @@ interface SidebarListProps {
 
 export function SidebarList({ children }: SidebarListProps) {
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       {children}
     </div>
   );
