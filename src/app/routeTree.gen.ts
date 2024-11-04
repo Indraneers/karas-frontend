@@ -22,6 +22,7 @@ import { Route as DashboardlayoutUnitsIndexImport } from './routes/_dashboard_la
 import { Route as DashboardlayoutProductsIndexImport } from './routes/_dashboard_layout/products/index'
 import { Route as DashboardlayoutMaintenanceIndexImport } from './routes/_dashboard_layout/maintenance/index'
 import { Route as DashboardlayoutCategoriesIndexImport } from './routes/_dashboard_layout/categories/index'
+import { Route as DashboardlayoutProductsCreateImport } from './routes/_dashboard_layout/products/create'
 import { Route as DashboardlayoutCategoriesCreateImport } from './routes/_dashboard_layout/categories/create'
 import { Route as DashboardlayoutCategoriesEditCategoryIdImport } from './routes/_dashboard_layout/categories/edit/$categoryId'
 
@@ -82,6 +83,12 @@ const DashboardlayoutMaintenanceIndexRoute =
 const DashboardlayoutCategoriesIndexRoute =
   DashboardlayoutCategoriesIndexImport.update({
     path: '/categories/',
+    getParentRoute: () => DashboardlayoutRoute,
+  } as any)
+
+const DashboardlayoutProductsCreateRoute =
+  DashboardlayoutProductsCreateImport.update({
+    path: '/products/create',
     getParentRoute: () => DashboardlayoutRoute,
   } as any)
 
@@ -150,6 +157,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardlayoutCategoriesCreateImport
       parentRoute: typeof DashboardlayoutImport
     }
+    '/_dashboard_layout/products/create': {
+      id: '/_dashboard_layout/products/create'
+      path: '/products/create'
+      fullPath: '/products/create'
+      preLoaderRoute: typeof DashboardlayoutProductsCreateImport
+      parentRoute: typeof DashboardlayoutImport
+    }
     '/_dashboard_layout/categories/': {
       id: '/_dashboard_layout/categories/'
       path: '/categories'
@@ -202,6 +216,7 @@ export const routeTree = rootRoute.addChildren({
     DashboardlayoutSalesRouteRoute,
     DashboardlayoutIndexRoute,
     DashboardlayoutCategoriesCreateRoute,
+    DashboardlayoutProductsCreateRoute,
     DashboardlayoutCategoriesIndexRoute,
     DashboardlayoutMaintenanceIndexRoute,
     DashboardlayoutProductsIndexRoute,
@@ -234,6 +249,7 @@ export const routeTree = rootRoute.addChildren({
         "/_dashboard_layout/sales",
         "/_dashboard_layout/",
         "/_dashboard_layout/categories/create",
+        "/_dashboard_layout/products/create",
         "/_dashboard_layout/categories/",
         "/_dashboard_layout/maintenance/",
         "/_dashboard_layout/products/",
@@ -265,6 +281,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_dashboard_layout/categories/create": {
       "filePath": "_dashboard_layout/categories/create.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_dashboard_layout/products/create": {
+      "filePath": "_dashboard_layout/products/create.tsx",
       "parent": "/_dashboard_layout"
     },
     "/_dashboard_layout/categories/": {

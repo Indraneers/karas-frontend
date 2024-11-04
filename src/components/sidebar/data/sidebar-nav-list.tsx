@@ -26,7 +26,11 @@ export const sidebarNavList: SideBarNavDataItem[] = [
   {
     Icon: Box,
     content: 'Products',
-    to: '/products'
+    to: '/products',
+    childRoutes: [
+      /^\/products\/create/,
+      /^\/products\/edit\/[\w-]+$/
+    ]
   },
   {
     Icon: LayoutGrid,

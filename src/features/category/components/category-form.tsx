@@ -9,18 +9,17 @@ import { z } from 'zod';
 import { CategoryDto } from "../dto/category.dto";
 
 const formSchema = z.object({
-  name: z.string({ message: 'Name is required ' }).min(2).max(50)
+  name: z.string({ message: 'Name is required' }).min(2).max(50)
 });
+
+const defaultData: CategoryDto = {
+  name: ''
+};
 
 interface CategoryFormProps {
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
   data?: CategoryDto | undefined;
 }
-
-const defaultData: CategoryDto = {
-  id: '',
-  name: ''
-};
 
 export function CategoryForm({ data = defaultData, handleSubmit = console.log } : CategoryFormProps) {
   const navigate = useNavigate();
