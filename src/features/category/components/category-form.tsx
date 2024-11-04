@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
+import { CategoryDto } from "../dto/category.dto";
 
 const formSchema = z.object({
   name: z.string({ message: 'Name is required ' }).min(2).max(50)
@@ -13,16 +14,19 @@ const formSchema = z.object({
 
 interface CategoryFormProps {
   handleSubmit: (values: z.infer<typeof formSchema>) => void;
+  data?: CategoryDto | undefined;
 }
 
-export function CategoryForm({ handleSubmit = console.log } : CategoryFormProps) {
+const defaultData: CategoryDto = {
+  name: ''
+};
+
+export function CategoryForm({ data = defaultData, handleSubmit = console.log } : CategoryFormProps) {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: {
-      name: ''
-    }
+    defaultValues: data
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {

@@ -33,7 +33,8 @@ export const sidebarNavList: SideBarNavDataItem[] = [
     content: 'Categories',
     to: '/categories',
     childRoutes: [
-      /^\/categories\/create/
+      /^\/categories\/create/,
+      /^\/categories\/edit\/[\w-]+$/
     ]
   },
   {

@@ -3,6 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { DeleteButton } from "@/components/delete-button";
 import { Category } from "@/types/category";
+import { CategoryActions } from "../category-actions";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -46,5 +47,15 @@ export const columns: ColumnDef<Category>[] = [
     cell: () => (
       <DeleteButton />
     )
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const category = row.original;
+      return (
+        <CategoryActions categoryId={category.id} />
+      );
+    }
   }
 ];

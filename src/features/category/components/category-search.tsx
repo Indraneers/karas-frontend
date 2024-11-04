@@ -6,6 +6,6 @@ interface CategorySearchProps {
 
 export function CategorySearch({ className }: CategorySearchProps) {
   return (
-    <Search className={className} placeholder="Search for a unit" />
+    <Search className={className} placeholder="Search for a category" />
   );
 }
