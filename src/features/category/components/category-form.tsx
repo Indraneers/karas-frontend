@@ -18,6 +18,7 @@ interface CategoryFormProps {
 }
 
 const defaultData: CategoryDto = {
+  id: '',
   name: ''
 };
 

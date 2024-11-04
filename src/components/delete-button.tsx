@@ -1,9 +1,14 @@
 import TrashIcon from "@/assets/trash.svg?react";
 import { Button } from "./ui/button";
+import { MouseEventHandler } from "react";
 
-export function DeleteButton() {
+interface DeleteButtonProps {
+  onClick: MouseEventHandler<HTMLButtonElement>
+}
+
+export function DeleteButton({ onClick }: DeleteButtonProps) {
   return (
-    <Button className="hover:bg-transparent" variant="ghost" size="icon">
+    <Button onClick={onClick} className="hover:bg-transparent" variant="ghost" size="icon">
       <TrashIcon />
     </Button>
   );

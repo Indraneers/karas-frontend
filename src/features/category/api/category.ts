@@ -27,3 +27,9 @@ export const updateCategory = async ( categoryId: string, categoryDto: CategoryD
     method: 'PUT',
     data: categoryDto
   });
+
+export const deleteCategory = async ( categoryId: string ): Promise<Category> =>
+  request({
+    url: '/categories/' + categoryId,
+    method: 'DELETE'
+  });
