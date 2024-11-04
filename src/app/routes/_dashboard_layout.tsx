@@ -21,7 +21,7 @@ function DashboardLayout() {
         <SidebarList>
           {
             sidebarNavList.map((s) => (
-              <SidebarItem Icon={s.Icon} key={s.content} to={s.to}>
+              <SidebarItem Icon={s.Icon} key={s.content} to={s.to} childRoutes={s.childRoutes}>
                 {s.content}
               </SidebarItem>
             ))

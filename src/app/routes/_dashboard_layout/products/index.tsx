@@ -12,10 +12,10 @@ function ProductPage() {
     <div className='py-12'>
       <div className='gap-8 grid grid-cols-2'>
         <ProductSearch className='h-10' />
-      </div>
-      {/* Action buttons */}
-      <div className='flex justify-end gap-4'>
-        <NewProductButton />
+        <div className='flex justify-end'>
+          {/* Action buttons */}
+          <NewProductButton />
+        </div>
       </div>
       {/* Product Datatable */}
       <ProductTable className='mt-8' />

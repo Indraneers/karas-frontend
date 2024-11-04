@@ -4,6 +4,7 @@ interface SideBarNavDataItem {
   Icon: LucideIcon;
   content: string;
   to: string;
+  childRoutes?: RegExp[];
 }
 
 export const sidebarNavList: SideBarNavDataItem[] = [
@@ -30,7 +31,10 @@ export const sidebarNavList: SideBarNavDataItem[] = [
   {
     Icon: LayoutGrid,
     content: 'Categories',
-    to: '/categories'
+    to: '/categories',
+    childRoutes: [
+      /^\/categories\/create/
+    ]
   },
   {
     Icon: Factory,
