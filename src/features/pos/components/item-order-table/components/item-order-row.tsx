@@ -44,7 +44,7 @@ export function ItemOrderRow({ img, name, price }: ItemOrderRow) {
       {/* Delete Item */}
       <TableCell className="p-4">
         <div className="place-content-center grid w-full h-full">
-          <DeleteButton />
+          <DeleteButton onClick={() => console.log('test')} />
         </div>
       </TableCell>
     </TableRow>

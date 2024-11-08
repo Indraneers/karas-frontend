@@ -60,7 +60,7 @@ export const columns: ColumnDef<Unit>[] = [
     accessorKey: 'delete',
     header: 'Delete',
     cell: () => (
-      <DeleteButton />
+      <DeleteButton onClick={() => console.log('test')} />
     )
   }
 ];
