@@ -58,6 +58,6 @@ jobs:
             docker system prune -a --volumes
             docker network create nginx_network
             cd karas-frontend
-            echo "${{ secrets.CR_PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
+            echo "${{ secrets.PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
             docker compose up -d
