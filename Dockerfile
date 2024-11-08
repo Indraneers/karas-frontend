@@ -1,5 +1,5 @@
 # Use an official Node runtime as a parent image
-FROM node:19-alpine as build
+FROM node:20-alpine as build
 
 # Set the working directory to /app
 WORKDIR /app
@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install && npm install typescript -g
+RUN NODE_ENV=development npm install && npm install typescript -g
 
 # Copy the rest of the application code to the container
 COPY . .

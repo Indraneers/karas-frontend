@@ -1,7 +1,8 @@
 version: '3.9'
 
 services:
-  frotend:
+  frontend:
+    image: "ghcr.io/chheangg/karas-frontend:latest"
     build:
       context: .
       dockerfile: Dockerfile
