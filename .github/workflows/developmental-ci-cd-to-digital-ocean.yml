@@ -18,7 +18,7 @@ jobs:
       - name: Build and Publish
         run: |
           echo ${{ secrets.PROD_ENV_FILE }} > .env
-          docker compose -f docker-compose.yml build
+          docker compose -f docker-compose.yml build --no-cache
           docker compose -f docker-compose.yml push
   deployment:
     needs: build-and-publish
@@ -45,7 +45,8 @@ jobs:
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
+            docker system prune -a --volumes
             cd karas-frontend
-            docker login https://ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.PAT }}
+            echo "${{ secrets.CR_PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
             docker compose up -d
