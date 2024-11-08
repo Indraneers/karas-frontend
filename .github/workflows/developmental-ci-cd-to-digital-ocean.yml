@@ -46,5 +46,5 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd karas-frontend
-            docker compose pull
+            echo ${{ secrets.PAT }} | docker compose pull
             docker compose up -d
