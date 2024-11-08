@@ -25,14 +25,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: install ssh keys
-        # check this thread to understand why its needed:
-        # <https://stackoverflow.com/a/70447517>
+      - name: Open Web Client Directory
+        working-directory: src/webclient
         run: |
-          install -m 600 -D /dev/null ~/.ssh/id_rsa
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} > ~/.ssh/known_hosts
-
+          ls -la
       - name: rsync docker compose config
         uses: burnett01/rsync-deployments@5.2.1
         with:
@@ -43,7 +39,13 @@ jobs:
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: connect and pull
-        run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "cd ${{ secrets.WORK_DIR }} && docker compose pull && docker compose up -d && exit"
-      - name: cleanup
-        run: rm -rf ~/.ssh
+      - name: connect and deploy
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USERNAME }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            cd karas-frontend
+            docker compose pull
+            docker compose up -d
