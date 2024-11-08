@@ -46,5 +46,6 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd karas-frontend
-            echo ${{ secrets.PAT }} | docker compose pull
+            docker login https://ghcr.io -u ${{ github.repository_owner }} -p ${{ secrets.PAT }}
+            docker compose pull
             docker compose up -d
