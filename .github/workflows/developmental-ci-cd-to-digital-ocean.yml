@@ -19,8 +19,8 @@ jobs:
             docker build . --tag ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
             docker push ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
 
-    deploy:
-        needs: publish
+    deployment:
+        needs: build-and-publish
         name: deploy image
         runs-on: ubuntu-latest
 
