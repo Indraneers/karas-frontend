@@ -25,7 +25,7 @@ export function SidebarItem({ Icon, children, to, childRoutes }: SidebarItemProp
       variant='ghost' 
       className={
         'flex justify-start gap-2 py-4 w-full text-lg hover:bg-primary-foreground hover:text-background '
-        + `${ isSelected || orHasChild ? 'text-background bg-primary-foreground' : 'text-accent' }`
+        + `${ isSelected || orHasChild ? 'text-background bg-primary-foreground' : '' }`
       }
       onClick={() => navigate({ to })}
     >

@@ -38,7 +38,7 @@ export function InventoryDataTable<TData, TValue>({
             <TableRow className="border-b-0" key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="bg-primary-foreground/5 last:rounded-tr-md font-bold text-center text-primary-foreground" key={header.id}>
+                  <TableHead className="last:rounded-tr-md font-bold text-center" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -55,7 +55,7 @@ export function InventoryDataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="hover:bg-[#56CE94]/10 border-b-primary-foreground/20 font-medium text-sm"
+                className="hover:bg-[#56CE94]/10 font-medium text-sm"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

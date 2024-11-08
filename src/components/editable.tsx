@@ -7,11 +7,11 @@ interface EditableProps {
 
 export function Editable({ children }: EditableProps) {
   return (
-    <div className='inline-flex justify-start gap-1 border-primary-foreground p-[2px] border rounded-md'>
+    <div className='inline-flex justify-start gap-1 p-[2px] border rounded-md'>
       <button className='place-content-center grid' type='button'>
         <PencilIcon className='w-4 h-4'  />
       </button>
-      <div className='bg-primary-foreground/75 rounded-sm text-background'>
+      <div className='rounded-sm text-background'>
         {children} 
       </div>
     </div>

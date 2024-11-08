@@ -25,7 +25,7 @@ export function CategoryList({ categories, className }: CategoryListProps) {
           </Button>
         )) 
       }
-      <Button className="hover:bg-background py-1 h-auto text-sm hover:text-primary-foreground">
+      <Button className="hover:bg-background py-1 h-auto text-sm">
         <span className="mr-1"><ResetIcon className="text-white" /></span>
         Reset
       </Button>

@@ -12,12 +12,9 @@
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
-import { Route as PagelayoutImport } from './routes/_page_layout'
 import { Route as DashboardlayoutImport } from './routes/_dashboard_layout'
-import { Route as PagelayoutIndexImport } from './routes/_page_layout/index'
 import { Route as DashboardlayoutIndexImport } from './routes/_dashboard_layout/index'
 import { Route as DashboardlayoutSalesRouteImport } from './routes/_dashboard_layout/sales/route'
-import { Route as PagelayoutPosIndexImport } from './routes/_page_layout/pos/index'
 import { Route as DashboardlayoutUnitsIndexImport } from './routes/_dashboard_layout/units/index'
 import { Route as DashboardlayoutProductsIndexImport } from './routes/_dashboard_layout/products/index'
 import { Route as DashboardlayoutMaintenanceIndexImport } from './routes/_dashboard_layout/maintenance/index'
@@ -33,19 +30,9 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const PagelayoutRoute = PagelayoutImport.update({
-  id: '/_page_layout',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const DashboardlayoutRoute = DashboardlayoutImport.update({
   id: '/_dashboard_layout',
   getParentRoute: () => rootRoute,
-} as any)
-
-const PagelayoutIndexRoute = PagelayoutIndexImport.update({
-  path: '/',
-  getParentRoute: () => PagelayoutRoute,
 } as any)
 
 const DashboardlayoutIndexRoute = DashboardlayoutIndexImport.update({
@@ -56,11 +43,6 @@ const DashboardlayoutIndexRoute = DashboardlayoutIndexImport.update({
 const DashboardlayoutSalesRouteRoute = DashboardlayoutSalesRouteImport.update({
   path: '/sales',
   getParentRoute: () => DashboardlayoutRoute,
-} as any)
-
-const PagelayoutPosIndexRoute = PagelayoutPosIndexImport.update({
-  path: '/pos/',
-  getParentRoute: () => PagelayoutRoute,
 } as any)
 
 const DashboardlayoutUnitsIndexRoute = DashboardlayoutUnitsIndexImport.update({
@@ -115,13 +97,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardlayoutImport
       parentRoute: typeof rootRoute
     }
-    '/_page_layout': {
-      id: '/_page_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof PagelayoutImport
-      parentRoute: typeof rootRoute
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -142,13 +117,6 @@ declare module '@tanstack/react-router' {
       fullPath: '/'
       preLoaderRoute: typeof DashboardlayoutIndexImport
       parentRoute: typeof DashboardlayoutImport
-    }
-    '/_page_layout/': {
-      id: '/_page_layout/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof PagelayoutIndexImport
-      parentRoute: typeof PagelayoutImport
     }
     '/_dashboard_layout/categories/create': {
       id: '/_dashboard_layout/categories/create'
@@ -192,13 +160,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardlayoutUnitsIndexImport
       parentRoute: typeof DashboardlayoutImport
     }
-    '/_page_layout/pos/': {
-      id: '/_page_layout/pos/'
-      path: '/pos'
-      fullPath: '/pos'
-      preLoaderRoute: typeof PagelayoutPosIndexImport
-      parentRoute: typeof PagelayoutImport
-    }
     '/_dashboard_layout/categories/edit/$categoryId': {
       id: '/_dashboard_layout/categories/edit/$categoryId'
       path: '/categories/edit/$categoryId'
@@ -223,10 +184,6 @@ export const routeTree = rootRoute.addChildren({
     DashboardlayoutUnitsIndexRoute,
     DashboardlayoutCategoriesEditCategoryIdRoute,
   }),
-  PagelayoutRoute: PagelayoutRoute.addChildren({
-    PagelayoutIndexRoute,
-    PagelayoutPosIndexRoute,
-  }),
   LoginRoute,
 })
 
@@ -239,7 +196,6 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "__root.tsx",
       "children": [
         "/_dashboard_layout",
-        "/_page_layout",
         "/login"
       ]
     },
@@ -257,13 +213,6 @@ export const routeTree = rootRoute.addChildren({
         "/_dashboard_layout/categories/edit/$categoryId"
       ]
     },
-    "/_page_layout": {
-      "filePath": "_page_layout.tsx",
-      "children": [
-        "/_page_layout/",
-        "/_page_layout/pos/"
-      ]
-    },
     "/login": {
       "filePath": "login.tsx"
     },
@@ -274,10 +223,6 @@ export const routeTree = rootRoute.addChildren({
     "/_dashboard_layout/": {
       "filePath": "_dashboard_layout/index.tsx",
       "parent": "/_dashboard_layout"
-    },
-    "/_page_layout/": {
-      "filePath": "_page_layout/index.tsx",
-      "parent": "/_page_layout"
     },
     "/_dashboard_layout/categories/create": {
       "filePath": "_dashboard_layout/categories/create.tsx",
@@ -302,10 +247,6 @@ export const routeTree = rootRoute.addChildren({
     "/_dashboard_layout/units/": {
       "filePath": "_dashboard_layout/units/index.tsx",
       "parent": "/_dashboard_layout"
-    },
-    "/_page_layout/pos/": {
-      "filePath": "_page_layout/pos/index.tsx",
-      "parent": "/_page_layout"
     },
     "/_dashboard_layout/categories/edit/$categoryId": {
       "filePath": "_dashboard_layout/categories/edit/$categoryId.tsx",

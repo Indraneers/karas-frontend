@@ -5,7 +5,6 @@ import { NewUnitButton } from '@/features/unit/components/new-unit-button';
 import { RestockButton } from '@/features/unit/components/restock-button';
 import { useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { UnitSearch } from '@/features/unit/components/unit-search';
 import { UnitTable } from '@/features/unit/components/unit-table';
 
 export const Route = createFileRoute('/_dashboard_layout/units/')({
@@ -34,7 +33,6 @@ function UnitPage() {
   return (
     <div className='py-12'>
       <div className='gap-8 grid grid-cols-2'>
-        <UnitSearch className='h-10' />
       </div>
       {/* Category List and Filter */}
       <CategoryList className='mt-6' categories={categoryResult.data} />
