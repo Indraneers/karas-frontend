@@ -1,4 +1,5 @@
 import { Header } from '@/components/header';
+import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategories } from '@/features/category/api/category';
 import { createProduct } from '@/features/product/api/product';
 import { ProductForm } from '@/features/product/components/product-form';
@@ -40,8 +41,8 @@ function CreateProductPage() {
   }
 
   return (
-    <div className='py-12'>
-      <Header className='text-2xl'>Create New Category</Header>
+    <div>
+      <TypographyH1>Create Product</TypographyH1>
       <div className='mt-4'>
         <ProductForm categories={data} handleSubmit={mutation.mutate} />
       </div>

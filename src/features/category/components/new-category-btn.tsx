@@ -6,7 +6,7 @@ export function NewCategoryButton() {
   const navigate = useNavigate();
   return (
     <Button 
-      onClick={() => navigate({ to: '/categories/create' })}
+      onClick={() => navigate({ to: 'create' })}
     >
       <span><Plus className='font-bold' size={16} /></span>
       New Category

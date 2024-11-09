@@ -6,7 +6,7 @@ export function NewProductButton() {
   const navigate = useNavigate();
   return (
     <Button 
-      onClick={() => navigate({ to: '/products/create' })}
+      onClick={() => navigate({ to: 'create' })}
     >
       <span><Plus className='font-bold' size={16} /></span>
       New Product

@@ -1,4 +1,4 @@
-import { Header } from '@/components/header';
+import { TypographyH1 } from '@/components/ui/typography/h1';
 import { createCategory } from '@/features/category/api/category';
 import { CategoryForm } from '@/features/category/components/category-form';
 import { CategoryDto } from '@/features/category/dto/category.dto';
@@ -21,8 +21,8 @@ function CreateCategoryPage() {
   });
 
   return (
-    <div className='py-12'>
-      <Header className='text-2xl'>Create New Category</Header>
+    <div>
+      <TypographyH1>Create Category</TypographyH1>
       <div className='mt-4'>
         <CategoryForm handleSubmit={mutation.mutate} />
       </div>

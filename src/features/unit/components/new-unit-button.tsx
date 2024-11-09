@@ -6,7 +6,7 @@ export function NewUnitButton() {
   const navigate = useNavigate();
   return (
     <Button 
-      onClick={() => navigate({ to: '/units/create' })}
+      onClick={() => navigate({ to: 'create' })}
     >
       <span><Plus className='font-bold' size={16} /></span>
       New Unit

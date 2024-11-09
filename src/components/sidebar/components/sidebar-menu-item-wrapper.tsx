@@ -27,8 +27,8 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
       onClick={() => navigate({ to: url })}
       className={
         cn([
-          'hover:bg-foreground hover:text-background transition',
-          (isSelected || orHasChild) ? 'bg-foreground text-background' : ''
+          'hover:bg-accent hover:text-background transition',
+          (isSelected || orHasChild) ? 'bg-accent text-background' : ''
         ])
       }
       asChild
