@@ -7,9 +7,8 @@ export function NewCategoryButton() {
   return (
     <Button 
       onClick={() => navigate({ to: '/categories/create' })}
-      className='border-0 px-4 rounded-[5px] h-10 text-background'
     >
-      <span><Plus className='mr-1 font-bold' size={16} /></span>
+      <span><Plus className='font-bold' size={16} /></span>
       New Category
     </Button>
   );
