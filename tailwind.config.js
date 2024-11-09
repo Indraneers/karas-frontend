@@ -17,7 +17,7 @@ module.exports = {
   		}
   	},
   	fontFamily: {
-  		body: ['Poppins"', 'sans-serif']
+  		body: ['"Montserrat"', 'sans-serif']
   	},
   	extend: {
   		colors: {
