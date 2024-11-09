@@ -4,7 +4,7 @@ interface MainContentProps {
 
 export function MainContent({ children }: MainContentProps) {
   return (
-    <main className="bg-background p-4 w-full h-full max-h-full font-body">
+    <main className="bg-background p-4 w-full h-full max-h-full">
       {children}
     </main>
   );

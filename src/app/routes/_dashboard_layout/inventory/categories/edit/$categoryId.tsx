@@ -5,7 +5,7 @@ import { CategoryDto } from '@/features/category/dto/category.dto';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_dashboard_layout/categories/edit/$categoryId')({
+export const Route = createFileRoute('/_dashboard_layout/inventory/categories/edit/$categoryId')({
   component: () => <UpdateCategoryPage />
 });
 

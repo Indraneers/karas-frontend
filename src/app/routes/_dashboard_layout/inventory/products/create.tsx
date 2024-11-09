@@ -6,7 +6,7 @@ import { ProductDto } from '@/features/product/dto/product.dto';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_dashboard_layout/products/create')({
+export const Route = createFileRoute('/_dashboard_layout/inventory/products/create')({
   component: () => <CreateProductPage />
 });
 
