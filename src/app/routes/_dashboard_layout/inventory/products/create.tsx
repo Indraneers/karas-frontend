@@ -1,4 +1,3 @@
-import { Header } from '@/components/header';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategories } from '@/features/category/api/category';
 import { createProduct } from '@/features/product/api/product';
