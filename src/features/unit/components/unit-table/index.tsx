@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
-import { InventoryDataTable } from "../../../../components/inventory-data-table";
+import { DataTable } from "@/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { getUnits } from "../../api/unit";
 
@@ -24,7 +24,7 @@ export function UnitTable({ className }: UnitTablePage) {
 
   return (
     <div className={cn(className)}>
-      <InventoryDataTable columns={columns} data={data || []} />
+      <DataTable columns={columns} data={data || []} />
     </div>
   );
 }

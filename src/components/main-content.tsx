@@ -1,14 +1,11 @@
 interface MainContentProps {
   children: React.ReactNode;
-  isContainer?: boolean
 }
 
-export function MainContent({ children, isContainer = false }: MainContentProps) {
+export function MainContent({ children }: MainContentProps) {
   return (
-    <div className="bg-background w-full h-full max-h-full">
-      <div className={isContainer ? 'container' : 'max-h-full h-full'}>
-        {children}
-      </div>
-    </div>
+    <main className="bg-background p-4 w-full h-full max-h-full">
+      {children}
+    </main>
   );
 }

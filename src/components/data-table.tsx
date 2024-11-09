@@ -1,12 +1,12 @@
 "use client";
-
+ 
 import {
   ColumnDef,
   flexRender,
   getCoreRowModel,
   useReactTable
 } from "@tanstack/react-table";
-
+ 
 import {
   Table,
   TableBody,
@@ -15,13 +15,13 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-
+ 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
 }
-
-export function InventoryDataTable<TData, TValue>({
+ 
+export function DataTable<TData, TValue>({
   columns,
   data
 }: DataTableProps<TData, TValue>) {
@@ -30,15 +30,16 @@ export function InventoryDataTable<TData, TValue>({
     columns,
     getCoreRowModel: getCoreRowModel()
   });
+ 
   return (
-    <div className="rounded-md">
-      <Table className="bg-transparent rounded-md">
-        <TableHeader className="rounded-t-md">
+    <div className="border rounded-md">
+      <Table>
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow className="border-b-0" key={headerGroup.id}>
+            <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="last:rounded-tr-md font-bold text-center" key={header.id}>
+                  <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -55,12 +56,11 @@ export function InventoryDataTable<TData, TValue>({
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className="hover:bg-[#56CE94]/10 font-medium text-sm"
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >
                 {row.getVisibleCells().map((cell) => (
-                  <TableCell className="text-center" key={cell.id}>
+                  <TableCell key={cell.id}>
                     {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
