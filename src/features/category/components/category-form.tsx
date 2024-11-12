@@ -31,7 +31,7 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(values);
-    navigate({ to: '/categories' });
+    navigate({ to: '/inventory/categories' });
   }
 
   return (

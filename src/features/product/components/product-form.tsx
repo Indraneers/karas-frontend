@@ -27,7 +27,7 @@ interface ProductFormProps {
   categories: Category[];
 }
 
-export function ProductForm({ handleSubmit, data = defaultData, categories }: ProductFormProps) {
+export function ProductForm({ data = defaultData, handleSubmit = console.log, categories }: ProductFormProps) {
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -37,7 +37,7 @@ export function ProductForm({ handleSubmit, data = defaultData, categories }: Pr
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(values);
-    navigate({ to: '/categories' });
+    navigate({ to: '/inventory/products' });
   }
   return (
     <Form {...form}>

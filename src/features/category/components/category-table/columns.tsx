@@ -33,26 +33,26 @@ export const columns: ColumnDef<Category>[] = [
   {
     accessorKey: 'name',
     header: 'Category'
+
   },
   {
     accessorKey: 'productCount',
-    header: 'Product Quantity'
+    header: () => <div className="min-w-[250px]">Product Count</div>
   },
   {
-    accessorKey: 'id',
-    header: 'Delete',
-    cell: ({ row }) => (
-      <DeleteCategoryButton categoryId={row.getValue('id')} />
-    )
+    id: "delete",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const category = row.original;
+      return (<DeleteCategoryButton categoryId={category.id} />);
+    }
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
       const category = row.original;
-      return (
-        <CategoryActions categoryId={category.id} />
-      );
+      return (<CategoryActions categoryId={category.id} />);
     }
   }
 ];

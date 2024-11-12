@@ -2,19 +2,19 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Button } from "@/components/ui/button";
 import { Edit, MoreHorizontal, Trash } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
+import { deleteProduct } from "../api/product";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { deleteCategory } from "../api/category";
 
-interface CategoryActionsProps {
-  categoryId: string;
+interface ProductActionsProps {
+  productId: string;
 }
 
-export function CategoryActions({ categoryId }: CategoryActionsProps) {
+export function ProductActions({ productId }: ProductActionsProps) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const mutatation = useMutation({
-    mutationFn: async (categoryId: string) => deleteCategory(categoryId),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['categories'] })
+    mutationFn: async (categoryId: string) => deleteProduct(categoryId),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] })
   });
 
   return (
@@ -26,15 +26,15 @@ export function CategoryActions({ categoryId }: CategoryActionsProps) {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuLabel>Category Actions</DropdownMenuLabel>
+        <DropdownMenuLabel>Product Actions</DropdownMenuLabel>
         <DropdownMenuItem
-          onClick={() => navigate({ to: '/inventory/categories/edit/' + categoryId })}
+          onClick={() => navigate({ to: '/inventory/products/edit/' + productId })}
         >
           <Edit />
           <span>Edit</span>
         </DropdownMenuItem>
         <DropdownMenuItem
-          onClick={() => mutatation.mutate(categoryId)}
+          onClick={() => mutatation.mutate(productId)}
         >
           <Trash />
           <span>Delete</span>

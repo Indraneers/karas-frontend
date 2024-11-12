@@ -3,9 +3,8 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Product } from "@/types/product";
 import { CategoryCell } from "../category-cell";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import { Edit, MoreHorizontal } from "lucide-react";
+import { ProductActions } from "../product-actions";
+import { DeleteProductButton } from "../delete-product-btn";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -50,25 +49,20 @@ export const columns: ColumnDef<Product>[] = [
   {
     id: "actions",
     enableHiding: false,
-    cell: () => {
+    cell: ({ row }) => {
+      const product = row.original;
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="p-0 w-8 h-8">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal className="w-4 h-4" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-            
-            >
-              <Edit />
-              <span>Edit</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <DeleteProductButton productId={product.id} />
+      );
+    }
+  },
+  {
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const product = row.original;
+      return (
+        <ProductActions productId={product.id} />
       );
     }
   }

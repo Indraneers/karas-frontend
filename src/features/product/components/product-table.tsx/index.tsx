@@ -11,7 +11,7 @@ interface ProductTablePage {
 
 export function ProductTable({ className }: ProductTablePage) {
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['units'],
+    queryKey: ['products'],
     queryFn: async () => await getProducts()
   });
 

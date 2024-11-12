@@ -25,6 +25,7 @@ import { Route as DashboardlayoutInventoryCategoriesCreateImport } from './route
 import { Route as DashboardlayoutInventoryInventorylayoutUnitsIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/units/index'
 import { Route as DashboardlayoutInventoryInventorylayoutProductsIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/products/index'
 import { Route as DashboardlayoutInventoryInventorylayoutCategoriesIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/categories/index'
+import { Route as DashboardlayoutInventoryProductsEditProductIdImport } from './routes/_dashboard_layout/inventory/products/edit/$productId'
 import { Route as DashboardlayoutInventoryCategoriesEditCategoryIdImport } from './routes/_dashboard_layout/inventory/categories/edit/$categoryId'
 
 // Create Virtual Routes
@@ -106,6 +107,12 @@ const DashboardlayoutInventoryInventorylayoutCategoriesIndexRoute =
   DashboardlayoutInventoryInventorylayoutCategoriesIndexImport.update({
     path: '/categories/',
     getParentRoute: () => DashboardlayoutInventoryInventorylayoutRoute,
+  } as any)
+
+const DashboardlayoutInventoryProductsEditProductIdRoute =
+  DashboardlayoutInventoryProductsEditProductIdImport.update({
+    path: '/products/edit/$productId',
+    getParentRoute: () => DashboardlayoutInventoryRoute,
   } as any)
 
 const DashboardlayoutInventoryCategoriesEditCategoryIdRoute =
@@ -195,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardlayoutInventoryCategoriesEditCategoryIdImport
       parentRoute: typeof DashboardlayoutInventoryImport
     }
+    '/_dashboard_layout/inventory/products/edit/$productId': {
+      id: '/_dashboard_layout/inventory/products/edit/$productId'
+      path: '/products/edit/$productId'
+      fullPath: '/inventory/products/edit/$productId'
+      preLoaderRoute: typeof DashboardlayoutInventoryProductsEditProductIdImport
+      parentRoute: typeof DashboardlayoutInventoryImport
+    }
     '/_dashboard_layout/inventory/_inventory_layout/categories/': {
       id: '/_dashboard_layout/inventory/_inventory_layout/categories/'
       path: '/categories'
@@ -236,6 +250,7 @@ export const routeTree = rootRoute.addChildren({
       DashboardlayoutInventoryCategoriesCreateRoute,
       DashboardlayoutInventoryProductsCreateRoute,
       DashboardlayoutInventoryCategoriesEditCategoryIdRoute,
+      DashboardlayoutInventoryProductsEditProductIdRoute,
     }),
     DashboardlayoutMaintenanceIndexRoute,
   }),
@@ -282,7 +297,8 @@ export const routeTree = rootRoute.addChildren({
         "/_dashboard_layout/inventory/",
         "/_dashboard_layout/inventory/categories/create",
         "/_dashboard_layout/inventory/products/create",
-        "/_dashboard_layout/inventory/categories/edit/$categoryId"
+        "/_dashboard_layout/inventory/categories/edit/$categoryId",
+        "/_dashboard_layout/inventory/products/edit/$productId"
       ]
     },
     "/_dashboard_layout/inventory/_inventory_layout": {
@@ -312,6 +328,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_dashboard_layout/inventory/categories/edit/$categoryId": {
       "filePath": "_dashboard_layout/inventory/categories/edit/$categoryId.tsx",
+      "parent": "/_dashboard_layout/inventory"
+    },
+    "/_dashboard_layout/inventory/products/edit/$productId": {
+      "filePath": "_dashboard_layout/inventory/products/edit/$productId.tsx",
       "parent": "/_dashboard_layout/inventory"
     },
     "/_dashboard_layout/inventory/_inventory_layout/categories/": {
