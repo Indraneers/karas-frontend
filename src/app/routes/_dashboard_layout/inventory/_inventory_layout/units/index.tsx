@@ -31,7 +31,7 @@ function UnitPage() {
   }
 
   return (
-    <div>
+    <div className='mt-8'>
       <TypographyH1>
         Unit and Stock
       </TypographyH1>
