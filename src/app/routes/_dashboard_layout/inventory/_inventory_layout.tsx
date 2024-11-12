@@ -35,7 +35,7 @@ export function InventoryLayout() {
   const navigate = useNavigate();
   return (
     <div>
-      <Tabs value={location.pathname} className='w-[1000px]'>
+      <Tabs value={location.pathname}>
         <TabsList>
           {
             data.map((d) => (
