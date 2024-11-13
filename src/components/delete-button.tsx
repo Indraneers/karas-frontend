@@ -12,7 +12,7 @@ export function DeleteButton<T>({ type, id, handleDelete }: DeleteButtonProps<T>
   const queryClient = useQueryClient();
   const mutatation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: [types] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [type] })
   });
   return (
     <Button 
