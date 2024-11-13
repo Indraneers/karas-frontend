@@ -50,7 +50,7 @@ function UpdateProductPage() {
 
   return (
     <div className='py-12'>
-      <Header className='text-2xl'>Update New Category</Header>
+      <Header className='text-2xl'>Update New Product</Header>
       <div className='mt-4'>
         <ProductForm data={productQuery.data} categories={categoryQuery.data} handleSubmit={mutation.mutate} />
       </div>

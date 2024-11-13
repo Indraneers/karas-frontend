@@ -6,5 +6,6 @@ export interface Unit {
   quantity: number;
   price: number;
   product?: Product;
+  productId: string;
   sku: string;
 }
