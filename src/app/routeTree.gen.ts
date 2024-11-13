@@ -20,6 +20,7 @@ import { Route as DashboardlayoutSalesRouteImport } from './routes/_dashboard_la
 import { Route as DashboardlayoutMaintenanceIndexImport } from './routes/_dashboard_layout/maintenance/index'
 import { Route as DashboardlayoutInventoryIndexImport } from './routes/_dashboard_layout/inventory/index'
 import { Route as DashboardlayoutInventoryInventorylayoutImport } from './routes/_dashboard_layout/inventory/_inventory_layout'
+import { Route as DashboardlayoutInventoryUnitsCreateImport } from './routes/_dashboard_layout/inventory/units/create'
 import { Route as DashboardlayoutInventoryProductsCreateImport } from './routes/_dashboard_layout/inventory/products/create'
 import { Route as DashboardlayoutInventoryCategoriesCreateImport } from './routes/_dashboard_layout/inventory/categories/create'
 import { Route as DashboardlayoutInventoryInventorylayoutUnitsIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/units/index'
@@ -76,6 +77,12 @@ const DashboardlayoutInventoryIndexRoute =
 const DashboardlayoutInventoryInventorylayoutRoute =
   DashboardlayoutInventoryInventorylayoutImport.update({
     id: '/_inventory_layout',
+    getParentRoute: () => DashboardlayoutInventoryRoute,
+  } as any)
+
+const DashboardlayoutInventoryUnitsCreateRoute =
+  DashboardlayoutInventoryUnitsCreateImport.update({
+    path: '/units/create',
     getParentRoute: () => DashboardlayoutInventoryRoute,
   } as any)
 
@@ -195,6 +202,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardlayoutInventoryProductsCreateImport
       parentRoute: typeof DashboardlayoutInventoryImport
     }
+    '/_dashboard_layout/inventory/units/create': {
+      id: '/_dashboard_layout/inventory/units/create'
+      path: '/units/create'
+      fullPath: '/inventory/units/create'
+      preLoaderRoute: typeof DashboardlayoutInventoryUnitsCreateImport
+      parentRoute: typeof DashboardlayoutInventoryImport
+    }
     '/_dashboard_layout/inventory/categories/edit/$categoryId': {
       id: '/_dashboard_layout/inventory/categories/edit/$categoryId'
       path: '/categories/edit/$categoryId'
@@ -249,6 +263,7 @@ export const routeTree = rootRoute.addChildren({
       DashboardlayoutInventoryIndexRoute,
       DashboardlayoutInventoryCategoriesCreateRoute,
       DashboardlayoutInventoryProductsCreateRoute,
+      DashboardlayoutInventoryUnitsCreateRoute,
       DashboardlayoutInventoryCategoriesEditCategoryIdRoute,
       DashboardlayoutInventoryProductsEditProductIdRoute,
     }),
@@ -297,6 +312,7 @@ export const routeTree = rootRoute.addChildren({
         "/_dashboard_layout/inventory/",
         "/_dashboard_layout/inventory/categories/create",
         "/_dashboard_layout/inventory/products/create",
+        "/_dashboard_layout/inventory/units/create",
         "/_dashboard_layout/inventory/categories/edit/$categoryId",
         "/_dashboard_layout/inventory/products/edit/$productId"
       ]
@@ -324,6 +340,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_dashboard_layout/inventory/products/create": {
       "filePath": "_dashboard_layout/inventory/products/create.tsx",
+      "parent": "/_dashboard_layout/inventory"
+    },
+    "/_dashboard_layout/inventory/units/create": {
+      "filePath": "_dashboard_layout/inventory/units/create.tsx",
       "parent": "/_dashboard_layout/inventory"
     },
     "/_dashboard_layout/inventory/categories/edit/$categoryId": {

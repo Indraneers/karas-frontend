@@ -47,7 +47,8 @@ export const columns: ColumnDef<Unit>[] = [
   },
   {
     accessorKey: 'price',
-    header: 'Price'
+    header: 'Price',
+    cell: ({ row }) => `$ ${ (row.getValue('price') as number / 100).toFixed(2) }`
   },
   {
     accessorKey: 'quantity',

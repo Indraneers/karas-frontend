@@ -53,7 +53,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
                   <Input className="w-[500px]" placeholder="Ex: Twister 40W-80" {...field} />
                 </FormControl>
                 <FormDescription>
-                Set the category name. Min. 3 Max. 50
+                Set the product name. Min. 3 Max. 50
                 </FormDescription>
                 <FormMessage />
               </FormItem>
