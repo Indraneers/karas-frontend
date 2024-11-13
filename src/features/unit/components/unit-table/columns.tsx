@@ -3,7 +3,9 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Unit } from "@/types/unit";
 import { ProductCell } from "../product-cell";
-import { UnitActions } from "../unit-actions";
+import { InventoryActions } from "@/components/inventory-actions";
+import { deleteUnit } from "../../api/unit";
+import { DeleteButton } from "@/components/delete-button";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -55,12 +57,28 @@ export const columns: ColumnDef<Unit>[] = [
     header: 'Quantity'
   },
   {
-    accessorKey: 'delete',
-    header: 'Delete',
+    id: "delete",
     cell: ({ row }) => {
       const unit = row.original;
       return (
-        <UnitActions unitId={unit.id} />
+        <DeleteButton 
+          id={unit.id}
+          type="units"
+          handleDelete={deleteUnit}
+        />
+      );
+    }
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => {
+      const unit = row.original;
+      return (
+        <InventoryActions
+          id={unit.id}
+          type="units"
+          handleDelete={deleteUnit}
+        />
       );
     }
   }

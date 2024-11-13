@@ -2,8 +2,9 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Category } from "@/types/category";
-import { CategoryActions } from "../category-actions";
-import { DeleteCategoryButton } from "../delete-category-btn";
+import { deleteCategory } from "../../api/category";
+import { InventoryActions } from "@/components/inventory-actions";
+import { DeleteButton } from "@/components/delete-button";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -44,7 +45,13 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const category = row.original;
-      return (<DeleteCategoryButton categoryId={category.id} />);
+      return (
+        <DeleteButton 
+          id={category.id} 
+          type="categories"
+          handleDelete={deleteCategory}
+        />
+      );
     }
   },
   {
@@ -52,7 +59,13 @@ export const columns: ColumnDef<Category>[] = [
     enableHiding: false,
     cell: ({ row }) => {
       const category = row.original;
-      return (<CategoryActions categoryId={category.id} />);
+      return (
+        <InventoryActions 
+          id={category.id} 
+          type="categories"
+          handleDelete={deleteCategory}
+        />
+      );
     }
   }
 ];

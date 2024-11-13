@@ -1,14 +1,26 @@
 import TrashIcon from "@/assets/trash.svg?react";
 import { Button } from "./ui/button";
-import { MouseEventHandler } from "react";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-interface DeleteButtonProps {
-  onClick: MouseEventHandler<HTMLButtonElement>
+interface DeleteButtonProps<T> {
+  id: string;
+  type: 'categories' | 'products' | 'units';
+  handleDelete: (d: string) => Promise<T>
 }
 
-export function DeleteButton({ onClick }: DeleteButtonProps) {
+export function DeleteButton<T>({ type, id, handleDelete }: DeleteButtonProps<T>) {
+  const queryClient = useQueryClient();
+  const mutatation = useMutation({
+    mutationFn: async (id: string) => handleDelete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: [types] })
+  });
   return (
-    <Button onClick={onClick} className="hover:bg-transparent" variant="ghost" size="icon">
+    <Button 
+      onClick={() => mutatation.mutate(id)} 
+      className="hover:bg-transparent" 
+      variant="ghost" 
+      size="icon"
+    >
       <TrashIcon />
     </Button>
   );
