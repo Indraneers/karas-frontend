@@ -8,9 +8,21 @@ export const getUnits = async (): Promise<Unit[]>  =>
     method: 'GET'
   });
 
+export const getUnitById = async (unitId: string): Promise<Unit[]>  =>
+  request({
+    url: '/units/' + unitId,
+    method: 'GET'
+  });
+
 export const createUnit = async (unitDto: UnitDto): Promise<Unit> =>
   request({
     url: '/units',
     method: 'POST',
     data: unitDto
+  });
+
+export const deleteUnit = async (unitId: string): Promise<Unit> =>
+  request({
+    url: '/units/' + unitId,
+    method: 'DELETE'
   });

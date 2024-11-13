@@ -123,7 +123,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                     <Input 
                       type="number" 
                       {...field}
-                      value={(+field.value / 100) || null}
+                      value={(+field.value / 100) || undefined}
                       onChange={event => {
   
                         field.onChange((+event.target.value * 100)|0 || null);

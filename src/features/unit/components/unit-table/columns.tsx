@@ -2,8 +2,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Unit } from "@/types/unit";
-import { DeleteButton } from "@/components/delete-button";
 import { ProductCell } from "../product-cell";
+import { UnitActions } from "../unit-actions";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -57,8 +57,11 @@ export const columns: ColumnDef<Unit>[] = [
   {
     accessorKey: 'delete',
     header: 'Delete',
-    cell: () => (
-      <DeleteButton onClick={() => console.log('test')} />
-    )
+    cell: ({ row }) => {
+      const unit = row.original;
+      return (
+        <UnitActions unitId={unit.id} />
+      );
+    }
   }
 ];
