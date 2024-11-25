@@ -2,7 +2,7 @@
 import { usePosStore } from "../store/pos";
 import { CurrencyInput } from "@/components/currency-input";
 
-export function ServiceEditable({ id, value, accessorKey }: { id: string, value: number | undefined, accessorKey: string }) {
+export function ServiceEditable({ id, value = "", accessorKey }: { id: string, value: string | number | undefined, accessorKey: string }) {
   const { services, setServices } = usePosStore();
   return (
     <CurrencyInput
