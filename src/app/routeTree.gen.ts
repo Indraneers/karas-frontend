@@ -16,6 +16,7 @@ import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
 import { Route as DashboardlayoutImport } from './routes/_dashboard_layout'
 import { Route as DashboardlayoutIndexImport } from './routes/_dashboard_layout/index'
+import { Route as DashboardlayoutPosImport } from './routes/_dashboard_layout/pos'
 import { Route as DashboardlayoutSalesRouteImport } from './routes/_dashboard_layout/sales/route'
 import { Route as DashboardlayoutMaintenanceIndexImport } from './routes/_dashboard_layout/maintenance/index'
 import { Route as DashboardlayoutInventoryIndexImport } from './routes/_dashboard_layout/inventory/index'
@@ -55,6 +56,11 @@ const DashboardlayoutInventoryRoute = DashboardlayoutInventoryImport.update({
 
 const DashboardlayoutIndexRoute = DashboardlayoutIndexImport.update({
   path: '/',
+  getParentRoute: () => DashboardlayoutRoute,
+} as any)
+
+const DashboardlayoutPosRoute = DashboardlayoutPosImport.update({
+  path: '/pos',
   getParentRoute: () => DashboardlayoutRoute,
 } as any)
 
@@ -158,6 +164,13 @@ declare module '@tanstack/react-router' {
       path: '/sales'
       fullPath: '/sales'
       preLoaderRoute: typeof DashboardlayoutSalesRouteImport
+      parentRoute: typeof DashboardlayoutImport
+    }
+    '/_dashboard_layout/pos': {
+      id: '/_dashboard_layout/pos'
+      path: '/pos'
+      fullPath: '/pos'
+      preLoaderRoute: typeof DashboardlayoutPosImport
       parentRoute: typeof DashboardlayoutImport
     }
     '/_dashboard_layout/': {
@@ -266,6 +279,7 @@ declare module '@tanstack/react-router' {
 export const routeTree = rootRoute.addChildren({
   DashboardlayoutRoute: DashboardlayoutRoute.addChildren({
     DashboardlayoutSalesRouteRoute,
+    DashboardlayoutPosRoute,
     DashboardlayoutIndexRoute,
     DashboardlayoutInventoryRoute: DashboardlayoutInventoryRoute.addChildren({
       DashboardlayoutInventoryInventorylayoutRoute:
@@ -303,6 +317,7 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_dashboard_layout.tsx",
       "children": [
         "/_dashboard_layout/sales",
+        "/_dashboard_layout/pos",
         "/_dashboard_layout/",
         "/_dashboard_layout/inventory",
         "/_dashboard_layout/maintenance/"
@@ -313,6 +328,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_dashboard_layout/sales": {
       "filePath": "_dashboard_layout/sales/route.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_dashboard_layout/pos": {
+      "filePath": "_dashboard_layout/pos.tsx",
       "parent": "/_dashboard_layout"
     },
     "/_dashboard_layout/": {

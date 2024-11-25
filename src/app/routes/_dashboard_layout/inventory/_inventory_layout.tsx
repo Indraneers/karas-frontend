@@ -34,7 +34,7 @@ export function InventoryLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   return (
-    <div>
+    <div className='grid grid-rows-[auto,1fr] h-full'>
       <Tabs value={location.pathname}>
         <TabsList>
           {
@@ -51,7 +51,7 @@ export function InventoryLayout() {
           }
         </TabsList>
       </Tabs>
-      <div className='mt-4'>
+      <div className='bg-card mt-4 p-4 rounded-lg'>
         <Outlet />
       </div>
     </div>

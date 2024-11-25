@@ -1,4 +1,5 @@
 import { Header } from '@/components/header';
+import { Section } from '@/components/section';
 import { getCategoryById, updateCategory } from '@/features/category/api/category';
 import { CategoryForm } from '@/features/category/components/category-form';
 import { CategoryDto } from '@/features/category/dto/category.dto';
@@ -40,11 +41,11 @@ function UpdateCategoryPage() {
   }
 
   return (
-    <div className='py-12'>
+    <Section>
       <Header className='text-2xl'>Update New Category</Header>
       <div className='mt-4'>
         <CategoryForm data={data} handleSubmit={mutation.mutate} />
       </div>
-    </div>
+    </Section>
   );
 }

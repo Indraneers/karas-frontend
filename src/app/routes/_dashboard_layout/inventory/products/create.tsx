@@ -1,3 +1,4 @@
+import { Section } from '@/components/section';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategories } from '@/features/category/api/category';
 import { createProduct } from '@/features/product/api/product';
@@ -40,11 +41,11 @@ function CreateProductPage() {
   }
 
   return (
-    <div>
+    <Section>
       <TypographyH1>Create Product</TypographyH1>
       <div className='mt-4'>
         <ProductForm categories={data} handleSubmit={mutation.mutate} />
       </div>
-    </div>
+    </Section>
   );
 }

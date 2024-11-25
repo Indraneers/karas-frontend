@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_dashboard_layout/inventory/_inventory_la
 
 function CategoryPage() {
   return (
-    <div className='mt-8'>
+    <>
       <TypographyH1>
         Category
       </TypographyH1>
@@ -21,6 +21,6 @@ function CategoryPage() {
         </div>
       </div>
       <CategoryTable className='mt-4' />
-    </div>
+    </>
   );
 }

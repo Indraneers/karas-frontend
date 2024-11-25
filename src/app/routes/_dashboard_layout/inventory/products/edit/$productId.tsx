@@ -1,4 +1,5 @@
 import { Header } from '@/components/header';
+import { Section } from '@/components/section';
 import { getCategories } from '@/features/category/api/category';
 import { getProductById, updateProduct } from '@/features/product/api/product';
 import { ProductForm } from '@/features/product/components/product-form';
@@ -49,11 +50,11 @@ function UpdateProductPage() {
   }
 
   return (
-    <div className='py-12'>
+    <Section>
       <Header className='text-2xl'>Update New Product</Header>
       <div className='mt-4'>
         <ProductForm data={productQuery.data} categories={categoryQuery.data} handleSubmit={mutation.mutate} />
       </div>
-    </div>
+    </Section>
   );
 }

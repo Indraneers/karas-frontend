@@ -11,7 +11,7 @@ export const Route = createFileRoute('/_dashboard_layout/inventory/_inventory_la
 
 function UnitPage() {
   return (
-    <div className='mt-8'>
+    <>
       <TypographyH1>
         Unit and Stock
       </TypographyH1>
@@ -23,6 +23,6 @@ function UnitPage() {
         </div>
       </div>
       <UnitTable className='mt-4' />
-    </div>
+    </>
   );
 }

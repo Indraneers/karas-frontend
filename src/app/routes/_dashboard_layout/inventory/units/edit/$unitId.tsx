@@ -1,4 +1,5 @@
 import { Header } from '@/components/header';
+import { Section } from '@/components/section';
 import { getProducts } from '@/features/product/api/product';
 import { getUnitById, updateUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
@@ -49,11 +50,11 @@ function UpdateUnitPage() {
   }
 
   return (
-    <div className='py-12'>
+    <Section>
       <Header className='text-2xl'>Update New Unit</Header>
       <div className='mt-4'>
         <UnitForm data={unitQuery.data} products={productQuery.data} handleSubmit={mutation.mutate} />
       </div>
-    </div>
+    </Section>
   );
 }
