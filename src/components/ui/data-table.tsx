@@ -1,4 +1,3 @@
-"use client";
  
 import {
   ColumnDef,
@@ -15,7 +14,6 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { ScrollArea } from "./ui/scroll-area";
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -33,14 +31,14 @@ export function DataTable<TData, TValue>({
   });
  
   return (
-    <ScrollArea className="border rounded-md h-full">
-      <Table className="h-full">
-        <TableHeader className='bg-neutral-100'>
+    <div className="border rounded-md">
+      <Table>
+        <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="text-foreground" key={header.id}>
+                  <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -76,6 +74,6 @@ export function DataTable<TData, TValue>({
           )}
         </TableBody>
       </Table>
-    </ScrollArea>
+    </div>
   );
 }

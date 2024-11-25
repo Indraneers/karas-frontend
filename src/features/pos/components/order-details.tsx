@@ -1,9 +1,10 @@
 import { Section } from "@/components/section";
+import { TypographyH2 } from "@/components/ui/typography/h2";
 
 export function OrderDetails() {
   return (
     <Section>
-      Order Details
+      <TypographyH2>Order Details</TypographyH2>
     </Section>
   );
 }

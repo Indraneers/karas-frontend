@@ -1,6 +1,6 @@
 export function SelectionMenu({ children }: { children: React.ReactNode }) {
   return (
-    <div className="gap-4 grid grid-rows-[1fr,2fr]">
+    <div className="gap-2 grid grid-rows-[2fr,3fr] h-full max-h-full">
       {children}
     </div>
   );
