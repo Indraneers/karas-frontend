@@ -1,11 +1,12 @@
 import { Section } from "@/components/section";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { ChevronLeft } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
+import { ItemSelectionHeader } from "./item-selection-header";
+import { ItemSelectorBreadCrumb } from "./item-selector-breadcrumb";
 
 interface ItemSelectionProps {
   children?: React.ReactNode;
@@ -27,21 +28,11 @@ export function ItemSelection({ children }: ItemSelectionProps) {
 
   return (
     <Section className="flex flex-col">
-      <div className="flex items-center space-x-4 pb-4 min-h-8">
+      <ItemSelectionHeader>
         <TypographyH2 className="pb-0">Items</TypographyH2>
         <Separator orientation="vertical" />
         <div className="flex justify-between items-center w-full">
-          <Breadcrumb>  
-            <BreadcrumbList>
-              <BreadcrumbItem>
-              Categories
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-              Engine Oil
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
+          <ItemSelectorBreadCrumb />
           <Button 
             className="text-accent" variant='ghost'
             onClick={handleBackBtn}
@@ -50,7 +41,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
             Back
           </Button>
         </div>
-      </div>
+      </ItemSelectionHeader>
       <Separator />
       <div className="flex-grow">
         {children}
