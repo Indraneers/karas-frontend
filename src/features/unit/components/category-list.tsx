@@ -10,7 +10,6 @@ interface CategoryListProps {
 }
 
 export function CategoryList({ categories, className }: CategoryListProps) {
-  console.log(categories);
   return (
     <div className={
       cn(

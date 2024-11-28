@@ -2,10 +2,15 @@ import { request } from "@/lib/request";
 import { Category } from "@/types/category";
 import { CategoryDto } from "../dto/category.dto";
 
-export const getCategories = async (): Promise<Category[]>  =>
+interface CategoryQuery {
+  q: string;
+}
+
+export const getCategories = async (query?: CategoryQuery): Promise<Category[]>  =>
   request({
     url: '/categories',
-    method: 'GET'
+    method: 'GET',
+    params: query
   });
 
 export const getCategoryById = async ( categoryId: string ): Promise<Category> =>

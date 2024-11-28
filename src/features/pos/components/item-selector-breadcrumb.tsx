@@ -4,7 +4,7 @@ import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { cn } from "@/lib/utils";
 
 export function ItemSelectorBreadCrumb() {
-  const { selector, setSelector } = useItemSelectionStore();
+  const { selector, setSelector, category, product } = useItemSelectionStore();
 
   function isBreadcrumbVisible(itemSelectionType: ItemSelectionEnum) {
     switch(itemSelectionType) {
@@ -44,7 +44,7 @@ export function ItemSelectorBreadCrumb() {
             isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'
           ])} 
         >
-          Engine Oil
+          {category?.name}
         </BreadcrumbItem>
         {/* Unit */}
         <BreadcrumbSeparator 
@@ -53,7 +53,7 @@ export function ItemSelectorBreadCrumb() {
         <BreadcrumbItem
           className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block' : 'hidden'])} 
         >
-          Engine Oil
+          {product?.name}
         </BreadcrumbItem>
       </BreadcrumbList>
     </Breadcrumb>

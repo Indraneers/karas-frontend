@@ -1,7 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const client = (() => {
-  console.log(import.meta.env.VITE_BACKEND_API_URL);
   return axios.create({
     baseURL: import.meta.env.VITE_BACKEND_API_URL,
     headers: {

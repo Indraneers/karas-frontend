@@ -3,15 +3,17 @@ import { ItemCardList } from "./item-card-list";
 import { useQuery } from "@tanstack/react-query";
 import { getUnits } from "@/features/unit/api/unit";
 import { UnitSelectionCard } from "./unit-selection-card";
+import { useItemSelectionStore } from "../store/item-selection";
 
 interface UnitSelectionProps {
   className?: string;
 }
 
 export function UnitSelection({ className }: UnitSelectionProps) {
+  const { product } = useItemSelectionStore();
   const { isError, isLoading, data } = useQuery({
     queryKey: ['units'],
-    queryFn: () => getUnits()
+    queryFn: () => getUnits({ productId: product?.id })
   });
 
   if (isError) {

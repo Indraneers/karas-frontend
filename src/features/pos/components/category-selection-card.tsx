@@ -9,10 +9,11 @@ interface CategorySelectionCardProps {
 }
 
 export function CategorySelectionCard({ category }: CategorySelectionCardProps) {
-  const { setSelector } = useItemSelectionStore();
+  const { setSelector, setCategory } = useItemSelectionStore();
 
   function handleClick() {
     setSelector(ItemSelectionEnum.PRODUCT);
+    setCategory(category);
   }
 
   return (

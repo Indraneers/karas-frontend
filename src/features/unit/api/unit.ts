@@ -2,10 +2,16 @@ import { request } from "@/lib/request";
 import { Unit } from "@/types/unit";
 import { UnitDto } from "../dto/unit.dto";
 
-export const getUnits = async (): Promise<Unit[]>  =>
+interface UnitQuery {
+  q?: string;
+  productId?: string;
+}
+
+export const getUnits = async (query?: UnitQuery): Promise<Unit[]>  =>
   request({
     url: '/units',
-    method: 'GET'
+    method: 'GET',
+    params: query
   });
 
 export const getUnitById = async (unitId: string): Promise<Unit>  =>

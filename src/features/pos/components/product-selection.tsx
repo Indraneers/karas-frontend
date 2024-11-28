@@ -3,15 +3,18 @@ import { ItemCardList } from "./item-card-list";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "@/features/product/api/product";
 import { ProductSelectionCard } from "./product-selection-card";
+import { useItemSelectionStore } from "../store/item-selection";
 
 interface ProductSelectionProps {
   className?: string;
 }
 
 export function ProductSelection({ className }: ProductSelectionProps) {
+  const { category } = useItemSelectionStore();
+  
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['products'],
-    queryFn: () => getProducts()
+    queryKey: ['products' + category?.name || null],
+    queryFn: () => getProducts({ categoryId: category?.id })
   });
 
   if (isError) {

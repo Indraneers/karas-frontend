@@ -17,6 +17,6 @@ export const useItemSelectionStore = create<ItemSelectionState>((set) => ({
   category: null,
   product: null,
   setSelector: (i: ItemSelectionEnum) => set((state) => ({ ...state, selector: i })),
-  setCategory: (c: CategoryDto) => set((state) => ({ ...state, category: c, productId: null })),
-  setProduct: (p: ProductDto) => set((state) => ({ ...state, p: p }))
+  setCategory: (c: CategoryDto) => set((state) => ({ ...state, category: c, product: null })),
+  setProduct: (p: ProductDto) => set((state) => ({ ...state, product: p }))
 }));
