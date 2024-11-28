@@ -20,7 +20,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
       className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group"
       onClick={handleClick}
     >
-      <CardContent className="flex-grow pt-2">
+      <CardContent className="pt-2">
         <AspectRatio 
           className="flex justify-center items-center bg-muted rounded-md" 
           ratio={4 / 3}
