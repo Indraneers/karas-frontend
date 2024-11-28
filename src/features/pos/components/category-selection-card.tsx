@@ -1,14 +1,25 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { CategoryDto } from "@/features/category/dto/category.dto";
 import { Droplet } from "lucide-react";
+import { useItemSelectionStore } from "../store/item-selection";
+import { ItemSelectionEnum } from "../types/item-selection-enum";
 
 interface CategorySelectionCardProps {
   category: CategoryDto;
 }
 
 export function CategorySelectionCard({ category }: CategorySelectionCardProps) {
+  const { setSelector } = useItemSelectionStore();
+
+  function handleClick() {
+    setSelector(ItemSelectionEnum.PRODUCT);
+  }
+
   return (
-    <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition aspect-square group">
+    <Card 
+      className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group"
+      onClick={handleClick}
+    >
       <CardHeader>
         <Droplet className="group-hover:text-background text-accent" size={36} />
       </CardHeader>

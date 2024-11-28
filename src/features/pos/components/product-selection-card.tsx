@@ -1,14 +1,25 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ProductDto } from "@/features/product/dto/product.dto";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
+import { useItemSelectionStore } from "../store/item-selection";
+import { ItemSelectionEnum } from "../types/item-selection-enum";
 
 interface ProductSelectionCardProps {
   product: ProductDto
 }
 
 export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
+  const { setSelector } = useItemSelectionStore();
+
+  function handleClick() {
+    setSelector(ItemSelectionEnum.UNIT);
+  }
+
   return (
-    <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition aspect-square group">
+    <Card 
+      className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group"
+      onClick={handleClick}
+    >
       <CardContent className="flex-grow pt-2">
         <AspectRatio 
           className="flex justify-center items-center bg-muted rounded-md" 

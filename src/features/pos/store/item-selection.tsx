@@ -7,6 +7,6 @@ interface ItemSelectionState {
 }
 
 export const useItemSelectionStore = create<ItemSelectionState>((set) => ({
-  selector: ItemSelectionEnum.UNIT,
+  selector: ItemSelectionEnum.CATEGORY,
   setSelector: (i) => set((state) => ({ ...state, selector: i }))
 }));

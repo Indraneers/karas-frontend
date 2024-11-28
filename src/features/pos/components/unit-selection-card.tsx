@@ -7,7 +7,7 @@ interface UnitSelectionCardProps {
 
 export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   return (
-    <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition aspect-square group">
+    <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
       <CardHeader className="space-y-0">
         <div className="font-medium text-2xl">{unit.name}</div>
         <div className="group-hover:text-background text-foreground/50">{`$ ${ (unit.price/100).toFixed(2) }`}</div>
