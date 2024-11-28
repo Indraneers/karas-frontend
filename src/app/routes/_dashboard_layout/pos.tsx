@@ -1,6 +1,6 @@
-import { CategorySelection } from '@/features/pos/components/category-selection';
 import { ItemSelection } from '@/features/pos/components/item-selection';
 import { OrderDetails } from '@/features/pos/components/order-details';
+import { ProductSelection } from '@/features/pos/components/product-selection';
 import { SelectionMenu } from '@/features/pos/components/selection-menu';
 import { ServiceSelection } from '@/features/pos/components/service-selection';
 import { createFileRoute } from '@tanstack/react-router';
@@ -15,7 +15,7 @@ export function PosPage() {
       <SelectionMenu>
         <ServiceSelection />
         <ItemSelection>
-          <CategorySelection />
+          <ProductSelection />
         </ItemSelection>
       </SelectionMenu>
       <OrderDetails />
