@@ -7,6 +7,7 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { ItemSelectionHeader } from "./item-selection-header";
 import { ItemSelectorBreadCrumb } from "./item-selector-breadcrumb";
+import { cn } from "@/lib/utils";
 
 interface ItemSelectionProps {
   children?: React.ReactNode;
@@ -34,7 +35,11 @@ export function ItemSelection({ children }: ItemSelectionProps) {
         <div className="flex justify-between items-center w-full">
           <ItemSelectorBreadCrumb />
           <Button 
-            className="text-accent" variant='ghost'
+            className={cn([
+              'text-accent display',
+              selector === ItemSelectionEnum.CATEGORY && 'hidden'
+            ])} 
+            variant='ghost'
             onClick={handleBackBtn}
           >
             <span><ChevronLeft /></span>

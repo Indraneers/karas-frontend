@@ -38,7 +38,11 @@ export function ItemSelectorBreadCrumb() {
           className={cn([isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'])} 
         />
         <BreadcrumbItem
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'])} 
+          onClick={() => setSelector(ItemSelectionEnum.PRODUCT)}
+          className={cn([
+            "hover:underline cursor-pointer",
+            isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'
+          ])} 
         >
           Engine Oil
         </BreadcrumbItem>
