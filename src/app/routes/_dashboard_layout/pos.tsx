@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_dashboard_layout/pos')({
 });
 
 export function PosPage() {
-  const { product, selector } = useItemSelectionStore();
+  const { selector } = useItemSelectionStore();
 
   return (
     <div className='gap-2 grid grid-cols-[3fr,2fr] h-full max-h-full overflow-hidden'>
