@@ -1,6 +1,4 @@
-import { Section } from '@/components/section';
-import { TypographyH2 } from '@/components/ui/typography/h2';
-import { TypographyH3 } from '@/components/ui/typography/h3';
+import { CategorySelection } from '@/features/pos/components/category-selection';
 import { ItemSelection } from '@/features/pos/components/item-selection';
 import { OrderDetails } from '@/features/pos/components/order-details';
 import { SelectionMenu } from '@/features/pos/components/selection-menu';
@@ -17,9 +15,7 @@ export function PosPage() {
       <SelectionMenu>
         <ServiceSelection />
         <ItemSelection>
-          <TypographyH3>
-            Categories
-          </TypographyH3>
+          <CategorySelection />
         </ItemSelection>
       </SelectionMenu>
       <OrderDetails />

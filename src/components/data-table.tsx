@@ -35,12 +35,12 @@ export function DataTable<TData, TValue>({
   return (
     <ScrollArea className="border rounded-md h-full">
       <Table className="h-full">
-        <TableHeader className='bg-neutral-100'>
+        <TableHeader className='bg-accent'>
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead className="text-foreground" key={header.id}>
+                  <TableHead className="text-background" key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(

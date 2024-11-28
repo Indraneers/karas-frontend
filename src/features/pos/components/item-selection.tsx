@@ -9,11 +9,11 @@ interface ItemSelectionProps {
 
 export function ItemSelection({ children }: ItemSelectionProps) {
   return (
-    <Section>
-      <div className="flex items-center space-x-4 pb-4 h-8">
+    <Section className="flex flex-col">
+      <div className="flex items-center space-x-4 pb-4 min-h-8">
         <TypographyH2 className="pb-0">Items</TypographyH2>
         <Separator orientation="vertical" />
-        <Breadcrumb>
+        <Breadcrumb>  
           <BreadcrumbList>
             <BreadcrumbItem>
               Categories
@@ -26,7 +26,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
         </Breadcrumb>
       </div>
       <Separator />
-      <div>
+      <div className="flex-grow">
         {children}
       </div>
     </Section>
