@@ -51,7 +51,7 @@ export function InventoryLayout() {
           }
         </TabsList>
       </Tabs>
-      <div className='bg-card mt-4 p-4 rounded-lg'>
+      <div className='bg-section mt-4 p-4 rounded-lg'>
         <Outlet />
       </div>
     </div>

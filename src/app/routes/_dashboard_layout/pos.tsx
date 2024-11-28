@@ -1,3 +1,4 @@
+import { Separator } from '@/components/ui/separator';
 import { CategorySelection } from '@/features/pos/components/category-selection';
 import { ItemSelection } from '@/features/pos/components/item-selection';
 import { OrderDetails } from '@/features/pos/components/order-details';
@@ -20,7 +21,7 @@ export function PosPage() {
     <div className='gap-2 grid grid-cols-[3fr,2fr] h-full max-h-full overflow-hidden'>
       <SelectionMenu>
         <ServiceSelection />
-        <ItemSelection>
+        <ItemSelection className='mt-2'>
           { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
           { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
           { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
