@@ -1,4 +1,4 @@
-import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import { ProductDto } from "@/features/product/dto/product.dto";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
 

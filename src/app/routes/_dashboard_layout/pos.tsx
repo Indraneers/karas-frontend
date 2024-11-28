@@ -1,8 +1,8 @@
 import { ItemSelection } from '@/features/pos/components/item-selection';
 import { OrderDetails } from '@/features/pos/components/order-details';
-import { ProductSelection } from '@/features/pos/components/product-selection';
 import { SelectionMenu } from '@/features/pos/components/selection-menu';
 import { ServiceSelection } from '@/features/pos/components/service-selection';
+import { UnitSelection } from '@/features/pos/components/unit-selection';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_dashboard_layout/pos')({
@@ -15,7 +15,7 @@ export function PosPage() {
       <SelectionMenu>
         <ServiceSelection />
         <ItemSelection>
-          <ProductSelection />
+          <UnitSelection />
         </ItemSelection>
       </SelectionMenu>
       <OrderDetails />
