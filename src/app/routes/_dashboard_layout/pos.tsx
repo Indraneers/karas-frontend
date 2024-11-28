@@ -1,5 +1,7 @@
 import { Section } from '@/components/section';
 import { TypographyH2 } from '@/components/ui/typography/h2';
+import { TypographyH3 } from '@/components/ui/typography/h3';
+import { ItemSelection } from '@/features/pos/components/item-selection';
 import { OrderDetails } from '@/features/pos/components/order-details';
 import { SelectionMenu } from '@/features/pos/components/selection-menu';
 import { ServiceSelection } from '@/features/pos/components/service-selection';
@@ -14,9 +16,11 @@ export function PosPage() {
     <div className='gap-2 grid grid-cols-[3fr,2fr] h-full max-h-full overflow-hidden'>
       <SelectionMenu>
         <ServiceSelection />
-        <Section>
-          <TypographyH2>Items</TypographyH2>
-        </Section>
+        <ItemSelection>
+          <TypographyH3>
+            Categories
+          </TypographyH3>
+        </ItemSelection>
       </SelectionMenu>
       <OrderDetails />
     </div>
