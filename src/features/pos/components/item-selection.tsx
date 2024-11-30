@@ -34,7 +34,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
       <SectionHeader>
         <ItemSelectionHeader>
           <TypographyH2>Items</TypographyH2>
-          <Separator orientation="vertical" />
+          <Separator className="h-4" orientation="vertical" />
           <div className="flex justify-between items-center w-full">
             <ItemSelectorBreadCrumb />
             <Button 

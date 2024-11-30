@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
-import { DataTable } from "@/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { getProducts } from "../../api/product";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 
 interface ProductTablePage {
@@ -25,7 +25,7 @@ export function ProductTable({ className }: ProductTablePage) {
 
   return (
     <div className={cn(className)}>
-      <DataTable columns={columns} data={data || []} />
+      <DataTablePagination columns={columns} data={data || []} />
     </div>
   );
 }

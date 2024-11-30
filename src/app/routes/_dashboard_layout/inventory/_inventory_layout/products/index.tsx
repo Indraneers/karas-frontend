@@ -24,8 +24,10 @@ function ProductPage() {
           </div>
         </div>
       </SectionHeader>
-      <SectionContent>
-        <ProductTable />
+      <SectionContent className='h-full'>
+        <div className='relative h-full'>
+          <ProductTable className='absolute inset-0 h-full' />
+        </div>
       </SectionContent>
     </>
   );

@@ -24,8 +24,10 @@ function CategoryPage() {
           </div>
         </div>
       </SectionHeader>
-      <SectionContent>
-        <CategoryTable />
+      <SectionContent className='h-full'>
+        <div className='relative h-full'>
+          <CategoryTable className='absolute inset-0 h-full' />
+        </div>
       </SectionContent>
     </>
   );

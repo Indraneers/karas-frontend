@@ -26,8 +26,10 @@ function UnitPage() {
           </div>
         </div>
       </SectionHeader>
-      <SectionContent>
-        <UnitTable />
+      <SectionContent className='h-full'>
+        <div className='relative h-full'>
+          <UnitTable className='absolute inset-0 h-full' />
+        </div>
       </SectionContent>
     </>
   );

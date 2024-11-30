@@ -52,7 +52,7 @@ export function InventoryLayout() {
           }
         </TabsList>
       </Tabs>
-      <Section className='mt-2'>
+      <Section className='grid grid-rows-[auto,auto,1fr] mt-2'>
         <Outlet />
       </Section>
     </div>

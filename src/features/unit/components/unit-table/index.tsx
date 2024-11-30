@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
-import { DataTable } from "@/components/data-table";
 import { useQuery } from "@tanstack/react-query";
 import { getUnits } from "../../api/unit";
+import { DataTablePagination } from "@/components/data-table-pagination";
 
 interface UnitTablePage {
   className?: string;
@@ -23,8 +23,8 @@ export function UnitTable({ className }: UnitTablePage) {
   }
 
   return (
-    <div className={cn(className)}>
-      <DataTable columns={columns} data={data || []} />
+    <div className={cn([className])}>
+      <DataTablePagination columns={columns} data={data || []} />
     </div>
   );
 }
