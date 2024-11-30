@@ -1,4 +1,6 @@
 import { Section } from '@/components/section';
+import { SectionContent } from '@/components/section-content';
+import { SectionHeader } from '@/components/section-header';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { createCategory } from '@/features/category/api/category';
 import { CategoryForm } from '@/features/category/components/category-form';
@@ -23,10 +25,13 @@ function CreateCategoryPage() {
 
   return (
     <Section>
-      <TypographyH1>Create Category</TypographyH1>
-      <div className='mt-4'>
+      <SectionHeader>
+        <TypographyH1>Edit Category</TypographyH1>
+      </SectionHeader>
+      <SectionContent>
         <CategoryForm handleSubmit={mutation.mutate} />
-      </div>
+      </SectionContent>
     </Section>
+
   );
 }

@@ -8,6 +8,8 @@ import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { ItemSelectionHeader } from "./item-selection-header";
 import { ItemSelectorBreadCrumb } from "./item-selector-breadcrumb";
 import { cn } from "@/lib/utils";
+import { SectionHeader } from "@/components/section-header";
+import { SectionContent } from "@/components/section-content";
 
 interface ItemSelectionProps {
   children?: React.ReactNode;
@@ -29,28 +31,29 @@ export function ItemSelection({ children }: ItemSelectionProps) {
 
   return (
     <Section className="flex flex-col">
-      <ItemSelectionHeader>
-        <TypographyH2 className="pb-0">Items</TypographyH2>
-        <Separator orientation="vertical" />
-        <div className="flex justify-between items-center w-full">
-          <ItemSelectorBreadCrumb />
-          <Button 
-            className={cn([
-              'text-accent display',
-              selector === ItemSelectionEnum.CATEGORY && 'hidden'
-            ])} 
-            variant='ghost'
-            onClick={handleBackBtn}
-          >
-            <span><ChevronLeft /></span>
+      <SectionHeader>
+        <ItemSelectionHeader>
+          <TypographyH2>Items</TypographyH2>
+          <Separator orientation="vertical" />
+          <div className="flex justify-between items-center w-full">
+            <ItemSelectorBreadCrumb />
+            <Button 
+              className={cn([
+                'text-accent display',
+                selector === ItemSelectionEnum.CATEGORY && 'hidden'
+              ])} 
+              variant='ghost'
+              onClick={handleBackBtn}
+            >
+              <span><ChevronLeft /></span>
             Back
-          </Button>
-        </div>
-      </ItemSelectionHeader>
-      <Separator />
-      <div className="flex-grow">
+            </Button>
+          </div>
+        </ItemSelectionHeader>
+      </SectionHeader>
+      <SectionContent className="flex-grow">
         {children}
-      </div>
+      </SectionContent>
     </Section>
   );
 }

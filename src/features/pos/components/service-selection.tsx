@@ -6,6 +6,8 @@ import { DataTable } from "@/components/data-table";
 import { ServiceColumns } from "./service-columns";
 import { useEffect } from "react";
 import { usePosStore } from "../store/pos";
+import { SectionHeader } from "@/components/section-header";
+import { SectionContent } from "@/components/section-content";
 
 export function ServiceSelection() {
   const { services, setServices } = usePosStore();
@@ -26,10 +28,18 @@ export function ServiceSelection() {
   }, [data, setServices]);
 
   return (
-    <div className="relative">
-      <Section className="absolute inset-0 grid grid-rows-[auto,1fr] h-full">
-        <TypographyH2>Services</TypographyH2>
-        <DataTable columns={ServiceColumns} data={services} />
+    <div className="h-full">
+      <Section className="inset-0 grid grid-rows-[auto,auto,1fr] h-full">
+        <SectionHeader>
+          <TypographyH2>Services</TypographyH2>
+        </SectionHeader>
+        <SectionContent>
+          <div className="relative h-full">
+            <div className="absolute inset-0">
+              <DataTable columns={ServiceColumns} data={services} />
+            </div>
+          </div>
+        </SectionContent>
       </Section>
     </div>
   );

@@ -1,5 +1,7 @@
-import { Header } from '@/components/header';
 import { Section } from '@/components/section';
+import { SectionContent } from '@/components/section-content';
+import { SectionHeader } from '@/components/section-header';
+import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategories } from '@/features/category/api/category';
 import { getProductById, updateProduct } from '@/features/product/api/product';
 import { ProductForm } from '@/features/product/components/product-form';
@@ -51,10 +53,14 @@ function UpdateProductPage() {
 
   return (
     <Section>
-      <Header className='text-2xl'>Update New Product</Header>
-      <div className='mt-4'>
+      <SectionHeader>
+        <TypographyH1>
+          Update New Product
+        </TypographyH1>
+      </SectionHeader>
+      <SectionContent>
         <ProductForm data={productQuery.data} categories={categoryQuery.data} handleSubmit={mutation.mutate} />
-      </div>
+      </SectionContent>
     </Section>
   );
 }

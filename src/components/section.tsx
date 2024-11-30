@@ -5,7 +5,7 @@ export function Section({ children, className }: { children: React.ReactNode, cl
   return (
     <section className={
       cn(
-        "bg-section p-4 rounded-xl",
+        "bg-section rounded-xl",
         className
       )}
     >

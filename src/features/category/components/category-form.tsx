@@ -36,7 +36,7 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
         <FormGroup title="General Information">
           <FormField
             control={form.control}

@@ -1,3 +1,4 @@
+import { Section } from '@/components/section';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { createFileRoute, Outlet, useLocation, useNavigate } from '@tanstack/react-router';
 import { Box, Boxes, LayoutGrid, LucideIcon } from 'lucide-react';
@@ -51,9 +52,9 @@ export function InventoryLayout() {
           }
         </TabsList>
       </Tabs>
-      <div className='bg-section mt-4 p-4 rounded-lg'>
+      <Section className='mt-2'>
         <Outlet />
-      </div>
+      </Section>
     </div>
   );
 }

@@ -1,4 +1,6 @@
 import { Section } from '@/components/section';
+import { SectionContent } from '@/components/section-content';
+import { SectionHeader } from '@/components/section-header';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { createUnit } from '@/features/unit/api/unit';
@@ -42,10 +44,12 @@ function CreateUnitPage() {
 
   return (
     <Section>
-      <TypographyH1>Create Unit</TypographyH1>
-      <div className='mt-4'>
+      <SectionHeader>
+        <TypographyH1>Create Unit</TypographyH1>
+      </SectionHeader>
+      <SectionContent>
         <UnitForm products={data} handleSubmit={mutation.mutate} />
-      </div>
+      </SectionContent>
     </Section>
   );
 }

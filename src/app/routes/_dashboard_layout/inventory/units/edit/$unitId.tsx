@@ -1,5 +1,7 @@
-import { Header } from '@/components/header';
 import { Section } from '@/components/section';
+import { SectionContent } from '@/components/section-content';
+import { SectionHeader } from '@/components/section-header';
+import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { getUnitById, updateUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
@@ -51,10 +53,14 @@ function UpdateUnitPage() {
 
   return (
     <Section>
-      <Header className='text-2xl'>Update New Unit</Header>
-      <div className='mt-4'>
+      <SectionHeader>
+        <TypographyH1>
+          Update New Unit
+        </TypographyH1>
+      </SectionHeader>
+      <SectionContent>
         <UnitForm data={unitQuery.data} products={productQuery.data} handleSubmit={mutation.mutate} />
-      </div>
+      </SectionContent>
     </Section>
   );
 }

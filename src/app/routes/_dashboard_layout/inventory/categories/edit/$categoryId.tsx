@@ -1,5 +1,7 @@
-import { Header } from '@/components/header';
 import { Section } from '@/components/section';
+import { SectionContent } from '@/components/section-content';
+import { SectionHeader } from '@/components/section-header';
+import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategoryById, updateCategory } from '@/features/category/api/category';
 import { CategoryForm } from '@/features/category/components/category-form';
 import { CategoryDto } from '@/features/category/dto/category.dto';
@@ -42,10 +44,12 @@ function UpdateCategoryPage() {
 
   return (
     <Section>
-      <Header className='text-2xl'>Update New Category</Header>
-      <div className='mt-4'>
+      <SectionHeader>
+        <TypographyH1>Edit Category</TypographyH1>
+      </SectionHeader>
+      <SectionContent>
         <CategoryForm data={data} handleSubmit={mutation.mutate} />
-      </div>
+      </SectionContent>
     </Section>
   );
 }
