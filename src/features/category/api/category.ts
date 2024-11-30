@@ -3,7 +3,7 @@ import { Category } from "@/types/category";
 import { CategoryDto } from "../dto/category.dto";
 
 interface CategoryQuery {
-  q: string;
+  q: string | undefined;
 }
 
 export const getCategories = async (query?: CategoryQuery): Promise<Category[]>  =>

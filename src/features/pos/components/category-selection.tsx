@@ -4,28 +4,20 @@ import { useQuery } from "@tanstack/react-query";
 import { getCategories } from "@/features/category/api/category";
 import { CategorySelectionCard } from "./category-selection-card";
 import { CategorySearch } from "@/features/category/components/category-search";
+import { useState } from "react";
+import { useDebounce } from '@uidotdev/usehooks';
 
 interface CategorySelectionProps {
   className?: string;
 }
 
 export function CategorySelection({ className }: CategorySelectionProps) {
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: () => getCategories()
+  const [q, setQ] = useState<string>('');
+  const debouncedQ = useDebounce(q, 500);
+  const { isError, data } = useQuery({
+    queryKey: ['categories', debouncedQ],
+    queryFn: () => getCategories({ q: debouncedQ })
   });
-
-  if (isError) {
-    return "error";
-  }
-
-  if (isLoading) {
-    return "loading";
-  }
-
-  if (!data) {
-    return "empty";
-  }
 
   return (
     <div className={
@@ -35,12 +27,18 @@ export function CategorySelection({ className }: CategorySelectionProps) {
       ])
     }>
       <div className="h-full overflow-hidden">
-        <CategorySearch/>
-        <ItemCardList className="mt-4">
-          {data?.map((c) => (
-            <CategorySelectionCard category={c} key={c.id} />
-          ))}
-        </ItemCardList>
+        <CategorySearch value={q} onChange={(value: string) => setQ(value)}  />
+        { isError && 'error'}
+        { !data && 'empty' }
+        { 
+          data 
+          &&
+          <ItemCardList className="mt-4">
+            {data?.map((c) => (
+              <CategorySelectionCard category={c} key={c.id} />
+            ))}
+          </ItemCardList>
+        }
       </div>
     </div>
   );
