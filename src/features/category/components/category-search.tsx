@@ -9,14 +9,14 @@ interface CategorySearchProps {
 }
 
 export function CategorySearch({ value, className, onChange = console.log } : CategorySearchProps) {
-  function handleOnChange(event: FormEvent<HTMLInputElement>) {
+  function handleOnInput(event: FormEvent<HTMLInputElement>) {
     const inputText = event.currentTarget.value;
     onChange(inputText);
   }
   return (
     <IconInput 
       value={value}
-      onInput={handleOnChange}
+      onInput={handleOnInput}
       className={className}
       icon={Search} 
       iconProps={{ behavior: 'prepend' }}  
