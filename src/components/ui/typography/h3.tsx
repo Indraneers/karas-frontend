@@ -5,7 +5,7 @@ export function TypographyH3({ className, children }: TypographyProps) {
   return (
     <h3 className={
       cn(
-        "scroll-m-20 font-semibold text-xl tracking-tight",
+        "scroll-m-20 font-semibold text-lg tracking-tight",
         className
       )
     }>
