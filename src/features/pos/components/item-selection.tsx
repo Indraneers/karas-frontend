@@ -39,7 +39,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
             <ItemSelectorBreadCrumb />
             <Button 
               className={cn([
-                'text-accent display',
+                'text-accent display h-8',
                 selector === ItemSelectionEnum.CATEGORY && 'hidden'
               ])} 
               variant='ghost'

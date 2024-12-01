@@ -21,14 +21,6 @@ export function UnitSelection({ className }: UnitSelectionProps) {
     queryFn: () => getUnits({ productId: product?.id, q: debouncedQ })
   });
 
-  if (isError) {
-    return "error";
-  }
-
-  if (!data) {
-    return "empty";
-  }
-
   return (
     <div className={
       cn([
@@ -42,7 +34,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
       {
         data
         &&
-        <ItemCardList className="mt-2">
+        <ItemCardList className="mt-4">
           {data?.map((u) => (
             <UnitSelectionCard unit={u} key={u.id} />
           ))}
