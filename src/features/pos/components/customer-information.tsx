@@ -18,11 +18,11 @@ export function CustomerInformation({ className } : CustomerInformationProps) {
       </TypographyH3>
       <OrderDetailElement 
         label="Name"
-        className="mt-2" 
+        className="mt-1" 
       >
         <CustomerSearch />
       </OrderDetailElement>
-      <Textarea className="mt-4" placeholder="Customer Notes" />
+      <Textarea className="mt-2 text-xs placeholder:text-xs" placeholder="Customer Notes" />
     </div>
   );
 }

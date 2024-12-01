@@ -3,13 +3,13 @@ import { cn } from "@/lib/utils";
 import { Search } from "lucide-react";
 import { FormEvent } from "react";
 
-interface CustomerSearchProps {
+interface VehicleSearchProps {
   className?: string;
   value?: string;
   onChange?: (inputText: string) => void;
 }
 
-export function CustomerSearch({ className, value, onChange = console.log } : CustomerSearchProps) {
+export function VehicleSearch({ className, value, onChange = console.log } : VehicleSearchProps) {
   function handleOnInput(event: FormEvent<HTMLInputElement>) {
     const inputText = event.currentTarget.value;
     onChange(inputText);
@@ -19,11 +19,11 @@ export function CustomerSearch({ className, value, onChange = console.log } : Cu
       value={value}
       onInput={handleOnInput}
       className={cn([
-        'text-xs h-6',
+        'h-6 text-xs',
         className
       ])}
       icon={Search} 
       iconProps={{ behavior: 'prepend' }}  
-      placeholder="Search Customer" />
+      placeholder="Search Vehicle" />
   );
 }
