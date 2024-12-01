@@ -27,7 +27,7 @@ export function CategorySelection({ className }: CategorySelectionProps) {
       ])
     }>
       <div className="h-full overflow-hidden">
-        <CategorySearch value={q} onChange={(value: string) => setQ(value)}  />
+        <CategorySearch value={q} onChange={setQ}  />
         { isError && 'error'}
         { !data && 'empty' }
         { 

@@ -1,8 +1,26 @@
 import { IconInput } from "@/components/ui/icon-input";
 import { Search } from "lucide-react";
+import { FormEvent } from "react";
 
-export function UnitSearch() {
+interface UnitSearchProps {
+  value: string;
+  className?: string;
+  onChange?: (value: string) => void;
+}
+
+export function UnitSearch({ className, value, onChange = console.log }: UnitSearchProps) {
+  function handleOnInput(event: FormEvent<HTMLInputElement>) {
+    const inputText = event.currentTarget.value;
+    onChange(inputText);
+  }
   return (
-    <IconInput icon={Search} iconProps={{ behavior: 'prepend' }}  placeholder="Search Units" />
+    <IconInput 
+      className={className}
+      value={value}
+      onInput={handleOnInput}
+      icon={Search} 
+      iconProps={{ behavior: 'prepend' }}  
+      placeholder="Search Units" 
+    />
   );
 }

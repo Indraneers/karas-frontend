@@ -16,8 +16,6 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   const { category } = useItemSelectionStore();
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
-
-  console.log('hello');
   
   const { isError,data } = useQuery({
     queryKey: ['products' + category?.name || null, debouncedQ],
@@ -31,7 +29,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
         className
       ])
     }>
-      <ProductSearch value={q} onChange={(value: string) => setQ(value)} />
+      <ProductSearch value={q} onChange={setQ} />
       { isError && "error" }
       { !data && "empty" }
       {
