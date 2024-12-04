@@ -9,11 +9,11 @@ interface OrderDetailElementProps {
 export function OrderDetailElement({ className, label, children } : OrderDetailElementProps) {
   return (
     <div className={cn([
-      'grid grid-cols-2 text-xs items-center',
+      'grid grid-cols-[1fr,2fr] text-xs items-center',
       className
     ])}>
       <span className="text-foreground/50">{label}</span>
-      <div className="justify-self-end font-semibold">
+      <div className="justify-self-end font-medium">
         {children}
       </div>
     </div>

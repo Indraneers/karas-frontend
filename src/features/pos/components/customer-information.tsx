@@ -13,8 +13,8 @@ export function CustomerInformation({ className } : CustomerInformationProps) {
     <Card className={cn([
       className
     ])}>
-      <CardHeader>
-        <TypographyH3>
+      <CardHeader className="bg-accent rounded-t-xl text-background">
+        <TypographyH3 className="w-full text-center">
           Customer Information
         </TypographyH3>
       </CardHeader>

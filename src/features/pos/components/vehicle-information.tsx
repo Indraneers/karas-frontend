@@ -14,8 +14,8 @@ export function VehicleInformation({ className }: VehicleInformationProps) {
     <Card className={cn([
       className
     ])}>
-      <CardHeader>
-        <TypographyH3>
+      <CardHeader className="bg-accent rounded-t-xl text-background">
+        <TypographyH3 className="w-full text-center">
           Vehicle Information
         </TypographyH3>
       </CardHeader>
