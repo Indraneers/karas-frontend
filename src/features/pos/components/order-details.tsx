@@ -5,6 +5,7 @@ import { TypographyH2 } from "@/components/ui/typography/h2";
 import { CustomerInformation } from "./customer-information";
 import { VehicleInformation } from "./vehicle-information";
 import { Separator } from "@/components/ui/separator";
+import { VehicleCustomerSearch } from "./vehicle-customer-search";
 
 export function OrderDetails() {
   return (
@@ -13,9 +14,11 @@ export function OrderDetails() {
         <TypographyH2>Order Details</TypographyH2>
       </SectionHeader>
       <SectionContent>
-        <CustomerInformation />
-        <Separator className="mt-4 mb-2" />
-        <VehicleInformation />
+        <div className="mb-2">
+          <VehicleCustomerSearch />
+        </div>
+        <VehicleInformation className="mt-2" />
+        <CustomerInformation className="my-2" />
       </SectionContent>
     </Section>
   );

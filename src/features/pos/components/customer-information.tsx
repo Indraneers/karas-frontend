@@ -1,8 +1,8 @@
 import { cn } from "@/lib/utils";
 import { OrderDetailElement } from "./order-detail-element";
 import { TypographyH3 } from "@/components/ui/typography/h3";
-import { CustomerSearch } from "@/features/customer/components/customer-search";
-import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
 
 interface CustomerInformationProps {
   className?: string;
@@ -10,19 +10,36 @@ interface CustomerInformationProps {
 
 export function CustomerInformation({ className } : CustomerInformationProps) {
   return (
-    <div className={cn([
+    <Card className={cn([
       className
     ])}>
-      <TypographyH3>
+      <CardHeader>
+        <TypographyH3>
           Customer Information
-      </TypographyH3>
-      <OrderDetailElement 
-        label="Name"
-        className="mt-1" 
-      >
-        <CustomerSearch />
-      </OrderDetailElement>
-      <Textarea className="mt-2 text-xs placeholder:text-xs" placeholder="Customer Notes" />
-    </div>
+        </TypographyH3>
+      </CardHeader>
+      <Separator />
+      <CardContent className="mt-2">
+        <OrderDetailElement 
+          label="Name"
+        >
+        Evan
+        </OrderDetailElement>
+        <OrderDetailElement 
+          label="Phone Number"
+          className="mt-2" 
+        >
+        +855 69 980 981
+        </OrderDetailElement>
+        <OrderDetailElement 
+          label="Address"
+          className="mt-2" 
+        >
+          <div className="text-right">
+          44B St 134 Sangkat Toul Sangke Russei Keo Phnom Penh
+          </div>
+        </OrderDetailElement>
+      </CardContent>
+    </Card>
   );
 }

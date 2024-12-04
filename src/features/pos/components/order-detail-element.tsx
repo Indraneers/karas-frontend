@@ -13,7 +13,7 @@ export function OrderDetailElement({ className, label, children } : OrderDetailE
       className
     ])}>
       <span className="text-foreground/50">{label}</span>
-      <div className="justify-self-end">
+      <div className="justify-self-end font-semibold">
         {children}
       </div>
     </div>
