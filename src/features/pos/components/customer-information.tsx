@@ -3,6 +3,7 @@ import { OrderDetailElement } from "./order-detail-element";
 import { TypographyH3 } from "@/components/ui/typography/h3";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
+import { User } from "lucide-react";
 
 interface CustomerInformationProps {
   className?: string;
@@ -14,7 +15,10 @@ export function CustomerInformation({ className } : CustomerInformationProps) {
       className
     ])}>
       <CardHeader className="bg-accent rounded-t-xl text-background">
-        <TypographyH3 className="w-full text-center">
+        <TypographyH3 className="flex justify-center gap-2 w-full text-center">
+          <span>
+            <User />
+          </span>
           Customer Information
         </TypographyH3>
       </CardHeader>

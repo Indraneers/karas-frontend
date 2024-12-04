@@ -7,12 +7,18 @@ import { VehicleInformation } from "./vehicle-information";
 import { VehicleCustomerSearch } from "./vehicle-customer-search";
 import { SectionFooter } from "@/components/section-footer";
 import { POSActions } from "./pos-actions";
+import { ShoppingBag } from "lucide-react";
 
 export function OrderDetails() {
   return (
     <Section className="flex flex-col h-full">
       <SectionHeader>
-        <TypographyH2>Order Details</TypographyH2>
+        <TypographyH2 className="flex items-center gap-2">
+          <span>
+            <ShoppingBag />
+          </span>
+          Order Details
+        </TypographyH2>
       </SectionHeader>
       <SectionContent>
         <div className="mb-2">
