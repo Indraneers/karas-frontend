@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { OrderDetailElement } from "./order-detail-element";
 import { TypographyH3 } from "@/components/ui/typography/h3";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { User } from "lucide-react";
 
@@ -11,11 +11,11 @@ interface CustomerInformationProps {
 
 export function CustomerInformation({ className } : CustomerInformationProps) {
   return (
-    <Card className={cn([
+    <div className={cn([
       className
     ])}>
-      <CardHeader>
-        <TypographyH3 className="flex justify-center gap-2 w-full text-center">
+      <CardHeader className="px-0 pt-0">
+        <TypographyH3 className="flex gap-2 w-full text-center">
           <span>
             <User />
           </span>
@@ -23,26 +23,28 @@ export function CustomerInformation({ className } : CustomerInformationProps) {
         </TypographyH3>
       </CardHeader>
       <Separator />
-      <CardContent className="mt-2">
+      <CardContent className="mt-2 px-0">
         <OrderDetailElement 
           label="Name"
-          className="flex flex-col mt-2" 
+          className="mt-2" 
         >
         Evan
         </OrderDetailElement>
         <OrderDetailElement 
           label="Phone Number"
-          className="flex flex-col mt-2" 
+          className="mt-2" 
         >
         +855 69 980 981
         </OrderDetailElement>
         <OrderDetailElement 
           label="Address"
-          className="flex flex-col mt-2 text-center" 
+          className="mt-2" 
         >
-          44B St 134 Sangkat Toul Sangke Russei Keo Phnom Penh
+          <div className="text-right">
+            44B St 134 Sangkat Toul Sangke Russei Keo Phnom Penh
+          </div>
         </OrderDetailElement>
       </CardContent>
-    </Card>
+    </div>
   );
 }

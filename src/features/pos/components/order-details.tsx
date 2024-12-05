@@ -10,7 +10,6 @@ import { ShoppingBag } from "lucide-react";
 import { ItemCart } from "./item-cart";
 import { Item } from "@/types/item";
 import { ItemCartItem } from "./item-cart-item";
-import { CustomerInformation } from "./customer-information";
 
 const temporaryItems: Item[] = [
   {
@@ -84,10 +83,7 @@ export function OrderDetails() {
         <div className="grid mb-2">
           <VehicleCustomerSearch />
         </div>
-        <div className="gap-2 grid grid-cols-[2fr,3fr] mt-2">
-          <CustomerInformation />
-          <VehicleInformation />
-        </div>
+        <VehicleInformation />
         <ItemCart className="flex-grow mt-2 w-full">
           {temporaryItems.map((i, index) => (
             <ItemCartItem item={i} key={index} />
