@@ -14,34 +14,33 @@ export function CustomerInformation({ className } : CustomerInformationProps) {
     <Card className={cn([
       className
     ])}>
-      <CardHeader className="bg-accent rounded-t-xl text-background">
+      <CardHeader>
         <TypographyH3 className="flex justify-center gap-2 w-full text-center">
           <span>
             <User />
           </span>
-          Customer Information
+          Customer Info
         </TypographyH3>
       </CardHeader>
       <Separator />
       <CardContent className="mt-2">
         <OrderDetailElement 
           label="Name"
+          className="flex flex-col mt-2" 
         >
         Evan
         </OrderDetailElement>
         <OrderDetailElement 
           label="Phone Number"
-          className="mt-2" 
+          className="flex flex-col mt-2" 
         >
         +855 69 980 981
         </OrderDetailElement>
         <OrderDetailElement 
           label="Address"
-          className="mt-2" 
+          className="flex flex-col mt-2 text-center" 
         >
-          <div className="text-right">
           44B St 134 Sangkat Toul Sangke Russei Keo Phnom Penh
-          </div>
         </OrderDetailElement>
       </CardContent>
     </Card>

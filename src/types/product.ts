@@ -6,5 +6,5 @@ export interface Product {
   name: string;
   category?: Category;
   categoryId: string;
-  units: Unit[];
+  units?: Unit[];
 }

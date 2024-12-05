@@ -1,3 +1,4 @@
+import { Product } from "./product";
 import { Unit } from "./unit";
 
 export interface Item {
@@ -5,4 +6,5 @@ export interface Item {
   quantity: number;
   discount: number;
   unit: Unit;
+  product?: Product;
 }
