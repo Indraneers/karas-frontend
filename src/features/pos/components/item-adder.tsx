@@ -5,12 +5,14 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { isMoreThanTwoDigit, isValidCurrencyInput } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 import { Item } from "@/types/item";
+import { usePosStore } from "../store/pos";
 
 interface ItemAdderProps {
   item: Item;
+  setOpen: (b: boolean) => void
 }
 
-export function ItemAdder({ item }: ItemAdderProps) {
+export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const firstInput = useRef<HTMLInputElement>(null);
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
@@ -18,6 +20,8 @@ export function ItemAdder({ item }: ItemAdderProps) {
   const [price, setPrice] = useState<string>((item.price/100).toString());
   const [discount, setDiscount] = useState<string>('');
   const [qty, setQty] = useState<string>('');
+
+  const { items, setItems } = usePosStore();
 
   const getterList = [price, discount, qty];
   const setterList = [setPrice, setDiscount, setQty];
@@ -116,7 +120,9 @@ export function ItemAdder({ item }: ItemAdderProps) {
       quantity: parseInt(qty),
       discount: Math.floor(parseFloat(price) * 100)
     };
-    console.log(itemResult);
+    
+    setItems([...items, itemResult]);
+    setOpen(false);
   }
 
   useEffect(() => {

@@ -55,7 +55,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
       </DialogTrigger>
       <DialogContentWrapper className="bg-transparent shadow-none border-none">
         { isLoading && 'loading'}
-        { isSuccess && <ItemAdder item={item} /> }
+        { isSuccess && <ItemAdder item={item} setOpen={setOpen} /> }
       </DialogContentWrapper>
     </Dialog>
   );
