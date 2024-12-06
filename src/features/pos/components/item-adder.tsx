@@ -1,60 +1,93 @@
 import { UnderlineInput } from "@/components/underline-input";
 import { NumpadKey } from "./numpad-key";
 import { ArrowRight, Delete } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useRef, useState } from "react";
+import { isMoreThanTwoDigit, isValidCurrencyInput } from "@/lib/currency";
+import { cn } from "@/lib/utils";
 
 export function ItemAdder() {
   const firstInput = useRef<HTMLInputElement>(null);
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
 
-  const [price, setPrice] = useState<number | null>(null);
-  const [discount, setDiscount] = useState<number | null>(null);
-  const [qty, setQty] = useState<number | null>(null);
-  const [lessThan0, setLessThan0] = useState(false);
+  const [price, setPrice] = useState<string>('');
+  const [discount, setDiscount] = useState<string>('');
+  const [qty, setQty] = useState<string>('');
 
   const getterList = [price, discount, qty];
   const setterList = [setPrice, setDiscount, setQty];
+  const refList = [firstInput, secondInput, thirdInput];
 
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
 
-  function handleNumpadKey(key: string | number) {
+  function isAlreadyDecimal(text: string) {
+    return text.split('.').length > 1;
+  }
+
+  function handleInput(event: FormEvent<HTMLInputElement>) {
     const getter = getterList[currentElementIndex];
     const setter = setterList[currentElementIndex];
-    if (currentElementIndex == 0 || currentElementIndex == 1 || currentElementIndex == 2) {
-      let inputString = getter ? String(getter) : '';
+    const value = event.currentTarget.value;
 
-      if (key == 'd') {
-        if (inputString.slice(-1) == '.') {
-          setLessThan0(false);
-        } 
-        inputString = inputString.slice(0, -1);
-      }
-      else if (key == '.') {
-        setLessThan0(true);
+    if (currentElementIndex == 0 || currentElementIndex == 1) {
+      if (!isValidCurrencyInput(value)) {
+        setter(getter);
         return;
       }
-      else {
-        if (lessThan0) {
-          const isDecimal = inputString.split('').includes('.');
-          if (!isDecimal) {
-            inputString += '.';
-          }
-        }
 
-        inputString += key;
+      if (isMoreThanTwoDigit(value)) {
+        return;
       }
 
-      if (inputString == '' || inputString == '0.') {
-        setter(null);
-        setLessThan0(false);
-      }
-      else {
-        const stringToFloatValue = Math.floor(parseFloat(inputString) * 100) / 100 || getter;
-
-        setter(stringToFloatValue);
-      }
+      setter(value);
     }
+    else if (currentElementIndex == 2) {
+      if (!Number.isInteger(parseInt(value)) && value != '') {
+        return;
+      }
+
+      setter(value);
+    }
+  }
+
+  function handleNumpadKey(key: string | number) {
+    const input = refList[currentElementIndex];
+    
+    if (!input || !input.current) {
+      return;
+    }
+
+    let newInput = input.current.value;
+
+    if (currentElementIndex == 0 || currentElementIndex == 1) {
+
+      if (key == 'd') {
+        newInput = newInput.slice(0, -1);
+      }
+      else {
+        if (key == '.' && isAlreadyDecimal(newInput)) {
+          return;
+        }
+        newInput += key;
+      }
+
+      if (isMoreThanTwoDigit(newInput) || !isValidCurrencyInput(newInput)) {
+        return;
+      }
+
+      input.current.value = newInput;
+    }
+    else if (currentElementIndex == 2) {
+      if (!Number.isInteger(parseInt(newInput)) && newInput != '') {
+        return;
+      }
+      if (key == '.') {
+        return;
+      }
+      newInput += key;
+    }
+
+    input.current.value = newInput;
   }
 
   useEffect(() => {
@@ -72,10 +105,11 @@ export function ItemAdder() {
             <div className="flex items-baseline gap-2">
               <span>$</span>
               <UnderlineInput 
-                value={price ? price?.toFixed(2) : ''}
+                onInput={handleInput}
                 onFocus={() => setCurrentElementIndex(0)} 
                 ref={firstInput} 
-                type="number" />
+                type="text" 
+              />
             </div>
             <span>
             - 
@@ -83,23 +117,24 @@ export function ItemAdder() {
             <div className="flex items-baseline gap-2">
               <span>$</span>
               <UnderlineInput 
-                value={discount ? discount?.toFixed(2) : ''}
+                onInput={handleInput}
                 onFocus={() => setCurrentElementIndex(1)} 
                 ref={secondInput} 
-                type="number" />
+                type="text" 
+              />
             </div>
             <div className="flex items-baseline gap-2 ml-2">
               <span>Qty</span>
               <UnderlineInput 
-                value={qty || ''}
+                onInput={handleInput}
                 onFocus={() => setCurrentElementIndex(2)} 
                 ref={thirdInput} 
-                type="number" 
+                type="text"
               />
             </div>
           </div>
           <div className="text-right mt-4 font-semibold text-2xl">
-            $ 1454.72
+            $ {((parseFloat(price || '0') - parseFloat(discount || '0')) * parseInt(qty || '0')).toFixed(2)}
           </div>
         </div>
         <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-[2rem] text-3xl">
@@ -161,6 +196,9 @@ export function ItemAdder() {
             0
           </NumpadKey>
           <NumpadKey
+            className={cn([
+              currentElementIndex === 2 && 'bg-foreground/20 hover:bg-foreground/20 cursor-auto hover:text-foreground'
+            ])}
             onClick={() => handleNumpadKey('.')}
           >
             .
