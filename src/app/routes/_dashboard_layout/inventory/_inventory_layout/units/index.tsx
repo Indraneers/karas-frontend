@@ -1,7 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { UnitTable } from '@/features/unit/components/unit-table';
 import { TypographyH1 } from '@/components/ui/typography/h1';
-import { UnitSearch } from '@/features/unit/components/unit-search';
 import { NewUnitButton } from '@/features/unit/components/new-unit-button';
 import { RestockButton } from '@/features/unit/components/restock-button';
 import { SectionHeader } from '@/components/section-header';
@@ -19,7 +18,7 @@ function UnitPage() {
           Unit and Stock
         </TypographyH1>
         <div className='gap-4 grid grid-cols-[1fr,auto]'>
-          <UnitSearch />
+          {/* <UnitSearch /> */}
           <div className='flex flex-row-reverse gap-4'>
             <NewUnitButton />
             <RestockButton />

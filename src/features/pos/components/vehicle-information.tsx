@@ -20,13 +20,16 @@ export function VehicleInformation({ className }: VehicleInformationProps) {
     ])}>
       <CardHeader>
         <div className="gap-4 grid grid-cols-[auto,auto,auto,1fr]">
+          
           <TypographyH3 className="flex items-center gap-2 w-full">
             <span>
               <Car />
             </span>
           Vehicle
           </TypographyH3>
+          
           <Separator orientation="vertical" />
+
           <div className="flex items-center gap-4 px-4 rounded-full h-full">
             <Popover>
               <PopoverTrigger>
@@ -40,6 +43,7 @@ export function VehicleInformation({ className }: VehicleInformationProps) {
               </PopoverContent>
             </Popover>
           </div>
+          
         </div>
       </CardHeader>
       <Separator />

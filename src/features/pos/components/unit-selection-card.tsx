@@ -1,5 +1,7 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
 import { UnitDto } from "@/features/unit/dto/unit.dto";
+import { ItemAdder } from "./item-adder";
 
 interface UnitSelectionCardProps {
   unit: UnitDto
@@ -7,16 +9,23 @@ interface UnitSelectionCardProps {
 
 export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   return (
-    <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
-      <CardHeader className="space-y-0">
-        <div className="font-medium text-2xl">{unit.name}</div>
-        <div className="group-hover:text-background text-foreground/50">{`$ ${ (unit.price/100).toFixed(2) }`}</div>
-      </CardHeader>
-      <CardContent className="flex-grow" />
-      <CardFooter className="flex flex-col items-start text-xs">
-        <div className="group-hover:text-background text-foreground/50">{unit.quantity || 0} units left</div>
-        <div className="group-hover:text-background">{unit.sku}</div>
-      </CardFooter>
-    </Card>
+    <Dialog>
+      <DialogTrigger>
+        <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
+          <CardHeader className="space-y-0 text-left">
+            <div className="font-medium text-2xl">{unit.name}</div>
+            <div className="group-hover:text-background text-foreground/50">{`$ ${ (unit.price/100).toFixed(2) }`}</div>
+          </CardHeader>
+          <CardContent className="flex-grow" />
+          <CardFooter className="flex flex-col items-start text-xs">
+            <div className="group-hover:text-background text-foreground/50">{unit.quantity || 0} units left</div>
+            <div className="group-hover:text-background">{unit.sku}</div>
+          </CardFooter>
+        </Card>
+      </DialogTrigger>
+      <DialogContentWrapper className="bg-transparent shadow-none border-none">
+        <ItemAdder />
+      </DialogContentWrapper>
+    </Dialog>
   );
 }
