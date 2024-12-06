@@ -2,14 +2,44 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
 import { UnitDto } from "@/features/unit/dto/unit.dto";
 import { ItemAdder } from "./item-adder";
+import { Item } from "@/types/item";
+import { useQuery } from "@tanstack/react-query";
+import { getProductById } from "@/features/product/api/product";
+import { useState } from "react";
 
 interface UnitSelectionCardProps {
   unit: UnitDto
 }
 
 export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
+  const [open, setOpen] = useState(false);
+  const { isError, isLoading, isSuccess, data } = useQuery({
+    queryKey: ['product-', unit.productId],
+    queryFn: () => getProductById(unit.productId),
+    enabled: open
+  });
+
+  if (!unit.id) {
+    return 'error: no id';
+  }
+
+  if (isError) {
+    return 'error: product doesn\'t exist';
+  }
+
+  const item: Item = {
+    quantity: 1,
+    price: unit.price,
+    discount: 0,
+    unit: {
+      ...unit,
+      id: unit.id
+    },
+    product: data
+  };
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
           <CardHeader className="space-y-0 text-left">
@@ -24,7 +54,8 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
         </Card>
       </DialogTrigger>
       <DialogContentWrapper className="bg-transparent shadow-none border-none">
-        <ItemAdder />
+        { isLoading && 'loading'}
+        { isSuccess && <ItemAdder item={item} /> }
       </DialogContentWrapper>
     </Dialog>
   );

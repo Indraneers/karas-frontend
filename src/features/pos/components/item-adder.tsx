@@ -1,16 +1,21 @@
 import { UnderlineInput } from "@/components/underline-input";
 import { NumpadKey } from "./numpad-key";
-import { ArrowRight, Delete } from "lucide-react";
+import { ArrowRight, Check, Delete } from "lucide-react";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { isMoreThanTwoDigit, isValidCurrencyInput } from "@/lib/currency";
 import { cn } from "@/lib/utils";
+import { Item } from "@/types/item";
 
-export function ItemAdder() {
+interface ItemAdderProps {
+  item: Item;
+}
+
+export function ItemAdder({ item }: ItemAdderProps) {
   const firstInput = useRef<HTMLInputElement>(null);
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
 
-  const [price, setPrice] = useState<string>('');
+  const [price, setPrice] = useState<string>((item.price/100).toString());
   const [discount, setDiscount] = useState<string>('');
   const [qty, setQty] = useState<string>('');
 
@@ -19,6 +24,20 @@ export function ItemAdder() {
   const refList = [firstInput, secondInput, thirdInput];
 
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
+
+  const defaultPrice = (item.price/100).toString();
+
+  const totalCost =
+  (
+    (
+      (parseFloat(price) * 100)
+      -
+      (parseFloat(discount) * 100)
+    )
+  *
+  parseInt(qty)
+  ) / 100
+  ;
 
   function isAlreadyDecimal(text: string) {
     return text.split('.').length > 1;
@@ -64,10 +83,10 @@ export function ItemAdder() {
       if (key == 'd') {
         newInput = newInput.slice(0, -1);
       }
+      else if ((key == '.' && isAlreadyDecimal(newInput))) {
+        newInput += key;
+      }
       else {
-        if (key == '.' && isAlreadyDecimal(newInput)) {
-          return;
-        }
         newInput += key;
       }
 
@@ -90,11 +109,41 @@ export function ItemAdder() {
     input.current.value = newInput;
   }
 
+  function handleSubmit() {
+    const itemResult: Item = {
+      ...item,
+      price: Math.floor(parseFloat(price) * 100),
+      quantity: parseInt(qty),
+      discount: Math.floor(parseFloat(price) * 100)
+    };
+    console.log(itemResult);
+  }
+
   useEffect(() => {
     if (firstInput && firstInput.current) {
       firstInput.current.focus();
     }
   }, [firstInput]);
+
+  useEffect(() => {
+    switch(currentElementIndex) {
+    case 0:
+      if (firstInput && firstInput.current) {
+        firstInput.current.focus();
+      }
+      break;
+    case 1:
+      if (secondInput && secondInput.current) {
+        secondInput.current.focus();
+      }
+      break;
+    case 2:
+      if (thirdInput && thirdInput.current) {
+        thirdInput.current.focus();
+      }
+      break;
+    }
+  }, [currentElementIndex]);
 
   return (
     <div className="bg-background p-2 rounded-[2.5rem] w-[22.5vw]">
@@ -105,6 +154,7 @@ export function ItemAdder() {
             <div className="flex items-baseline gap-2">
               <span>$</span>
               <UnderlineInput 
+                defaultValue={defaultPrice}
                 onInput={handleInput}
                 onFocus={() => setCurrentElementIndex(0)} 
                 ref={firstInput} 
@@ -134,7 +184,7 @@ export function ItemAdder() {
             </div>
           </div>
           <div className="text-right mt-4 font-semibold text-2xl">
-            $ {((parseFloat(price || '0') - parseFloat(discount || '0')) * parseInt(qty || '0')).toFixed(2)}
+            $ {(totalCost || 0).toFixed(2)}
           </div>
         </div>
         <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-[2rem] text-3xl">
@@ -203,9 +253,24 @@ export function ItemAdder() {
           >
             .
           </NumpadKey>
-          <NumpadKey className="col-span-3 py-4 rounded-b-[2rem] aspect-auto">
-            <ArrowRight />
-          </NumpadKey>
+          {
+            currentElementIndex !== 2 &&
+            <NumpadKey 
+              onClick={() => setCurrentElementIndex(currentElementIndex + 1)}
+              className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-[2rem] text-background aspect-auto"
+            >
+              <ArrowRight />
+            </NumpadKey>
+          }
+          {
+            currentElementIndex === 2 &&
+            <NumpadKey 
+              className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-[2rem] text-background aspect-auto"
+              onClick={() => handleSubmit()}
+            >
+              <Check />
+            </NumpadKey>
+          }
         </div>
       </div>
     </div>
