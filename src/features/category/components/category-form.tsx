@@ -7,6 +7,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { CategoryDto } from "../dto/category.dto";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string({ message: 'Name is required' }).min(2).max(50)
@@ -31,8 +32,13 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(values);
+    form.reset();
     navigate({ to: '/inventory/categories' });
   }
+
+  useEffect(() => {
+    form.reset(data);
+  }, [form, data]);
 
   return (
     <Form {...form}>

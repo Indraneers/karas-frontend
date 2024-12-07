@@ -27,6 +27,9 @@ function UpdateCategoryPage() {
       queryClient.invalidateQueries({
         queryKey: ['categories']
       });
+      queryClient.invalidateQueries({
+        queryKey: ['category-', categoryId]
+      });
     }
   });
 

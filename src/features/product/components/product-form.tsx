@@ -9,6 +9,7 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string({ message: 'Name is required' }).min(2).max(50),
@@ -37,8 +38,14 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(values);
+    form.reset(data);
     navigate({ to: '/inventory/products' });
   }
+
+  useEffect(() => {
+    form.reset(data);
+  }, [form, data]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">

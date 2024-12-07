@@ -36,6 +36,9 @@ function UpdateProductPage() {
       queryClient.invalidateQueries({
         queryKey: ['products']
       });
+      queryClient.invalidateQueries({
+        queryKey: ['product-', productId]
+      });
     }
   });
 
