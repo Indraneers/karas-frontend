@@ -1,22 +1,21 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { PrimitiveCurrencyInput } from "@/features/currency/components/primitive-currency-input";
+import CurrencyInput, { CurrencyInputProps } from "react-currency-input-field";
 
-interface ItemCardCurrencyInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  handleInput: (value: string) => void
-}
-
-const ItemCardCurrencyInput = React.forwardRef<HTMLInputElement, ItemCardCurrencyInputProps>(
+const ItemCardCurrencyInput = React.forwardRef<HTMLInputElement,CurrencyInputProps>(
   ({ className, type, ...props }, ref) => {
     return (
-      <PrimitiveCurrencyInput
+      <CurrencyInput
+        prefix="$"
         className={cn([
+          'flex w-full',
           "border-0 bg-background px-0 rounded-full h-5 text-center" ,
           className
         ])}
         type={type}
         ref={ref}
+        disableGroupSeparators
         {...props}
       />
     );

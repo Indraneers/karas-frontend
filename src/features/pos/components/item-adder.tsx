@@ -1,8 +1,8 @@
-import { UnderlineCurrencyInput } from "@/features/currency/components/underline-currency-input";
+import { UnderlineCurrencyInput } from "@/features/pos/components/underline-currency-input";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Item } from "@/types/item";
 import { usePosStore } from "../store/pos";
-import { UnderlineInput } from "@/components/underline-input";
+import { UnderlineInput } from "@/features/pos/components/underline-input";
 import { Numpad } from "./numpad";
 import { calculateTotalCost } from "../utils/pos";
 
@@ -31,9 +31,9 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const totalCost = calculateTotalCost(price, discount, qty);
 
 
-  function handleCurrencyInput(value: string) {
+  function onValueChange(value: string | undefined) {
     const setter = setterList[currentElementIndex];
-    setter(value);
+    setter(value || '');
   }
 
   function handleQtyInput(event: FormEvent<HTMLInputElement>) {
@@ -88,7 +88,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
               <span>$</span>
               <UnderlineCurrencyInput 
                 value={price}
-                handleInput={handleCurrencyInput}
+                onValueChange={onValueChange}
                 onFocus={() => setCurrentElementIndex(0)} 
                 ref={firstInput} 
               />
@@ -100,7 +100,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
               <span>$</span>
               <UnderlineCurrencyInput
                 value={discount}
-                handleInput={handleCurrencyInput}
+                onValueChange={onValueChange}
                 onFocus={() => setCurrentElementIndex(1)} 
                 ref={secondInput} 
                 type="text" 

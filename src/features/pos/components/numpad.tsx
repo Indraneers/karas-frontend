@@ -1,6 +1,5 @@
 import { ArrowRight, Check, Delete } from "lucide-react";
 import { NumpadKey } from "./numpad-key";
-import { isValidCurrencyInput } from "@/features/currency/utils/currency";
 import { cn } from "@/lib/utils";
 
 interface NumpadProps {
@@ -20,6 +19,23 @@ export function Numpad({
   setter,
   getter
 }: NumpadProps) {
+
+  function isMoreThanTwoDigit(t: string) {
+    const textArray = t.split('.');
+    if (textArray[1] != null) {
+      return textArray[1].length > 2;
+    }
+    return false;
+  }
+  
+  function isValidCurrencyInput(t: string) {
+    const validPattern = /^(\d+(\.\d{1,2})?|\d+\.|)$/;
+    return validPattern.test(t);
+  }
+  
+  function isValidCurrencyValue(t: string) {
+    return isValidCurrencyInput(t) && !isMoreThanTwoDigit(t);
+  }
 
   function handleNumpadKey(key: string | number) {    
     if (!input || !input.current) {
@@ -47,7 +63,7 @@ export function Numpad({
       newInput += key;
     }
 
-    if (!isValidCurrencyInput(newInput)) {
+    if (!isValidCurrencyValue(newInput)) {
       setter(getter);
     }
     else {

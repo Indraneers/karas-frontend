@@ -37,11 +37,11 @@ export function ItemCartItem({ item }: { item: Item }) {
             <div className="flex gap-4">
               <ItemCardCurrencyInput 
                 value={price}
-                handleInput={setPrice}
+                onValueChange={(value) => setPrice(value || '')}
               />
               <ItemCardCurrencyInput 
                 value={discount}
-                handleInput={setDiscount}
+                onValueChange={(value) => setDiscount(value || '')}
               />
             </div>
             <div>

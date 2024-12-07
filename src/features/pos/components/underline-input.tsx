@@ -1,16 +1,12 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import { PrimitiveCurrencyInput } from "./primitive-currency-input";
+import { Input } from "../../../components/ui/input";
 
-interface UnderlineCurrencyInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
-  handleInput: (value: string) => void
-}
-
-const UnderlineCurrencyInput = React.forwardRef<HTMLInputElement, UnderlineCurrencyInputProps>(
+const UnderlineInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"input">>(
   ({ className, type, ...props }, ref) => {
     return (
-      <PrimitiveCurrencyInput
+      <Input
         className={cn([
           'border-0 outline-none focus-visible:ring-0 bg-transparent !text-lg',
           'shadow-none p-0 rounded-none border-b h-6 border-background',
@@ -25,8 +21,8 @@ const UnderlineCurrencyInput = React.forwardRef<HTMLInputElement, UnderlineCurre
     );
   }
 );
-UnderlineCurrencyInput.displayName = "Input";
+UnderlineInput.displayName = "Input";
 
 export {
-  UnderlineCurrencyInput
+  UnderlineInput
 };
