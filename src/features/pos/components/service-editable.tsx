@@ -1,6 +1,6 @@
 
 import { usePosStore } from "../store/pos";
-import { CurrencyInput } from "@/components/currency-input";
+import { CurrencyInput } from "@/features/currency/components/currency-input";
 
 export function ServiceEditable({ id, value = "", accessorKey }: { id: string, value: string | number | undefined, accessorKey: string }) {
   const { services, setServices } = usePosStore();

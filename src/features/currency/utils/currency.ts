@@ -10,3 +10,11 @@ export function isValidCurrencyInput(t: string) {
   const validPattern = /^(\d+(\.\d{1,2})?|\d+\.|)$/;
   return validPattern.test(t);
 }
+
+export function isAlreadyDecimal(text: string) {
+  return text.split('.').length > 1;
+}
+
+export function isValidCurrencyValue(t: string) {
+  return isValidCurrencyInput(t) && !isMoreThanTwoDigit(t);
+}

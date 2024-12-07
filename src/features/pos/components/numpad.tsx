@@ -1,0 +1,144 @@
+import { ArrowRight, Check, Delete } from "lucide-react";
+import { NumpadKey } from "./numpad-key";
+import { isValidCurrencyInput } from "@/features/currency/utils/currency";
+import { cn } from "@/lib/utils";
+
+interface NumpadProps {
+  input: React.RefObject<HTMLInputElement>;
+  getter: string;
+  setter: (v: string) => void;
+  handleSubmit: () => void;
+  currentElementIndex: number;
+  setCurrentElementIndex: (i: number) => void
+}
+
+export function Numpad({ 
+  handleSubmit, 
+  currentElementIndex, 
+  setCurrentElementIndex,
+  input,
+  setter,
+  getter
+}: NumpadProps) {
+
+  function handleNumpadKey(key: string | number) {    
+    if (!input || !input.current) {
+      return;
+    }
+
+    let newInput = input.current.value;
+
+    if (currentElementIndex == 0 || currentElementIndex == 1) {
+
+      if (key == 'd') {
+        newInput = newInput.slice(0, -1);
+      }
+      else {
+        newInput += key;
+      }
+    }
+    else if (currentElementIndex == 2) {
+      if (!Number.isInteger(parseInt(newInput)) && newInput != '') {
+        return;
+      }
+      if (key == '.') {
+        return;
+      }
+      newInput += key;
+    }
+
+    if (!isValidCurrencyInput(newInput)) {
+      setter(getter);
+    }
+    else {
+      setter(newInput);
+    }
+  }
+  return (
+    <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-[2rem] text-3xl">
+      <NumpadKey
+        onClick={() => handleNumpadKey(7)}
+        className="rounded-tl-[2rem]"
+      >
+      7
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(8)}
+      >
+      8
+      </NumpadKey>
+      <NumpadKey 
+        onClick={() => handleNumpadKey(9)}
+        className="rounded-tr-[2rem]"
+      >
+      9
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(4)}
+      >
+      4
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(5)}
+      >
+      5
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(6)}
+      >
+      6
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(1)}
+      >
+      1
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(2)}
+      >
+      2
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(3)}
+      >
+      3
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey('d')}
+      >
+        <Delete />
+      </NumpadKey>
+      <NumpadKey
+        onClick={() => handleNumpadKey(0)}
+      >
+      0
+      </NumpadKey>
+      <NumpadKey
+        className={cn([
+          currentElementIndex === 2 && 'bg-foreground/20 hover:bg-foreground/20 cursor-auto hover:text-foreground'
+        ])}
+        onClick={() => handleNumpadKey('.')}
+      >
+      .
+      </NumpadKey>
+      {
+        !(currentElementIndex === 2) &&
+      <NumpadKey 
+        onClick={() => setCurrentElementIndex(currentElementIndex + 1)}
+        className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-[2rem] text-background aspect-auto"
+      >
+        <ArrowRight />
+      </NumpadKey>
+      }
+      {
+        currentElementIndex === 2 &&
+      <NumpadKey 
+        className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-[2rem] text-background aspect-auto"
+        onClick={() => handleSubmit()}
+      >
+        <Check />
+      </NumpadKey>
+      }
+    </div>
+  );
+}

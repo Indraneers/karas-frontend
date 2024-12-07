@@ -1,9 +1,17 @@
-import { Counter } from "@/components/counter";
+import { ItemCounter } from "@/features/pos/components/item-counter";
 import { Thumbnail } from "@/components/thumbnail";
-import { Input } from "@/components/ui/input";
 import { Item } from "@/types/item";
+import { useState } from "react";
+import { ItemCardCurrencyInput } from "./item-card-currency-input";
+import { calculateTotalCost } from "../utils/pos";
 
 export function ItemCartItem({ item }: { item: Item }) {
+  const [price, setPrice] = useState<string>((item.price / 100).toFixed(2));
+  const [discount, setDiscount] = useState<string>((item.discount / 100).toFixed(2));
+  const [qty, setQty] = useState<string>(String(item.quantity));
+
+  const totalCost = calculateTotalCost(price, discount, qty);
+
   return (
     <div className="items-center grid grid-cols-[6fr,1fr] auto-rows-fr bg-accent rounded-lg h-full">
       <div className="flex flex-row items-center gap-2 bg-card p-2 rounded-lg h-full">
@@ -25,19 +33,25 @@ export function ItemCartItem({ item }: { item: Item }) {
           </div>
           <div className="flex-grow"></div>
           {/* Price, discount and quantity */}
-          <div className="items-center grid grid-cols-[2fr,1fr,auto]">
+          <div className="items-center grid grid-cols-[4fr,1fr,2fr]">
             <div className="flex gap-4">
-              <Input className="border-0 bg-background rounded-full h-4" />
-              <Input className="border-0 bg-background rounded-full h-4" />
+              <ItemCardCurrencyInput 
+                value={price}
+                handleInput={setPrice}
+              />
+              <ItemCardCurrencyInput 
+                value={discount}
+                handleInput={setDiscount}
+              />
             </div>
             <div>
             </div>
-            <Counter />
+            <ItemCounter value={qty} setValue={setQty} />
           </div>
         </div>
       </div>
       <div className="place-content-center grid text-background text-xs">
-        $1000.12
+        $ {totalCost}
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import { ChangeEventHandler } from "react";
-import { Input } from "./ui/input";
+import { Input } from "../../../components/ui/input";
 
 interface CurrencyInputProps {
   value: number | string | undefined;
