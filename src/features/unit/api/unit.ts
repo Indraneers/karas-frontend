@@ -1,5 +1,4 @@
 import { request } from "@/lib/request";
-import { Unit } from "@/types/unit";
 import { UnitDto } from "../dto/unit.dto";
 
 interface UnitQuery {
@@ -7,20 +6,20 @@ interface UnitQuery {
   productId?: string;
 }
 
-export const getUnits = async (query?: UnitQuery): Promise<Unit[]>  =>
+export const getUnits = async (query?: UnitQuery): Promise<UnitDto[]>  =>
   request({
     url: '/units',
     method: 'GET',
     params: query
   });
 
-export const getUnitById = async (unitId: string): Promise<Unit>  =>
+export const getUnitById = async (unitId: string): Promise<UnitDto>  =>
   request({
     url: '/units/' + unitId,
     method: 'GET'
   });
 
-export const createUnit = async (unitDto: UnitDto): Promise<Unit> =>
+export const createUnit = async (unitDto: UnitDto): Promise<UnitDto> =>
   request({
     url: '/units',
     method: 'POST',
@@ -28,14 +27,14 @@ export const createUnit = async (unitDto: UnitDto): Promise<Unit> =>
   });
 
 
-export const updateUnit = async (unitId: string, unitDto: UnitDto): Promise<Unit> =>
+export const updateUnit = async (unitId: string, unitDto: UnitDto): Promise<UnitDto> =>
   request({
     url: '/units/' + unitId,
     method: 'PUT',
     data: unitDto
   });
 
-export const deleteUnit = async (unitId: string): Promise<Unit> =>
+export const deleteUnit = async (unitId: string): Promise<UnitDto> =>
   request({
     url: '/units/' + unitId,
     method: 'DELETE'

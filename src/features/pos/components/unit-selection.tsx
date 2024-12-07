@@ -7,6 +7,7 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { UnitSearch } from "@/features/unit/components/unit-search";
 import { useState } from "react";
 import { useDebounce } from "@uidotdev/usehooks";
+import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
 
 interface UnitSelectionProps {
   className?: string;
@@ -36,7 +37,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
         &&
         <ItemCardList className="mt-4">
           {data?.map((u) => (
-            <UnitSelectionCard unit={u} key={u.id} />
+            <UnitSelectionCard unit={convertUnitDtoToUnit(u)} key={u.id} />
           ))}
         </ItemCardList>
       }

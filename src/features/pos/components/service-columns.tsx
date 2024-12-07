@@ -62,7 +62,7 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
     cell: ({ getValue, row }) => 
       <ServiceEditable 
         id={row.original.autoService.id}
-        value={getValue() ? (Number(getValue()) / 100) : undefined}
+        value={getValue() as string}
         accessorKey='price'
       />
   },
@@ -72,7 +72,7 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
     cell: ({ getValue, row }) => 
       <ServiceEditable 
         id={row.original.autoService.id}
-        value={getValue() ? (Number(getValue()) / 100) : undefined}
+        value={getValue() as string}
         accessorKey='discount'
       />
   }

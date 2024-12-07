@@ -141,7 +141,7 @@ export function Numpad({
         !(currentElementIndex === 2) &&
       <NumpadKey 
         onClick={() => setCurrentElementIndex(currentElementIndex + 1)}
-        className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-[2rem] text-background aspect-auto"
+        className="col-span-3 bg-amber-500 hover:bg-amber-400 py-4 rounded-b-[2rem] text-background aspect-auto"
       >
         <ArrowRight />
       </NumpadKey>

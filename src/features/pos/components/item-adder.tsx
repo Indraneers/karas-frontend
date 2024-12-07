@@ -16,7 +16,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
 
-  const [price, setPrice] = useState<string>((item.price/100).toString());
+  const [price, setPrice] = useState<string>(item.price.toString());
   const [discount, setDiscount] = useState<string>('');
   const [qty, setQty] = useState<string>('');
 
@@ -43,9 +43,9 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   function handleSubmit() {
     const itemResult: Item = {
       ...item,
-      price: Math.floor(parseFloat(price) * 100) || 0,
+      price,
       quantity: parseInt(qty) || 0,
-      discount: Math.floor(parseFloat(discount) * 100) || 0
+      discount
     };
     
     setItems([...items, itemResult]);

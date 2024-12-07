@@ -7,43 +7,56 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { UnitDto } from "../dto/unit.dto";
 import { Product } from "@/types/product";
+import { Unit } from "@/types/unit";
+import { UnitDto } from "../dto/unit.dto";
+import { convertUnitToUnitDto } from "../util/convert";
+import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   sku: z.string({ message: 'Name is required' }).min(2).max(50),
-  price: z.number().int().positive(),
-  quantity: z.number().int().positive(),
+  price: z.string(),
+  quantity: z.number(),
   productId: z.string({ message: 'Product is required' })
 });
 
-const defaultData: UnitDto = {
+const defaultData: Unit = {
   name: '',
   sku: '',
-  price: 0,
+  price: '',
   quantity: 0,
   productId: ''
 };
 
 interface UnitFormProps {
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
-  data?: UnitDto | undefined;
+  handleSubmit: (values: UnitDto) => void;
+  data?: Unit | undefined;
   products: Product[];
 }
 
 export function UnitForm({ data = defaultData, handleSubmit = console.log, products }: UnitFormProps) {
   const navigate = useNavigate();
 
+  console.log(data);
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    handleSubmit(values);
-    navigate({ to: '/inventory/units' });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const unitDto = convertUnitToUnitDto(values);
+    handleSubmit(unitDto);  
+    form.reset();
+    navigate({ to: '/inventory/units', replace: true });
   }
+
+  useEffect(() => {
+    form.reset(data);
+  }, [data, form]);
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
@@ -87,11 +100,11 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
             name="productId"
             render={({ field }) => (
               <FormItem className="mt-4">
-                <FormLabel>Category</FormLabel>
+                <FormLabel>Product</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
                     <SelectTrigger>
-                      <SelectValue placeholder="Select Category" />
+                      <SelectValue placeholder="Select Product" />
                     </SelectTrigger>
                   </FormControl>
                   <SelectContent>
@@ -120,14 +133,12 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                 <FormItem>
                   <FormLabel>Unit Price ($)</FormLabel>
                   <FormControl>
-                    <Input 
-                      type="number" 
-                      {...field}
-                      value={(+field.value / 100) || undefined}
-                      onChange={event => {
-  
-                        field.onChange((+event.target.value * 100)|0 || null);
-                      }}
+                    <PrefixedCurrencyInput
+                      value={field.value}
+                      disableGroupSeparators
+                      onValueChange={(value) => {
+                        field.onChange(value); 
+                      }}  
                     />
                   </FormControl>
                   <FormDescription>
@@ -144,7 +155,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                 <FormItem>
                   <FormLabel>Initial Unit Quantity</FormLabel>
                   <FormControl>
-                    <Input 
+                    <Input
                       type="number" 
                       {...field} 
                       onChange={event => field.onChange(+event.target.value)}

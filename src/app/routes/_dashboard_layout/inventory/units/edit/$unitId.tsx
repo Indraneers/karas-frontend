@@ -6,6 +6,7 @@ import { getProducts } from '@/features/product/api/product';
 import { getUnitById, updateUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
 import { UnitDto } from '@/features/unit/dto/unit.dto';
+import { convertUnitDtoToUnit } from '@/features/unit/util/convert';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -24,7 +25,7 @@ function UpdateUnitPage() {
         queryFn: async () => getProducts()
       },
       {
-        queryKey: ['product-', unitId],
+        queryKey: ['unit-', unitId],
         queryFn: async () => await getUnitById(unitId)
       }
     ]
@@ -35,6 +36,9 @@ function UpdateUnitPage() {
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['units']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['unit-', unitId]
       });
     }
   });
@@ -59,7 +63,7 @@ function UpdateUnitPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <UnitForm data={unitQuery.data} products={productQuery.data} handleSubmit={mutation.mutate} />
+        <UnitForm data={convertUnitDtoToUnit(unitQuery.data)} products={productQuery.data} handleSubmit={mutation.mutate} />
       </SectionContent>
     </Section>
   );

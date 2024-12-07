@@ -6,8 +6,8 @@ import { ItemCardCurrencyInput } from "./item-card-currency-input";
 import { calculateTotalCost } from "../utils/pos";
 
 export function ItemCartItem({ item }: { item: Item }) {
-  const [price, setPrice] = useState<string>((item.price / 100).toFixed(2));
-  const [discount, setDiscount] = useState<string>((item.discount / 100).toFixed(2));
+  const [price, setPrice] = useState<string>(item.price);
+  const [discount, setDiscount] = useState<string>(item.discount);
   const [qty, setQty] = useState<string>(String(item.quantity));
 
   const totalCost = calculateTotalCost(price, discount, qty);
@@ -36,10 +36,12 @@ export function ItemCartItem({ item }: { item: Item }) {
           <div className="items-center grid grid-cols-[4fr,1fr,2fr]">
             <div className="flex gap-4">
               <ItemCardCurrencyInput 
+                prefix="$"
                 value={price}
                 onValueChange={(value) => setPrice(value || '')}
               />
               <ItemCardCurrencyInput 
+                prefix="-$"
                 value={discount}
                 onValueChange={(value) => setDiscount(value || '')}
               />

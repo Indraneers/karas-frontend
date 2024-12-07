@@ -1,8 +1,8 @@
 import { AutoService } from "@/types/auto-service";
 
 export interface AutoServiceItem {
-  price: number;
-  discount: number;
+  price: string;
+  discount: string;
   quantity: 1;
   autoService: AutoService;
 }
