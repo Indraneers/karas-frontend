@@ -34,13 +34,15 @@ export function ItemCartItem({ item }: { item: Item }) {
           <div className="flex-grow"></div>
           {/* Price, discount and quantity */}
           <div className="items-center grid grid-cols-[4fr,1fr,2fr]">
-            <div className="flex gap-4">
+            <div className="flex gap-2">
               <ItemCardCurrencyInput 
+                className="min-w-10"
                 prefix="$"
                 value={price}
                 onValueChange={(value) => setPrice(value || '')}
               />
               <ItemCardCurrencyInput 
+                className="min-w-10"
                 prefix="-$"
                 value={discount}
                 onValueChange={(value) => setDiscount(value || '')}

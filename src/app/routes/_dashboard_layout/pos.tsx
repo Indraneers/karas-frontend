@@ -17,7 +17,7 @@ export function PosPage() {
   const { selector } = useItemSelectionStore();
 
   return (
-    <div className='gap-2 grid grid-cols-[4fr,3fr] h-full max-h-full overflow-hidden'>
+    <div className='gap-2 grid grid-cols-[5fr,3fr] h-full max-h-full overflow-hidden'>
       <SelectionMenu>
         <ServiceSelection />
         <ItemSelection>

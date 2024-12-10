@@ -26,7 +26,7 @@ export function ItemCounter({ className, value, setValue }: CounterProps) {
       <Button onClick={() => setValue(String(intValue - 1))} className="w-5 h-5" size="icon">
         <ChevronLeft />
       </Button>
-      <ItemCardInput value={value} onInput={handleInput} />
+      <ItemCardInput className="min-w-8" value={value} onInput={handleInput} />
       <Button onClick={() => setValue(String(intValue + 1))} className="w-5 h-5" size="icon">
         <ChevronRight />
       </Button>
