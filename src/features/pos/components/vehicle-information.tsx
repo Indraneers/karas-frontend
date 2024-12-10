@@ -8,12 +8,14 @@ import { Car, User } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
+import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
 
 interface VehicleInformationProps {
   className?: string;
+  vehicle: VehicleDto;
 }
 
-export function VehicleInformation({ className }: VehicleInformationProps) {
+export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
   return (
     <Card className={cn([
       className
@@ -30,16 +32,19 @@ export function VehicleInformation({ className }: VehicleInformationProps) {
           
           <Separator orientation="vertical" />
 
-          <div className="flex items-center gap-4 px-4 rounded-full h-full">
+          <div className={cn([
+            "items-center gap-4 px-4 rounded-full h-full hidden",
+            vehicle.customer.name && 'flex'
+          ])}>
             <Popover>
               <PopoverTrigger>
                 <Button className="rounded-full h-7">
                   <User />
-                  Evan
+                  {vehicle.customer.name}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-80">
-                <CustomerInformation />
+                <CustomerInformation customer={vehicle.customer} />
               </PopoverContent>
             </Popover>
           </div>
@@ -49,21 +54,25 @@ export function VehicleInformation({ className }: VehicleInformationProps) {
       <Separator />
       <CardContent className="mt-2">
         <OrderDetailElement label="Make and Model">
-        Toyota Prius 2017
+          {vehicle.makeAndModel}
         </OrderDetailElement>
         <OrderDetailElement label="Plate Number" className="mt-2">
-        ASF-PP-123
+          {vehicle.plateNumber}
         </OrderDetailElement>
         <OrderDetailElement label="VIN N.O" className="mt-2">
-        JKDWADWAKDA0231
+          {vehicle.vinNo}
         </OrderDetailElement>
         <OrderDetailElement label="Engine N.O" className="mt-2">
-        WDAWDK-12DAW-1
+          {vehicle.engineNo}
         </OrderDetailElement>
         <OrderDetailElement label="Mileage" className="mt-2">
-        10000 k.m
+          {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
         </OrderDetailElement>
-        <Textarea className="mt-2 rounded-sm h-full text-xs" placeholder="Add vehicle notes here..." />
+        <Textarea 
+          className="mt-2 rounded-sm h-full text-xs" 
+          placeholder="Add vehicle notes here..."
+          defaultValue={vehicle.note}
+        />
       </CardContent>
     </Card>
   );

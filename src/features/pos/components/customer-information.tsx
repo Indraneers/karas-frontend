@@ -4,12 +4,14 @@ import { TypographyH3 } from "@/components/ui/typography/h3";
 import { CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { User } from "lucide-react";
+import { CustomerDto } from "@/features/customer/types/customer.dto";
 
 interface CustomerInformationProps {
   className?: string;
+  customer: CustomerDto;
 }
 
-export function CustomerInformation({ className } : CustomerInformationProps) {
+export function CustomerInformation({ customer, className } : CustomerInformationProps) {
   return (
     <div className={cn([
       className
@@ -28,7 +30,7 @@ export function CustomerInformation({ className } : CustomerInformationProps) {
           label="Name"
           className="mt-2" 
         >
-        Evan
+          {customer.name}
         </OrderDetailElement>
         <OrderDetailElement 
           label="Phone Number"

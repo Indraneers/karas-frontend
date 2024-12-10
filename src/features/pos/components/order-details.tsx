@@ -18,11 +18,11 @@ import { getVehicles } from "@/features/vehicles/api/vehicle";
 import { useDebounce } from "@uidotdev/usehooks";
 
 export function OrderDetails() {
-  const { items } = usePosStore();
+  const { items, vehicle } = usePosStore();
 
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
-  const debouncedQ = useDebounce(q, 500);
+  const debouncedQ = useDebounce(q, 200);
 
 
   const { isError, isLoading, data } = useQuery({
@@ -73,6 +73,7 @@ export function OrderDetails() {
                     data.map((v, index) => (
                       <VehicleSearchItem 
                         key={v.id || index}
+                        setQ={setQ}
                         vehicle={v}
                       />
                     ))
@@ -82,7 +83,7 @@ export function OrderDetails() {
             </PopoverContent>
           </Popover>
         </div>
-        <VehicleInformation />
+        <VehicleInformation vehicle={vehicle} />
         <ItemCart className="flex-grow mt-2 w-full">
           {items.map((i, index) => (
             <ItemCartItem item={i} key={index} />
