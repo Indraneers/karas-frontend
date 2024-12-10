@@ -25,7 +25,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   return (
     <div className={
       cn([
-        'h-full w-full',
+        'h-full w-full grid grid-rows-[auto,1fr] gap-4',
         className
       ])
     }>
@@ -35,7 +35,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
       {
         data
         &&
-        <ItemCardList className="mt-4">
+        <ItemCardList>
           {data?.map((p) => (
             <ProductSelectionCard product={p} key={p.id} />
           ))}

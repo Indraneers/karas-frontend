@@ -22,18 +22,18 @@ export function CategorySelection({ className }: CategorySelectionProps) {
   return (
     <div className={
       cn([
-        'h-full w-full overflow-hidden',
+        'h-full w-full',
         className
       ])
     }>
-      <div className="h-full overflow-hidden">
+      <div className="gap-2 grid grid-rows-[auto,1fr] h-full">
         <CategorySearch value={q} onChange={setQ}  />
         { isError && 'error'}
         { !data && 'empty' }
         { 
           data 
           &&
-          <ItemCardList className="mt-4">
+          <ItemCardList>
             {data?.map((c) => (
               <CategorySelectionCard category={c} key={c.id} />
             ))}

@@ -30,7 +30,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
   }
 
   return (
-    <Section className="flex flex-col">
+    <Section className="flex flex-col h-full">
       <SectionHeader>
         <ItemSelectionHeader>
           <TypographyH2>Items</TypographyH2>

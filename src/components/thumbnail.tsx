@@ -8,7 +8,7 @@ interface ThumbnailProps {
 export function Thumbnail({ className, src }: ThumbnailProps) {
   return (
     <div className={cn([
-      "flex justify-center bg-muted rounded-md h-full aspect-[4/3]",
+      "flex justify-center bg-muted rounded-md h-full aspect-[16/9]",
       className
     ])}>
       <img

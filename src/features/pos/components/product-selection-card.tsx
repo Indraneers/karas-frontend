@@ -18,11 +18,15 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card 
-      className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group"
+      className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer group"
       onClick={handleClick}
     >
-      <CardContent className="pt-2">
-        <Thumbnail src="/sample-product.webp" />
+      <CardContent className="pt-2 h-full">
+        <div className="relative h-full">
+          <div className="absolute inset-0 flex justify-center w-full h-full">
+            <Thumbnail src="/sample-product.webp" />
+          </div>
+        </div>
       </CardContent>
       <CardFooter className="flex flex-col items-start text-sm">
         <div className="font-medium">{product.name}</div>

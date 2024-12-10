@@ -25,7 +25,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
   return (
     <div className={
       cn([
-        'h-full w-full',
+        'h-full w-full grid grid-rows-[auto,1fr] gap-4',
         className
       ])
     }>
@@ -35,7 +35,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
       {
         data
         &&
-        <ItemCardList className="mt-4">
+        <ItemCardList>
           {data?.map((u) => (
             <UnitSelectionCard unit={convertUnitDtoToUnit(u)} key={u.id} />
           ))}
