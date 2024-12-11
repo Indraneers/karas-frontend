@@ -45,7 +45,9 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       ...item,
       price,
       quantity: parseInt(qty) || 0,
-      discount
+      discount,
+      // temporary solution for id
+      id: Math.random().toString(16).slice(2)
     };
     
     setItems([...items, itemResult]);
