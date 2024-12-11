@@ -4,7 +4,7 @@ import { TypographyH3 } from "@/components/ui/typography/h3";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Car, RotateCcw, User } from "lucide-react";
+import { Car, CircleUser, RotateCcw } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
@@ -23,7 +23,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
       className
     ])}>
       <CardHeader>
-        <div className="gap-4 grid grid-cols-[auto,auto,1fr]">
+        <div className="items-center gap-4 grid grid-cols-[auto,1fr]">
           
           <TypographyH3 className="flex items-center gap-2 w-full">
             <span>
@@ -31,18 +31,18 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
             </span>
           Vehicle
           </TypographyH3>
-          
-          <Separator orientation="vertical" />
 
-          <div className="flex justify-between items-center"> 
+          <div className="flex justify-end items-center gap-2"> 
             <div className={cn([
-              "items-center gap-4 px-4 rounded-full h-full hidden",
+              "items-center gap-4 rounded-full h-full hidden",
               vehicle.customer.name && 'flex'
             ])}>
               <Popover>
                 <PopoverTrigger>
-                  <Button className="rounded-full h-7">
-                    <User />
+                  <Button
+                    className="gap-2 border-accent/50 bg-accent/10 px-2 border rounded-full h-7 font-medium text-primary hover:text-background"
+                  >
+                    <CircleUser />
                     {vehicle.customer.name}
                   </Button>
                 </PopoverTrigger>
@@ -53,14 +53,15 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
             </div>
 
             <Button
+              variant='ghost'
               onClick={() => setDefaultVehicleAndCustomer()}
               className={cn([
-                "hidden rounded-full h-7 w-7",
+                "hidden rounded-full text-primary hover:bg-transparent hover:text-primary",
                 vehicle.customer.name && 'flex'
               ])}
               size='icon'
             >
-              <RotateCcw />
+              <RotateCcw className="!w-5 !h-5" />
             </Button>
           </div>
           

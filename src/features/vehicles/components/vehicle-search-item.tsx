@@ -25,8 +25,8 @@ export function VehicleSearchItem({ className, vehicle, setQ }: VehicleSearchIte
         className
       ])}
     >
-      <div className="place-content-center border-foreground group-hover:border-accent grid bg-blue-50 border rounded transition-all aspect-square">
-        <Car size={32} className="group-hover:text-accent text-foreground" strokeWidth={1.5} />
+      <div className="place-content-center border-foreground group-hover:border-accent grid bg-blue-50 border border-blue-400 rounded transition-all aspect-square">
+        <Car size={32} className="group-hover:text-accent text-blue-400 text-foreground" strokeWidth={1} />
       </div>
       <div className="flex flex-grow">
         <div className="flex flex-col flex-grow justify-between">

@@ -40,35 +40,33 @@ export function OrderDetails() {
           Order Details
         </TypographyH2>
       </SectionHeader>
-      <SectionContent className="flex flex-col w-full">
-        <div className="mb-2 py-2 w-full">
-          <Popover open={open}>
-            <PopoverAnchor>
-              <VehicleSearch
-                onFocus={() => setOpen(true)}
-                onBlur={() => setOpen(false)}
-                className="w-full" 
-                onChange={setQ} 
-              />
-            </PopoverAnchor>
-            <PopoverContent
-              className="p-3 rounded-lg" 
-              style={{ width: 'var(--radix-popover-trigger-width)' }} 
-              onOpenAutoFocus={(e) => e.preventDefault()}
-            >
-              <div className="relative h-80">
-                <div className="absolute inset-0 gap-2 grid grid-rows-[repeat(4,calc(90%/4))] auto-rows-[calc(100%/4)] h-full max-h-full overflow-scroll">
-                  {
-                    isError && "Error"
-                  }
-                  {
-                    (!data || q === '') && <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Empty...</div>
-                  }
-                  {
-                    isLoading &&  <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Loading...</div>
-                  }
-                  {
-                    q !== '' &&
+      <div className="mb-2 py-2 border-b w-full">
+        <Popover open={open}>
+          <PopoverAnchor>
+            <VehicleSearch
+              onFocus={() => setOpen(true)}
+              onBlur={() => setOpen(false)}
+              className="w-full" 
+              onChange={setQ} 
+            />
+          </PopoverAnchor>
+          <PopoverContent
+            className="p-2 rounded-lg w-[425px]"
+            onOpenAutoFocus={(e) => e.preventDefault()}
+          >
+            <div className="relative h-80">
+              <div className="absolute inset-0 gap-2 grid grid-rows-[repeat(4,calc(90%/4))] auto-rows-[calc(100%/4)] h-full max-h-full overflow-scroll">
+                {
+                  isError && "Error"
+                }
+                {
+                  (!data || q === '') && <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Empty...</div>
+                }
+                {
+                  isLoading &&  <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Loading...</div>
+                }
+                {
+                  q !== '' &&
                     data &&
                     data.map((v, index) => (
                       <VehicleSearchItem 
@@ -77,12 +75,13 @@ export function OrderDetails() {
                         vehicle={v}
                       />
                     ))
-                  }
-                </div>
+                }
               </div>
-            </PopoverContent>
-          </Popover>
-        </div>
+            </div>
+          </PopoverContent>
+        </Popover>
+      </div>
+      <SectionContent className="flex flex-col w-full">
         <VehicleInformation vehicle={vehicle} />
         <ItemCart className="flex-grow mt-2 w-full">
           {items.map((i, index) => (

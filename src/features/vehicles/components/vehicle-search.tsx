@@ -24,7 +24,7 @@ export function VehicleSearch({ className, value, onFocus, onBlur, onChange = co
       ])}
     >
       <IconInput
-        className="border-2 border-muted-foreground rounded-full focus-within:ring-muted-foreground font-medium text-md"
+        className="bg-transparent shadow-none border-none rounded-full focus-within:ring-muted-foreground focus-within:ring-0 font-medium text-md"
         value={value}
         onFocus={onFocus}
         onBlur={onBlur}

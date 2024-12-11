@@ -19,7 +19,7 @@ export function PosPage() {
 
   return (
     <div className='grid grid-cols-[5fr,3fr] h-full max-h-full overflow-hidden'>
-      <SelectionMenu className='border-foreground border-r'>
+      <SelectionMenu className='border-r'>
         <ServiceSelection />
         <Separator />
         <ItemSelection>
