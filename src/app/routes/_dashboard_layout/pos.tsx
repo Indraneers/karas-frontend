@@ -1,3 +1,4 @@
+import { Separator } from '@/components/ui/separator';
 import { CategorySelection } from '@/features/pos/components/category-selection';
 import { ItemSelection } from '@/features/pos/components/item-selection';
 import { OrderDetails } from '@/features/pos/components/order-details';
@@ -17,9 +18,10 @@ export function PosPage() {
   const { selector } = useItemSelectionStore();
 
   return (
-    <div className='gap-2 grid grid-cols-[5fr,3fr] h-full max-h-full overflow-hidden'>
-      <SelectionMenu>
+    <div className='grid grid-cols-[5fr,3fr] h-full max-h-full overflow-hidden'>
+      <SelectionMenu className='border-foreground border-r'>
         <ServiceSelection />
+        <Separator />
         <ItemSelection>
           { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
           { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }

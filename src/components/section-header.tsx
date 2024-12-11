@@ -9,7 +9,7 @@ export function SectionHeader({ className, children }: SectionHeaderProps) {
   return (
     <>
       <div className={cn([
-        'p-2',
+        'p-2 px-4',
         className
       ])}>
         {children}

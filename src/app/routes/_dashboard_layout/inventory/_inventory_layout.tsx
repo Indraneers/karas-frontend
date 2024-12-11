@@ -36,22 +36,25 @@ export function InventoryLayout() {
   const navigate = useNavigate();
   return (
     <div className='grid grid-rows-[auto,1fr] h-full'>
-      <Tabs value={location.pathname}>
-        <TabsList>
-          {
-            data.map((d) => (
-              <TabsTrigger 
-                onClick={() => navigate({ to: d.url })}
-                value={d.url} 
-                key={d.url}
-              >
-                <d.icon size={16} />
-                <span className='ml-2'>{d.title}</span>
-              </TabsTrigger>
-            ))
-          }
-        </TabsList>
-      </Tabs>
+      <div className='place-content-center grid'>
+        <Tabs className='px-4 py-2' value={location.pathname}>
+          <TabsList>
+            {
+              data.map((d) => (
+                <TabsTrigger 
+                  onClick={() => navigate({ to: d.url })}
+                  value={d.url} 
+                  key={d.url}
+                >
+                  <d.icon size={16} />
+                  <span className='ml-2'>{d.title}</span>
+                </TabsTrigger>
+              ))
+            }
+          </TabsList>
+        </Tabs>
+      </div>
+
       <Section className='grid grid-rows-[auto,auto,1fr] mt-2'>
         <Outlet />
       </Section>
