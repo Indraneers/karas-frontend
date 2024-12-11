@@ -4,11 +4,12 @@ import { TypographyH3 } from "@/components/ui/typography/h3";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Car, User } from "lucide-react";
+import { Car, RotateCcw, User } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { usePosStore } from "../store/pos";
 
 interface VehicleInformationProps {
   className?: string;
@@ -16,12 +17,13 @@ interface VehicleInformationProps {
 }
 
 export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
+  const { setDefaultVehicleAndCustomer } = usePosStore();
   return (
     <Card className={cn([
       className
     ])}>
       <CardHeader>
-        <div className="gap-4 grid grid-cols-[auto,auto,auto,1fr]">
+        <div className="gap-4 grid grid-cols-[auto,auto,1fr]">
           
           <TypographyH3 className="flex items-center gap-2 w-full">
             <span>
@@ -32,21 +34,34 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           
           <Separator orientation="vertical" />
 
-          <div className={cn([
-            "items-center gap-4 px-4 rounded-full h-full hidden",
-            vehicle.customer.name && 'flex'
-          ])}>
-            <Popover>
-              <PopoverTrigger>
-                <Button className="rounded-full h-7">
-                  <User />
-                  {vehicle.customer.name}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80">
-                <CustomerInformation customer={vehicle.customer} />
-              </PopoverContent>
-            </Popover>
+          <div className="flex justify-between items-center"> 
+            <div className={cn([
+              "items-center gap-4 px-4 rounded-full h-full hidden",
+              vehicle.customer.name && 'flex'
+            ])}>
+              <Popover>
+                <PopoverTrigger>
+                  <Button className="rounded-full h-7">
+                    <User />
+                    {vehicle.customer.name}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-80">
+                  <CustomerInformation customer={vehicle.customer} />
+                </PopoverContent>
+              </Popover>
+            </div>
+
+            <Button
+              onClick={() => setDefaultVehicleAndCustomer()}
+              className={cn([
+                "hidden rounded-full h-7 w-7",
+                vehicle.customer.name && 'flex'
+              ])}
+              size='icon'
+            >
+              <RotateCcw />
+            </Button>
           </div>
           
         </div>
