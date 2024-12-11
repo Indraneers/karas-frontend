@@ -1,8 +1,11 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Pause, ShoppingCart, Trash } from "lucide-react";
+import { usePosStore } from "../store/pos";
 
 export function POSActions({ className } : { className?: string }) {
+  const { resetPos } = usePosStore();
+  
   return (
     <div className={cn([
       'grid grid-cols-3 ',
@@ -20,7 +23,10 @@ export function POSActions({ className } : { className?: string }) {
         </span>
         Hold
       </Button>
-      <Button className="bg-primary rounded-l-none rounded-r-full font-semibold">
+      <Button 
+        onClick={() => resetPos()}
+        className="bg-primary rounded-l-none rounded-r-full font-semibold"
+      >
         <span>
           <Trash />
         </span>
