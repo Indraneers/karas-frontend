@@ -6,7 +6,6 @@ export function convertUnitToUnitDto(unit: Unit): UnitDto {
     throw new Error("TODO: ERROR");
   }
   return {
-    id: unit.id,
     name: unit.name,
     sku: unit.sku,
     quantity: unit.quantity,
@@ -17,7 +16,7 @@ export function convertUnitToUnitDto(unit: Unit): UnitDto {
 
 export function convertUnitDtoToUnit(unitDto: UnitDto): Unit {
   return {
-    id: unitDto.id,
+    id: unitDto.id || '',
     name: unitDto.name,
     sku: unitDto.sku,
     quantity: unitDto.quantity,

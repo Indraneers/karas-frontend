@@ -62,7 +62,7 @@ export const columns: ColumnDef<Unit>[] = [
       const unit = row.original;
       return (
         <DeleteButton 
-          id={unit.id}
+          id={unit.id || ''}
           type="units"
           handleDelete={deleteUnit}
         />
@@ -75,7 +75,7 @@ export const columns: ColumnDef<Unit>[] = [
       const unit = row.original;
       return (
         <InventoryActions
-          id={unit.id}
+          id={unit.id || ''}
           type="units"
           handleDelete={deleteUnit}
         />

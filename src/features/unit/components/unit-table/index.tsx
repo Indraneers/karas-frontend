@@ -3,6 +3,7 @@ import { columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import { getUnits } from "../../api/unit";
 import { DataTablePagination } from "@/components/data-table-pagination";
+import { convertUnitDtoToUnit } from "../../util/convert";
 
 interface UnitTablePage {
   className?: string;
@@ -24,7 +25,7 @@ export function UnitTable({ className }: UnitTablePage) {
 
   return (
     <div className={cn([className])}>
-      <DataTablePagination columns={columns} data={data || []} />
+      <DataTablePagination columns={columns} data={data?.map((d) => convertUnitDtoToUnit(d)) || []} />
     </div>
   );
 }

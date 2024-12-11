@@ -15,6 +15,7 @@ import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { useEffect } from "react";
 
 const formSchema = z.object({
+  id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   sku: z.string({ message: 'Name is required' }).min(2).max(50),
   price: z.string(),
@@ -23,6 +24,7 @@ const formSchema = z.object({
 });
 
 const defaultData: Unit = {
+  id: '',
   name: '',
   sku: '',
   price: '',
@@ -39,14 +41,13 @@ interface UnitFormProps {
 export function UnitForm({ data = defaultData, handleSubmit = console.log, products }: UnitFormProps) {
   const navigate = useNavigate();
 
-  console.log(data);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
+    values.id = '';
     const unitDto = convertUnitToUnitDto(values);
     handleSubmit(unitDto);  
     form.reset();
