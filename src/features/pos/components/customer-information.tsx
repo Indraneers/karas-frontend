@@ -36,14 +36,14 @@ export function CustomerInformation({ customer, className } : CustomerInformatio
           label="Phone Number"
           className="mt-2" 
         >
-        +855 69 980 981
+          {customer.contact}
         </OrderDetailElement>
         <OrderDetailElement 
           label="Address"
           className="mt-2" 
         >
           <div className="text-right">
-            44B St 134 Sangkat Toul Sangke Russei Keo Phnom Penh
+            {customer.address}
           </div>
         </OrderDetailElement>
       </CardContent>
