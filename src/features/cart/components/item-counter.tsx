@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { cn } from "@/lib/utils";
-import { ItemCardInput } from "@/features/pos/components/item-card-input";
+import { ItemCardInput } from "@/features/cart/components/item-card-input";
 
 interface CounterProps {
   className?: string;

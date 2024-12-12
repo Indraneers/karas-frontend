@@ -1,11 +1,11 @@
 import { Section } from "@/components/section";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { useQuery } from "@tanstack/react-query";
-import { getAutoServices } from "../api/auto-services";
+import { getAutoServices } from "@/features/pos/api/auto-services";
 import { DataTable } from "@/components/data-table";
 import { ServiceColumns } from "./service-columns";
 import { useEffect } from "react";
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "@/features/pos/store/pos";
 import { SectionHeader } from "@/components/section-header";
 import { SectionContent } from "@/components/section-content";
 

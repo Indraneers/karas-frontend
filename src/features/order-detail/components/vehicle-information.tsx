@@ -9,7 +9,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "../../pos/store/pos";
 
 interface VehicleInformationProps {
   className?: string;

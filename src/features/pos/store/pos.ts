@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { AutoServiceItem } from '../types/auto-service-item';
+import { AutoServiceItem } from '@/features/service-selector/types/auto-service-item';
 import { Item } from '@/types/item';
 import { VehicleDto } from '@/features/vehicles/dto/vehicle.dto';
 import { CustomerDto } from '@/features/customer/types/customer.dto';
@@ -29,19 +29,23 @@ export interface PosState {
   vehicle: VehicleDto;
   customer: CustomerDto;
   setServices: (as: AutoServiceItem[]) => void;
-  setItems: (i: Item[]) => void;
+  addItem: (i: Item) => void;
+  removeItem: (itemId: string) => void;
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
-  deleteItem: (itemId: string) => void;
   resetPos: () => void;
 }
 
 export const usePosStore = create<PosState>((set) => ({
   ...defaultPosState,
   setServices: (autoServices: AutoServiceItem[]) => set((state) => ({ ...state, services: autoServices })),
-  setItems: (items: Item[]) => set((state) => ({ ...state, items })),
+  addItem: (i: Item) => set((state) => {
+    const newState = { ... state };
+    newState.items.push(i);
+    return newState;
+  }),
+  removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
   setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer })),
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
-  deleteItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
   resetPos: () => set((() => (defaultPosState)))
 }));

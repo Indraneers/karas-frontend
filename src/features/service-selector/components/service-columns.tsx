@@ -2,7 +2,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { AutoServiceItem } from "../types/auto-service-item";
 import { ServiceEditable } from "./service-editable";
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "@/features/pos/store/pos";
 
 export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
   {
@@ -18,7 +18,7 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
           }
           onCheckedChange={(value) => {
             table.toggleAllPageRowsSelected(!!value);
-            setServices(services.map((s) => ({ ...s, checked: value })  ));
+            setServices(services.map((s) => ({ ...s, checked: !!value })  ));
           }}
           aria-label="Select all"
         />
@@ -26,7 +26,7 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
     },
     cell: function CheckboxDataCell ({ row }) {
       const { services, setServices } = usePosStore();
-      const serviceId = row.original.autoService.id;
+      const service = row.original;
       return (
         <Checkbox
           className="!w-[20px] !h-[20px]"
@@ -34,15 +34,16 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
           onCheckedChange={(value) => {
             row.toggleSelected(!!value);
             setServices(services.map((s) => {
-              if (s.autoService.id === serviceId) {
+              if (s.autoService.id === service.autoService.id) {
                 return {
                   ...s,
-                  checked: value
+                  checked: !!value
                 };
               }
 
               return s;
             }));
+            
           }}
           aria-label="Select row"
         />

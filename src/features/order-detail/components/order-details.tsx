@@ -3,22 +3,25 @@ import { SectionContent } from "@/components/section-content";
 import { SectionHeader } from "@/components/section-header";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { VehicleInformation } from "./vehicle-information";
-import { VehicleSearch } from "../../vehicles/components/vehicle-search";
+import { VehicleSearch } from "./vehicle-search";
 import { SectionFooter } from "@/components/section-footer";
-import { POSActions } from "./pos-actions";
+import { POSActions } from "../../pos/components/pos-actions";
 import { ShoppingBag } from "lucide-react";
-import { ItemCart } from "./item-cart";
-import { ItemCartItem } from "./item-cart-item";
-import { usePosStore } from "../store/pos";
+import { ItemCart } from "../../cart/components/item-cart";
+import { ItemCartItem } from "../../cart/components/item-cart-item";
+import { usePosStore } from "../../pos/store/pos";
 import { useState } from "react";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
-import { VehicleSearchItem } from "@/features/vehicles/components/vehicle-search-item";
+import { VehicleSearchItem } from "@/features/order-detail/components/vehicle-search-item";
 import { useQuery } from "@tanstack/react-query";
 import { getVehicles } from "@/features/vehicles/api/vehicle";
 import { useDebounce } from "@uidotdev/usehooks";
+import { Separator } from "@/components/ui/separator";
 
 export function OrderDetails() {
-  const { items, vehicle } = usePosStore();
+  const { items, vehicle, services } = usePosStore();
+
+  const checkedServices = services.filter(s => s.checked);
 
   const [open, setOpen] = useState(false);
   const [q, setQ] = useState('');
@@ -84,9 +87,12 @@ export function OrderDetails() {
       <SectionContent className="flex flex-col w-full">
         <VehicleInformation vehicle={vehicle} />
         <ItemCart className="flex-grow mt-2 w-full">
-          {items.map((i, index) => (
-            <ItemCartItem item={i} key={index} />
+          {items.map((i) => (
+            <ItemCartItem item={i} key={i.id} />
           ))}
+          { (items.length > 0 && checkedServices.length > 0) &&
+            <Separator className="bg-gray-400 my-2" />
+          }
         </ItemCart>
       </SectionContent>
       <SectionFooter>

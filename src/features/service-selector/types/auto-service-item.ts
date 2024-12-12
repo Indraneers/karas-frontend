@@ -5,4 +5,5 @@ export interface AutoServiceItem {
   discount: string;
   quantity: 1;
   autoService: AutoService;
+  checked?: boolean;
 }

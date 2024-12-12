@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { Car, Dot } from "lucide-react";
-import { VehicleDto } from "../dto/vehicle.dto";
+import { VehicleDto } from "../../vehicles/dto/vehicle.dto";
 import { usePosStore } from "@/features/pos/store/pos";
 
 interface VehicleSearchItemProps {

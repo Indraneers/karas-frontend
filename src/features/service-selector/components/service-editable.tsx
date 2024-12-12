@@ -1,5 +1,5 @@
 
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "@/features/pos/store/pos";
 import { PrefixedCurrencyInput } from "../../../components/prefixed-currency-input";
 
 export function ServiceEditable({ id, value = "", accessorKey }: { id: string, value: string | number | undefined, accessorKey: string }) {

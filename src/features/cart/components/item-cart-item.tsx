@@ -1,15 +1,15 @@
-import { ItemCounter } from "@/features/pos/components/item-counter";
+import { ItemCounter } from "@/features/cart/components/item-counter";
 import { Thumbnail } from "@/components/thumbnail";
 import { Item } from "@/types/item";
 import { useState } from "react";
 import { ItemCardCurrencyInput } from "./item-card-currency-input";
-import { calculateTotalCost } from "../utils/pos";
+import { calculateTotalCost } from "../../pos/utils/pos";
 import { Button } from "@/components/ui/button";
 import {  X } from "lucide-react";
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "../../pos/store/pos";
 
 export function ItemCartItem({ item }: { item: Item }) {
-  const { deleteItem } = usePosStore();
+  const { removeItem } = usePosStore();
   const [price, setPrice] = useState<string>(item.price);
   const [discount, setDiscount] = useState<string>(item.discount);
   const [qty, setQty] = useState<string>(String(item.quantity));
@@ -19,7 +19,7 @@ export function ItemCartItem({ item }: { item: Item }) {
   return (
     <div className="relative">
       <Button 
-        onClick={() => item.id ? deleteItem(item.id) : null}
+        onClick={() => item.id ? removeItem(item.id) : null}
         className="top-[-0.25rem] left-[-0.25rem] absolute hover:bg-primary/80 border w-6 h-6" 
         size='icon'>
         <X className="!w-4 !h-4" />
@@ -35,11 +35,11 @@ export function ItemCartItem({ item }: { item: Item }) {
                   {item.product?.name}
                 </div>
                 <div className="text-[8px] text-foreground/50">
-                  {item.unit.sku}
+                  {item.unit?.sku || ''}
                 </div>
               </div>
               <div className="font-medium text-xl">
-                {item.unit.name}
+                {item.unit?.name || ''}
               </div>
             </div>
             <div className="flex-grow"></div>

@@ -1,10 +1,10 @@
 import { UnderlineCurrencyInput } from "@/features/pos/components/underline-currency-input";
 import { FormEvent, useEffect, useRef, useState } from "react";
 import { Item } from "@/types/item";
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "../../pos/store/pos";
 import { UnderlineInput } from "@/features/pos/components/underline-input";
-import { Numpad } from "./numpad";
-import { calculateTotalCost } from "../utils/pos";
+import { Numpad } from "../../pos/components/numpad";
+import { calculateTotalCost } from "../../pos/utils/pos";
 import { v4 as uuidv4 } from 'uuid';
 
 interface ItemAdderProps {
@@ -21,7 +21,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const [discount, setDiscount] = useState<string>('');
   const [qty, setQty] = useState<string>('');
 
-  const { items, setItems } = usePosStore();
+  const { addItem } = usePosStore();
 
   const getterList = [price, discount, qty];
   const setterList = [setPrice, setDiscount, setQty];
@@ -51,7 +51,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       id: uuidv4()
     };
     
-    setItems([...items, itemResult]);
+    addItem(itemResult);
     setOpen(false);
   }
 

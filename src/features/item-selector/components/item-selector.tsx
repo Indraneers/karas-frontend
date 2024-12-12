@@ -5,7 +5,7 @@ import { TypographyH2 } from "@/components/ui/typography/h2";
 import { ChevronLeft } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
-import { ItemSelectionHeader } from "./item-selection-header";
+import { ItemSelectorHeader } from "./item-selector-header";
 import { ItemSelectorBreadCrumb } from "./item-selector-breadcrumb";
 import { cn } from "@/lib/utils";
 import { SectionHeader } from "@/components/section-header";
@@ -15,7 +15,7 @@ interface ItemSelectionProps {
   children?: React.ReactNode;
 }
 
-export function ItemSelection({ children }: ItemSelectionProps) {
+export function ItemSelector({ children }: ItemSelectionProps) {
   const { selector, setSelector } = useItemSelectionStore();
 
   function handleBackBtn() {
@@ -32,7 +32,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
   return (
     <Section className="flex flex-col h-full">
       <SectionHeader>
-        <ItemSelectionHeader>
+        <ItemSelectorHeader>
           <TypographyH2>Items</TypographyH2>
           <Separator className="h-4" orientation="vertical" />
           <div className="flex justify-between items-center w-full">
@@ -49,7 +49,7 @@ export function ItemSelection({ children }: ItemSelectionProps) {
             Back
             </Button>
           </div>
-        </ItemSelectionHeader>
+        </ItemSelectorHeader>
       </SectionHeader>
       <SectionContent className="flex-grow">
         {children}

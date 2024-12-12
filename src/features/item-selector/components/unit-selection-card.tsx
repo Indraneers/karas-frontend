@@ -1,6 +1,6 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
-import { ItemAdder } from "./item-adder";
+import { ItemAdder } from "../../cart/components/item-adder";
 import { Item } from "@/types/item";
 import { useQuery } from "@tanstack/react-query";
 import { getProductById } from "@/features/product/api/product";
