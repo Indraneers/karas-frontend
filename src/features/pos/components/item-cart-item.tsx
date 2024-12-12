@@ -24,12 +24,12 @@ export function ItemCartItem({ item }: { item: Item }) {
         size='icon'>
         <X className="!w-4 !h-4" />
       </Button>
-      <div className="items-center grid grid-cols-[6fr,1fr] auto-rows-fr bg-accent rounded-lg h-full">
+      <div className="items-center grid grid-cols-[5fr,1fr] auto-rows-fr bg-accent rounded-lg h-full">
         <div className="flex flex-row items-center gap-2 bg-card p-2 rounded-lg h-full">
           <Thumbnail src="/sample-product.webp"  />
           <div className="flex flex-col flex-grow justify-between h-full">
             {/* Unit Name, Product and SKU */}
-            <div className="flex justify-between items-center w-full">
+            <div className="flex justify-between justify-items-start items-center w-full">
               <div>
                 <div className="text-[14px]">
                   {item.product?.name}
@@ -44,16 +44,16 @@ export function ItemCartItem({ item }: { item: Item }) {
             </div>
             <div className="flex-grow"></div>
             {/* Price, discount and quantity */}
-            <div className="items-center grid grid-cols-[4fr,1fr,2fr]">
+            <div className="items-center grid grid-cols-[4fr,auto,2fr]">
               <div className="flex gap-2">
                 <ItemCardCurrencyInput 
-                  className="min-w-10"
+                  className="w-12 min-w-12"
                   prefix="$"
                   value={price}
                   onValueChange={(value) => setPrice(value || '')}
                 />
                 <ItemCardCurrencyInput 
-                  className="min-w-10"
+                  className="w-12 min-w-12"
                   prefix="-$"
                   value={discount}
                   onValueChange={(value) => setDiscount(value || '')}

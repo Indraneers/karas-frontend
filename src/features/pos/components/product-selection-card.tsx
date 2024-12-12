@@ -23,7 +23,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
     >
       <CardContent className="pt-2 h-full">
         <div className="relative h-full">
-          <div className="absolute inset-0 flex justify-center w-full h-full">
+          <div className="inset-0">
             <Thumbnail src="/sample-product.webp" />
           </div>
         </div>

@@ -5,6 +5,7 @@ import { usePosStore } from "../store/pos";
 import { UnderlineInput } from "@/features/pos/components/underline-input";
 import { Numpad } from "./numpad";
 import { calculateTotalCost } from "../utils/pos";
+import { v4 as uuidv4 } from 'uuid';
 
 interface ItemAdderProps {
   item: Item;
@@ -47,7 +48,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       quantity: parseInt(qty) || 0,
       discount,
       // temporary solution for id
-      id: Math.random().toString(16).slice(2)
+      id: uuidv4()
     };
     
     setItems([...items, itemResult]);
