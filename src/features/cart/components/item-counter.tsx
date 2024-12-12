@@ -1,7 +1,7 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { cn } from "@/lib/utils";
-import { ItemCardInput } from "@/features/cart/components/item-card-input";
+import { ItemCartInput } from "./item-cart-input";
 
 interface CounterProps {
   className?: string;
@@ -20,13 +20,13 @@ export function ItemCounter({ className, value, setValue }: CounterProps) {
 
   return (
     <div className={cn([
-      "flex gap-2 items-center",
+      "gap-2 items-center justify-end flex",
       className
     ])}>
       <Button onClick={() => setValue(String(intValue - 1))} className="w-5 h-5" size="icon">
         <ChevronLeft />
       </Button>
-      <ItemCardInput className="min-w-8" value={value} onInput={handleInput} />
+      <ItemCartInput className="w-10 min-w-10" value={value} onInput={handleInput} />
       <Button onClick={() => setValue(String(intValue + 1))} className="w-5 h-5" size="icon">
         <ChevronRight />
       </Button>

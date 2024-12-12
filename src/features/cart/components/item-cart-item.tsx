@@ -2,7 +2,7 @@ import { ItemCounter } from "@/features/cart/components/item-counter";
 import { Thumbnail } from "@/components/thumbnail";
 import { Item } from "@/types/item";
 import { useState } from "react";
-import { ItemCardCurrencyInput } from "./item-card-currency-input";
+import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { calculateTotalCost } from "../../pos/utils/pos";
 import { Button } from "@/components/ui/button";
 import {  X } from "lucide-react";
@@ -24,12 +24,12 @@ export function ItemCartItem({ item }: { item: Item }) {
         size='icon'>
         <X className="!w-4 !h-4" />
       </Button>
-      <div className="items-center grid grid-cols-[5fr,1fr] auto-rows-fr bg-accent rounded-lg h-full">
-        <div className="flex flex-row items-center gap-2 bg-card p-2 rounded-lg h-full">
-          <Thumbnail src="/sample-product.webp"  />
-          <div className="flex flex-col flex-grow justify-between h-full">
+      <div className="items-center grid grid-cols-[5fr,1fr] bg-accent rounded-lg h-full">
+        <div className="flex items-center gap-2 bg-card p-2 rounded-lg h-full">
+          <Thumbnail className="h-auto" src="/sample-product.webp"  />
+          <div className="flex flex-col flex-grow justify-between gap-2 h-full">
             {/* Unit Name, Product and SKU */}
-            <div className="flex justify-between justify-items-start items-center w-full">
+            <div className="flex justify-between justify-items-start items-center gap-2 w-full">
               <div>
                 <div className="text-[14px]">
                   {item.product?.name}
@@ -44,22 +44,20 @@ export function ItemCartItem({ item }: { item: Item }) {
             </div>
             <div className="flex-grow"></div>
             {/* Price, discount and quantity */}
-            <div className="items-center grid grid-cols-[4fr,auto,2fr]">
+            <div className="flex justify-between items-center gap-8">
               <div className="flex gap-2">
-                <ItemCardCurrencyInput 
+                <ItemCartCurrencyInput 
                   className="w-12 min-w-12"
                   prefix="$"
                   value={price}
                   onValueChange={(value) => setPrice(value || '')}
                 />
-                <ItemCardCurrencyInput 
+                <ItemCartCurrencyInput 
                   className="w-12 min-w-12"
                   prefix="-$"
                   value={discount}
                   onValueChange={(value) => setDiscount(value || '')}
                 />
-              </div>
-              <div>
               </div>
               <ItemCounter value={qty} setValue={setQty} />
             </div>

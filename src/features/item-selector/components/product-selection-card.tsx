@@ -21,12 +21,8 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
       className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer group"
       onClick={handleClick}
     >
-      <CardContent className="pt-2 h-full">
-        <div className="relative h-full">
-          <div className="inset-0">
-            <Thumbnail src="/sample-product.webp" />
-          </div>
-        </div>
+      <CardContent className="flex justify-center items-center pt-2 h-full">
+        <Thumbnail src="/sample-product.webp" />
       </CardContent>
       <CardFooter className="flex flex-col items-start text-sm">
         <div className="font-medium">{product.name}</div>

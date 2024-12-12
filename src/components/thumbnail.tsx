@@ -8,11 +8,11 @@ interface ThumbnailProps {
 export function Thumbnail({ className, src }: ThumbnailProps) {
   return (
     <div className={cn([
-      "flex justify-center bg-muted rounded-md h-full aspect-[16/9]",
+      "flex justify-center bg-muted rounded-md aspect-[16/9]",
       className
     ])}>
       <img
-        className="w-auto h-full object-cover"
+        className="w-auto max-w-full h-auto max-h-full object-contain"
         src={src}
         alt="" />
     </div>

@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { ItemCardList } from "../../cart/components/item-card-list";
+import { ItemCardList } from "./item-card-list";
 import { useQuery } from "@tanstack/react-query";
 import { getUnits } from "@/features/unit/api/unit";
 import { UnitSelectionCard } from "./unit-selection-card";

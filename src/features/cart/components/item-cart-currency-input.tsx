@@ -3,11 +3,11 @@ import * as React from "react";
 import { cn } from "@/lib/utils";
 import CurrencyInput, { CurrencyInputProps } from "react-currency-input-field";
 
-interface ItemCardCurrencyInputProps extends CurrencyInputProps {
+interface ItemCartCurrencyInputProps extends CurrencyInputProps {
   prefix?: string;
 }
 
-const ItemCardCurrencyInput = React.forwardRef<HTMLInputElement, ItemCardCurrencyInputProps>(
+const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, ItemCartCurrencyInputProps>(
   ({ className, type, prefix, ...props }, ref) => {
     return (
       <div className={cn([
@@ -29,8 +29,8 @@ const ItemCardCurrencyInput = React.forwardRef<HTMLInputElement, ItemCardCurrenc
     );
   }
 );
-ItemCardCurrencyInput.displayName = "Input";
+ItemCartCurrencyInput.displayName = "Input";
 
 export {
-  ItemCardCurrencyInput
+  ItemCartCurrencyInput
 };
