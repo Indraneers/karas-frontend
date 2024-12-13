@@ -35,8 +35,8 @@ export function InventoryLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   return (
-    <div className='grid grid-rows-[auto,1fr] h-full'>
-      <div className='place-content-center grid'>
+    <div className='relative h-full'>
+      <div className='inline-flex right-0 left-0 absolute justify-end w-full'>
         <Tabs className='px-4 py-2' value={location.pathname}>
           <TabsList>
             {
@@ -54,8 +54,7 @@ export function InventoryLayout() {
           </TabsList>
         </Tabs>
       </div>
-
-      <Section className='grid grid-rows-[auto,auto,1fr] mt-2'>
+      <Section className='grid grid-rows-[auto,auto,1fr] h-full'>
         <Outlet />
       </Section>
     </div>

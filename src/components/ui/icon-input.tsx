@@ -21,12 +21,12 @@ const IconInput = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div
         className={cn(
-          'flex items-center justify-center m-0 p-0 rounded-md border border-input bg-white px-3 py-0 text-sm shadow-sm transition-colors focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
+          'flex items-center justify-center m-0 p-0 rounded-md border border-border bg-white px-3 py-0 text-sm shadow-sm transition-colors focus-within:outline-none focus-within:ring-1 focus-within:ring-ring disabled:cursor-not-allowed disabled:opacity-50',
           className
         )}
       >
         {Icon && type !== 'file' && iconBehavior === 'prepend' && (
-          <Icon className={cn('w-4 h-4 mr-3', iconClassName)} {...iconProps} />
+          <Icon className={cn('w-4 h-4 mr-3 text-muted-foreground', iconClassName)} {...iconProps} />
         )}
         <input
           type={type}
