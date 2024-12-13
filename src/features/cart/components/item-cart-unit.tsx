@@ -1,18 +1,18 @@
 import { ItemCounter } from "@/features/cart/components/item-counter";
 import { Thumbnail } from "@/components/thumbnail";
 import { Item } from "@/types/item";
-import { useState } from "react";
 import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { calculateTotalCost } from "../../pos/utils/pos";
 import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
 
 export function ItemCartUnit({ item }: { item: Item }) {
-  const { removeItem } = usePosStore();
-  const [price, setPrice] = useState<string>(item.price);
-  const [discount, setDiscount] = useState<string>(item.discount);
-  const [qty, setQty] = useState<string>(String(item.quantity));
+  const { updateItem, removeItem } = usePosStore();
 
+  const price = item.price;
+  const discount = item.discount;
+  const qty = item.quantity;
+  
   const totalCost = calculateTotalCost(price, discount, qty);
 
   return (
@@ -42,16 +42,19 @@ export function ItemCartUnit({ item }: { item: Item }) {
                 className="w-12 min-w-12"
                 prefix="$"
                 value={price}
-                onValueChange={(value) => setPrice(value || '')}
+                onValueChange={(value) => updateItem({ ...item, price: value || '' })}
               />
               <ItemCartCurrencyInput 
                 className="w-12 min-w-12"
                 prefix="-$"
                 value={discount}
-                onValueChange={(value) => setDiscount(value || '')}
+                onValueChange={(value) => updateItem({ ...item, discount: value || '' })}
               />
             </div>
-            <ItemCounter value={qty} setValue={setQty} />
+            <ItemCounter 
+              value={String(qty)}
+              setValue={(value) => updateItem({ ...item, quantity: Number(value) })}
+            />
           </div>
         </div>
       </div>

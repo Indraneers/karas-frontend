@@ -38,7 +38,7 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
           </TypographyH3>
           <div>
             <PaymentDetailElement className="mt-4" label="Sub Total">
-              $ {subTotal}
+              $ {subTotal.toFixed(2)}
             </PaymentDetailElement>
             <PaymentDetailElement className="mt-2" label="Discount">
               <PrefixedCurrencyInput 
@@ -48,7 +48,7 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
             </PaymentDetailElement>
             <Separator className="mt-2" />
             <PaymentDetailElement className="mt-2" label="Total">
-              $ {total}
+              $ {total.toFixed(2)}
             </PaymentDetailElement>
           </div>
         </div>

@@ -33,6 +33,7 @@ export interface PosState {
   updateService: (s: AutoServiceItem) => void
   removeService: (serviceId: string) => void;
   addItem: (i: Item) => void;
+  updateItem: (i: Item) => void
   removeItem: (itemId: string) => void;
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
@@ -68,6 +69,19 @@ export const usePosStore = create<PosState>((set) => ({
   addItem: (i: Item) => set((state) => {
     const newState = { ... state };
     newState.items.push(i);
+    return newState;
+  }),
+  updateItem: (i: Item) => set((state) => {
+    const newState = { ...state };
+    newState.items = newState.items.map((item) => {
+      // since this is likely to be a currency variable,
+      // we wish to take the value and multiply it by 100
+      if (item.id == i.id) {
+        return i;
+      }
+      return item;
+    });
+
     return newState;
   }),
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
