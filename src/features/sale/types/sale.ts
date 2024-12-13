@@ -1,6 +1,6 @@
-import { Item } from "@/types/item";
+import { ItemDto } from "./item";
 
-enum StatusEnum {
+export enum StatusEnum {
   PAID = 'PAID',
   UNPAID = 'UNPAID'
 }
@@ -12,6 +12,6 @@ export interface SaleDto {
   userId: string;
   customerId: string;
   vehicleId: string;
-  items: Item[],
+  items: ItemDto[],
   status: StatusEnum
 }

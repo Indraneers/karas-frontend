@@ -30,6 +30,9 @@ export interface PosState {
   vehicle: VehicleDto;
   customer: CustomerDto;
   discount: number;
+}
+
+export interface PosStateWithFunctions extends PosState {
   setServices: (as: AutoServiceItem[]) => void;
   addService: (s: string) => void;
   updateService: (s: AutoServiceItem) => void
@@ -43,7 +46,7 @@ export interface PosState {
   setDiscount: (discount: number) => void;
 }
 
-export const usePosStore = create<PosState>((set) => ({
+export const usePosStore = create<PosStateWithFunctions>((set) => ({
   ...defaultPosState,
   setServices: (autoServices: AutoServiceItem[]) => set((state) => ({ ...state, services: autoServices })),
   addService: (sId: string) => set((state) => {
