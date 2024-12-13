@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { usePosStore } from "@/features/pos/store/pos";
 import { SectionHeader } from "@/components/section-header";
 import { SectionContent } from "@/components/section-content";
+import { Wrench } from "lucide-react";
 
 export function ServiceSelection() {
   const { services, setServices } = usePosStore();
@@ -30,7 +31,8 @@ export function ServiceSelection() {
   return (
     <div className="h-full">
       <Section className="inset-0 grid grid-rows-[auto,auto,1fr] h-full">
-        <SectionHeader>
+        <SectionHeader className="flex items-center gap-2">
+          <Wrench />
           <TypographyH2>Services</TypographyH2>
         </SectionHeader>
         <SectionContent className="p-0">

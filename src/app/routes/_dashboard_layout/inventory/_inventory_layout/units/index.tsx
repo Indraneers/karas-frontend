@@ -18,15 +18,20 @@ function UnitPage() {
           Unit and Stock
         </TypographyH1>
         <div className='gap-4 grid grid-cols-[1fr,auto]'>
+        </div>
+      </SectionHeader>
+      <SectionContent className='flex flex-col h-full'>
+        <div className='flex justify-between'>
           {/* <UnitSearch /> */}
+          <div>
+            
+          </div>
           <div className='flex flex-row-reverse gap-4'>
             <NewUnitButton />
             <RestockButton />
           </div>
         </div>
-      </SectionHeader>
-      <SectionContent className='h-full'>
-        <div className='relative h-full'>
+        <div className='relative flex-grow mt-2 h-full'>
           <UnitTable className='absolute inset-0 h-full' />
         </div>
       </SectionContent>

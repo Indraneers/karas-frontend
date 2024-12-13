@@ -3,8 +3,7 @@ import { OrderDetailElement } from "./order-detail-element";
 import { TypographyH3 } from "@/components/ui/typography/h3";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
-import { Car, CircleUser, RotateCcw } from "lucide-react";
+import { CarFront, CircleUser, RotateCcw } from "lucide-react";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
@@ -23,11 +22,11 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
       className
     ])}>
       <CardHeader>
-        <div className="items-center items-center gap-4 grid grid-cols-[auto,1fr]">
+        <div className="items-center gap-4 grid grid-cols-[auto,1fr]">
           
           <TypographyH3 className="flex items-center gap-2 w-full">
             <span>
-              <Car />
+              <CarFront />
             </span>
           Vehicle
           </TypographyH3>
@@ -67,23 +66,28 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           
         </div>
       </CardHeader>
-      <Separator />
-      <CardContent className="mt-2">
-        <OrderDetailElement label="Make and Model">
-          {vehicle.makeAndModel}
-        </OrderDetailElement>
-        <OrderDetailElement label="Plate Number" className="mt-2">
-          {vehicle.plateNumber}
-        </OrderDetailElement>
-        <OrderDetailElement label="VIN N.O" className="mt-2">
-          {vehicle.vinNo}
-        </OrderDetailElement>
-        <OrderDetailElement label="Engine N.O" className="mt-2">
-          {vehicle.engineNo}
-        </OrderDetailElement>
-        <OrderDetailElement label="Mileage" className="mt-2">
-          {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
-        </OrderDetailElement>
+      <CardContent>
+        <div className="gap-4 grid grid-cols-2">
+          <div>
+            <OrderDetailElement label="Make and Model">
+              {vehicle.makeAndModel}
+            </OrderDetailElement>
+            <OrderDetailElement label="Plate Number" className="mt-2">
+              {vehicle.plateNumber}
+            </OrderDetailElement>
+            <OrderDetailElement label="Mileage" className="mt-2">
+              {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
+            </OrderDetailElement>
+          </div>
+          <div>
+            <OrderDetailElement label="VIN N.O" className="mt-2">
+              {vehicle.vinNo}
+            </OrderDetailElement>
+            <OrderDetailElement label="Engine N.O" className="mt-2">
+              {vehicle.engineNo}
+            </OrderDetailElement>
+          </div>
+        </div>
         <Textarea 
           className="mt-2 rounded-sm text-xs" 
           rows={1}

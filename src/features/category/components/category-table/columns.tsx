@@ -11,7 +11,6 @@ export const columns: ColumnDef<Category>[] = [
     id: 'select',
     header: ({ table }) => (
       <Checkbox
-        className="bg-background w-5 h-5"
         checked={
           table.getIsAllPageRowsSelected() ||
           (table.getIsSomePageRowsSelected() && "indeterminate")

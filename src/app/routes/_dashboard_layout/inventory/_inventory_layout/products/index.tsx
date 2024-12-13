@@ -17,15 +17,15 @@ function ProductPage() {
         <TypographyH1>
         Product
         </TypographyH1>
-        <div className='gap-4 grid grid-cols-[1fr,auto]'>
-          <ProductSearch />
+      </SectionHeader>
+      <SectionContent className='flex flex-col h-full'>
+        <div className='flex justify-between'>
+          <ProductSearch className='w-[400px]' />
           <div className='flex flex-row-reverse gap-4'>
             <NewProductButton />
           </div>
         </div>
-      </SectionHeader>
-      <SectionContent className='h-full'>
-        <div className='relative h-full'>
+        <div className='relative flex-grow mt-2 h-full'>
           <ProductTable className='absolute inset-0 h-full' />
         </div>
       </SectionContent>

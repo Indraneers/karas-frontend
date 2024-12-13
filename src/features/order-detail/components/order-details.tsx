@@ -18,6 +18,7 @@ import { useDebounce } from "@uidotdev/usehooks";
 import { Separator } from "@/components/ui/separator";
 import { ItemCartUnit } from "@/features/cart/components/item-cart-unit";
 import { ItemCartService } from "@/features/cart/components/item-cart-service";
+import { PaymentDetail } from "./payment-detail";
 
 export function OrderDetails() {
   const { items, vehicle, services } = usePosStore();
@@ -101,8 +102,10 @@ export function OrderDetails() {
           }
         </ItemCart>
       </SectionContent>
-      <SectionFooter>
-        <POSActions />
+      <SectionFooter className="pt-0">
+        <PaymentDetail>
+          <POSActions />
+        </PaymentDetail>
       </SectionFooter>
     </Section>
   );

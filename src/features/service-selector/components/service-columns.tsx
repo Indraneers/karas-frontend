@@ -11,7 +11,6 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
       const { services, addService, removeService } = usePosStore();
       return (
         <Checkbox
-          className="bg-background w-5 h-5"
           checked={
             table.getIsAllPageRowsSelected() ||
             (table.getIsSomePageRowsSelected() && "indeterminate")

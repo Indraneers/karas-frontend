@@ -17,15 +17,15 @@ function CategoryPage() {
         <TypographyH1>
         Category
         </TypographyH1>
-        <div className='gap-4 grid grid-cols-[1fr,auto]'>
-          <CategorySearch className='w-full' />
+      </SectionHeader>
+      <SectionContent className='flex flex-col h-full'>
+        <div className='flex justify-between gap-4'>
+          <CategorySearch className='w-[400px]' />
           <div className='flex flex-row-reverse gap-4'>
             <NewCategoryButton />
           </div>
         </div>
-      </SectionHeader>
-      <SectionContent className='h-full'>
-        <div className='relative h-full'>
+        <div className='relative flex-grow mt-2'>
           <CategoryTable className='absolute inset-0 h-full' />
         </div>
       </SectionContent>

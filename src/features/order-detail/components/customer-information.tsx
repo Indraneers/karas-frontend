@@ -25,7 +25,7 @@ export function CustomerInformation({ customer, className } : CustomerInformatio
         </TypographyH3>
       </CardHeader>
       <Separator />
-      <CardContent className="mt-2 px-0">
+      <CardContent className="px-0 -2 mt">
         <OrderDetailElement 
           label="Name"
           className="mt-2" 

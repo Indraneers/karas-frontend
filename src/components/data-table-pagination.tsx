@@ -38,14 +38,14 @@ export function DataTablePagination<TData, TValue>({
  
   return (
     <div className="grid grid-rows-[1fr,auto] h-full">
-      <ScrollArea className="border rounded-lg h-full"  >
+      <ScrollArea className="border rounded-md h-full"  >
         <Table className="h-full">
-          <TableHeader className='bg-accent'>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead className="text-background" key={header.id}>
+                    <TableHead key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(

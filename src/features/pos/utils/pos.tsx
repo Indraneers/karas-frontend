@@ -1,11 +1,12 @@
-export function calculateTotalCost(price: string, discount: string, qty: string) {
+export function calculateTotalCost(price: string | number, discount: string | number, qty: string | number) {
+
   return ((
     (
-      ((parseFloat(price) * 100) || 0)
+      ((Number(price) * 100) || 0)
       -
-      ((parseFloat(discount) * 100) || 0)
+      ((Number(discount) * 100) || 0)
     )
   *
-  (parseInt(qty) || 0)
+  (Number(qty) || 0)
   ) / 100).toFixed(2);
 }
