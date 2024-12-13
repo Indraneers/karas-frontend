@@ -1,7 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { TypographyH3 } from "@/components/ui/typography/h3";
 import { WalletCards } from "lucide-react";
-import React, { useState } from "react";
+import React from "react";
 import { PaymentDetailElement } from "./payment-detail-element";
 import { Separator } from "@/components/ui/separator";
 import { usePosStore } from "@/features/pos/store/pos";
@@ -9,8 +9,7 @@ import { calculateTotalCost } from "@/features/pos/utils/pos";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 
 export function PaymentDetail({ children } : { children: React.ReactNode}) {
-  const { items, services } = usePosStore();
-  const [discount, setDiscount] = useState('');
+  const { items, services, discount, setDiscount } = usePosStore();
 
   const itemsTotal = items.reduce((prev, curr) => {
     const itemTotal = calculateTotalCost(curr.price, curr.discount, curr.quantity);
@@ -43,7 +42,7 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
             <PaymentDetailElement className="mt-2" label="Discount">
               <PrefixedCurrencyInput 
                 value={discount}
-                onValueChange={(value) => setDiscount(value || '')}
+                onValueChange={(value) => setDiscount(Number(value))}
               />
             </PaymentDetailElement>
             <Separator className="mt-2" />

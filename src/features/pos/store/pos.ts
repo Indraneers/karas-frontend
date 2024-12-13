@@ -20,7 +20,8 @@ const defaultPosState = {
   services: [],
   items: [],
   vehicle: defaultVehicle,
-  customer: defaultVehicle.customer
+  customer: defaultVehicle.customer,
+  discount: 0
 };
 
 export interface PosState {
@@ -28,6 +29,7 @@ export interface PosState {
   items: Item[];
   vehicle: VehicleDto;
   customer: CustomerDto;
+  discount: number;
   setServices: (as: AutoServiceItem[]) => void;
   addService: (s: string) => void;
   updateService: (s: AutoServiceItem) => void
@@ -38,6 +40,7 @@ export interface PosState {
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
   resetPos: () => void;
+  setDiscount: (discount: number) => void;
 }
 
 export const usePosStore = create<PosState>((set) => ({
@@ -87,5 +90,6 @@ export const usePosStore = create<PosState>((set) => ({
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
   setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer })),
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
-  resetPos: () => set((() => (defaultPosState)))
+  resetPos: () => set((() => (defaultPosState))),
+  setDiscount: (discount: number) => set(((state) => ({ ...state, discount })))
 }));
