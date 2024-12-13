@@ -18,6 +18,7 @@ import {
 } from "@/components/ui/table";
 import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
+import { ChevronLeft, ChevronRight } from "lucide-react";
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -37,7 +38,7 @@ export function DataTablePagination<TData, TValue>({
  
   return (
     <div className="grid grid-rows-[1fr,auto] h-full">
-      <ScrollArea className="border rounded-md h-full"  >
+      <ScrollArea className="border rounded-lg h-full"  >
         <Table className="h-full">
           <TableHeader className='bg-accent'>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -89,7 +90,7 @@ export function DataTablePagination<TData, TValue>({
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          Previous
+          <ChevronLeft />
         </Button>
         <Button
           variant="outline"
@@ -97,7 +98,7 @@ export function DataTablePagination<TData, TValue>({
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          Next
+          <ChevronRight />
         </Button>
       </div>
     </div>

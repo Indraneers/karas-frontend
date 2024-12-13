@@ -33,7 +33,7 @@ export function ServiceSelection() {
         <SectionHeader>
           <TypographyH2>Services</TypographyH2>
         </SectionHeader>
-        <SectionContent>
+        <SectionContent className="p-0">
           <div className="relative h-full">
             <div className="absolute inset-0">
               <DataTable columns={ServiceColumns} data={services} />
