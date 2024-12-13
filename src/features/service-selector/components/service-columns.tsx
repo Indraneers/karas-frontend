@@ -1,10 +1,10 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { AutoServiceItem } from "../types/auto-service-item";
 import { ServiceEditable } from "./service-editable";
 import { usePosStore } from "@/features/pos/store/pos";
+import { ServiceSelectorItem } from "../types/service-selector-item";
 
-export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
+export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   {
     id: 'select',
     header: function CheckboxHeaderCell({ table }) {
@@ -18,10 +18,10 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
           onCheckedChange={(value) => {
             table.toggleAllPageRowsSelected(!!value);
             if (value) {
-              services.forEach((s) => addService(s.autoService.id));
+              services.forEach((s) => addService(s.service.id));
             }
             else {
-              services.forEach((s) => removeService(s.autoService.id));
+              services.forEach((s) => removeService(s.service.id));
             }
           }}
           aria-label="Select all"
@@ -37,10 +37,10 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
           onCheckedChange={(value) => {
             row.toggleSelected(!!value);
             if (value) {
-              addService(service.autoService.id);
+              addService(service.service.id);
             }
             else {
-              removeService(service.autoService.id);
+              removeService(service.service.id);
             }
           }}
           aria-label="Select row"
@@ -51,16 +51,16 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
     enableHiding: false
   },
   {
-    accessorKey: 'autoService',
+    accessorKey: 'service',
     header: 'Services Check',
-    cell: ({ row }) => <div>{row.original.autoService.name}</div>
+    cell: ({ row }) => <div>{row.original.service.name}</div>
   },
   {
     accessorKey: 'price',
     header: 'Price',
     cell: ({ getValue, row }) => 
       <ServiceEditable 
-        id={row.original.autoService.id}
+        id={row.original.service.id}
         value={getValue() as string}
         accessorKey='price'
       />
@@ -70,7 +70,7 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
     header: 'Discount',
     cell: ({ getValue, row }) => 
       <ServiceEditable 
-        id={row.original.autoService.id}
+        id={row.original.service.id}
         value={getValue() as string}
         accessorKey='discount'
       />

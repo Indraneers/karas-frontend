@@ -4,7 +4,7 @@ import { PrefixedCurrencyInput } from "../../../components/prefixed-currency-inp
 
 export function ServiceEditable({ id, value = "", accessorKey }: { id: string, value: string | number | undefined, accessorKey: string }) {
   const { services, updateService } = usePosStore();
-  const service = services.find((s) => s.autoService.id === id);
+  const service = services.find((s) => s.service.id === id);
   if (!service) {
     return null;
   }

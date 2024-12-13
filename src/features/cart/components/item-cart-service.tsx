@@ -1,20 +1,20 @@
 import { usePosStore } from "@/features/pos/store/pos";
-import { calculateTotalCost } from "@/features/pos/utils/pos";
-import { AutoServiceItem } from "@/features/service-selector/types/auto-service-item";
+import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { ItemCartItem } from "./item-cart-item";
 import { ItemCartCurrencyInput } from "./item-cart-currency-input";
+import { ServiceSelectorItem } from "@/features/service-selector/types/service-selector-item";
 
-export function ItemCartService({ autoServiceItem } : { autoServiceItem: AutoServiceItem }) {
+export function ItemCartService({ service } : { service: ServiceSelectorItem }) {
   const { updateService, removeService } = usePosStore();
-  const price = autoServiceItem.price;
-  const discount = autoServiceItem.discount;
+  const price = service.price;
+  const discount = service.discount;
   const totalCost = calculateTotalCost(price, discount, '1');
 
   return (
-    <ItemCartItem totalCost={totalCost} onClickRemove={() => removeService(autoServiceItem.autoService.id)}>
+    <ItemCartItem totalCost={totalCost} onClickRemove={() => removeService(service.service.id)}>
       <div className="flex flex-col gap-5">
         <div className="flex-grow pl-4 text-md self-start">
-          {autoServiceItem.autoService.name}
+          {service.service?.name}
         </div>
         <div className="flex justify-between">
           <div className="text-foreground/50 text-xs self-end">
@@ -24,14 +24,14 @@ export function ItemCartService({ autoServiceItem } : { autoServiceItem: AutoSer
             <ItemCartCurrencyInput 
               className="w-12 min-w-12"
               prefix="$"
-              value={autoServiceItem.price}
-              onValueChange={(value) => updateService({ ...autoServiceItem, price: value || '' })}
+              value={service.price}
+              onValueChange={(value) => updateService({ ...service, price: value || '' })}
             />
             <ItemCartCurrencyInput 
               className="w-12 min-w-12"
               prefix="-$"
-              value={autoServiceItem.discount}
-              onValueChange={(value) => updateService({ ...autoServiceItem, discount: value || '' })}
+              value={service.discount}
+              onValueChange={(value) => updateService({ ...service, discount: value || '' })}
             />
           </div>
         </div>

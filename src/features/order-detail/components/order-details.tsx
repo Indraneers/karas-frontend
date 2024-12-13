@@ -97,7 +97,7 @@ export function OrderDetails() {
           }
           { (checkedServices.length > 0) &&
             checkedServices.map((s) => (
-              <ItemCartService autoServiceItem={s} key={s.autoService.id} />
+              <ItemCartService service={s} key={s.service.id} />
             ))
           }
         </ItemCart>

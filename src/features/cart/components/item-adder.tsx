@@ -1,14 +1,14 @@
 import { UnderlineCurrencyInput } from "@/features/pos/components/underline-currency-input";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { Item } from "@/types/item";
 import { usePosStore } from "../../pos/store/pos";
 import { UnderlineInput } from "@/features/pos/components/underline-input";
 import { Numpad } from "../../pos/components/numpad";
-import { calculateTotalCost } from "../../pos/utils/pos";
+import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
+import { UnitItem } from "@/features/sale/types/item";
 
 interface ItemAdderProps {
-  item: Item;
+  item: UnitItem;
   setOpen: (b: boolean) => void
 }
 
@@ -42,7 +42,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   }
 
   function handleSubmit() {
-    const itemResult: Item = {
+    const itemResult: UnitItem = {
       ...item,
       price,
       quantity: parseInt(qty) || 0,

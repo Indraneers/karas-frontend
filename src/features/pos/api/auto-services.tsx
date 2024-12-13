@@ -1,7 +1,7 @@
 import { request } from "@/lib/request";
-import { AutoService } from "@/types/auto-service";
+import { ServiceDto } from "@/features/service/types/service.dto";
 
-export const getAutoServices = (): Promise<AutoService[]> =>
+export const getAutoServices = (): Promise<ServiceDto[]> =>
   request({
     url: '/auto-services',
     method: 'GET'

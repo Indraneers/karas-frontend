@@ -1,12 +1,12 @@
 import { ItemCounter } from "@/features/cart/components/item-counter";
 import { Thumbnail } from "@/components/thumbnail";
-import { Item } from "@/types/item";
 import { ItemCartCurrencyInput } from "./item-cart-currency-input";
-import { calculateTotalCost } from "../../pos/utils/pos";
+import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
+import { UnitItem } from "@/features/sale/types/item";
 
-export function ItemCartUnit({ item }: { item: Item }) {
+export function ItemCartUnit({ item }: { item: UnitItem }) {
   const { updateItem, removeItem } = usePosStore();
 
   const price = item.price;

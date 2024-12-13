@@ -1,4 +1,5 @@
-import { ItemDto } from "./item";
+import { ItemTypes } from "./item";
+import { ItemDtoTypes } from "./item.dto";
 
 export enum StatusEnum {
   PAID = 'PAID',
@@ -6,12 +7,25 @@ export enum StatusEnum {
 }
 
 export interface SaleDto {
+  id?: string;
   dueDate: string;
   created: string;
   discount: number;
   userId: string;
   customerId: string;
   vehicleId: string;
-  items: ItemDto[],
+  items: ItemDtoTypes[];
   status: StatusEnum
+}
+
+export interface Sale {
+  id?: string;
+  dueDate: string;
+  created: string;
+  discount: string;
+  userId: string;
+  customerId: string;
+  vehicleId: string;
+  items: ItemTypes[];
+  status: StatusEnum;
 }

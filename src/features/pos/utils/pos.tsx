@@ -1,45 +1,33 @@
 import { SaleDto, StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
-import { ItemDto } from "@/features/sale/types/item";
-
-export function calculateTotalCost(price: string | number, discount: string | number, qty: string | number) {
-
-  return ((
-    (
-      ((Number(price) * 100) || 0)
-      -
-      ((Number(discount) * 100) || 0)
-    )
-  *
-  (Number(qty) || 0)
-  ) / 100).toFixed(2);
-}
-
+import { ServiceItemDto, UnitItemDto } from "@/features/sale/types/item.dto";
 
 export function convertPosStoreToSaleDto
 (posState: PosState, dueDate: string, status: StatusEnum): SaleDto {
-  const itemList: ItemDto[] = 
+  const unitItemList: UnitItemDto[] = 
     posState.items.map((i) => ({
+      type: 'unit',
       price: Math.ceil(Number(i.price) * 100),
       discount: Math.ceil(Number(i.discount) * 100),
       quantity: Number(i.quantity),
-      unitId: i.unit.id
+      unitId: i.unit?.id || i.unitId || '' 
     }));
 
-  const serviceList: ItemDto[] = 
+  const serviceItemList: ServiceItemDto[] = 
     posState
       .services
       .filter((s) => s.checked)
       .map((s) => ({
+        type: 'service',
         price: Math.ceil(Number(s.price) * 100),
         discount: Math.ceil(Number(s.discount) * 100),
         quantity: Number(s.quantity),
-        serviceId: s.autoService.id
+        serviceId: s.service.id
       }));
 
-  const items: ItemDto[] = [
-    ...itemList,
-    ...serviceList
+  const items: (ServiceItemDto | UnitItemDto)[] = [
+    ...unitItemList,
+    ...serviceItemList
   ];
 
   return {

@@ -20,10 +20,11 @@ export function ServiceSelection() {
   useEffect(() => {
     if (data) {
       setServices(data.map((d) => ({ 
-        autoService: d, 
+        service: d, 
         price: (Number(d.originalPrice) / 100).toFixed(2),
         discount: '',
-        quantity: 1
+        quantity: 1,
+        checked: false
       })));
     }
   }, [data, setServices]);

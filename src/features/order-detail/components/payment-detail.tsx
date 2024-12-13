@@ -5,26 +5,13 @@ import React from "react";
 import { PaymentDetailElement } from "./payment-detail-element";
 import { Separator } from "@/components/ui/separator";
 import { usePosStore } from "@/features/pos/store/pos";
-import { calculateTotalCost } from "@/features/pos/utils/pos";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
+import { getSubtotal } from "@/features/sale/utils/sale";
 
 export function PaymentDetail({ children } : { children: React.ReactNode}) {
   const { items, services, discount, setDiscount } = usePosStore();
 
-  const itemsTotal = items.reduce((prev, curr) => {
-    const itemTotal = calculateTotalCost(curr.price, curr.discount, curr.quantity);
-    return prev + Number(itemTotal);
-  }, 0);
-
-  const servicesTotal = services.reduce((prev, curr) => {
-    if (!curr.checked) {
-      return prev;
-    }
-    const serviceTotal = calculateTotalCost(curr.price, curr.discount, '1');
-    return prev + Number(serviceTotal);
-  }, 0);
-
-  const subTotal = itemsTotal + servicesTotal;
+  const subTotal = getSubtotal({ items, services });
   const total = Number(subTotal) - Number(discount);
   
   return (

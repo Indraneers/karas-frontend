@@ -1,11 +1,11 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
 import { ItemAdder } from "../../cart/components/item-adder";
-import { Item } from "@/types/item";
 import { useQuery } from "@tanstack/react-query";
 import { getProductById } from "@/features/product/api/product";
 import { useState } from "react";
 import { Unit } from "@/types/unit";
+import { UnitItem } from "@/features/sale/types/item";
 
 interface UnitSelectionCardProps {
   unit: Unit
@@ -27,7 +27,8 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     return 'error: product doesn\'t exist';
   }
 
-  const item: Item = {
+  const item: UnitItem = {
+    type: 'unit',
     quantity: 1,
     price: unit.price,
     discount: '0',

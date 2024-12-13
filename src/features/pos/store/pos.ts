@@ -1,8 +1,9 @@
 import { create } from 'zustand';
-import { AutoServiceItem } from '@/features/service-selector/types/auto-service-item';
-import { Item } from '@/types/item';
 import { VehicleDto } from '@/features/vehicles/dto/vehicle.dto';
 import { CustomerDto } from '@/features/customer/types/customer.dto';
+import { ServiceSelectorItem } from '@/features/service-selector/types/service-selector-item';
+import { ServiceItem, UnitItem } from '@/features/sale/types/item';
+import { getCheckedServiceItem } from '@/features/service-selector/utils/service-selector';
 
 const defaultVehicle: VehicleDto = {
   engineNo: '-',
@@ -25,20 +26,20 @@ const defaultPosState = {
 };
 
 export interface PosState {
-  services: AutoServiceItem[];
-  items: Item[];
+  services: ServiceSelectorItem[];
+  items: UnitItem[];
   vehicle: VehicleDto;
   customer: CustomerDto;
   discount: number;
 }
 
 export interface PosStateWithFunctions extends PosState {
-  setServices: (as: AutoServiceItem[]) => void;
+  setServices: (as: ServiceSelectorItem[]) => void;
   addService: (s: string) => void;
-  updateService: (s: AutoServiceItem) => void
+  updateService: (s: ServiceSelectorItem) => void
   removeService: (serviceId: string) => void;
-  addItem: (i: Item) => void;
-  updateItem: (i: Item) => void
+  addItem: (i: UnitItem) => void;
+  updateItem: (i: UnitItem) => void
   removeItem: (itemId: string) => void;
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
@@ -48,18 +49,18 @@ export interface PosStateWithFunctions extends PosState {
 
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
   ...defaultPosState,
-  setServices: (autoServices: AutoServiceItem[]) => set((state) => ({ ...state, services: autoServices })),
+  setServices: (autoServices: ServiceSelectorItem[]) => set((state) => ({ ...state, services: autoServices })),
   addService: (sId: string) => set((state) => {
     const newState = { ...state };
-    newState.services = newState.services.map((s) => s.autoService.id === sId ? { ...s, checked: true } : s);
+    newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: true } : s);
     return newState;
   }),
-  updateService: (s: AutoServiceItem) => set((state) => {
+  updateService: (s: ServiceSelectorItem) => set((state) => {
     const newState = { ...state };
     newState.services = newState.services.map((a) => {
       // since this is likely to be a currency variable,
       // we wish to take the value and multiply it by 100
-      if (a.autoService.id === s.autoService.id) {
+      if (a.service.id === s.service.id) {
         return s;
       }
       return a;
@@ -69,15 +70,15 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   }),
   removeService: (sId: string) => set((state) => {
     const newState = { ...state };
-    newState.services = newState.services.map((s) => s.autoService.id === sId ? { ...s, checked: false } : s);
+    newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: false } : s);
     return newState;
   }),
-  addItem: (i: Item) => set((state) => {
+  addItem: (i: UnitItem) => set((state) => {
     const newState = { ... state };
     newState.items.push(i);
     return newState;
   }),
-  updateItem: (i: Item) => set((state) => {
+  updateItem: (i: UnitItem) => set((state) => {
     const newState = { ...state };
     newState.items = newState.items.map((item) => {
       // since this is likely to be a currency variable,
@@ -96,3 +97,8 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   resetPos: () => set((() => (defaultPosState))),
   setDiscount: (discount: number) => set(((state) => ({ ...state, discount })))
 }));
+
+export function useCheckedServices(): ServiceItem[] {
+  const { services } = usePosStore();
+  return getCheckedServiceItem(services);
+}
