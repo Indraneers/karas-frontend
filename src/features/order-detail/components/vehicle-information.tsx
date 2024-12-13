@@ -67,24 +67,24 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         </div>
       </CardHeader>
       <CardContent>
-        <div className="gap-4 grid grid-cols-2">
+        <OrderDetailElement label="Make & Model">
+          {vehicle.makeAndModel}
+        </OrderDetailElement>
+        <div className="gap-4 grid grid-cols-[3fr,2fr] mt-2">
           <div>
-            <OrderDetailElement label="Make and Model">
-              {vehicle.makeAndModel}
-            </OrderDetailElement>
-            <OrderDetailElement label="Plate Number" className="mt-2">
-              {vehicle.plateNumber}
-            </OrderDetailElement>
-            <OrderDetailElement label="Mileage" className="mt-2">
-              {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
-            </OrderDetailElement>
-          </div>
-          <div>
-            <OrderDetailElement label="VIN N.O" className="mt-2">
+            <OrderDetailElement label="VIN N.O">
               {vehicle.vinNo}
             </OrderDetailElement>
             <OrderDetailElement label="Engine N.O" className="mt-2">
               {vehicle.engineNo}
+            </OrderDetailElement>
+          </div>
+          <div className="self-start">
+            <OrderDetailElement label="Plate Number">
+              {vehicle.plateNumber}
+            </OrderDetailElement>
+            <OrderDetailElement label="Mileage" className="mt-2">
+              {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
             </OrderDetailElement>
           </div>
         </div>
