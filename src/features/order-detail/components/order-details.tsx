@@ -8,7 +8,6 @@ import { SectionFooter } from "@/components/section-footer";
 import { POSActions } from "../../pos/components/pos-actions";
 import { ShoppingBag } from "lucide-react";
 import { ItemCart } from "../../cart/components/item-cart";
-import { ItemCartItem } from "../../cart/components/item-cart-item";
 import { usePosStore } from "../../pos/store/pos";
 import { useState } from "react";
 import { Popover, PopoverAnchor, PopoverContent } from "@/components/ui/popover";
@@ -17,6 +16,8 @@ import { useQuery } from "@tanstack/react-query";
 import { getVehicles } from "@/features/vehicles/api/vehicle";
 import { useDebounce } from "@uidotdev/usehooks";
 import { Separator } from "@/components/ui/separator";
+import { ItemCartUnit } from "@/features/cart/components/item-cart-unit";
+import { ItemCartService } from "@/features/cart/components/item-cart-service";
 
 export function OrderDetails() {
   const { items, vehicle, services } = usePosStore();
@@ -43,7 +44,7 @@ export function OrderDetails() {
           Order Details
         </TypographyH2>
       </SectionHeader>
-      <div className="mb-2 py-2 border-b w-full">
+      <div className="py-1 border-b w-full">
         <Popover open={open}>
           <PopoverAnchor>
             <VehicleSearch
@@ -88,10 +89,15 @@ export function OrderDetails() {
         <VehicleInformation vehicle={vehicle} />
         <ItemCart className="flex-grow mt-2 w-full">
           {items.map((i) => (
-            <ItemCartItem item={i} key={i.id} />
+            <ItemCartUnit item={i} key={i.id} />
           ))}
           { (items.length > 0 && checkedServices.length > 0) &&
             <Separator className="bg-gray-400 my-2" />
+          }
+          { (checkedServices.length > 0) &&
+            checkedServices.map((s) => (
+              <ItemCartService autoServiceItem={s} key={s.autoService.id} />
+            ))
           }
         </ItemCart>
       </SectionContent>

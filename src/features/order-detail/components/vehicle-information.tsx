@@ -23,7 +23,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
       className
     ])}>
       <CardHeader>
-        <div className="items-center gap-4 grid grid-cols-[auto,1fr]">
+        <div className="items-center items-center gap-4 grid grid-cols-[auto,1fr]">
           
           <TypographyH3 className="flex items-center gap-2 w-full">
             <span>
@@ -40,13 +40,13 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
               <Popover>
                 <PopoverTrigger>
                   <Button
-                    className="gap-2 border-accent/50 bg-accent/10 px-2 border rounded-full h-7 font-medium text-primary hover:text-background"
+                    className="gap-2 border-accent/50 bg-accent/10 px-2 border rounded-full h-6 font-medium text-primary hover:text-background"
                   >
                     <CircleUser />
                     {vehicle.customer.name}
                   </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-80">
+                <PopoverContent className="p-2 w-80">
                   <CustomerInformation customer={vehicle.customer} />
                 </PopoverContent>
               </Popover>
@@ -61,7 +61,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
               ])}
               size='icon'
             >
-              <RotateCcw className="!w-5 !h-5" />
+              <RotateCcw className="!w-4 !h-4" />
             </Button>
           </div>
           
@@ -85,7 +85,8 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
         </OrderDetailElement>
         <Textarea 
-          className="mt-2 rounded-sm h-full text-xs" 
+          className="mt-2 rounded-sm text-xs" 
+          rows={1}
           placeholder="Add vehicle notes here..."
           defaultValue={vehicle.note}
         />

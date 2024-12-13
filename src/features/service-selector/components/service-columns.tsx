@@ -8,7 +8,7 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
   {
     id: 'select',
     header: function CheckboxHeaderCell({ table }) {
-      const { services, setServices } = usePosStore();
+      const { services, addService, removeService } = usePosStore();
       return (
         <Checkbox
           className="bg-background w-5 h-5"
@@ -18,14 +18,19 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
           }
           onCheckedChange={(value) => {
             table.toggleAllPageRowsSelected(!!value);
-            setServices(services.map((s) => ({ ...s, checked: !!value })  ));
+            if (value) {
+              services.forEach((s) => addService(s.autoService.id));
+            }
+            else {
+              services.forEach((s) => removeService(s.autoService.id));
+            }
           }}
           aria-label="Select all"
         />
       );
     },
     cell: function CheckboxDataCell ({ row }) {
-      const { services, setServices } = usePosStore();
+      const { addService, removeService } = usePosStore();
       const service = row.original;
       return (
         <Checkbox
@@ -33,17 +38,12 @@ export const ServiceColumns: ColumnDef<AutoServiceItem>[] = [
           checked={row.getIsSelected()}
           onCheckedChange={(value) => {
             row.toggleSelected(!!value);
-            setServices(services.map((s) => {
-              if (s.autoService.id === service.autoService.id) {
-                return {
-                  ...s,
-                  checked: !!value
-                };
-              }
-
-              return s;
-            }));
-            
+            if (value) {
+              addService(service.autoService.id);
+            }
+            else {
+              removeService(service.autoService.id);
+            }
           }}
           aria-label="Select row"
         />
