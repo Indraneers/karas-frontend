@@ -40,7 +40,7 @@ export function DataTablePagination<TData, TValue>({
     <div className="grid grid-rows-[1fr,auto] h-full">
       <ScrollArea className="border rounded-md h-full"  >
         <Table className="h-full">
-          <TableHeader>
+          <TableHeader className="bg-foreground/5">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
@@ -83,23 +83,31 @@ export function DataTablePagination<TData, TValue>({
           </TableBody>
         </Table>
       </ScrollArea>
-      <div className="flex justify-end items-center space-x-2 py-2">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronLeft />
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <ChevronRight />
-        </Button>
+      <div className="flex justify-end items-center space-x-2 py-4">
+        <div className="flex-1 text-muted-foreground text-sm">
+          {table.getFilteredSelectedRowModel().rows.length} of{" "}
+          {table.getFilteredRowModel().rows.length} row(s) selected.
+        </div>
+        <div className="space-x-2">
+          <Button
+            className="border-muted-foreground text-muted-foreground"
+            variant="outline"
+            size="sm"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeft />
+          </Button>
+          <Button
+            className="border-muted-foreground text-muted-foreground"
+            variant="outline"
+            size="sm"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronRight />
+          </Button>
+        </div>
       </div>
     </div>
   );

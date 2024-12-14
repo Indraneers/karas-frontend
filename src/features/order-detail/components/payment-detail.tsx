@@ -16,17 +16,17 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
   
   return (
     <Card>
-      <CardContent className="pt-4">
+      <CardContent className="pt-2">
         <div>
           <TypographyH3 className="flex items-center gap-2">
             <WalletCards />
             Payment Details
           </TypographyH3>
-          <div>
-            <PaymentDetailElement className="mt-4" label="Sub Total">
+          <div className="mt-2" >
+            <PaymentDetailElement label="Sub Total">
               $ {subTotal.toFixed(2)}
             </PaymentDetailElement>
-            <PaymentDetailElement className="mt-2" label="Discount">
+            <PaymentDetailElement className="mt-1" label="Discount">
               <PrefixedCurrencyInput 
                 value={discount}
                 onValueChange={(value) => setDiscount(Number(value))}

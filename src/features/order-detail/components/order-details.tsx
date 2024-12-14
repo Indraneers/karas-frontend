@@ -6,7 +6,7 @@ import { VehicleInformation } from "./vehicle-information";
 import { VehicleSearch } from "./vehicle-search";
 import { SectionFooter } from "@/components/section-footer";
 import { POSActions } from "../../pos/components/pos-actions";
-import { ShoppingBag } from "lucide-react";
+import { CircleUser, RotateCcw, ShoppingBag } from "lucide-react";
 import { ItemCart } from "../../cart/components/item-cart";
 import { usePosStore } from "../../pos/store/pos";
 import { useState } from "react";
@@ -19,9 +19,13 @@ import { Separator } from "@/components/ui/separator";
 import { ItemCartUnit } from "@/features/cart/components/item-cart-unit";
 import { ItemCartService } from "@/features/cart/components/item-cart-service";
 import { PaymentDetail } from "./payment-detail";
+import { PopoverTrigger } from "@radix-ui/react-popover";
+import { Button } from "@/components/ui/button";
+import { CustomerInformation } from "./customer-information";
+import { cn } from "@/lib/utils";
 
 export function OrderDetails() {
-  const { items, vehicle, services } = usePosStore();
+  const { items, vehicle, services, setDefaultVehicleAndCustomer } = usePosStore();
 
   const checkedServices = services.filter(s => s.checked);
 
@@ -45,6 +49,7 @@ export function OrderDetails() {
           Order Details
         </TypographyH2>
       </SectionHeader>
+      <Separator />
       <div className="py-1 border-b w-full">
         <Popover open={open}>
           <PopoverAnchor>
@@ -56,11 +61,12 @@ export function OrderDetails() {
             />
           </PopoverAnchor>
           <PopoverContent
-            className="p-2 rounded-lg w-[425px]"
+            className="mt-2 p-3 rounded-lg w-[425px]"
             onOpenAutoFocus={(e) => e.preventDefault()}
           >
+            <div className="mb-4 font-medium text-md text-muted-foreground">Search Result</div>
             <div className="relative h-80">
-              <div className="absolute inset-0 gap-2 grid grid-rows-[repeat(4,calc(90%/4))] auto-rows-[calc(100%/4)] h-full max-h-full overflow-scroll">
+              <div className="absolute inset-0 flex flex-col gap-2 h-full max-h-full overflow-scroll">
                 {
                   isError && "Error"
                 }
@@ -87,8 +93,38 @@ export function OrderDetails() {
         </Popover>
       </div>
       <SectionContent className="flex flex-col w-full">
-        <VehicleInformation vehicle={vehicle} />
-        <ItemCart className="flex-grow mt-2 w-full">
+        <div className="flex justify-between w-full">
+          <Popover>
+            <PopoverTrigger>
+              <Button
+                className="gap-2 border-accent/50 bg-accent/10 border rounded-full min-w-6 h-6 font-medium text-primary hover:text-background"
+              >
+                <CircleUser />
+                {vehicle.customer.name || '-'}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-2 w-80">
+              <CustomerInformation customer={vehicle.customer} />
+            </PopoverContent>
+          </Popover>
+          <Button
+            variant='ghost'
+            onClick={() => setDefaultVehicleAndCustomer()}
+            className={cn([
+              "flex rounded-full text-primary hover:bg-transparent hover:text-primary"
+            ])}
+            size='icon'
+          >
+            <RotateCcw className="!w-4 !h-4" />
+          </Button>
+        </div>
+        <VehicleInformation className="mt-2" vehicle={vehicle} />
+        <ItemCart className="flex-grow mt-4 mb-2 w-full">
+          { items.length === 0 && checkedServices.length == 0 &&
+            <div className="place-content-center grid w-full h-full text-center text-muted-foreground">
+              Empty...
+            </div>
+          }
           {items.map((i) => (
             <ItemCartUnit item={i} key={i.id} />
           ))}
@@ -104,7 +140,7 @@ export function OrderDetails() {
       </SectionContent>
       <SectionFooter className="pt-0">
         <PaymentDetail>
-          <POSActions />
+          <POSActions className="mt-4" />
         </PaymentDetail>
       </SectionFooter>
     </Section>

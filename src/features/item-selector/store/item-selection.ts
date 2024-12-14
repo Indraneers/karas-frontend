@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { CategoryDto } from "@/features/category/dto/category.dto";
-import { ProductDto } from "@/features/product/dto/product.dto";
+import { ProductDto } from "@/features/product/types/product.dto";
 
 interface ItemSelectionState {
   selector: ItemSelectionEnum;

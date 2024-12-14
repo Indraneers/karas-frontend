@@ -7,16 +7,18 @@ import { ServiceSelectorItem } from "../types/service-selector-item";
 export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   {
     id: 'select',
-    header: function CheckboxHeaderCell({ table }) {
+    header: function CheckboxHeaderCell() {
       const { services, addService, removeService } = usePosStore();
+      const isAllChecked = !services.find((s) => !s.checked);
+      const isSomeChecked = !!services.find((s) => s.checked);
+      console.log(isAllChecked, isSomeChecked);
       return (
         <Checkbox
           checked={
-            table.getIsAllPageRowsSelected() ||
-            (table.getIsSomePageRowsSelected() && "indeterminate")
+            isAllChecked ||
+            (isSomeChecked && "indeterminate")
           }
           onCheckedChange={(value) => {
-            table.toggleAllPageRowsSelected(!!value);
             if (value) {
               services.forEach((s) => addService(s.service.id));
             }
@@ -31,11 +33,11 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
     cell: function CheckboxDataCell ({ row }) {
       const { addService, removeService } = usePosStore();
       const service = row.original;
+      const isChecked = row.original.checked || false;
       return (
         <Checkbox
-          checked={row.getIsSelected()}
+          checked={isChecked}
           onCheckedChange={(value) => {
-            row.toggleSelected(!!value);
             if (value) {
               addService(service.service.id);
             }
@@ -53,7 +55,7 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   {
     accessorKey: 'service',
     header: 'Services Check',
-    cell: ({ row }) => <div>{row.original.service.name}</div>
+    cell: ({ row }) => <div className="font-medium">{row.original.service.name}</div>
   },
   {
     accessorKey: 'price',

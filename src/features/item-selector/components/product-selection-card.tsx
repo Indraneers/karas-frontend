@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
-import { ProductDto } from "@/features/product/dto/product.dto";
+import { ProductDto } from "@/features/product/types/product.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { Thumbnail } from "@/components/thumbnail";

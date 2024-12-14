@@ -1,6 +1,6 @@
 import { request } from "@/lib/request";
 import { Product } from "@/types/product";
-import { ProductDto } from "../dto/product.dto";
+import { ProductDto } from "../types/product.dto";
 
 interface ProductQuery {
   q?: string;

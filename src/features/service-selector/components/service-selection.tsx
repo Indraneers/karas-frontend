@@ -31,14 +31,14 @@ export function ServiceSelection() {
 
   return (
     <div className="h-full">
-      <Section className="inset-0 grid grid-rows-[auto,auto,1fr] h-full">
+      <Section className="inset-0 flex flex-col h-full">
         <SectionHeader className="flex items-center gap-2">
           <Wrench />
           <TypographyH2>Services</TypographyH2>
         </SectionHeader>
-        <SectionContent className="p-0">
+        <SectionContent className="flex-grow p-0">
           <div className="relative h-full">
-            <div className="absolute inset-0">
+            <div className="absolute inset-0 pb-2">
               <DataTable columns={ServiceColumns} data={services} />
             </div>
           </div>

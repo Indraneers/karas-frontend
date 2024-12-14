@@ -12,8 +12,8 @@ export function OrderDetailElement({ className, label, children } : OrderDetailE
       'flex text-[11px] items-center justify-between',
       className
     ])}>
-      <span className="text-foreground/50">{label}</span>
-      <div className="font-medium">
+      <span className="text-muted-foreground">{label}</span>
+      <div className="justify-self-end font-medium">
         {children}
       </div>
     </div>

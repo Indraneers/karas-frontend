@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { Separator } from "./ui/separator";
 
 interface SectionHeaderProps {
   children?: React.ReactNode;
@@ -7,14 +6,11 @@ interface SectionHeaderProps {
 }
 export function SectionHeader({ className, children }: SectionHeaderProps) {
   return (
-    <>
-      <div className={cn([
-        'p-2 px-4',
-        className
-      ])}>
-        {children}
-      </div>
-      <Separator />
-    </>
+    <div className={cn([
+      className,
+      'py-2 px-4'
+    ])}>
+      {children}
+    </div>
   );
 }

@@ -13,19 +13,23 @@ export const Route = createFileRoute('/_dashboard_layout/inventory/_inventory_la
 function CategoryPage() {
   return (
     <>
-      <SectionHeader className='grid grid-cols-[1fr,2fr]'>
+      <SectionHeader className='mt-2'>
         <TypographyH1>
         Category
         </TypographyH1>
+        <span className='text-muted-foreground text-sm'>
+          Page for handling category creation, deletion,
+          and update.
+        </span>
       </SectionHeader>
-      <SectionContent className='flex flex-col h-full'>
+      <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between gap-4'>
           <CategorySearch className='w-[400px]' />
           <div className='flex flex-row-reverse gap-4'>
             <NewCategoryButton />
           </div>
         </div>
-        <div className='relative flex-grow mt-2'>
+        <div className='relative flex-grow mt-4'>
           <CategoryTable className='absolute inset-0 h-full' />
         </div>
       </SectionContent>

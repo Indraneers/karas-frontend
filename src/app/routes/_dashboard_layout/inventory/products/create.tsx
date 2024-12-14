@@ -5,7 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategories } from '@/features/category/api/category';
 import { createProduct } from '@/features/product/api/product';
 import { ProductForm } from '@/features/product/components/product-form';
-import { ProductDto } from '@/features/product/dto/product.dto';
+import { ProductDto } from '@/features/product/types/product.dto';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
