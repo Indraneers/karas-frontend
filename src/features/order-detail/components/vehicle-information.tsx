@@ -10,24 +10,21 @@ interface VehicleInformationProps {
 export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
   return (
     <div className={className}>
-      <OrderDetailElement label="Make & Model">
-        {vehicle.makeAndModel}
-      </OrderDetailElement>
-      <div className="gap-4 grid grid-cols-[3fr,2fr] mt-2">
-        <div>
-          <OrderDetailElement label="VIN N.O">
-            {vehicle.vinNo}
-          </OrderDetailElement>
-          <OrderDetailElement label="Engine N.O" className="mt-2">
-            {vehicle.engineNo}
-          </OrderDetailElement>
-        </div>
+      <div className="gap-4 grid grid-cols-[2fr,3fr]">
         <div className="self-start">
           <OrderDetailElement label="Plate Number">
             {vehicle.plateNumber}
           </OrderDetailElement>
           <OrderDetailElement label="Mileage" className="mt-2">
             {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
+          </OrderDetailElement>
+        </div>
+        <div>
+          <OrderDetailElement label="VIN N.O">
+            {vehicle.vinNo}
+          </OrderDetailElement>
+          <OrderDetailElement label="Engine N.O" className="mt-2">
+            {vehicle.engineNo}
           </OrderDetailElement>
         </div>
       </div>

@@ -16,9 +16,9 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
   
   return (
     <Card>
-      <CardContent className="pt-2">
+      <CardContent>
         <div>
-          <TypographyH3 className="flex items-center gap-2">
+          <TypographyH3 className="flex items-center gap-2 mt-2">
             <WalletCards />
             Payment Details
           </TypographyH3>

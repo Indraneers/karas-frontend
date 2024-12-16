@@ -23,7 +23,7 @@ export function ItemCartUnit({ item }: { item: UnitItem }) {
           {/* Unit Name, Product and SKU */}
           <div className="flex justify-between justify-items-start items-center gap-2 w-full">
             <div>
-              <div className="text-[14px]">
+              <div className="font-medium text-[14px]">
                 {item.product?.name}
               </div>
               <div className="text-[8px] text-foreground/50">

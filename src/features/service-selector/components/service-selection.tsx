@@ -36,9 +36,9 @@ export function ServiceSelection() {
           <Wrench />
           <TypographyH2>Services</TypographyH2>
         </SectionHeader>
-        <SectionContent className="flex-grow p-0">
+        <SectionContent className="flex-grow mt-2 pt-0">
           <div className="relative h-full">
-            <div className="absolute inset-0 pb-2">
+            <div className="absolute inset-0">
               <DataTable columns={ServiceColumns} data={services} />
             </div>
           </div>

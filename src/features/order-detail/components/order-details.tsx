@@ -6,7 +6,7 @@ import { VehicleInformation } from "./vehicle-information";
 import { VehicleSearch } from "./vehicle-search";
 import { SectionFooter } from "@/components/section-footer";
 import { POSActions } from "../../pos/components/pos-actions";
-import { CircleUser, RotateCcw, ShoppingBag } from "lucide-react";
+import { CircleUser, Edit, RotateCcw, ShoppingBag } from "lucide-react";
 import { ItemCart } from "../../cart/components/item-cart";
 import { usePosStore } from "../../pos/store/pos";
 import { useState } from "react";
@@ -23,6 +23,7 @@ import { PopoverTrigger } from "@radix-ui/react-popover";
 import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
 import { cn } from "@/lib/utils";
+import { Badge } from "@/components/ui/badge";
 
 export function OrderDetails() {
   const { items, vehicle, services, setDefaultVehicleAndCustomer } = usePosStore();
@@ -49,8 +50,7 @@ export function OrderDetails() {
           Order Details
         </TypographyH2>
       </SectionHeader>
-      <Separator />
-      <div className="py-1 border-b w-full">
+      <div className="my-2 px-4 w-full">
         <Popover open={open}>
           <PopoverAnchor>
             <VehicleSearch
@@ -107,19 +107,32 @@ export function OrderDetails() {
               <CustomerInformation customer={vehicle.customer} />
             </PopoverContent>
           </Popover>
-          <Button
-            variant='ghost'
-            onClick={() => setDefaultVehicleAndCustomer()}
-            className={cn([
-              "flex rounded-full text-primary hover:bg-transparent hover:text-primary"
-            ])}
-            size='icon'
-          >
-            <RotateCcw className="!w-4 !h-4" />
-          </Button>
+          <div className="flex items-center gap-2">
+            <Button
+              variant='ghost'
+              onClick={() => setDefaultVehicleAndCustomer()}
+              className={cn([
+                "flex rounded-full text-primary h-4 hover:bg-transparent hover:text-primary"
+              ])}
+              size='icon'
+            >
+              <RotateCcw className="!w-4 !h-4" />
+            </Button>
+            <Edit className="!w-4 !h-4" />
+          </div>
         </div>
-        <VehicleInformation className="mt-2" vehicle={vehicle} />
-        <ItemCart className="flex-grow mt-4 mb-2 w-full">
+        <div className="mt-2 p-2 border rounded-lg">
+          <div className="flex justify-between items-center w-full">
+            <div className="flex items-center gap-2">
+              <Badge className="h-6">
+                {vehicle.makeAndModel}
+              </Badge>
+            </div>
+            <Edit className="!w-4 !h-4" />
+          </div>
+          <VehicleInformation className="mt-4" vehicle={vehicle} />
+        </div>
+        <ItemCart className="flex-grow mt-4 w-full">
           { items.length === 0 && checkedServices.length == 0 &&
             <div className="place-content-center grid w-full h-full text-center text-muted-foreground">
               Empty...
@@ -138,7 +151,7 @@ export function OrderDetails() {
           }
         </ItemCart>
       </SectionContent>
-      <SectionFooter className="pt-0">
+      <SectionFooter className="my-2">
         <PaymentDetail>
           <POSActions className="mt-4" />
         </PaymentDetail>

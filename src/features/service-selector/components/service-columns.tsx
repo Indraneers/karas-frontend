@@ -59,7 +59,7 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   },
   {
     accessorKey: 'price',
-    header: 'Price',
+    header: 'Price ($)',
     cell: ({ getValue, row }) => 
       <ServiceEditable 
         id={row.original.service.id}
@@ -69,7 +69,7 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   },
   {
     accessorKey: 'discount',
-    header: 'Discount',
+    header: 'Discount ($)',
     cell: ({ getValue, row }) => 
       <ServiceEditable 
         id={row.original.service.id}

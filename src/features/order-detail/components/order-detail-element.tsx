@@ -9,7 +9,7 @@ interface OrderDetailElementProps {
 export function OrderDetailElement({ className, label, children } : OrderDetailElementProps) {
   return (
     <div className={cn([
-      'flex text-[11px] items-center justify-between',
+      'flex text-xs items-center justify-between',
       className
     ])}>
       <span className="text-muted-foreground">{label}</span>

@@ -33,7 +33,7 @@ export function CategorySelection({ className }: CategorySelectionProps) {
         { 
           data 
           &&
-          <ItemCardList>
+          <ItemCardList className="mt-2">
             {data?.map((c) => (
               <CategorySelectionCard category={c} key={c.id} />
             ))}
