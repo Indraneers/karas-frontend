@@ -71,7 +71,7 @@ export function DataTablePagination<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className="!border-b"
+                  className="data-[state=selected]:bg-accent/20 hover:bg-accent/10 !border-b data"
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >

@@ -30,16 +30,16 @@ export const columns: ColumnDef<Unit>[] = [
     enableHiding: false
   },
   {
+    accessorKey: 'name',
+    header: 'Unit',
+    cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
+  },
+  {
     accessorKey: 'productId',
     header: 'Product',
     cell: ({ row }) => (
       <ProductCell productId={row.getValue('productId')} />
     )
-  },
-  {
-    accessorKey: 'name',
-    header: 'Unit',
-    cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
   },
   {
     accessorKey: 'sku',
@@ -56,7 +56,8 @@ export const columns: ColumnDef<Unit>[] = [
   },
   {
     id: "actions",
-    header: () => <div className="text-right pr-2">Actions</div>,
+    header: "Actions",
+    size: 125,
     cell: ({ row }) => {
       const unit = row.original;
       return (

@@ -43,7 +43,7 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Vehicle',
     cell: ({ row }) => (
       <CustomLink to={'/vehicles/' + row.original.vehicle.id}>
-        {row.original.vehicle.makeAndModel} ({row.original.vehicle.plateNumber})
+        {row.original.vehicle.makeAndModel} <span className="font-medium">({row.original.vehicle.plateNumber})</span>
       </CustomLink>
     )
   },
@@ -79,7 +79,7 @@ export const columns: ColumnDef<Sale>[] = [
       const services = items.filter((i) => i.type === 'service');
 
       return (
-        <div className="font-medium text-green-500">
+        <div className="font-medium text-green-600">
           {'$ ' + getSubtotal({ items: itemUnit, services }).toFixed(2)}
         </div>
       );
@@ -104,7 +104,7 @@ export const columns: ColumnDef<Sale>[] = [
       const services = items.filter((i) => i.type === 'service');
 
       return (
-        <div className="font-medium text-green-600">
+        <div className="font-medium text-green-700">
           {'$ ' + (getSubtotal({ items: itemUnit, services }) - Number(row.original.discount)/100).toFixed(2)}
         </div>
       );
@@ -115,7 +115,7 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Created Date',
     cell: ({ row }) => (
       <div>
-        {format(row.getValue('created'), 'do MMM, yyyy')}
+        {format(row.getValue('created'), 'do MMM yyyy (hh:mm aa)')}
       </div>
     )
   },

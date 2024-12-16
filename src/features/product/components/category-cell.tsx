@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { getCategoryById } from "@/features/category/api/category";
 import { useQuery } from "@tanstack/react-query";
 
@@ -23,5 +24,9 @@ export function CategoryCell({ categoryId }: CategoryCellProps) {
     return '';
   }
 
-  return data?.name;
+  return (
+    <Badge variant='outline' className="border-accent text-accent">
+      {data?.name}
+    </Badge>
+  );
 }

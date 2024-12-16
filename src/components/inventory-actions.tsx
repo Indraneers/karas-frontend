@@ -13,7 +13,7 @@ export function InventoryActions<T>({ id, type, handleDelete }: InventoryActions
   const navigate = useNavigate();
 
   return (
-    <div className="flex justify-end gap-4">
+    <div className="flex gap-4">
       <Button
         className="w-6 h-6"
         variant='ghost' 

@@ -47,7 +47,8 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     id: "actions",
-    header: () => <div className="text-right pr-2">Actions</div>,
+    header: "Actions",
+    size: 125,
     enableHiding: false,
     cell: ({ row }) => {
       const product = row.original;

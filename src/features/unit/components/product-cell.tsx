@@ -1,3 +1,4 @@
+import { Badge } from "@/components/ui/badge";
 import { getProductById } from "@/features/product/api/product";
 import { useQuery } from "@tanstack/react-query";
 
@@ -23,5 +24,5 @@ export function ProductCell({ productId }: ProductCellProps) {
     return '';
   }
 
-  return <div className="font-medium">{data?.name}</div>;
+  return <Badge className="bg-accent">{data?.name}</Badge>;
 }

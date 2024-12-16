@@ -36,13 +36,13 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: 'productCount',
-    size: 50,
+    size: 125,
     header: () => <div className="min-w-[250px]">Product Count</div>
   },
   {
     id: "actions",
-    size: 50,
-    header: () => <div className="text-right pr-2">Actions</div>,
+    size: 125,
+    header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
       const category = row.original;

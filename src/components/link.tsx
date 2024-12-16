@@ -9,7 +9,7 @@ export function CustomLink({ children, className, ...props }: CustomLinkProps) {
   return (
     <Link
       className={cn([
-        'text-accent underline',
+        'text-accent font-medium underline',
         className
       ])}
       {...props}
