@@ -1,5 +1,6 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { CategorySearch } from '@/features/category/components/category-search';
 import { CategoryTable } from '@/features/category/components/category-table';
@@ -17,10 +18,10 @@ function CategoryPage() {
         <TypographyH1>
         Category
         </TypographyH1>
-        <span className='text-muted-foreground text-sm'>
+        <Subtitle>
           Page for handling category creation, deletion,
           and update.
-        </span>
+        </Subtitle>
       </SectionHeader>
       <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between gap-4'>

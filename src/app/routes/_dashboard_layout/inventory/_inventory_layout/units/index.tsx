@@ -6,6 +6,7 @@ import { RestockButton } from '@/features/unit/components/restock-button';
 import { SectionHeader } from '@/components/section-header';
 import { SectionContent } from '@/components/section-content';
 import { UnitSearch } from '@/features/unit/components/unit-search';
+import { Subtitle } from '@/components/subtitle';
 
 export const Route = createFileRoute('/_dashboard_layout/inventory/_inventory_layout/units/')({
   component: () => <UnitPage />
@@ -18,10 +19,9 @@ function UnitPage() {
         <TypographyH1>
           Unit and Stock
         </TypographyH1>
-        <span className='text-muted-foreground text-sm'>
-          Page for handling category creation, deletion,
-          and update.
-        </span>
+        <Subtitle>
+          {"Page for handling Unit's stock, creation, deletion, and update."}
+        </Subtitle>
       </SectionHeader>
       <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between'>

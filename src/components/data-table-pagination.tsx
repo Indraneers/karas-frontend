@@ -84,13 +84,13 @@ export function DataTablePagination<TData, TValue>({
         </Table>
       </ScrollArea>
       <div className="flex justify-end items-center space-x-2 py-4">
-        <div className="flex-1 text-muted-foreground text-sm">
+        <div className="flex-1 text-accent text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}
           {table.getFilteredRowModel().rows.length} row(s) selected.
         </div>
         <div className="space-x-2">
           <Button
-            className="border-muted-foreground text-muted-foreground"
+            className="border-accent text-accent"
             variant="outline"
             size="sm"
             onClick={() => table.previousPage()}
@@ -99,7 +99,7 @@ export function DataTablePagination<TData, TValue>({
             <ChevronLeft />
           </Button>
           <Button
-            className="border-muted-foreground text-muted-foreground"
+            className="border-accent text-accent"
             variant="outline"
             size="sm"
             onClick={() => table.nextPage()}

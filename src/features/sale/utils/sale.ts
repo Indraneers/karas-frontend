@@ -1,25 +1,25 @@
 import { ServiceSelectorItem } from "@/features/service-selector/types/service-selector-item";
 import { ItemTypes, ServiceItem, UnitItem } from "../types/item";
 import { ItemDtoTypes } from "../types/item.dto";
-import { Sale, SaleDto } from "../types/sale";
+import { Sale, SaleResponseDto } from "../types/sale";
 
-export function convertSaleDtoToSale(saleDto: SaleDto): Sale {
+export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
   return {
-    dueDate: saleDto.dueDate,
-    created: saleDto.created,
-    status: saleDto.status,
-    discount: String(Math.ceil(saleDto.discount / 100)),
-    userId: saleDto.userId,
-    vehicleId: saleDto.vehicleId,
-    customerId: saleDto.customerId,
-    items: saleDto.items.map((i) => convertItemDtoToItem(i))
+    dueDate: saleResponseDto.dueDate,
+    created: saleResponseDto.created,
+    status: saleResponseDto.status,
+    discount: String(Math.ceil(saleResponseDto.discount / 100)),
+    user: saleResponseDto.user,
+    vehicle: saleResponseDto.vehicle,
+    customer: saleResponseDto.customer,
+    items: saleResponseDto.items.map((i) => convertItemDtoToItem(i))
   };
 }
 
 export function convertItemDtoToItem(itemDto: ItemDtoTypes): ItemTypes {
-  if (itemDto.type == 'service') {
+  if ("serviceId" in itemDto) {
     return {
-      type: itemDto.type,
+      type: 'service',
       id: itemDto.id,
       price: String(Math.ceil(itemDto.price / 100)),
       discount: String(Math.ceil(itemDto.discount / 100)),
@@ -29,7 +29,7 @@ export function convertItemDtoToItem(itemDto: ItemDtoTypes): ItemTypes {
   }
 
   return {
-    type: itemDto.type,
+    type: 'unit',
     id: itemDto.id,
     price: String(Math.ceil(itemDto.price / 100)),
     discount: String(Math.ceil(itemDto.discount / 100)),

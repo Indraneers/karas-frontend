@@ -23,5 +23,5 @@ export function ProductCell({ productId }: ProductCellProps) {
     return '';
   }
 
-  return data?.name;
+  return <div className="font-medium">{data?.name}</div>;
 }

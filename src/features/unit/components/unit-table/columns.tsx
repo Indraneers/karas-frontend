@@ -39,7 +39,8 @@ export const columns: ColumnDef<Unit>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Unit'
+    header: 'Unit',
+    cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
   },
   {
     accessorKey: 'sku',

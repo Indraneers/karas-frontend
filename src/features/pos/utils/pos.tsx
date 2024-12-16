@@ -1,9 +1,9 @@
-import { SaleDto, StatusEnum } from "@/features/sale/types/sale";
+import { SaleRequestDto, StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ServiceItemDto, UnitItemDto } from "@/features/sale/types/item.dto";
 
-export function convertPosStoreToSaleDto
-(posState: PosState, dueDate: string, status: StatusEnum): SaleDto {
+export function convertPosStoreToSaleRequestDto
+(posState: PosState, dueDate: string, status: StatusEnum): SaleRequestDto {
   const unitItemList: UnitItemDto[] = 
     posState.items.map((i) => ({
       type: 'unit',

@@ -2,8 +2,8 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Pause, ShoppingCart, Trash } from "lucide-react";
 import { usePosStore } from "../store/pos";
-import { SaleDto, StatusEnum } from "@/features/sale/types/sale";
-import { convertPosStoreToSaleDto } from "../utils/pos";
+import { SaleRequestDto, StatusEnum } from "@/features/sale/types/sale";
+import { convertPosStoreToSaleRequestDto } from "../utils/pos";
 import { useMutation } from "@tanstack/react-query";
 import { createSale } from "@/features/sale/api/sale";
 
@@ -12,11 +12,11 @@ export function POSActions({ className } : { className?: string }) {
   const currentDate = new Date().toISOString().slice(0, -1);
 
   const saleMutation = useMutation({
-    mutationFn: (saleDto: SaleDto) => createSale(saleDto)
+    mutationFn: (saleRequestDto: SaleRequestDto) => createSale(saleRequestDto)
   });
 
   function handlePOSAction(dueDate: string, status: StatusEnum) {
-    const sale: SaleDto = convertPosStoreToSaleDto(
+    const sale: SaleRequestDto = convertPosStoreToSaleRequestDto(
       {
         items,
         services,

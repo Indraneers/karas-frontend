@@ -1,5 +1,6 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
 import { ProductSearch } from '@/features/product/components/product-search';
@@ -17,10 +18,10 @@ function ProductPage() {
         <TypographyH1>
         Product
         </TypographyH1>
-        <span className='text-muted-foreground text-sm'>
+        <Subtitle>
           Page for handling product creation, deletion,
           and update.
-        </span>
+        </Subtitle>
       </SectionHeader>
       <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between'>

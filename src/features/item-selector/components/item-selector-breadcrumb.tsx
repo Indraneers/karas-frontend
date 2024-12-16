@@ -28,19 +28,19 @@ export function ItemSelectorBreadCrumb() {
       <BreadcrumbList>
         {/* Category */}
         <BreadcrumbItem 
-          className="hover:underline cursor-pointer" 
+          className="text-accent hover:underline cursor-pointer" 
           onClick={() => setSelector(ItemSelectionEnum.CATEGORY)}
         >
           Categories
         </BreadcrumbItem>
         {/* Product */}
         <BreadcrumbSeparator 
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'])} 
+          className={cn([isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block text-accent' : 'hidden'])} 
         />
         <BreadcrumbItem
           onClick={() => setSelector(ItemSelectionEnum.PRODUCT)}
           className={cn([
-            "hover:underline cursor-pointer",
+            "hover:underline cursor-pointer text-accent",
             isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'
           ])} 
         >
@@ -48,10 +48,10 @@ export function ItemSelectorBreadCrumb() {
         </BreadcrumbItem>
         {/* Unit */}
         <BreadcrumbSeparator 
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block' : 'hidden'])} 
+          className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block text-accent' : 'hidden'])} 
         />
         <BreadcrumbItem
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block' : 'hidden'])} 
+          className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block text-accent' : 'hidden'])} 
         >
           {product?.name}
         </BreadcrumbItem>

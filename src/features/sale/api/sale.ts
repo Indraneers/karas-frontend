@@ -1,15 +1,15 @@
 import { request } from "@/lib/request";
-import { SaleDto } from "../types/sale";
+import { SaleRequestDto, SaleResponseDto } from "../types/sale";
 
-export const getSales = async(): Promise<SaleDto[]> =>
+export const getSales = async(): Promise<SaleResponseDto[]> =>
   request({
     url: '/sales',
     method: 'GET'
   });
 
-export const createSale = async (saleDto: SaleDto): Promise<SaleDto>  =>
+export const createSale = async (saleRequestDto: SaleRequestDto): Promise<SaleResponseDto>  =>
   request({
     url: '/sales',
     method: 'POST',
-    data: saleDto
+    data: saleRequestDto
   });

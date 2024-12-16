@@ -31,8 +31,8 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Category'
-
+    header: 'Category',
+    cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
   },
   {
     accessorKey: 'productCount',
