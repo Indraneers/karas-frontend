@@ -1,4 +1,4 @@
-import TrashIcon from "@/assets/trash.svg?react";
+import { Trash } from "lucide-react";
 import { Button } from "./ui/button";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -16,12 +16,12 @@ export function DeleteButton<T>({ type, id, handleDelete }: DeleteButtonProps<T>
   });
   return (
     <Button 
+      className="w-6 h-6"
       onClick={() => mutatation.mutate(id)} 
-      className="hover:bg-transparent" 
       variant="ghost" 
       size="icon"
     >
-      <TrashIcon />
+      <Trash />
     </Button>
   );
 }

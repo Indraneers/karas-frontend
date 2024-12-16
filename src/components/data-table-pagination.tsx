@@ -33,7 +33,11 @@ export function DataTablePagination<TData, TValue>({
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel()
+    getPaginationRowModel: getPaginationRowModel(),
+    defaultColumn: {
+      minSize: 0,
+      size: 0
+    }
   });
  
   return (
@@ -45,7 +49,12 @@ export function DataTablePagination<TData, TValue>({
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize() !== 0 ? header.getSize() : undefined
+                      }}
+                      key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -67,7 +76,14 @@ export function DataTablePagination<TData, TValue>({
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell 
+                      style={{
+                        width:
+                        cell.column.getSize() !== 0
+                          ? cell.column.getSize()
+                          : undefined
+                      }}
+                      key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}

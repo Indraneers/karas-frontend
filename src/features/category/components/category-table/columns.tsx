@@ -2,13 +2,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Category } from "@/types/category";
-import { deleteCategory } from "../../api/category";
 import { InventoryActions } from "@/components/inventory-actions";
-import { DeleteButton } from "@/components/delete-button";
+import { deleteCategory } from "../../api/category";
 
 export const columns: ColumnDef<Category>[] = [
   {
     id: 'select',
+    size: 50,
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -36,24 +36,13 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: 'productCount',
+    size: 50,
     header: () => <div className="min-w-[250px]">Product Count</div>
   },
   {
-    id: "delete",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const category = row.original;
-      return (
-        <DeleteButton 
-          id={category.id} 
-          type="categories"
-          handleDelete={deleteCategory}
-        />
-      );
-    }
-  },
-  {
     id: "actions",
+    size: 50,
+    header: () => <div className="text-right pr-2">Actions</div>,
     enableHiding: false,
     cell: ({ row }) => {
       const category = row.original;

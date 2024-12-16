@@ -1,6 +1,6 @@
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { ItemTypes } from "./item";
-import { ItemDtoTypes } from "./item.dto";
+import { ItemDto, ItemDtoTypes } from "./item.dto";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
 import { UserDto } from "@/features/user/types/user.dto";
 
@@ -17,7 +17,7 @@ export interface SaleRequestDto {
   userId: string;
   customerId: string;
   vehicleId: string;
-  items: ItemDtoTypes[];
+  items: ItemDto[];
   status: StatusEnum
 }
 

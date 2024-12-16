@@ -5,7 +5,6 @@ import { Unit } from "@/types/unit";
 import { ProductCell } from "../product-cell";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
-import { DeleteButton } from "@/components/delete-button";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -56,20 +55,8 @@ export const columns: ColumnDef<Unit>[] = [
     header: 'Quantity'
   },
   {
-    id: "delete",
-    cell: ({ row }) => {
-      const unit = row.original;
-      return (
-        <DeleteButton 
-          id={unit.id || ''}
-          type="units"
-          handleDelete={deleteUnit}
-        />
-      );
-    }
-  },
-  {
     id: "actions",
+    header: () => <div className="text-right pr-2">Actions</div>,
     cell: ({ row }) => {
       const unit = row.original;
       return (

@@ -1,6 +1,6 @@
 import { SaleRequestDto, StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
-import { ServiceItemDto, UnitItemDto } from "@/features/sale/types/item.dto";
+import { ItemDto, ServiceItemDto, UnitItemDto } from "@/features/sale/types/item.dto";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, dueDate: string, status: StatusEnum): SaleRequestDto {
@@ -25,10 +25,14 @@ export function convertPosStoreToSaleRequestDto
         serviceId: s.service.id
       }));
 
-  const items: (ServiceItemDto | UnitItemDto)[] = [
+  const items: ItemDto[] = [
     ...unitItemList,
     ...serviceItemList
-  ];
+  ].map((i) => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { type, ...item } = i;
+    return item;
+  });
 
   return {
     userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
