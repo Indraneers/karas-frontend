@@ -18,12 +18,10 @@ export function PosPage() {
   const { selector } = useItemSelectionStore();
 
   return (
-    <div className='gap-2 grid grid-cols-[5fr,3fr] h-full max-h-full overflow-hidden'>
+    <div className='gap-8 grid grid-cols-[5fr,3fr] py-4 h-full max-h-full overflow-hidden'>
       <SelectionMenu>
         <ServiceSelection />
-        <div className='px-4 pt-2'>
-          <Separator />
-        </div>
+        <Separator className='mt-2' />
         <ItemSelector>
           { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
           { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }

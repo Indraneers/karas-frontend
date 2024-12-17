@@ -50,7 +50,7 @@ export function OrderDetails() {
           Order Details
         </TypographyH2>
       </SectionHeader>
-      <div className="my-2 px-4 w-full">
+      <SectionContent className="flex flex-col w-full">
         <Popover open={open}>
           <PopoverAnchor>
             <VehicleSearch
@@ -91,9 +91,7 @@ export function OrderDetails() {
             </div>
           </PopoverContent>
         </Popover>
-      </div>
-      <SectionContent className="flex flex-col w-full">
-        <div className="flex justify-between w-full">
+        <div className="flex justify-between mt-4 w-full">
           <Popover>
             <PopoverTrigger>
               <Button

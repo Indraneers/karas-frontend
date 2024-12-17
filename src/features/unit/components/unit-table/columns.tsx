@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Unit } from "@/types/unit";
+import { Unit } from "@/features/unit/types/unit";
 import { ProductCell } from "../product-cell";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
@@ -48,7 +48,7 @@ export const columns: ColumnDef<Unit>[] = [
   {
     accessorKey: 'price',
     header: 'Price',
-    cell: ({ row }) => `$ ${ (row.getValue('price') as number / 100).toFixed(2) }`
+    cell: ({ row }) => `$ ${ row.getValue('price') }`
   },
   {
     accessorKey: 'quantity',

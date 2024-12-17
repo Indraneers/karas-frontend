@@ -4,7 +4,7 @@ import { ItemAdder } from "../../cart/components/item-adder";
 import { useQuery } from "@tanstack/react-query";
 import { getProductById } from "@/features/product/api/product";
 import { useState } from "react";
-import { Unit } from "@/types/unit";
+import { Unit } from "@/features/unit/types/unit";
 import { UnitItem } from "@/features/sale/types/item";
 
 interface UnitSelectionCardProps {

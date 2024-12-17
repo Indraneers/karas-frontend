@@ -1,10 +1,11 @@
-import { Unit } from "@/types/unit";
-import { UnitDto } from "../dto/unit.dto";
+import { Unit } from "@/features/unit/types/unit";
+import { UnitDto } from "../types/unit.dto";
 
 export function convertUnitToUnitDto(unit: Unit): UnitDto {
   if (!unit.productId || unit?.product?.id) {
     throw new Error("TODO: ERROR");
   }
+  console.log(Math.floor(parseFloat(unit.price) * 100));
   return {
     name: unit.name,
     sku: unit.sku,

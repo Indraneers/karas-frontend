@@ -1,5 +1,5 @@
 import { request } from "@/lib/request";
-import { UnitDto } from "../dto/unit.dto";
+import { UnitDto } from "../types/unit.dto";
 
 interface UnitQuery {
   q?: string;

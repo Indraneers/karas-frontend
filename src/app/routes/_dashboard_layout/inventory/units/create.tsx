@@ -5,7 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { createUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
-import { UnitDto } from '@/features/unit/dto/unit.dto';
+import { UnitDto } from '@/features/unit/types/unit.dto';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 

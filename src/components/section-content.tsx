@@ -7,7 +7,7 @@ interface SectionContentProps {
 export function SectionContent({ className, children }: SectionContentProps) {
   return (
     <div className={cn([
-      'px-4 py-2 h-full',
+      'mt-4 h-full',
       className
     ])}>
       {children}

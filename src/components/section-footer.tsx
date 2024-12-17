@@ -8,7 +8,6 @@ export function SectionFooter({ className, children }: SectionFooterProps) {
   return (
     <>
       <div className={cn([
-        'px-4',
         className
       ])}>
         {children}

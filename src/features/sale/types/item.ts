@@ -1,6 +1,6 @@
 import { Service } from "@/features/service/types/service";
 import { Product } from "@/types/product";
-import { Unit } from "@/types/unit";
+import { Unit } from "@/features/unit/types/unit";
 
 export interface Item {
   id?: string;

@@ -7,8 +7,7 @@ interface SectionHeaderProps {
 export function SectionHeader({ className, children }: SectionHeaderProps) {
   return (
     <div className={cn([
-      className,
-      'py-2 px-4'
+      className
     ])}>
       {children}
     </div>

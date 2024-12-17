@@ -1,5 +1,5 @@
 import { Category } from "./category";
-import { Unit } from "./unit";
+import { Unit } from "../features/unit/types/unit";
 
 export interface Product {
   id: string;
