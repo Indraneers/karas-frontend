@@ -11,7 +11,6 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
       const { services, addService, removeService } = usePosStore();
       const isAllChecked = !services.find((s) => !s.checked);
       const isSomeChecked = !!services.find((s) => s.checked);
-      console.log(isAllChecked, isSomeChecked);
       return (
         <Checkbox
           checked={

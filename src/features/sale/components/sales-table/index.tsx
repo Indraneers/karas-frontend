@@ -4,8 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getSales } from "../../api/sale";
 import { convertSaleResponseDtoToSale } from "../../utils/sale";
 import { cn } from "@/lib/utils";
+import { useNavigate } from "@tanstack/react-router";
+import { Sale } from "../../types/sale";
 
 export function SalesTable({ className } : { className?: string}) {
+  const navigate = useNavigate();
   const { isError, isLoading, data } = useQuery({
     queryKey: ['sales'],
     queryFn: () => getSales()
@@ -23,7 +26,11 @@ export function SalesTable({ className } : { className?: string}) {
 
   return (
     <div className={cn(className)}>
-      <DataTablePagination columns={columns} data={sales || []} />
+      <DataTablePagination 
+        onRowClick={(data: Sale) => navigate({ to: '/sales/' + data.id })}
+        columns={columns} 
+        data={sales || []} 
+      />
     </div>
   );
 }

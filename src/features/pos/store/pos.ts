@@ -19,6 +19,7 @@ const defaultVehicle: VehicleDto = {
 
 const defaultPosState = {
   services: [],
+  defaultServices: [],
   items: [],
   vehicle: defaultVehicle,
   customer: defaultVehicle.customer,
@@ -27,6 +28,7 @@ const defaultPosState = {
 
 export interface PosState {
   services: ServiceSelectorItem[];
+  defaultServices?: ServiceSelectorItem[];
   items: UnitItem[];
   vehicle: VehicleDto;
   customer: CustomerDto;
@@ -49,7 +51,7 @@ export interface PosStateWithFunctions extends PosState {
 
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
   ...defaultPosState,
-  setServices: (autoServices: ServiceSelectorItem[]) => set((state) => ({ ...state, services: autoServices })),
+  setServices: (autoServices: ServiceSelectorItem[]) => set((state) => ({ ...state, services: autoServices, defaultServices: autoServices })),
   addService: (sId: string) => set((state) => {
     const newState = { ...state };
     newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: true } : s);
@@ -94,7 +96,18 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
   setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer })),
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
-  resetPos: () => set((() => (defaultPosState))),
+  resetPos: () => set(((state) => {
+    console.log({
+      ...defaultPosState,
+      defaultServices: state.defaultServices,
+      sevices: state.defaultServices
+    });
+    return {
+      ...defaultPosState,
+      defaultServices: state.defaultServices,
+      services: state.defaultServices
+    };
+  })),
   setDiscount: (discount: number) => set(((state) => ({ ...state, discount })))
 }));
 

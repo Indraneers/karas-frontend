@@ -6,7 +6,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { SalesTable } from '@/features/sale/components/sales-table';
 import { createFileRoute } from '@tanstack/react-router';
 
-export const Route = createFileRoute('/_dashboard_layout/sales')({
+export const Route = createFileRoute('/_dashboard_layout/sales/')({
   component: () => <SalesPage />
 });
 

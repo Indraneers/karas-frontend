@@ -5,6 +5,7 @@ import { Sale, SaleResponseDto } from "../types/sale";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
   return {
+    id: saleResponseDto.id,
     dueDate: saleResponseDto.dueDate,
     created: saleResponseDto.created,
     status: saleResponseDto.status,

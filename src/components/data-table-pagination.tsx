@@ -19,15 +19,18 @@ import {
 import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "@/lib/utils";
  
 interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  onRowClick?: (data: TData) => void;
 }
  
 export function DataTablePagination<TData, TValue>({
   columns,
-  data
+  data,
+  onRowClick
 }: DataTableProps<TData, TValue>) {
   const table = useReactTable({
     data,
@@ -39,6 +42,8 @@ export function DataTablePagination<TData, TValue>({
       size: 0
     }
   });
+
+  console.log( table.getRowModel().rows);
  
   return (
     <div className="grid grid-rows-[1fr,auto] h-full">
@@ -71,6 +76,10 @@ export function DataTablePagination<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
+                  className={cn([
+                    onRowClick && 'cursor-pointer'
+                  ])}
+                  onClick={() => onRowClick && onRowClick(row.original)}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
                 >
