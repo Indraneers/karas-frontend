@@ -4,7 +4,7 @@ import { format } from 'date-fns';
 import { Checkbox } from "@/components/ui/checkbox";
 import { getSubtotal } from "../../utils/sale";
 import { CustomLink } from "@/components/link";
-import { Badge } from "@/components/ui/badge";
+import { StatusBadge } from "../status-badge";
 
 export const columns: ColumnDef<Sale>[] = [
   {
@@ -53,20 +53,7 @@ export const columns: ColumnDef<Sale>[] = [
     cell: ({ row }) => {
       const status = row.original.status;
 
-      return (
-        <>
-          {status === "PAID" && 
-          <Badge className="bg-green-500 hover:bg-green-600">
-            Paid
-          </Badge>
-          }
-          {status === "UNPAID" && 
-          <Badge className="bg-amber-500 hover:bg-amber-600">
-            HOLD
-          </Badge>
-          }
-        </>
-      );
+      return <StatusBadge status={status} />;
     }
   },
   {
