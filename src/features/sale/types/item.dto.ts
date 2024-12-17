@@ -10,12 +10,14 @@ export interface ItemDto {
 
 export interface UnitItemDto extends ItemDto {
   type: 'unit';
-  unit: UnitDto;
+  unit?: UnitDto;
+  unitId?: string;
 }
 
 export interface ServiceItemDto extends ItemDto {
   type: 'service';
-  service: ServiceDto;
+  service?: ServiceDto;
+  serviceId?: string;
 }
 
 export type ItemDtoTypes = UnitItemDto | ServiceItemDto;

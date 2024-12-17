@@ -1,6 +1,7 @@
 import { SaleRequestDto, StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemDto, ServiceItemDto, UnitItemDto } from "@/features/sale/types/item.dto";
+import { convertUnitToUnitDto } from "@/features/unit/util/convert";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, dueDate: string, status: StatusEnum): SaleRequestDto {
@@ -10,7 +11,8 @@ export function convertPosStoreToSaleRequestDto
       price: Math.ceil(Number(i.price) * 100),
       discount: Math.ceil(Number(i.discount) * 100),
       quantity: Number(i.quantity),
-      unitId: i.unit?.id || i.unitId || '' 
+      unitId: i.unit?.id || i.unitId || '' ,
+      unit: i.unit && convertUnitToUnitDto(i.unit)
     }));
 
   const serviceItemList: ServiceItemDto[] = 
@@ -22,7 +24,8 @@ export function convertPosStoreToSaleRequestDto
         price: Math.ceil(Number(s.price) * 100),
         discount: Math.ceil(Number(s.discount) * 100),
         quantity: Number(s.quantity),
-        serviceId: s.service.id
+        serviceId: s.service.id,
+        service: s.service
       }));
 
   const items: ItemDto[] = [
