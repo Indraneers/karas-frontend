@@ -10,20 +10,29 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow
 } from "@/components/ui/table";
+import { ItemTypes } from "../../types/item";
+import { getSubtotal } from "../../utils/sale";
+import { Sale } from "../../types/sale";
  
-interface DataTableProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
+interface ItemsDataTableProps {
+  columns: ColumnDef<ItemTypes>[];
+  sale: Sale;
 }
  
-export function DataTable<TData, TValue>({
+export function ItemsDataTable({
   columns,
-  data
-}: DataTableProps<TData, TValue>) {
+  sale
+}: ItemsDataTableProps) {
+  const data = sale.items; 
+  const unitItems = data.filter((i) => i.type === 'unit');
+  const serviceItems = data.filter((i) => i.type === 'service');
+  const subTotal = getSubtotal({ items: unitItems, services: serviceItems });
+
   const table = useReactTable({
     data,
     columns,
@@ -73,6 +82,26 @@ export function DataTable<TData, TValue>({
             </TableRow>
           )}
         </TableBody>
+        <TableFooter>
+          <TableRow>
+            <TableCell colSpan={6}>Subtotal ($)</TableCell>
+            <TableCell className="text-right">
+              $ { subTotal.toFixed(2) }
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={6}>Discount ($)</TableCell>
+            <TableCell className="text-right">
+              $ { Number(sale.discount).toFixed(2) }
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell colSpan={6}>Total ($)</TableCell>
+            <TableCell className="text-right">
+              $ { (subTotal - Number(sale.discount)).toFixed(2) }
+            </TableCell>
+          </TableRow>
+        </TableFooter>
       </Table>
     </div>
   );

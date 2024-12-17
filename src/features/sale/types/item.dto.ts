@@ -1,3 +1,6 @@
+import { ServiceDto } from "@/features/service/types/service.dto";
+import { UnitDto } from "@/features/unit/types/unit.dto";
+
 export interface ItemDto {
   id?: string;
   price: number;
@@ -7,12 +10,12 @@ export interface ItemDto {
 
 export interface UnitItemDto extends ItemDto {
   type: 'unit';
-  unitId: string;
+  unit: UnitDto;
 }
 
 export interface ServiceItemDto extends ItemDto {
   type: 'service';
-  serviceId: string;
+  service: ServiceDto;
 }
 
 export type ItemDtoTypes = UnitItemDto | ServiceItemDto;

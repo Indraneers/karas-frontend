@@ -28,12 +28,14 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
           {sale.user.username}
         </CustomLink>
       </div>
-      <SaleDetailElement className="mt-4" label="Created At">
-        {format(sale.created, 'do MMM yyyy (hh:mm aa)')}
-      </SaleDetailElement>
-      <SaleDetailElement className="mt-2" label="Due At">
-        {format(sale.dueDate, 'do MMM yyyy (hh:mm aa)')}
-      </SaleDetailElement>
+      <div className="flex justify-between gap-2 mt-2">
+        <SaleDetailElement label="Created At">
+          {format(sale.created, 'do MMM yyyy, hh:mm aa')}
+        </SaleDetailElement>
+        <SaleDetailElement label="Due At">
+          {format(sale.dueDate, 'do MMM yyyy, hh:mm aa')}
+        </SaleDetailElement>
+      </div>
     </div>
   );
 }

@@ -1,6 +1,8 @@
 import { Separator } from '@/components/ui/separator';
 import { getSaleById } from '@/features/sale/api/sale';
 import { CustomerInformation } from '@/features/sale/components/customer-information';
+import { ItemsTable } from '@/features/sale/components/items-table';
+import { PrintPreview } from '@/features/sale/components/print-preview';
 import { SaleDetailAside } from '@/features/sale/components/sale-detail-aside';
 import { SaleInformation } from '@/features/sale/components/sale-information';
 import { VehicleInformation } from '@/features/sale/components/vehicle-information';
@@ -34,14 +36,20 @@ function SaleDetailPage() {
   const sale = convertSaleResponseDtoToSale(data);
 
   return (
-    <div className='grid grid-cols-3 py-4 h-full'>
-      <SaleDetailAside className='col-span-1'>
-        <SaleInformation sale={sale} />
-        <Separator className='my-4' />
-        <CustomerInformation customer={sale.customer} />
-        <Separator className='my-4' />
-        <VehicleInformation vehicle={sale.vehicle} />
-      </SaleDetailAside>
+    <div className='gap-4 grid grid-cols-3 py-4 h-full'>
+      <div className='gap-4 grid grid-rows-[auto,1fr]'>
+        <SaleDetailAside className='h-full'>
+          <SaleInformation sale={sale} />
+          <Separator className='mt-3 mb-2' />
+          <CustomerInformation customer={sale.customer} />
+          <Separator className='mt-3 mb-2' />
+          <VehicleInformation vehicle={sale.vehicle} />
+        </SaleDetailAside>
+        <PrintPreview />
+      </div>
+      <div className='col-span-2 h-full'>
+        <ItemsTable sale={sale} />
+      </div>
     </div>
   );
 }
