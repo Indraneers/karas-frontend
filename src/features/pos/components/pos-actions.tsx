@@ -2,18 +2,28 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Pause, ShoppingCart, Trash } from "lucide-react";
 import { usePosStore } from "../store/pos";
-import { SaleRequestDto } from "@/features/sale/types/sale.dto";
+import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto";
 import { StatusEnum } from "@/features/sale/types/sale";
 import { convertPosStoreToSaleRequestDto } from "../utils/pos";
 import { useMutation } from "@tanstack/react-query";
-import { createSale } from "@/features/sale/api/sale";
 
-export function POSActions({ className } : { className?: string }) {
+interface PosActionsProps {
+  className?: string;
+  saleId?: string;
+  handlePayment: (saleRequestDto: SaleRequestDto) => Promise<SaleResponseDto>;
+}
+
+export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
   const { items, services, discount, customer, vehicle, resetPos } = usePosStore();
   const currentDate = new Date().toISOString().slice(0, -1);
 
   const saleMutation = useMutation({
-    mutationFn: (saleRequestDto: SaleRequestDto) => createSale(saleRequestDto)
+    mutationFn: (saleRequestDto: SaleRequestDto) => {
+      if (saleId) {
+        saleRequestDto.id = saleId;
+      }
+      return handlePayment(saleRequestDto);
+    }
   });
 
   function handlePOSAction(dueDate: string, status: StatusEnum) {

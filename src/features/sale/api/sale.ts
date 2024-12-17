@@ -20,6 +20,13 @@ export const createSale = async (saleRequestDto: SaleRequestDto): Promise<SaleRe
     data: saleRequestDto
   });
 
+export const updateSale = async (saleRequestDto: SaleRequestDto): Promise<SaleResponseDto> =>
+  request({
+    url: '/sales/' + saleRequestDto.id,
+    method: 'PUT' ,
+    data: saleRequestDto
+  });
+
 export const deleteSale = async(id: string): Promise<SaleResponseDto> =>
   request({
     url: '/sales/' + id,

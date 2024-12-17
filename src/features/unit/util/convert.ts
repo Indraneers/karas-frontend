@@ -5,7 +5,6 @@ export function convertUnitToUnitDto(unit: Unit): UnitDto {
   if (!unit.productId || unit?.product?.id) {
     throw new Error("TODO: ERROR");
   }
-  console.log(Math.floor(parseFloat(unit.price) * 100));
   return {
     name: unit.name,
     sku: unit.sku,

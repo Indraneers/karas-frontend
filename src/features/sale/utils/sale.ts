@@ -1,6 +1,6 @@
 import { ServiceSelectorItem } from "@/features/service-selector/types/service-selector-item";
 import { ItemTypes, ServiceItem, UnitItem } from "../types/item";
-import { ItemResponseDtoTypes } from "../types/item.dto";
+import { ItemResponseDtoTypes, ServiceResponseItemDto, UnitResponseItemDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
 import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
@@ -19,13 +19,37 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
   };
 }
 
+export function convertUnitItemDtoToUnitItem(unitItemDto: UnitResponseItemDto): UnitItem {
+  return {
+    type: 'unit',
+    id: unitItemDto.id,
+    price: (unitItemDto.price / 100).toFixed(2),
+    discount: (unitItemDto.discount / 100).toFixed(2),
+    quantity: unitItemDto.quantity,
+    unitId: unitItemDto.unit.id,
+    unit: convertUnitDtoToUnit(unitItemDto.unit)
+  };
+} 
+
+export function convertServiceItemDtoToUnitItem(serviceItemDto: ServiceResponseItemDto): ServiceItem {
+  return {
+    type: 'service',
+    id: serviceItemDto.id,
+    price: (serviceItemDto.price / 100).toFixed(2),
+    discount: (serviceItemDto.discount / 100).toFixed(2),
+    quantity: serviceItemDto.quantity,
+    serviceId: serviceItemDto.service.id,
+    service: serviceItemDto.service
+  };
+}
+
 export function convertItemDtoToItem(itemDto: ItemResponseDtoTypes): ItemTypes {
   if ("service" in itemDto && itemDto.service) {
     return {
       type: 'service',
       id: itemDto.id,
-      price: String(Math.ceil(itemDto.price / 100)),
-      discount: String(Math.ceil(itemDto.discount / 100)),
+      price: (itemDto.price / 100).toFixed(2),
+      discount: (itemDto.discount / 100).toFixed(2),
       quantity: itemDto.quantity,
       serviceId: itemDto.service.id,
       service: itemDto.service
@@ -35,8 +59,8 @@ export function convertItemDtoToItem(itemDto: ItemResponseDtoTypes): ItemTypes {
     return {
       type: 'unit',
       id: itemDto.id,
-      price: String(Math.ceil(itemDto.price / 100)),
-      discount: String(Math.ceil(itemDto.discount / 100)),
+      price: (itemDto.price / 100).toFixed(2),
+      discount: (itemDto.discount / 100).toFixed(2),
       quantity: itemDto.quantity,
       unitId: itemDto.unit.id,
       unit: convertUnitDtoToUnit(itemDto.unit)
@@ -46,8 +70,8 @@ export function convertItemDtoToItem(itemDto: ItemResponseDtoTypes): ItemTypes {
   return {
     type: 'unit',
     id: itemDto.id,
-    price: String(Math.ceil(itemDto.price / 100)),
-    discount: String(Math.ceil(itemDto.discount / 100)),
+    price: (itemDto.price / 100).toFixed(2),
+    discount: (itemDto.discount / 100).toFixed(2),
     quantity: itemDto.quantity
   };
 }
@@ -78,6 +102,7 @@ export function getServicesTotal(services: ServiceItem[] | ServiceSelectorItem[]
   }, 0);
 }
 
-export function getSubtotal({ items, services }: { items: UnitItem[], services: ServiceItem[] | ServiceSelectorItem[]}) {
+export function getSubtotal({ items, services }: { items: UnitItem[], services: ServiceItem[]}) {
+  console.log(items, services);
   return getUnitsTotal(items) + getServicesTotal(services);
 }

@@ -42,8 +42,6 @@ export function DataTablePagination<TData, TValue>({
       size: 0
     }
   });
-
-  console.log( table.getRowModel().rows);
  
   return (
     <div className="grid grid-rows-[1fr,auto] h-full">

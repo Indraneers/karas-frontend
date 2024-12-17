@@ -24,8 +24,14 @@ import { Button } from "@/components/ui/button";
 import { CustomerInformation } from "./customer-information";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
+import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto";
 
-export function OrderDetails() {
+interface OrderDetailsProps {
+  saleId?: string;
+  handlePayment: (saleRequestDto: SaleRequestDto) => Promise<SaleResponseDto>;
+}
+
+export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   const { items, vehicle, services, setDefaultVehicleAndCustomer } = usePosStore();
 
   const checkedServices = services.filter(s => s.checked);
@@ -151,7 +157,11 @@ export function OrderDetails() {
       </SectionContent>
       <SectionFooter className="my-2">
         <PaymentDetail>
-          <POSActions className="mt-4" />
+          <POSActions 
+            saleId={saleId}
+            handlePayment={handlePayment} 
+            className="mt-4"
+          />
         </PaymentDetail>
       </SectionFooter>
     </Section>

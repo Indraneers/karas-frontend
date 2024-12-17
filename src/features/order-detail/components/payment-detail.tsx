@@ -7,11 +7,14 @@ import { Separator } from "@/components/ui/separator";
 import { usePosStore } from "@/features/pos/store/pos";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { getSubtotal } from "@/features/sale/utils/sale";
+import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
 
 export function PaymentDetail({ children } : { children: React.ReactNode}) {
   const { items, services, discount, setDiscount } = usePosStore();
 
-  const subTotal = getSubtotal({ items, services });
+  const checkedServices =  getCheckedServiceItem(services);
+
+  const subTotal = getSubtotal({ items, services: checkedServices });
   const total = Number(subTotal) - Number(discount);
   
   return (

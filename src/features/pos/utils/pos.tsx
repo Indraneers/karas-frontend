@@ -35,8 +35,6 @@ export function convertPosStoreToSaleRequestDto
     return item;
   });
 
-  console.log(items);
-
   return {
     userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
     dueDate,

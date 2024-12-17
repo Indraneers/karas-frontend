@@ -15,7 +15,7 @@ export interface UnitRequestItemDto extends ItemDto {
 
 export interface UnitResponseItemDto extends ItemDto {
   type: 'unit';
-  unit?: UnitDto;
+  unit: UnitDto;
 }
 
 export interface ServiceRequestItemDto extends ItemDto {
@@ -25,7 +25,7 @@ export interface ServiceRequestItemDto extends ItemDto {
 
 export interface ServiceResponseItemDto extends ItemDto {
   type: 'service';
-  service?: ServiceDto;
+  service: ServiceDto;
 }
 
 export type ItemRequestDtoTypes = UnitRequestItemDto | ServiceRequestItemDto;

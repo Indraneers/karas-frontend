@@ -17,7 +17,10 @@ export function SaleActions({ id, handleDelete }: SaleActionsProps) {
       <Button
         className="w-6 h-6"
         variant='ghost' 
-        onClick={() => navigate({ to: `/sales/edit/` + id })}
+        onClick={(e) => {
+          e.stopPropagation();
+          navigate({ to: `/sales/edit/` + id });
+        }}
         size="icon"
       >
         <Edit />
