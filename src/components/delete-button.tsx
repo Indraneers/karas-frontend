@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface DeleteButtonProps<T> {
   id: string;
-  type: 'categories' | 'products' | 'units';
+  type: 'categories' | 'products' | 'units' | 'sales';
   handleDelete: (d: string) => Promise<T>
 }
 
@@ -17,7 +17,10 @@ export function DeleteButton<T>({ type, id, handleDelete }: DeleteButtonProps<T>
   return (
     <Button 
       className="w-6 h-6"
-      onClick={() => mutatation.mutate(id)} 
+      onClick={(e) => {
+        e.stopPropagation();
+        mutatation.mutate(id);
+      }} 
       variant="ghost" 
       size="icon"
     >

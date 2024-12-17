@@ -5,6 +5,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { getSubtotal } from "../../utils/sale";
 import { CustomLink } from "@/components/link";
 import { StatusBadge } from "../status-badge";
+import { SaleActions } from "../sale-actions";
+import { deleteSale } from "../../api/sale";
 
 export const columns: ColumnDef<Sale>[] = [
   {
@@ -114,5 +116,17 @@ export const columns: ColumnDef<Sale>[] = [
         {row.original.user.username}
       </CustomLink>
     )
+  },
+  {
+    id: 'actions',
+    header: 'Actions',
+    cell: ({ row }) => {
+      return (
+        <SaleActions 
+          id={row.original.id || ''}
+          handleDelete={deleteSale}
+        />
+      );
+    }
   }
 ];

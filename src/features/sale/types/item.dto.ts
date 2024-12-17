@@ -8,16 +8,25 @@ export interface ItemDto {
   discount: number;
 }
 
-export interface UnitItemDto extends ItemDto {
+export interface UnitRequestItemDto extends ItemDto {
   type: 'unit';
-  unit?: UnitDto;
   unitId?: string;
 }
 
-export interface ServiceItemDto extends ItemDto {
+export interface UnitResponseItemDto extends ItemDto {
+  type: 'unit';
+  unit?: UnitDto;
+}
+
+export interface ServiceRequestItemDto extends ItemDto {
   type: 'service';
-  service?: ServiceDto;
   serviceId?: string;
 }
 
-export type ItemDtoTypes = UnitItemDto | ServiceItemDto;
+export interface ServiceResponseItemDto extends ItemDto {
+  type: 'service';
+  service?: ServiceDto;
+}
+
+export type ItemRequestDtoTypes = UnitRequestItemDto | ServiceRequestItemDto;
+export type ItemResponseDtoTypes = UnitResponseItemDto | ServiceResponseItemDto;

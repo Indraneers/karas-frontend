@@ -1,7 +1,8 @@
 import { ServiceSelectorItem } from "@/features/service-selector/types/service-selector-item";
 import { ItemTypes, ServiceItem, UnitItem } from "../types/item";
-import { ItemDtoTypes } from "../types/item.dto";
-import { Sale, SaleResponseDto } from "../types/sale";
+import { ItemResponseDtoTypes } from "../types/item.dto";
+import { Sale } from "../types/sale";
+import {  SaleResponseDto } from "../types/sale.dto";
 import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
@@ -18,7 +19,7 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
   };
 }
 
-export function convertItemDtoToItem(itemDto: ItemDtoTypes): ItemTypes {
+export function convertItemDtoToItem(itemDto: ItemResponseDtoTypes): ItemTypes {
   if ("service" in itemDto && itemDto.service) {
     return {
       type: 'service',

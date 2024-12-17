@@ -1,5 +1,5 @@
 import { request } from "@/lib/request";
-import { SaleRequestDto, SaleResponseDto } from "../types/sale";
+import { SaleRequestDto, SaleResponseDto } from "../types/sale.dto";
 
 export const getSales = async(): Promise<SaleResponseDto[]> =>
   request({
@@ -18,4 +18,10 @@ export const createSale = async (saleRequestDto: SaleRequestDto): Promise<SaleRe
     url: '/sales',
     method: 'POST',
     data: saleRequestDto
+  });
+
+export const deleteSale = async(id: string): Promise<SaleResponseDto> =>
+  request({
+    url: '/sales/' + id,
+    method: 'DELETE'
   });

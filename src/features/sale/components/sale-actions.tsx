@@ -1,15 +1,15 @@
 import { Button } from "@/components/ui/button";
 import { Edit } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
-import { DeleteButton } from "./delete-button";
+import { DeleteButton } from "@/components/delete-button";
+import { SaleResponseDto } from "../types/sale.dto";
 
-interface InventoryActionsProps<T> {
+interface SaleActionsProps {
   id: string,
-  type: 'categories' | 'products' | 'units',
-  handleDelete: (d: string) => Promise<T>
+  handleDelete: (d: string) => Promise<SaleResponseDto>
 }
 
-export function InventoryActions<T>({ id, type, handleDelete }: InventoryActionsProps<T>) {
+export function SaleActions({ id, handleDelete }: SaleActionsProps) {
   const navigate = useNavigate();
 
   return (
@@ -17,14 +17,14 @@ export function InventoryActions<T>({ id, type, handleDelete }: InventoryActions
       <Button
         className="w-6 h-6"
         variant='ghost' 
-        onClick={() => navigate({ to: `/inventory/${ type }/edit/` + id })}
+        onClick={() => navigate({ to: `/sales/edit/` + id })}
         size="icon"
       >
         <Edit />
       </Button>
       <DeleteButton
         id={id} 
-        type={type}
+        type="sales"
         handleDelete={handleDelete}
       />
     </div>
