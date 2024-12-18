@@ -5,6 +5,7 @@ import { TypographyH1 } from "@/components/ui/typography/h1";
 import { CustomLink } from "@/components/link";
 import { SaleDetailElement } from "./sale-detail-element";
 import { format } from 'date-fns';
+import { EditButton } from "@/components/edit-button";
 
 interface SaleInformationProps {
   sale: Sale;
@@ -17,9 +18,12 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
       className
     ])}>
       <div className="flex justify-between items-center">
-        <TypographyH1>
+        <div className="flex items-center gap-2">
+          <TypographyH1>
           Order #1111
-        </TypographyH1>
+          </TypographyH1>
+          <EditButton className="w-8 h-8" to={'/sales/edit/' + sale.id} />
+        </div>
         <StatusBadge className="text-md" status={sale.status} />
       </div>
       <div className="text-muted-foreground text-sm">
