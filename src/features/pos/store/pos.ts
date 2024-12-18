@@ -114,6 +114,8 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     const unitItemDtos: UnitItem[] =
       sale.items.filter((i) => i.type === 'unit');
 
+    console.log(unitItemDtos);
+
     const services: ServiceItem[] =
       sale.items
         .filter((i) => i.type === 'service');

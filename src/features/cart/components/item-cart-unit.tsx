@@ -6,8 +6,15 @@ import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
 import { UnitItem } from "@/features/sale/types/item";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
+import { useQuery } from "@tanstack/react-query";
+import { getProductById } from "@/features/product/api/product";
 
 export function ItemCartUnit({ item }: { item: UnitItem }) {
+  const { isError, isLoading, data } = useQuery({
+    queryKey: ['product-', item.unit?.productId],
+    queryFn: () => getProductById(item.unit?.productId || ''),
+    enabled: !!item.unit
+  });
   const { updateItem, removeItem } = usePosStore();
 
   const price = item.price;
@@ -25,7 +32,9 @@ export function ItemCartUnit({ item }: { item: UnitItem }) {
           <div className="flex justify-between justify-items-start items-center gap-2 w-full">
             <div>
               <div className="font-medium text-[14px]">
-                {item.product?.name}
+                {isError && "error"}
+                {isLoading && "loading"}
+                {data && data.name}
               </div>
               <div className="text-[8px] text-foreground/50">
                 {item.unit?.sku || ''}
