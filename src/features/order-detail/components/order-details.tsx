@@ -6,7 +6,7 @@ import { VehicleInformation } from "./vehicle-information";
 import { VehicleSearch } from "./vehicle-search";
 import { SectionFooter } from "@/components/section-footer";
 import { POSActions } from "../../pos/components/pos-actions";
-import { CircleUser, Edit, RotateCcw, ShoppingBag } from "lucide-react";
+import { CircleUser, RotateCcw, ShoppingBag } from "lucide-react";
 import { ItemCart } from "../../cart/components/item-cart";
 import { usePosStore } from "../../pos/store/pos";
 import { useState } from "react";
@@ -25,6 +25,7 @@ import { CustomerInformation } from "./customer-information";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto";
+import { EditButton } from "@/components/edit-button";
 
 interface OrderDetailsProps {
   saleId?: string;
@@ -122,7 +123,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
             >
               <RotateCcw className="!w-4 !h-4" />
             </Button>
-            <Edit className="!w-4 !h-4" />
+            <EditButton to={'/customers/edit' + vehicle.id} className="w-4 h-4" />
           </div>
         </div>
         <div className="mt-2 p-2 border rounded-lg">
@@ -132,7 +133,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
                 {vehicle.makeAndModel}
               </Badge>
             </div>
-            <Edit className="!w-4 !h-4" />
+            <EditButton to={'/vehicles/edit' + vehicle.id} className="w-4 h-4" />
           </div>
           <VehicleInformation className="mt-4" vehicle={vehicle} />
         </div>
