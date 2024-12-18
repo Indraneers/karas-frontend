@@ -1,8 +1,8 @@
 import { UnderlineCurrencyInput } from "@/features/pos/components/underline-currency-input";
 import { FormEvent, useEffect, useRef, useState } from "react";
-import { usePosStore } from "../../pos/store/pos";
+import { usePosStore } from "../store/pos";
 import { UnderlineInput } from "@/features/pos/components/underline-input";
-import { Numpad } from "../../pos/components/numpad";
+import { Numpad } from "./numpad";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
 import { UnitItem } from "@/features/sale/types/item";
@@ -38,13 +38,12 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   );
 
 
-  function onValueChange(value: string | undefined) {
-    const setter = setterList[currentElementIndex];
+  function onValueChange(value: string | undefined, setter: (id: string) => void) {
     setter(value || '');
   }
 
   function handleQtyInput(event: FormEvent<HTMLInputElement>) {
-    setQty(parseInt(event.currentTarget.value).toString());
+    setQty(Number(event.currentTarget.value).toString());
   }
 
   function handleSubmit() {
@@ -59,6 +58,18 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
     
     addItem(itemResult);
     setOpen(false);
+  }
+
+  function handleOnEnter(event: React.KeyboardEvent<HTMLInputElement>) {
+    if (event.key !== 'Enter') {
+      return;
+    }
+    if (currentElementIndex < 2) {
+      setCurrentElementIndex(currentElementIndex + 1);
+    }
+    else {
+      handleSubmit();
+    }
   }
 
   useEffect(() => {
@@ -88,7 +99,10 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   }, [currentElementIndex]);
 
   return (
-    <div className="bg-background p-2 rounded-[2.5rem] w-[22.5vw]">
+    <div 
+      onKeyDown={handleOnEnter}
+      className="bg-background p-2 rounded-[2.5rem] w-[22.5vw]"
+    >
       <div className="bg-accent rounded-[2rem] text-background">
         {/* Input screen */}
         <div className="p-4">
@@ -97,7 +111,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
               <span>$</span>
               <UnderlineCurrencyInput 
                 value={price}
-                onValueChange={onValueChange}
+                onValueChange={(value) => onValueChange(value, setterList[0])}
                 onFocus={() => setCurrentElementIndex(0)} 
                 ref={firstInput} 
               />
@@ -109,7 +123,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
               <span>$</span>
               <UnderlineCurrencyInput
                 value={discount}
-                onValueChange={onValueChange}
+                onValueChange={(value) => onValueChange(value, setterList[1])}
                 onFocus={() => setCurrentElementIndex(1)} 
                 ref={secondInput} 
                 type="text" 

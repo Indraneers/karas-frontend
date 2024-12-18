@@ -85,12 +85,11 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   updateItem: (itemId: string, i: UnitItem) => set((state) => {
     const newState = { ...state };
     newState.items = newState.items.map((item) => {
-      if (itemId == i.id) {
+      if (itemId === item.id) {
         return i;
       }
       return item;
     });
-
     return newState;
   }),
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
@@ -113,8 +112,6 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
 
     const unitItemDtos: UnitItem[] =
       sale.items.filter((i) => i.type === 'unit');
-
-    console.log(unitItemDtos);
 
     const services: ServiceItem[] =
       sale.items
