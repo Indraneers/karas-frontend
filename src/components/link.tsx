@@ -8,8 +8,9 @@ interface CustomLinkProps extends LinkProps {
 export function CustomLink({ children, className, ...props }: CustomLinkProps) {
   return (
     <Link
+      onClick={(e) => e.stopPropagation()}
       className={cn([
-        'text-accent font-medium underline',
+        'text-accent font-medium hover:underline hover:text-primary',
         className
       ])}
       {...props}
