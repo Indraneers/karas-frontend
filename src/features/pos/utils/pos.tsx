@@ -39,7 +39,7 @@ export function convertPosStoreToSaleRequestDto
     userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
     dueDate,
     created: new Date().toISOString().slice(0, -1),
-    discount: posState.discount,
+    discount: Math.ceil(Number(posState.discount) * 100),
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
     status,

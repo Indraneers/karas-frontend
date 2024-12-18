@@ -79,7 +79,7 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Discount ($)',
     cell: ({ row }) => (
       <div className="font-medium text-primary">
-        {`$ ${ (Number(row.original.discount)/100).toFixed(2) }`}
+        $ {Number(row.original.discount).toFixed(2)}
       </div>
     )
   },

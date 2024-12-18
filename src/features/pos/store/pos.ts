@@ -54,7 +54,7 @@ export interface PosStateWithFunctions extends PosState {
 }
 
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
-  ...defaultPosState,
+  ...Object.assign({}, defaultPosState),
   setServices: (autoServices: ServiceSelectorItem[]) => set((state) => ({ ...state, services: autoServices, defaultServices: autoServices })),
   addService: (sId: string) => set((state) => {
     const newState = { ...state };
@@ -87,8 +87,6 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   updateItem: (i: UnitItem) => set((state) => {
     const newState = { ...state };
     newState.items = newState.items.map((item) => {
-      // since this is likely to be a currency variable,
-      // we wish to take the value and multiply it by 100
       if (item.id == i.id) {
         return i;
       }
@@ -102,7 +100,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
   resetPos: () => set(((state) => {
     return {
-      ...defaultPosState,
+      ...Object.assign({}, defaultPosState),
       defaultServices: state.defaultServices,
       services: state.defaultServices
     };

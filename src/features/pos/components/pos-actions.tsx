@@ -6,6 +6,9 @@ import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto"
 import { StatusEnum } from "@/features/sale/types/sale";
 import { convertPosStoreToSaleRequestDto } from "../utils/pos";
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "@tanstack/react-router";
+import { useItemSelectionStore } from "@/features/item-selector/store/item-selection";
+import { ItemSelectionEnum } from "@/features/item-selector/types/item-selection-enum";
 
 interface PosActionsProps {
   className?: string;
@@ -15,6 +18,8 @@ interface PosActionsProps {
 
 export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
   const { items, services, discount, customer, vehicle, resetPos } = usePosStore();
+  const { setSelector } = useItemSelectionStore();
+  const navigate = useNavigate();
   const currentDate = new Date().toISOString().slice(0, -1);
 
   const saleMutation = useMutation({
@@ -26,7 +31,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
     }
   });
 
-  function handlePOSAction(dueDate: string, status: StatusEnum) {
+  async function handlePOSAction(dueDate: string, status: StatusEnum) {
     const sale: SaleRequestDto = convertPosStoreToSaleRequestDto(
       {
         items,
@@ -39,7 +44,10 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       status
     );
 
-    saleMutation.mutate(sale);
+    const data = await saleMutation.mutateAsync(sale);
+    resetPos();
+    setSelector(ItemSelectionEnum.CATEGORY);
+    navigate({ to: '/sales/' + data.id });
   }
   
   return (
