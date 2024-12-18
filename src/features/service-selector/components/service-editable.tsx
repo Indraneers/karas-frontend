@@ -12,10 +12,13 @@ export function ServiceEditable({ id, defaultValue = "", accessorKey }: { id: st
   return (
     <PrefixedCurrencyInput
       defaultValue={defaultValue}
-      onValueChange={(value) => updateService({
-        ...service,
-        [accessorKey]: value ? convertStringToCurrency(value) : ''
-      })}
+      onValueChange={(value) => updateService(
+        id,
+        {
+          ...service,
+          [accessorKey]: value ? convertStringToCurrency(value) : ''
+        }
+      )}
       disableGroupSeparators
     />
   );

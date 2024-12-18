@@ -41,10 +41,10 @@ export interface PosState {
 export interface PosStateWithFunctions extends PosState {
   setServices: (as: ServiceSelectorItem[]) => void;
   addService: (s: string) => void;
-  updateService: (s: ServiceSelectorItem) => void
+  updateService: (serviceId: string, s: ServiceSelectorItem) => void
   removeService: (serviceId: string) => void;
   addItem: (i: UnitItem) => void;
-  updateItem: (i: UnitItem) => void
+  updateItem: (itemId: string, i: UnitItem) => void
   removeItem: (itemId: string) => void;
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
@@ -61,10 +61,10 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: true } : s);
     return newState;
   }),
-  updateService: (s: ServiceSelectorItem) => set((state) => {
+  updateService: (serviceId: string, s: ServiceSelectorItem) => set((state) => {
     const newState = { ...state };
     newState.services = newState.services.map((a) => {
-      if (a.service.id === s.service.id) {
+      if (a.service.id === serviceId) {
         return s;
       }
       return a;
@@ -82,10 +82,10 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     newState.items.push(i);
     return newState;
   }),
-  updateItem: (i: UnitItem) => set((state) => {
+  updateItem: (itemId: string, i: UnitItem) => set((state) => {
     const newState = { ...state };
     newState.items = newState.items.map((item) => {
-      if (item.id == i.id) {
+      if (itemId == i.id) {
         return i;
       }
       return item;

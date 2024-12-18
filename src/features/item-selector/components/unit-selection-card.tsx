@@ -30,6 +30,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
 
   const item: UnitItem = {
     type: 'unit',
+    id: '',
     quantity: 1,
     price: unit.price,
     discount: 0,

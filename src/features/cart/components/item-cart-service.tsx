@@ -26,13 +26,13 @@ export function ItemCartService({ service } : { service: ServiceSelectorItem }) 
               className="w-12 min-w-12"
               prefix="$"
               defaultValue={convertCurrencyToInputString(price)}
-              onValueChange={(value) => updateService({ ...service, price: convertStringToCurrency(value || '') })}
+              onValueChange={(value) => updateService(service.service.id, { ...service, price: convertStringToCurrency(value || '') })}
             />
             <ItemCartCurrencyInput 
               className="w-12 min-w-12"
               prefix="-$"
               defaultValue={convertCurrencyToInputString(discount)}
-              onValueChange={(value) => updateService({ ...service, discount: convertStringToCurrency(value || '') })}
+              onValueChange={(value) => updateService(service.service.id, { ...service, discount: convertStringToCurrency(value || '') })}
             />
           </div>
         </div>

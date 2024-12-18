@@ -1,7 +1,7 @@
 import { SaleRequestDto } from "@/features/sale/types/sale.dto";
 import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
-import { ItemDto, UnitRequestItemDto, ServiceRequestItemDto } from "@/features/sale/types/item.dto";
+import { ItemRequestDto, UnitRequestItemDto, ServiceRequestItemDto } from "@/features/sale/types/item.dto";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, dueDate: string, status: StatusEnum): SaleRequestDto {
@@ -26,7 +26,7 @@ export function convertPosStoreToSaleRequestDto
         serviceId: s.service.id
       }));
 
-  const items: ItemDto[] = [
+  const items: ItemRequestDto[] = [
     ...unitItemList,
     ...serviceItemList
   ].map((i) => {

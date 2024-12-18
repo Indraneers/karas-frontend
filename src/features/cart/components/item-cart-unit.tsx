@@ -43,18 +43,18 @@ export function ItemCartUnit({ item }: { item: UnitItem }) {
                 className="w-12 min-w-12"
                 prefix="$"
                 defaultValue={convertCurrencyToInputString(price)}
-                onValueChange={(value) => updateItem({ ...item, price: convertStringToCurrency(value || '') })}
+                onValueChange={(value) => updateItem(item.id, { ...item, price: convertStringToCurrency(value || '') })}
               />
               <ItemCartCurrencyInput 
                 className="w-12 min-w-12"
                 prefix="-$"
                 defaultValue={convertCurrencyToInputString(discount)}
-                onValueChange={(value) => updateItem({ ...item, discount: convertStringToCurrency(value || '') })}
+                onValueChange={(value) => updateItem(item.id, { ...item, discount: convertStringToCurrency(value || '') })}
               />
             </div>
             <ItemCounter 
               value={String(qty)}
-              setValue={(value) => updateItem({ ...item, quantity: Number(value) })}
+              setValue={(value) => updateItem(item.id, { ...item, quantity: Number(value) })}
             />
           </div>
         </div>

@@ -3,7 +3,7 @@ import { Product } from "@/types/product";
 import { Unit } from "@/features/unit/types/unit";
 
 export interface Item {
-  id?: string;
+  id: string;
   price: number;
   quantity: number;
   discount: number;
