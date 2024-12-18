@@ -9,6 +9,7 @@ import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useItemSelectionStore } from "@/features/item-selector/store/item-selection";
 import { ItemSelectionEnum } from "@/features/item-selector/types/item-selection-enum";
+import { toastError } from "@/lib/toast";
 
 interface PosActionsProps {
   className?: string;
@@ -43,6 +44,26 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       dueDate,
       status
     );
+
+    if (!sale.customerId || !sale.vehicleId) {
+      toastError('Customer and Vehicle are empty');
+      return;
+    }
+    
+    if (!sale.items) {
+      toastError('Cart is empty, please add something');
+      return;
+    }
+
+    if (!sale.userId) {
+      toastError('Error, initiated user is not set');
+      return;
+    }
+
+    if (!sale.dueDate || !sale.created) {
+      toastError('Due Date or Created Date is not set');
+      return;
+    }
 
     const data = await saleMutation.mutateAsync(sale);
     resetPos();

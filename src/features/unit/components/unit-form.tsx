@@ -69,7 +69,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-3">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
         <FormGroup title="General Information">
           <div className='gap-8 grid grid-cols-3'>
             <FormField

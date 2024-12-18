@@ -45,17 +45,19 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
   
 
   return (
-    <div className='gap-8 grid grid-cols-[5fr,3fr] py-4 h-full max-h-full overflow-hidden'>
-      <SelectionMenu>
-        <ServiceSelection />
-        <Separator className='mt-2' />
-        <ItemSelector>
-          { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
-          { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
-          { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
-        </ItemSelector>
-      </SelectionMenu>
-      <OrderDetails saleId={saleId} handlePayment={handlePayment} />
-    </div>
+    <>
+      <div className='gap-8 grid grid-cols-[5fr,3fr] py-4 h-full max-h-full overflow-hidden'>
+        <SelectionMenu>
+          <ServiceSelection />
+          <Separator className='mt-2' />
+          <ItemSelector>
+            { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
+            { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
+            { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
+          </ItemSelector>
+        </SelectionMenu>
+        <OrderDetails saleId={saleId} handlePayment={handlePayment} />
+      </div>
+    </>
   );
 }

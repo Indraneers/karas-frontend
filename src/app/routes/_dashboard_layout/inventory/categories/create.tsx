@@ -24,7 +24,7 @@ function CreateCategoryPage() {
   });
 
   return (
-    <Section>
+    <Section className='pt-4'>
       <SectionHeader>
         <TypographyH1>Edit Category</TypographyH1>
       </SectionHeader>

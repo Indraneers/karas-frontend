@@ -2,13 +2,14 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import CurrencyInput, { CurrencyInputProps } from "react-currency-input-field";
+import { toastError } from "@/lib/toast";
 
 interface ItemCartCurrencyInputProps extends CurrencyInputProps {
   prefix?: string;
 }
 
 const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, ItemCartCurrencyInputProps>(
-  ({ className, type, prefix, ...props }, ref) => {
+  ({ className, onValueChange, type, prefix, ...props }, ref) => {
     return (
       <div className={cn([
         "flex items-center bg-gray-200 px-1 rounded-full",
@@ -23,6 +24,16 @@ const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, ItemCartCurrenc
           type={type}
           ref={ref}
           disableGroupSeparators
+          onValueChange={(value) => {
+            if (Number(value) < 0) {
+              toastError('Currency can\'t be negative');
+              return;
+            }
+                    
+            if (onValueChange) {
+              onValueChange(value);
+            }
+          }}
           {...props}
         />
       </div>

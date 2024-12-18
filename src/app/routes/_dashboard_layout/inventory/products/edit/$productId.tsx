@@ -55,7 +55,7 @@ function UpdateProductPage() {
   }
 
   return (
-    <Section>
+    <Section className='pt-4'>
       <SectionHeader>
         <TypographyH1>
           Update New Product

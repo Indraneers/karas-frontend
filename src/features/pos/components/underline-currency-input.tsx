@@ -2,6 +2,7 @@ import * as React from "react";
 
 import { cn } from "@/lib/utils";
 import CurrencyInput, { CurrencyInputProps } from 'react-currency-input-field';
+import { toastError } from "@/lib/toast";
 
 const UnderlineCurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputProps>(
   ({ className, onValueChange, ...props }, ref) => {
@@ -15,7 +16,16 @@ const UnderlineCurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputP
           '[&::-webkit-inner-spin-button]:appearance-none inline-block',
           className
         ])}
-        onValueChange={onValueChange}
+        onValueChange={(value) => {
+          if (Number(value) < 0) {
+            toastError('Currency can\'t be negative');
+            return;
+          }
+                  
+          if (onValueChange) {
+            onValueChange(value);
+          }
+        }}
         ref={ref}
         disableGroupSeparators
         {...props}
