@@ -6,6 +6,7 @@ import { getProductById } from "@/features/product/api/product";
 import { useState } from "react";
 import { Unit } from "@/features/unit/types/unit";
 import { UnitItem } from "@/features/sale/types/item";
+import { Currency } from "@/components/currency";
 
 interface UnitSelectionCardProps {
   unit: Unit
@@ -31,7 +32,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     type: 'unit',
     quantity: 1,
     price: unit.price,
-    discount: '0',
+    discount: 0,
     unit: {
       ...unit,
       id: unit.id
@@ -45,7 +46,9 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
         <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
           <CardHeader className="space-y-0 text-left">
             <div className="font-medium text-2xl">{unit.name}</div>
-            <div className="group-hover:text-background text-foreground/50">{`$ ${ unit.price }`}</div>
+            <div className="group-hover:text-background text-foreground/50">
+              <Currency amount={unit.price} />
+            </div>
           </CardHeader>
           <CardContent className="flex-grow" />
           <CardFooter className="flex flex-col items-start text-xs">

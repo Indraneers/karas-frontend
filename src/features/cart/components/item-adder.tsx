@@ -6,6 +6,8 @@ import { Numpad } from "../../pos/components/numpad";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
 import { UnitItem } from "@/features/sale/types/item";
+import { Currency } from "@/components/currency";
+import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 
 interface ItemAdderProps {
   item: UnitItem;
@@ -17,7 +19,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
 
-  const [price, setPrice] = useState<string>(item.price.toString());
+  const [price, setPrice] = useState<string>(convertCurrencyToInputString(item.price));
   const [discount, setDiscount] = useState<string>('');
   const [qty, setQty] = useState<string>('');
 
@@ -29,7 +31,11 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
 
   const [currentElementIndex, setCurrentElementIndex] = useState(0);
 
-  const totalCost = calculateTotalCost(price, discount, qty);
+  const totalCost = calculateTotalCost(
+    convertStringToCurrency(price), 
+    convertStringToCurrency(discount), 
+    Number(qty)
+  );
 
 
   function onValueChange(value: string | undefined) {
@@ -44,9 +50,9 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   function handleSubmit() {
     const itemResult: UnitItem = {
       ...item,
-      price,
+      price: convertStringToCurrency(price),
       quantity: parseInt(qty) || 0,
-      discount,
+      discount: convertStringToCurrency(discount),
       // temporary solution for id
       id: uuidv4()
     };
@@ -121,7 +127,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
             </div>
           </div>
           <div className="text-right mt-4 font-semibold text-2xl">
-            $ {totalCost}
+            <Currency amount={totalCost} />
           </div>
         </div>
         <Numpad 

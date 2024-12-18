@@ -4,9 +4,9 @@ import { Unit } from "@/features/unit/types/unit";
 
 export interface Item {
   id?: string;
-  price: string
+  price: number;
   quantity: number;
-  discount: string;
+  discount: number;
 }
 
 export interface UnitItem extends Item {

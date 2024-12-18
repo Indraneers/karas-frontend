@@ -8,9 +8,9 @@ export function convertPosStoreToSaleRequestDto
   const unitItemList: UnitRequestItemDto[] = 
     posState.items.map((i) => ({
       type: 'unit',
-      price: Math.ceil(Number(i.price) * 100),
-      discount: Math.ceil(Number(i.discount) * 100),
-      quantity: Number(i.quantity),
+      price: i.price,
+      discount: i.discount,
+      quantity: i.quantity,
       unitId: i.unit?.id || i.unitId || '' 
     }));
 
@@ -20,9 +20,9 @@ export function convertPosStoreToSaleRequestDto
       .filter((s) => s.checked)
       .map((s) => ({
         type: 'service',
-        price: Math.ceil(Number(s.price) * 100),
-        discount: Math.ceil(Number(s.discount) * 100),
-        quantity: Number(s.quantity),
+        price: s.price,
+        discount: s.discount,
+        quantity: s.quantity,
         serviceId: s.service.id
       }));
 
@@ -39,7 +39,7 @@ export function convertPosStoreToSaleRequestDto
     userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
     dueDate,
     created: new Date().toISOString().slice(0, -1),
-    discount: Math.ceil(Number(posState.discount) * 100),
+    discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
     status,

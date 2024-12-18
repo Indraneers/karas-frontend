@@ -4,7 +4,7 @@ export interface Unit {
   id: string;
   name: string;
   quantity: number;
-  price: string;
+  price: number;
   product?: Product;
   productId: string;
   sku: string;

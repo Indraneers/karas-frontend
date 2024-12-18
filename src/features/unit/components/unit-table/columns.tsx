@@ -5,6 +5,7 @@ import { Unit } from "@/features/unit/types/unit";
 import { ProductCell } from "../product-cell";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
+import { Currency } from "@/components/currency";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -48,7 +49,7 @@ export const columns: ColumnDef<Unit>[] = [
   {
     accessorKey: 'price',
     header: 'Price',
-    cell: ({ row }) => `$ ${ row.getValue('price') }`
+    cell: ({ row }) => <Currency amount={row.original.price} />
   },
   {
     accessorKey: 'quantity',

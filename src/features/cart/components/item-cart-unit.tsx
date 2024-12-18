@@ -5,6 +5,7 @@ import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
 import { UnitItem } from "@/features/sale/types/item";
+import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 
 export function ItemCartUnit({ item }: { item: UnitItem }) {
   const { updateItem, removeItem } = usePosStore();
@@ -41,14 +42,14 @@ export function ItemCartUnit({ item }: { item: UnitItem }) {
               <ItemCartCurrencyInput 
                 className="w-12 min-w-12"
                 prefix="$"
-                value={price}
-                onValueChange={(value) => updateItem({ ...item, price: value || '' })}
+                defaultValue={convertCurrencyToInputString(price)}
+                onValueChange={(value) => updateItem({ ...item, price: convertStringToCurrency(value || '') })}
               />
               <ItemCartCurrencyInput 
                 className="w-12 min-w-12"
                 prefix="-$"
-                value={discount}
-                onValueChange={(value) => updateItem({ ...item, discount: value || '' })}
+                defaultValue={convertCurrencyToInputString(discount)}
+                onValueChange={(value) => updateItem({ ...item, discount: convertStringToCurrency(value || '') })}
               />
             </div>
             <ItemCounter 

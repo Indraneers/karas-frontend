@@ -1,8 +1,9 @@
 
 import { usePosStore } from "@/features/pos/store/pos";
 import { PrefixedCurrencyInput } from "../../../components/prefixed-currency-input";
+import { convertStringToCurrency } from "@/lib/currency";
 
-export function ServiceEditable({ id, value = "", accessorKey }: { id: string, value: string | number | undefined, accessorKey: string }) {
+export function ServiceEditable({ id, defaultValue = "", accessorKey }: { id: string, defaultValue: string | number | undefined, accessorKey: string }) {
   const { services, updateService } = usePosStore();
   const service = services.find((s) => s.service.id === id);
   if (!service) {
@@ -10,10 +11,10 @@ export function ServiceEditable({ id, value = "", accessorKey }: { id: string, v
   }
   return (
     <PrefixedCurrencyInput
-      value={value} 
+      defaultValue={defaultValue}
       onValueChange={(value) => updateService({
         ...service,
-        [accessorKey]: value
+        [accessorKey]: value ? convertStringToCurrency(value) : ''
       })}
       disableGroupSeparators
     />

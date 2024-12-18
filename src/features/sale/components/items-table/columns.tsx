@@ -2,6 +2,8 @@ import { ColumnDef } from "@tanstack/react-table";
 import { ItemTypes } from "../../types/item";
 import { Badge } from "@/components/ui/badge";
 import { ProductCell } from "../product-cell";
+import { Currency } from "@/components/currency";
+import { calculateTotalCost } from "../../utils/sale";
 
 export const columns: ColumnDef<ItemTypes>[] = [
   {
@@ -53,7 +55,7 @@ export const columns: ColumnDef<ItemTypes>[] = [
     header: 'Price ($)',
     cell: ({ row }) => (
       <div className="text-green-600">
-        $ { Number(row.original.price).toFixed(2) }
+        <Currency amount={row.original.price} />
       </div>
     )
   },
@@ -62,7 +64,7 @@ export const columns: ColumnDef<ItemTypes>[] = [
     header: 'Discount ($)',
     cell: ({ row }) => (
       <div className="text-primary">
-        $ { Number(row.original.discount).toFixed(2) }
+        <Currency amount={row.original.discount} />
       </div>
     )
   },
@@ -75,17 +77,13 @@ export const columns: ColumnDef<ItemTypes>[] = [
     header: 'Total ($)',
     cell: ({ row }) => (
       <div className="font-medium text-green-700">
-        $ { 
-          (
-            (
-              Number(row.original.price)
-          -
-          Number(row.original.discount)
-            )
-      *
-      row.original.quantity
+        <Currency amount={
+          calculateTotalCost(
+            row.original.price,
+            row.original.discount,
+            row.original.quantity
           )
-            .toFixed(2) }
+        } />
       </div>
     )
   }

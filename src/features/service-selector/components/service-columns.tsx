@@ -1,6 +1,5 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-import { ServiceEditable } from "./service-editable";
 import { usePosStore } from "@/features/pos/store/pos";
 import { ServiceSelectorItem } from "../types/service-selector-item";
 
@@ -55,25 +54,5 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
     accessorKey: 'service',
     header: 'Services Check',
     cell: ({ row }) => <div className="font-medium">{row.original.service.name}</div>
-  },
-  {
-    accessorKey: 'price',
-    header: 'Price ($)',
-    cell: ({ getValue, row }) => 
-      <ServiceEditable 
-        id={row.original.service.id}
-        value={getValue() as string}
-        accessorKey='price'
-      />
-  },
-  {
-    accessorKey: 'discount',
-    header: 'Discount ($)',
-    cell: ({ getValue, row }) => 
-      <ServiceEditable 
-        id={row.original.service.id}
-        value={getValue() as string}
-        accessorKey='discount'
-      />
   }
 ];

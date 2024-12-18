@@ -16,7 +16,6 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { ScrollArea } from "./ui/scroll-area";
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -44,9 +43,9 @@ export function DataTablePagination<TData, TValue>({
   });
  
   return (
-    <div className="grid grid-rows-[1fr,auto] h-full">
-      <ScrollArea className="border rounded-md h-full"  >
-        <Table className="h-full">
+    <div className="grid grid-rows-[1fr,auto]">
+      <div className="border rounded-md"  >
+        <Table>
           <TableHeader className="bg-foreground/5">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
@@ -104,7 +103,7 @@ export function DataTablePagination<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </ScrollArea>
+      </div>
       <div className="flex justify-end items-center space-x-2 py-4">
         <div className="flex-1 text-accent text-sm">
           {table.getFilteredSelectedRowModel().rows.length} of{" "}

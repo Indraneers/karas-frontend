@@ -18,6 +18,7 @@ import {
 import { ItemTypes } from "../../types/item";
 import { getSubtotal } from "../../utils/sale";
 import { Sale } from "../../types/sale";
+import { Currency } from "@/components/currency";
  
 interface ItemsDataTableProps {
   columns: ColumnDef<ItemTypes>[];
@@ -86,19 +87,19 @@ export function ItemsDataTable({
           <TableRow>
             <TableCell colSpan={6}>Subtotal ($)</TableCell>
             <TableCell className="text-right">
-              $ { subTotal.toFixed(2) }
+              <Currency amount={subTotal} />
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={6}>Discount ($)</TableCell>
             <TableCell className="text-right">
-              $ { Number(sale.discount).toFixed(2) }
+              <Currency amount={sale.discount} />
             </TableCell>
           </TableRow>
           <TableRow>
             <TableCell colSpan={6}>Total ($)</TableCell>
             <TableCell className="text-right">
-              $ { (subTotal - Number(sale.discount)).toFixed(2) }
+              <Currency amount={subTotal - sale.discount} />
             </TableCell>
           </TableRow>
         </TableFooter>

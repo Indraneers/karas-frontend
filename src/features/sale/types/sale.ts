@@ -11,7 +11,7 @@ export interface Sale {
   id?: string;
   dueDate: string;
   created: string;
-  discount: string;
+  discount: number;
   user: UserDto;
   customer: CustomerDto;
   vehicle: VehicleDto;

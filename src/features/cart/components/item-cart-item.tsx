@@ -1,10 +1,11 @@
+import { Currency } from "@/components/currency";
 import { Button } from "@/components/ui/button";
 import { X } from "lucide-react";
 import { MouseEventHandler } from "react";
 
 interface ItemCartItemProps {
   children?: React.ReactNode;
-  totalCost: string | number;
+  totalCost: number;
   onClickRemove?: MouseEventHandler<HTMLButtonElement>;
 }
 
@@ -23,7 +24,7 @@ export function ItemCartItem
           {children}
         </div>
         <div className="place-content-center grid text-background text-xs">
-        $ {totalCost}
+          <Currency amount={totalCost} />
         </div>
       </div>
     </div>

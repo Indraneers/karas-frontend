@@ -64,8 +64,6 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   updateService: (s: ServiceSelectorItem) => set((state) => {
     const newState = { ...state };
     newState.services = newState.services.map((a) => {
-      // since this is likely to be a currency variable,
-      // we wish to take the value and multiply it by 100
       if (a.service.id === s.service.id) {
         return s;
       }

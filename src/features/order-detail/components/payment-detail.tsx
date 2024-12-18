@@ -8,6 +8,7 @@ import { usePosStore } from "@/features/pos/store/pos";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { getSubtotal } from "@/features/sale/utils/sale";
 import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
+import { Currency } from "@/components/currency";
 
 export function PaymentDetail({ children } : { children: React.ReactNode}) {
   const { items, services, discount, setDiscount } = usePosStore();
@@ -15,7 +16,7 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
   const checkedServices =  getCheckedServiceItem(services);
 
   const subTotal = getSubtotal({ items, services: checkedServices });
-  const total = Number(subTotal) - Number(discount);
+  const total = subTotal - discount;
   
   return (
     <Card>
@@ -27,17 +28,17 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
           </TypographyH3>
           <div className="mt-2" >
             <PaymentDetailElement label="Sub Total">
-              $ {subTotal.toFixed(2)}
+              <Currency amount={subTotal} />
             </PaymentDetailElement>
             <PaymentDetailElement className="mt-1" label="Discount">
               <PrefixedCurrencyInput 
-                value={discount}
+                defaultValue={discount}
                 onValueChange={(value) => setDiscount(Number(value))}
               />
             </PaymentDetailElement>
             <Separator className="mt-2" />
             <PaymentDetailElement className="mt-2" label="Total">
-              $ {total.toFixed(2)}
+              <Currency amount={total} />
             </PaymentDetailElement>
           </div>
         </div>

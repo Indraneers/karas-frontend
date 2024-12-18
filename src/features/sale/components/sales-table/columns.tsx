@@ -2,11 +2,12 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Sale } from "../../types/sale";
 import { format } from 'date-fns';
 import { Checkbox } from "@/components/ui/checkbox";
-import { getSubtotal } from "../../utils/sale";
+import { getSubtotal, getTotal } from "../../utils/sale";
 import { CustomLink } from "@/components/link";
 import { StatusBadge } from "../status-badge";
 import { SaleActions } from "../sale-actions";
 import { deleteSale } from "../../api/sale";
+import { Currency } from "@/components/currency";
 
 export const columns: ColumnDef<Sale>[] = [
   {
@@ -69,7 +70,7 @@ export const columns: ColumnDef<Sale>[] = [
 
       return (
         <div className="font-medium text-green-600">
-          {'$ ' + getSubtotal({ items: itemUnit, services }).toFixed(2)}
+          <Currency amount={getSubtotal({ items: itemUnit, services })} />
         </div>
       );
     }
@@ -79,7 +80,7 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Discount ($)',
     cell: ({ row }) => (
       <div className="font-medium text-primary">
-        $ {Number(row.original.discount).toFixed(2)}
+        <Currency amount={row.original.discount} />
       </div>
     )
   },
@@ -89,12 +90,13 @@ export const columns: ColumnDef<Sale>[] = [
     cell: ({ row }) => {
       const { items } = row.original;
       
-      const itemUnit = items.filter((i) => i.type === 'unit');
+      const itemUnits = items.filter((i) => i.type === 'unit');
       const services = items.filter((i) => i.type === 'service');
+      const total = getTotal({ items: itemUnits, services, discount: row.original.discount });
 
       return (
         <div className="font-medium text-green-700">
-          {'$ ' + (getSubtotal({ items: itemUnit, services }) - Number(row.original.discount)/100).toFixed(2)}
+          <Currency amount={total} />
         </div>
       );
     }

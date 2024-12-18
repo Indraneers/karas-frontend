@@ -21,8 +21,8 @@ export function ServiceSelection() {
     if (data) {
       setServices(data.map((d) => ({ 
         service: d, 
-        price: (Number(d.originalPrice) / 100).toFixed(2),
-        discount: '',
+        price: d.originalPrice,
+        discount: 0,
         quantity: 1,
         checked: false
       })));

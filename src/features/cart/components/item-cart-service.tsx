@@ -3,12 +3,13 @@ import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { ItemCartItem } from "./item-cart-item";
 import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { ServiceSelectorItem } from "@/features/service-selector/types/service-selector-item";
+import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 
 export function ItemCartService({ service } : { service: ServiceSelectorItem }) {
   const { updateService, removeService } = usePosStore();
   const price = service.price;
   const discount = service.discount;
-  const totalCost = calculateTotalCost(price, discount, '1');
+  const totalCost = calculateTotalCost(price, discount, 1);
 
   return (
     <ItemCartItem totalCost={totalCost} onClickRemove={() => removeService(service.service.id)}>
@@ -24,14 +25,14 @@ export function ItemCartService({ service } : { service: ServiceSelectorItem }) 
             <ItemCartCurrencyInput 
               className="w-12 min-w-12"
               prefix="$"
-              value={service.price}
-              onValueChange={(value) => updateService({ ...service, price: value || '' })}
+              defaultValue={convertCurrencyToInputString(price)}
+              onValueChange={(value) => updateService({ ...service, price: convertStringToCurrency(value || '') })}
             />
             <ItemCartCurrencyInput 
               className="w-12 min-w-12"
               prefix="-$"
-              value={service.discount}
-              onValueChange={(value) => updateService({ ...service, discount: value || '' })}
+              defaultValue={convertCurrencyToInputString(discount)}
+              onValueChange={(value) => updateService({ ...service, discount: convertStringToCurrency(value || '') })}
             />
           </div>
         </div>

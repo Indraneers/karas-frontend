@@ -8,11 +8,20 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Product } from "@/types/product";
-import { Unit } from "@/features/unit/types/unit";
 import { UnitDto } from "../types/unit.dto";
-import { convertUnitToUnitDto } from "../util/convert";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { useEffect } from "react";
+import { convertUnitFormToUnitDto } from "../util/convert";
+
+export interface UnitForm {
+  id: string;
+  name: string;
+  quantity: number;
+  price: string;
+  product?: Product;
+  productId: string;
+  sku: string;
+}
 
 const formSchema = z.object({
   id: z.string(),
@@ -23,7 +32,7 @@ const formSchema = z.object({
   productId: z.string({ message: 'Product is required' })
 });
 
-const defaultData: Unit = {
+const defaultData: UnitForm = {
   id: '',
   name: '',
   sku: '',
@@ -34,7 +43,7 @@ const defaultData: Unit = {
 
 interface UnitFormProps {
   handleSubmit: (values: UnitDto) => void;
-  data?: Unit | undefined;
+  data?: UnitForm | undefined;
   products: Product[];
 }
 
@@ -48,7 +57,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     values.id = '';
-    const unitDto = convertUnitToUnitDto(values);
+    const unitDto = convertUnitFormToUnitDto(values);
     handleSubmit(unitDto);  
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
