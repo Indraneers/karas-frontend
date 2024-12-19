@@ -34,7 +34,7 @@ function getDefaultPosState() {
 
 export interface PosState {
   services: ServiceSelectorItem[];
-  defaultServices?: ServiceSelectorItem[];
+  defaultServices: ServiceSelectorItem[];
   items: UnitItem[];
   vehicle: VehicleDto;
   customer: CustomerDto;
@@ -136,15 +136,15 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
         return ds;
       });
       
-
     return {
       ...state,
+      dueDate: new Date(sale.dueDate),
       items: unitItemDtos,
       services: selectedServices,
       vehicle: sale.vehicle,
       customer: sale.customer,
       user: sale.user,
-      discount: Number(sale.discount)
+      discount: sale.discount
     };
   }),
   setDueDate: (dueDate: Date | undefined) => set((state) => ({ ...state, dueDate }))

@@ -11,14 +11,14 @@ import { SectionContent } from "@/components/section-content";
 import { Wrench } from "lucide-react";
 
 export function ServiceSelection() {
-  const { services, setServices } = usePosStore();
+  const { defaultServices, services, setServices } = usePosStore();
   const { data } = useQuery({
     queryKey: ['auto-services'],
     queryFn: () => getAutoServices()
   });
 
   useEffect(() => {
-    if (data) {
+    if (defaultServices.length === 0 && data) {
       setServices(data.map((d) => ({ 
         service: d, 
         price: d.originalPrice,
@@ -27,7 +27,7 @@ export function ServiceSelection() {
         checked: false
       })));
     }
-  }, [data, setServices]);
+  }, [data, defaultServices, services, setServices]);
 
   return (
     <div className="h-full">

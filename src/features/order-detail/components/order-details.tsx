@@ -46,7 +46,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
     queryKey: ['vehicles', debouncedQ],
     queryFn: () => getVehicles({ q: debouncedQ })
   });
-  
+
   return (
     <Section className="flex flex-col h-full">
       <SectionHeader>
@@ -157,9 +157,8 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
         </ItemCart>
       </SectionContent>
       <SectionFooter className="my-2">
-        <PaymentDetail>
-          <POSActions 
-            saleId={saleId}
+        <PaymentDetail saleId={saleId} key={saleId}>
+          <POSActions
             handlePayment={handlePayment} 
             className="mt-4"
           />

@@ -1,7 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { TypographyH3 } from "@/components/ui/typography/h3";
 import { WalletCards } from "lucide-react";
-import React from "react";
 import { PaymentDetailElement } from "./payment-detail-element";
 import { Separator } from "@/components/ui/separator";
 import { usePosStore } from "@/features/pos/store/pos";
@@ -10,16 +9,18 @@ import { getSubtotal } from "@/features/sale/utils/sale";
 import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
 import { Currency } from "@/components/currency";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
-import { convertStringToCurrency } from "@/lib/currency";
+import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 
-export function PaymentDetail({ children } : { children: React.ReactNode}) {
+export function PaymentDetail({ saleId, children } : { saleId?: string, children: React.ReactNode}) {
   const { dueDate, setDueDate, items, services, discount, setDiscount } = usePosStore();
-
   const checkedServices =  getCheckedServiceItem(services);
+  const isDetailedSaleLoaded = saleId && (items.length > 0 || services.length > 0);
+
+  console.log(isDetailedSaleLoaded, discount);
 
   const subTotal = getSubtotal({ items, services: checkedServices });
   const total = subTotal - discount;
-  
+  console.log(saleId);
   return (
     <Card>
       <CardContent>
@@ -42,10 +43,18 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
               <Currency amount={subTotal} />
             </PaymentDetailElement>
             <PaymentDetailElement className="mt-1" label="Discount">
-              <PrefixedCurrencyInput 
-                defaultValue={discount}
-                onValueChange={(value) => setDiscount(convertStringToCurrency(value || ''))}
-              />
+              {saleId && isDetailedSaleLoaded && discount && 
+                <PrefixedCurrencyInput 
+                  defaultValue={convertCurrencyToInputString(discount)}
+                  onValueChange={(value) => setDiscount(convertStringToCurrency(value || ''))}
+                />
+              }
+              {!saleId && 
+                <PrefixedCurrencyInput 
+                  defaultValue={convertCurrencyToInputString(discount)}
+                  onValueChange={(value) => setDiscount(convertStringToCurrency(value || ''))}
+                />
+              }
             </PaymentDetailElement>
             <Separator className="mt-2" />
             <PaymentDetailElement className="mt-2" label="Total">

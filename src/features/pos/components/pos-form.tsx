@@ -13,6 +13,7 @@ import { SaleRequestDto, SaleResponseDto } from '@/features/sale/types/sale.dto'
 import { getSaleById } from '@/features/sale/api/sale';
 import { useEffect } from 'react';
 import { usePosStore } from '../store/pos';
+import { useRouter } from '@tanstack/react-router';
 
 interface PosFormProps {
   saleId?: string;
@@ -20,8 +21,13 @@ interface PosFormProps {
 }
 
 export function PosForm({ saleId, handlePayment }: PosFormProps) {
+  const router = useRouter();
   const { selector } = useItemSelectionStore();
-  const { services, setPosState, resetPos } = usePosStore();
+  const { defaultServices, services, setPosState, resetPos } = usePosStore();
+
+  router.subscribe('onBeforeLoad', () => {
+    resetPos();
+  });
 
   const { isError, isLoading, data } = useQuery({
     queryKey: ['sale-', saleId],
@@ -30,16 +36,11 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
   });
 
   useEffect(() => {
-    if (services.length > 0) {
+    if (saleId && defaultServices) {
       setPosState(data);
     }
-  }, [data, services.length, setPosState]);
+  }, [data, services.length, setPosState, resetPos, saleId, defaultServices]);
 
-  useEffect(() => {
-    if (!saleId) {
-      resetPos();
-    }
-  }, [resetPos, saleId]);
 
   if (isError) {
     return "error";

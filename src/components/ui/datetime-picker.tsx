@@ -155,7 +155,6 @@ export function DateTimePicker({
   const [open, setOpen] = useState(false);
   const [monthYearPicker, setMonthYearPicker] = useState<'month' | 'year' | false>(false);
   const initDate = useMemo(() => new TZDate(value || new Date(), timezone), [value, timezone]);
-
   const [month, setMonth] = useState<Date>(initDate);
   const [date, setDate] = useState<Date>(initDate);
 
@@ -176,7 +175,7 @@ export function DateTimePicker({
       }
       setDate(d);
     },
-    [setDate, setMonth]
+    [date, max, min]
   );
 
   const onMonthYearChanged = useCallback(
@@ -198,10 +197,11 @@ export function DateTimePicker({
     setMonth(subMonths(month, 1));
   }, [month]);
 
-  const displayValue = useMemo(() => {
-    if (!open && !value) return value;
-    return date;
-  }, [date, value, open]);
+  useEffect(() => {
+    setDate(initDate);
+  }, [initDate]);
+
+  const displayValue = date;
 
   const dislayFormat = useMemo(() => {
     if (!displayValue) return 'Pick a date';

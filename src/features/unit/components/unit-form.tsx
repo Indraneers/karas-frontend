@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { FormGroup } from "@/components/form-group";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,7 @@ interface UnitFormProps {
 
 export function UnitForm({ data = defaultData, handleSubmit = console.log, products }: UnitFormProps) {
   const navigate = useNavigate();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -61,6 +62,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
     handleSubmit(unitDto);  
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
+    router.invalidate();
   }
 
   useEffect(() => {

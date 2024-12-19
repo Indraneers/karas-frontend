@@ -36,7 +36,6 @@ export function convertPosStoreToSaleRequestDto
     return item;
   });
 
-  console.log(posState);
   return {
     userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
     dueDate: convertDateToLocaleDate(posState.dueDate),

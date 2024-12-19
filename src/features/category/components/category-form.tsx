@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { CategoryDto } from "../dto/category.dto";
@@ -24,6 +24,7 @@ interface CategoryFormProps {
 
 export function CategoryForm({ data = defaultData, handleSubmit = console.log } : CategoryFormProps) {
   const navigate = useNavigate();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -34,6 +35,7 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
     handleSubmit(values);
     form.reset();
     navigate({ to: '/inventory/categories' });
+    router.invalidate();
   }
 
   useEffect(() => {

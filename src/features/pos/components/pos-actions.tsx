@@ -24,6 +24,8 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
 
+  console.log(dueDate);
+
   const saleMutation = useMutation({
     mutationFn: (saleRequestDto: SaleRequestDto) => {
       if (saleId) {
@@ -44,7 +46,8 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         discount,
         customer,
         vehicle,
-        dueDate: status === StatusEnum.PAID ? new Date() : dueDate
+        dueDate: dueDate,
+        defaultServices: []
       },
       status
     );

@@ -3,7 +3,7 @@ import { ProductDto } from "../types/product.dto";
 import { Category } from "@/types/category";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useNavigate } from "@tanstack/react-router";
+import { useNavigate, useRouter } from "@tanstack/react-router";
 import { FormGroup } from "@/components/form-group";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,7 @@ interface ProductFormProps {
 
 export function ProductForm({ data = defaultData, handleSubmit = console.log, categories }: ProductFormProps) {
   const navigate = useNavigate();
+  const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -40,6 +41,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
     handleSubmit(values);
     form.reset(data);
     navigate({ to: '/inventory/products' });
+    router.invalidate();
   }
 
   useEffect(() => {

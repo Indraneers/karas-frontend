@@ -6,6 +6,7 @@ import { routeTree } from './routeTree.gen';
 import { Toaster } from '@/components/ui/sonner';
 
 const router = createRouter({ routeTree });
+
 const queryClient = new QueryClient();
 
 // Register the router instance for type safety
