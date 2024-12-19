@@ -21,7 +21,7 @@ interface PosFormProps {
 
 export function PosForm({ saleId, handlePayment }: PosFormProps) {
   const { selector } = useItemSelectionStore();
-  const { services, setPosState } = usePosStore();
+  const { services, setPosState, resetPos } = usePosStore();
 
   const { isError, isLoading, data } = useQuery({
     queryKey: ['sale-', saleId],
@@ -34,6 +34,12 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
       setPosState(data);
     }
   }, [data, services.length, setPosState]);
+
+  useEffect(() => {
+    if (!saleId) {
+      resetPos();
+    }
+  }, [resetPos, saleId]);
 
   if (isError) {
     return "error";

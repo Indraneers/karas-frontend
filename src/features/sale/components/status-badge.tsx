@@ -13,7 +13,7 @@ export function StatusBadge({ status, className }: { status: StatusEnum, classNa
       Paid
     </Badge>
       }
-      {status === "UNPAID" && 
+      {status === "HOLD" && 
     <Badge className={cn([
       "bg-amber-500 hover:bg-amber-600",
       className

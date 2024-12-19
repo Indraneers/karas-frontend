@@ -2,9 +2,10 @@ import { SaleRequestDto } from "@/features/sale/types/sale.dto";
 import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto, UnitRequestItemDto, ServiceRequestItemDto } from "@/features/sale/types/item.dto";
+import { convertDateToLocaleDate } from "@/lib/date";
 
 export function convertPosStoreToSaleRequestDto
-(posState: PosState, dueDate: string, status: StatusEnum): SaleRequestDto {
+(posState: PosState, status: StatusEnum): SaleRequestDto {
   const unitItemList: UnitRequestItemDto[] = 
     posState.items.map((i) => ({
       type: 'unit',
@@ -35,9 +36,10 @@ export function convertPosStoreToSaleRequestDto
     return item;
   });
 
+  console.log(posState);
   return {
     userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
-    dueDate,
+    dueDate: convertDateToLocaleDate(posState.dueDate),
     created: new Date().toISOString().slice(0, -1),
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',

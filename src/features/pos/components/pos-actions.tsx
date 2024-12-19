@@ -18,10 +18,9 @@ interface PosActionsProps {
 }
 
 export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
-  const { items, services, discount, customer, vehicle, resetPos } = usePosStore();
+  const { dueDate, items, services, discount, customer, vehicle, resetPos } = usePosStore();
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
-  const currentDate = new Date().toISOString().slice(0, -1);
 
   const saleMutation = useMutation({
     mutationFn: (saleRequestDto: SaleRequestDto) => {
@@ -29,19 +28,22 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         saleRequestDto.id = saleId;
       }
       return handlePayment(saleRequestDto);
+    },
+    onError: (error) => {
+      toastError(error.message);
     }
   });
 
-  async function handlePOSAction(dueDate: string, status: StatusEnum) {
+  async function handlePOSAction(status: StatusEnum) {
     const sale: SaleRequestDto = convertPosStoreToSaleRequestDto(
       {
         items,
         services,
         discount,
         customer,
-        vehicle
+        vehicle,
+        dueDate: status === StatusEnum.PAID ? new Date() : dueDate
       },
-      dueDate,
       status
     );
 
@@ -77,7 +79,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       className
     ])}>
       <Button 
-        onClick={() => handlePOSAction(currentDate, StatusEnum.PAID)}
+        onClick={() => handlePOSAction(StatusEnum.PAID)}
         className="bg-green-500 hover:bg-green-400 rounded-l-full rounded-r-none font-semibold"
       >
         <span>
@@ -86,7 +88,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         Pay
       </Button>
       <Button
-        onClick={() => handlePOSAction(currentDate, StatusEnum.UNPAID)}
+        onClick={() => handlePOSAction(StatusEnum.HOLD)}
         className="bg-amber-500 hover:bg-amber-400 rounded-none font-semibold"
       >
         <span>

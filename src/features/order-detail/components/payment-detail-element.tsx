@@ -9,11 +9,11 @@ interface PaymentDetailElementProps {
 export function PaymentDetailElement({ className, label, children } : PaymentDetailElementProps) {
   return (
     <div className={cn([
-      'grid grid-cols-2 text-sm items-center',
+      'flex justify-between w-full text-sm items-center',
       className
     ])}>
       <span className="text-foreground/50">{label}</span>
-      <div className="flex-grow justify-self-end font-medium">
+      <div className="justify-self-end font-medium">
         {children}
       </div>
     </div>

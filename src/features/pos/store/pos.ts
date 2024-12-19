@@ -20,14 +20,17 @@ const defaultVehicle: VehicleDto = {
   }
 };
 
-const defaultPosState = {
-  services: [],
-  defaultServices: [],
-  items: [],
-  vehicle: defaultVehicle,
-  customer: defaultVehicle.customer,
-  discount: 0
-};
+function getDefaultPosState() {
+  return {
+    services: [],
+    defaultServices: [],
+    items: [],
+    vehicle: defaultVehicle,
+    customer: defaultVehicle.customer,
+    discount: 0,
+    dueDate: new Date()
+  };
+}
 
 export interface PosState {
   services: ServiceSelectorItem[];
@@ -36,6 +39,7 @@ export interface PosState {
   vehicle: VehicleDto;
   customer: CustomerDto;
   discount: number;
+  dueDate: Date;
 }
 
 export interface PosStateWithFunctions extends PosState {
@@ -51,10 +55,11 @@ export interface PosStateWithFunctions extends PosState {
   resetPos: () => void;
   setDiscount: (discount: number) => void;
   setPosState: (saleDto: SaleResponseDto | undefined) => void;
+  setDueDate: (date: Date | undefined) => void;
 }
 
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
-  ...Object.assign({}, defaultPosState),
+  ...getDefaultPosState(),
   setServices: (autoServices: ServiceSelectorItem[]) => set((state) => ({ ...state, services: autoServices, defaultServices: autoServices })),
   addService: (sId: string) => set((state) => {
     const newState = { ...state };
@@ -97,12 +102,12 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
   resetPos: () => set(((state) => {
     return {
-      ...Object.assign({}, defaultPosState),
+      ...getDefaultPosState(),
       defaultServices: state.defaultServices,
       services: state.defaultServices
     };
   })),
-  setDiscount: (discount: number) => set(((state) => ({ ...state, discount }))),
+  setDiscount: (discount: number) => set((state) => ({ ...state, discount })),
   setPosState: (saleDto: SaleResponseDto | undefined) => set((state) => {
     if (!saleDto || !state.defaultServices) {
       return state;
@@ -141,7 +146,8 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
       user: sale.user,
       discount: Number(sale.discount)
     };
-  })
+  }),
+  setDueDate: (dueDate: Date | undefined) => set((state) => ({ ...state, dueDate }))
 }));
 
 export function useCheckedServices(): ServiceItem[] {

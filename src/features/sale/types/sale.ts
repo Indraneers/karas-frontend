@@ -5,7 +5,7 @@ import { UserDto } from "@/features/user/types/user.dto";
 
 export enum StatusEnum {
   PAID = 'PAID',
-  UNPAID = 'UNPAID'
+  HOLD = 'HOLD'
 }
 export interface Sale {
   id?: string;

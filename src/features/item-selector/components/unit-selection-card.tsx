@@ -1,8 +1,6 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
 import { ItemAdder } from "../../pos/components/item-adder";
-import { useQuery } from "@tanstack/react-query";
-import { getProductById } from "@/features/product/api/product";
 import { useState } from "react";
 import { Unit } from "@/features/unit/types/unit";
 import { UnitItem } from "@/features/sale/types/item";
@@ -14,18 +12,9 @@ interface UnitSelectionCardProps {
 
 export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   const [open, setOpen] = useState(false);
-  const { isError, isLoading, isSuccess, data } = useQuery({
-    queryKey: ['product-', unit.productId],
-    queryFn: () => getProductById(unit.productId),
-    enabled: open
-  });
 
   if (!unit.id) {
     return 'error: no id';
-  }
-
-  if (isError) {
-    return 'error: product doesn\'t exist';
   }
 
   const item: UnitItem = {
@@ -37,8 +26,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     unit: {
       ...unit,
       id: unit.id
-    },
-    product: data
+    }
   };
 
   return (
@@ -59,8 +47,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
         </Card>
       </DialogTrigger>
       <DialogContentWrapper className="bg-transparent shadow-none border-none">
-        { isLoading && 'loading'}
-        { isSuccess && <ItemAdder item={item} setOpen={setOpen} /> }
+        <ItemAdder item={item} setOpen={setOpen} />
       </DialogContentWrapper>
     </Dialog>
   );
