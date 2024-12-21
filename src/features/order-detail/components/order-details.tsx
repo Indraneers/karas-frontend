@@ -41,11 +41,18 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   const [q, setQ] = useState('');
   const debouncedQ = useDebounce(q, 200);
 
-
   const { isError, isLoading, data } = useQuery({
     queryKey: ['vehicles', debouncedQ],
     queryFn: () => getVehicles({ q: debouncedQ })
   });
+
+  if (isError) {
+    return "error";
+  }
+
+  if (isLoading) {
+    return "loading";
+  }
 
   return (
     <Section className="flex flex-col h-full">
@@ -159,6 +166,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
       <SectionFooter className="my-2">
         <PaymentDetail saleId={saleId} key={saleId}>
           <POSActions
+            saleId={saleId}
             handlePayment={handlePayment} 
             className="mt-4"
           />

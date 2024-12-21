@@ -146,7 +146,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                   <FormLabel>Unit Price ($)</FormLabel>
                   <FormControl>
                     <PrefixedCurrencyInput
-                      value={field.value}
+                      defaultValue={field.value}
                       disableGroupSeparators
                       onValueChange={(value) => {
                         field.onChange(value); 
