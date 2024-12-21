@@ -11,7 +11,7 @@ import { Currency } from "@/components/currency";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 
-export function PaymentDetail({ saleId, children } : { saleId?: string, children: React.ReactNode}) {
+export function PaymentDetail({ children } : { children: React.ReactNode}) {
   const { dueDate, setDueDate, items, services, discount, setDiscount } = usePosStore();
 
   const checkedServices =  getCheckedServiceItem(services);
@@ -42,7 +42,6 @@ export function PaymentDetail({ saleId, children } : { saleId?: string, children
             </PaymentDetailElement>
             <PaymentDetailElement className="mt-1" label="Discount">
               <PrefixedCurrencyInput 
-                key={saleId}
                 defaultValue={convertCurrencyToInputString(discount)}
                 onValueChange={(value) => {
                   if (value?.at(-1) !== '.') {

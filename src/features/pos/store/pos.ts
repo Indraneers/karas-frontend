@@ -28,7 +28,8 @@ function getDefaultPosState() {
     vehicle: defaultVehicle,
     customer: defaultVehicle.customer,
     discount: 0,
-    dueDate: new Date()
+    dueDate: new Date(),
+    isInit: false
   };
 }
 
@@ -40,6 +41,7 @@ export interface PosState {
   customer: CustomerDto;
   discount: number;
   dueDate: Date;
+  isInit: boolean;
 }
 
 export interface PosStateWithFunctions extends PosState {
@@ -138,6 +140,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
       
     return {
       ...state,
+      isInit: true,
       dueDate: new Date(sale.dueDate),
       items: unitItemDtos,
       services: selectedServices,

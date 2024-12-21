@@ -23,7 +23,7 @@ interface PosFormProps {
 export function PosForm({ saleId, handlePayment }: PosFormProps) {
   const router = useRouter();
   const { selector } = useItemSelectionStore();
-  const { defaultServices, services, setPosState, resetPos } = usePosStore();
+  const { defaultServices, services, setPosState, resetPos, isInit } = usePosStore();
 
   router.subscribe('onBeforeLoad', () => {
     resetPos();
@@ -46,7 +46,7 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
     return "error";
   }
 
-  if (isLoading) {
+  if (isLoading || (saleId && !isInit)) {
     return "loading";
   }
   

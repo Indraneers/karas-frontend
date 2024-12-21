@@ -46,14 +46,6 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
     queryFn: () => getVehicles({ q: debouncedQ })
   });
 
-  if (isError) {
-    return "error";
-  }
-
-  if (isLoading) {
-    return "loading";
-  }
-
   return (
     <Section className="flex flex-col h-full">
       <SectionHeader>
@@ -164,13 +156,13 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
         </ItemCart>
       </SectionContent>
       <SectionFooter className="my-2">
-        <PaymentDetail saleId={saleId} key={saleId}>
+        <PaymentDetail>
           <POSActions
             saleId={saleId}
             handlePayment={handlePayment} 
             className="mt-4"
           />
-        </PaymentDetail>
+        </PaymentDetail>  
       </SectionFooter>
     </Section>
   );
