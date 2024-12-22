@@ -1,5 +1,4 @@
 import { Button, buttonVariants } from '@/components/ui/button';
-import type { CalendarProps } from '@/components/ui/calendar';
 import { Input } from '@/components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { cn } from '@/lib/utils';
@@ -9,6 +8,8 @@ import { Calendar as CalendarIcon, ChevronLeft, ChevronRight } from 'lucide-reac
 import { Clock } from 'lucide-react';
 import * as React from 'react';
 import { useImperativeHandle, useRef } from 'react';
+
+export type CalendarProps = React.ComponentProps<typeof DayPicker>
 
 import {
   Select,
@@ -284,12 +285,12 @@ function Calendar({
         nav: 'space-x-1 flex items-center ',
         button_previous: cn(
           buttonVariants({ variant: 'outline' }),
-          'h-7 w-7 bg-transparent p-0 absolute left-5 top-5',
+          'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute left-5 top-5',
           disableLeftNavigation() && 'pointer-events-none'
         ),
         button_next: cn(
           buttonVariants({ variant: 'outline' }),
-          'h-7 w-7 bg-transparent p-0 absolute right-5 top-5',
+          'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-5 top-5',
           disableRightNavigation() && 'pointer-events-none'
         ),
         month_grid: 'w-full border-collapse space-y-1',

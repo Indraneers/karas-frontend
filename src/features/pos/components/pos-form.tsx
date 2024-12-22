@@ -14,6 +14,7 @@ import { getSaleById } from '@/features/sale/api/sale';
 import { useEffect } from 'react';
 import { usePosStore } from '../store/pos';
 import { useRouter } from '@tanstack/react-router';
+import { getAutoServices } from '../api/auto-services';
 
 interface PosFormProps {
   saleId?: string;
@@ -23,30 +24,47 @@ interface PosFormProps {
 export function PosForm({ saleId, handlePayment }: PosFormProps) {
   const router = useRouter();
   const { selector } = useItemSelectionStore();
-  const { defaultServices, services, setPosState, resetPos, isInit } = usePosStore();
+  const { setPosState, resetPos, isInit, setServices } = usePosStore();
 
   router.subscribe('onBeforeLoad', () => {
     resetPos();
   });
 
-  const { isError, isLoading, data } = useQuery({
+  const serviceQuery = useQuery({
+    queryKey: ['auto-services'],
+    queryFn: () => getAutoServices()
+  });
+
+  const saleQuery = useQuery({
     queryKey: ['sale-', saleId],
     queryFn: () => getSaleById(saleId as string),
-    enabled: !!saleId
+    enabled: (!!saleId) && serviceQuery.isSuccess
   });
 
   useEffect(() => {
-    if (saleId && defaultServices) {
-      setPosState(data);
+    if (serviceQuery.data) {
+      setServices(serviceQuery.data.map((d) => ({ 
+        service: d, 
+        price: d.originalPrice,
+        discount: 0,
+        quantity: 1,
+        checked: false
+      })));
     }
-  }, [data, services.length, setPosState, resetPos, saleId, defaultServices]);
+  }, [serviceQuery.data, setServices]);
+
+  useEffect(() => {
+    if (saleId) {
+      setPosState(saleQuery.data);
+    }
+  }, [saleId, saleQuery.data, setPosState]);
 
 
-  if (isError) {
+  if (saleQuery.isError || serviceQuery.isError) {
     return "error";
   }
 
-  if (isLoading || (saleId && !isInit)) {
+  if (saleQuery.isLoading || serviceQuery.isLoading || (saleId && !isInit)) {
     return "loading";
   }
   
