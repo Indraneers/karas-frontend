@@ -45,7 +45,7 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
     if (serviceQuery.data) {
       setServices(serviceQuery.data.map((d) => ({ 
         service: d, 
-        price: d.originalPrice,
+        price: d.price,
         discount: 0,
         quantity: 1,
         checked: false

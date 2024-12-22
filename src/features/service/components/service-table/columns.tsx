@@ -34,9 +34,9 @@ export const columns: ColumnDef<Service>[] = [
     header: 'Service Name'
   },
   {
-    accessorKey: 'originalPrice',
+    accessorKey: 'price',
     header: 'Price',
-    cell: ({ row }) => `$ ${ convertCurrencyToString(row.original.originalPrice) }`
+    cell: ({ row }) => `$ ${ convertCurrencyToString(row.original.price) }`
   },
   {
     id: 'actions',

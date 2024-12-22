@@ -98,7 +98,6 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
           />
         </FormGroup>
         <Button
-          className="bg-green-500 hover:bg-green-600 text-white"
           type="submit"
         >
           Submit

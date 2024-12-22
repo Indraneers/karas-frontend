@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getAutoServices } from "../../api/auto-services";
 import { convertServiceDtoToService } from "../../utils/service";
 
-export function ServiceTable() {
+export function ServiceTable({ className } : { className?: string }) {
   const { isError, isLoading, data } = useQuery({
     queryKey: ['services'],
     queryFn: () => getAutoServices()
@@ -21,6 +21,8 @@ export function ServiceTable() {
   const services = data?.map(s => convertServiceDtoToService(s));
 
   return (
-    <DataTablePagination data={services || []} columns={columns} />
+    <div className={className}>
+      <DataTablePagination data={services || []} columns={columns} />
+    </div>
   );
 }

@@ -64,7 +64,6 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
           />
         </FormGroup>
         <Button 
-          className="bg-green-500 hover:bg-green-600 text-white"
           type="submit"
         >
           Submit

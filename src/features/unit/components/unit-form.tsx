@@ -71,7 +71,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormGroup title="General Information">
           <div className='gap-8 grid grid-cols-3'>
             <FormField
@@ -146,6 +146,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                   <FormLabel>Unit Price ($)</FormLabel>
                   <FormControl>
                     <PrefixedCurrencyInput
+                      className="w-24 h-9"
                       defaultValue={field.value}
                       disableGroupSeparators
                       onValueChange={(value) => {
@@ -183,7 +184,6 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
           </div>
         </FormGroup>
         <Button
-          className="bg-green-500 hover:bg-green-600 text-white"
           type="submit"
         >
           Submit

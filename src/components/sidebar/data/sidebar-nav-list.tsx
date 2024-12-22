@@ -29,7 +29,10 @@ export const sidebarNavList: SideBarNavDataItem[] = [
   {
     icon: Wrench,
     title: 'Services',
-    url: '/services'
+    url: '/services',
+    childRoutes: [
+      /^\/sales\/.*/
+    ]
   },
   {
     icon: User,
