@@ -1,4 +1,4 @@
-import { BadgeDollarSign, House, ListTodo, LucideIcon, NotepadText, Wrench } from "lucide-react";
+import { BadgeDollarSign, CalendarDays, CarFront, Cog, House, ListTodo, LucideIcon, NotepadText, User, Users, Wrench } from "lucide-react";
 
 interface SideBarNavDataItem {
   icon: LucideIcon;
@@ -27,13 +27,41 @@ export const sidebarNavList: SideBarNavDataItem[] = [
     ]
   },
   {
-    icon: NotepadText,
-    title: 'Sales & Orders',
-    url: '/sales'
+    icon: Wrench,
+    title: 'Services',
+    url: '/services'
   },
   {
-    icon: Wrench,
+    icon: User,
+    title: 'Customers',
+    url: '/customers'
+  },
+  {
+    icon: CarFront,
+    title: 'Vehicles',
+    url: '/vehicles'
+  },
+  {
+    icon: NotepadText,
+    title: 'Sales & Orders',
+    url: '/sales',
+    childRoutes: [
+      /^\/sales\/.*/
+    ]
+  },
+  {
+    icon: CalendarDays,
     title: 'Maintenance',
     url: '/maintenance'
+  },
+  {
+    icon: Users,
+    title: 'Users',
+    url: '/users'
+  },
+  {
+    icon: Cog,
+    title: 'Setting',
+    url: '/setting'
   }
 ];

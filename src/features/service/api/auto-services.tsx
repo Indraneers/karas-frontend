@@ -6,3 +6,10 @@ export const getAutoServices = (): Promise<ServiceDto[]> =>
     url: '/auto-services',
     method: 'GET'
   });
+
+
+export const deleteAutoServices = (id: string): Promise<ServiceDto> =>
+  request({
+    url: '/auto-services/' + id,
+    method: 'DELETE'
+  });

@@ -14,7 +14,7 @@ import { getSaleById } from '@/features/sale/api/sale';
 import { useEffect } from 'react';
 import { usePosStore } from '../store/pos';
 import { useRouter } from '@tanstack/react-router';
-import { getAutoServices } from '../api/auto-services';
+import { getAutoServices } from '@/features/service/api/auto-services';
 
 interface PosFormProps {
   saleId?: string;

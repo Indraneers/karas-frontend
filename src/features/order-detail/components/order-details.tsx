@@ -122,7 +122,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
             >
               <RotateCcw className="!w-4 !h-4" />
             </Button>
-            <EditButton to={'/customers/edit' + vehicle.id} className="w-4 h-4" />
+            <EditButton to={'/customers/edit/' + vehicle.id} className="w-4 h-4" />
           </div>
         </div>
         <div className="mt-2 p-2 border rounded-lg">
@@ -132,7 +132,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
                 {vehicle.makeAndModel}
               </Badge>
             </div>
-            <EditButton to={'/vehicles/edit' + vehicle.id} className="w-4 h-4" />
+            <EditButton to={'/vehicles/edit/' + vehicle.id} className="w-4 h-4" />
           </div>
           <VehicleInformation className="mt-4" vehicle={vehicle} />
         </div>

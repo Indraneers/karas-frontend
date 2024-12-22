@@ -37,7 +37,7 @@ export function convertPosStoreToSaleRequestDto
   });
 
   return {
-    userId: 'fde1023e-3d87-49c4-8711-c2c04c1ce6d9',
+    userId: '362444bf-734d-4854-abc1-c20dbeab55bf',
     dueDate: convertDateToLocaleDate(posState.dueDate),
     created: convertDateToLocaleDate(new Date()),
     discount: posState.discount,
