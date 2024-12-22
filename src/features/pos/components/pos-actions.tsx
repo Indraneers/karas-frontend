@@ -12,6 +12,9 @@ import { ItemSelectionEnum } from "@/features/item-selector/types/item-selection
 import { toastError } from "@/lib/toast";
 import { getSubtotal } from "@/features/sale/utils/sale";
 import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
+import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { useState } from "react";
+import { DateTimePicker } from "@/components/ui/datetime-picker";
 
 interface PosActionsProps {
   className?: string;
@@ -20,11 +23,10 @@ interface PosActionsProps {
 }
 
 export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
-  const { dueDate, items, services, discount, customer, vehicle, resetPos } = usePosStore();
+  const [openHoldDialog, setOpenHoldDialog] = useState(false);
+  const { dueDate, setDueDate, items, services, discount, customer, vehicle, resetPos } = usePosStore();
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
-
-  console.log(dueDate);
 
   const saleMutation = useMutation({
     mutationFn: (saleRequestDto: SaleRequestDto) => {
@@ -46,8 +48,9 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         discount,
         customer,
         vehicle,
-        dueDate: dueDate,
-        defaultServices: []
+        dueDate,
+        defaultServices: [],
+        isInit: false
       },
       status
     );
@@ -86,37 +89,69 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
   }
   
   return (
-    <div className={cn([
-      'grid grid-cols-3 ',
-      className
-    ])}>
-      <Button 
-        onClick={() => handlePOSAction(StatusEnum.PAID)}
-        className="bg-green-500 hover:bg-green-400 rounded-l-full rounded-r-none font-semibold"
-      >
-        <span>
-          <ShoppingCart />
-        </span>
+    <>
+      <div className={cn([
+        'grid grid-cols-3 ',
+        className
+      ])}>
+        <Button 
+          onClick={() => handlePOSAction(StatusEnum.PAID)}
+          className="bg-green-500 hover:bg-green-400 rounded-l-full rounded-r-none font-semibold"
+        >
+          <span>
+            <ShoppingCart />
+          </span>
         Pay
-      </Button>
-      <Button
-        onClick={() => handlePOSAction(StatusEnum.HOLD)}
-        className="bg-amber-500 hover:bg-amber-400 rounded-none font-semibold"
-      >
-        <span>
-          <Pause />
-        </span>
+        </Button>
+        <Button
+          onClick={() => setOpenHoldDialog(true)}
+          className="bg-amber-500 hover:bg-amber-400 rounded-none font-semibold"
+        >
+          <span>
+            <Pause />
+          </span>
         Hold
-      </Button>
-      <Button 
-        onClick={() => resetPos()}
-        className="bg-primary rounded-l-none rounded-r-full font-semibold"
-      >
-        <span>
-          <Trash />
-        </span>
+        </Button>
+        <Button 
+          onClick={() => resetPos()}
+          className="bg-primary rounded-l-none rounded-r-full font-semibold"
+        >
+          <span>
+            <Trash />
+          </span>
         Reset
-      </Button>
-    </div>
+        </Button>
+      </div>
+      <Dialog open={openHoldDialog} onOpenChange={setOpenHoldDialog}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>
+              Set Due Date for Payment
+            </DialogTitle>
+          </DialogHeader>
+          <div className="w-full">
+            <label className="text-muted-foreground text-xs">
+                Due Date
+            </label>
+            <DateTimePicker
+              hourCycle={12}
+              value={dueDate}
+              onChange={setDueDate} 
+              locale={undefined}
+              weekStartsOn={undefined} 
+              showWeekNumber={undefined} 
+              showOutsideDays={undefined}      
+            />
+          </div> 
+          <DialogFooter>
+            <Button onClick={() => handlePOSAction(StatusEnum.HOLD)} className="w-full">
+              <ShoppingCart />
+              Submit Sale
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+    </>
+
   );
 }

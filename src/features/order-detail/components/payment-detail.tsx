@@ -8,11 +8,10 @@ import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { getSubtotal } from "@/features/sale/utils/sale";
 import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
 import { Currency } from "@/components/currency";
-import { DateTimePicker } from "@/components/ui/datetime-picker";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 
 export function PaymentDetail({ children } : { children: React.ReactNode}) {
-  const { dueDate, setDueDate, items, services, discount, setDiscount } = usePosStore();
+  const { items, services, discount, setDiscount } = usePosStore();
 
   const checkedServices =  getCheckedServiceItem(services);
 
@@ -29,14 +28,6 @@ export function PaymentDetail({ children } : { children: React.ReactNode}) {
           </TypographyH3>
 
           <div className="mt-2">
-            <PaymentDetailElement label="Due Date">
-              <DateTimePicker 
-                className="w-full h-6 font-medium" 
-                value={dueDate} 
-                onChange={setDueDate} 
-                use12HourFormat
-              />
-            </PaymentDetailElement>
             <PaymentDetailElement className="mt-4" label="Sub Total">
               <Currency amount={subTotal} />
             </PaymentDetailElement>

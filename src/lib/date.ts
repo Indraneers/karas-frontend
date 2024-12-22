@@ -1,3 +1,5 @@
+import { format } from "date-fns";
+
 export function convertDateToLocaleDate(date: Date) {
-  return date.toISOString().slice(0, -1);
+  return format(date, "yyyy-MM-dd'T'HH:mm:ss");
 }
