@@ -4,6 +4,7 @@ import { SectionHeader } from '@/components/section-header';
 import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { CustomerTable } from '@/features/customer/components/customer-table';
+import { NewCustomerButton } from '@/features/customer/components/new-customer-btn';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_dashboard_layout/customers/')({
@@ -23,7 +24,11 @@ export function CustomerPage() {
         </Subtitle>
       </SectionHeader>
       <SectionContent>
-        <CustomerTable />
+        <div className='flex justify-between'>
+          <div></div>
+          <NewCustomerButton />
+        </div>
+        <CustomerTable className='mt-4' />
       </SectionContent>
     </Section>
   );

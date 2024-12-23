@@ -7,6 +7,13 @@ export const getAllCustomers = (): Promise<CustomerDto[]> =>
     method: 'GET'
   });
 
+export const createCustomer = (customerDto: CustomerDto): Promise<CustomerDto> => 
+  request({
+    url: '/customers',
+    method: 'POST',
+    data: customerDto
+  });
+
 export const deleteCustomer = (id: string): Promise<CustomerDto> =>
   request({
     url: '/customers/' + id,
