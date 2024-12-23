@@ -4,7 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 interface DeleteButtonProps<T> {
   id: string;
-  type: 'categories' | 'products' | 'units' | 'sales' | 'services';
+  type: 'categories' | 'products' | 'units' | 'sales' | 'services' | 'customers';
   handleDelete: (d: string) => Promise<T>
 }
 

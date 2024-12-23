@@ -1,11 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Service } from "../../types/service";
-import { Checkbox } from '@/components/ui/checkbox';
-import { convertCurrencyToString } from "@/lib/currency";
-import { ServiceActions } from "../service-actions";
-import { deleteAutoService } from "../../api/auto-services";
+import { Customer } from "../../types/customer";
+import { Checkbox } from "@/components/ui/checkbox";
+import { CustomerActions } from "../customer-actions";
+import { deleteCustomer } from "../../api/customer";
 
-export const columns: ColumnDef<Service>[] = [
+export const columns: ColumnDef<Customer>[] = [
   {
     id: 'select',
     size: 50,
@@ -31,17 +30,20 @@ export const columns: ColumnDef<Service>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Service Name'
+    header: 'Customer Name'
   },
   {
-    accessorKey: 'price',
-    header: 'Price',
-    cell: ({ row }) => `$ ${ convertCurrencyToString(row.original.price) }`
+    accessorKey: 'contact',
+    header: 'Phone Number'
+  },
+  {
+    accessorKey: 'address',
+    header: 'Address'
   },
   {
     id: 'actions',
     header: 'Actions',
     size: 100,
-    cell: ({ row }) => <ServiceActions id={row.original.id} handleDelete={deleteAutoService} />
+    cell: ({ row }) => <CustomerActions id={row.original.id || ''} handleDelete={deleteCustomer} />
   }
 ];

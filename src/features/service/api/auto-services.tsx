@@ -27,7 +27,7 @@ export const updateAutoService = (id: string, serviceDto: ServiceDto): Promise<S
     data: serviceDto
   });
 
-export const deleteAutoServices = (id: string): Promise<ServiceDto> =>
+export const deleteAutoService = (id: string): Promise<ServiceDto> =>
   request({
     url: '/auto-services/' + id,
     method: 'DELETE'

@@ -19,17 +19,9 @@ export const sidebarNavList: SideBarNavDataItem[] = [
     url: '/pos'
   },
   {
-    icon: ListTodo,
-    title: 'Inventory',
-    url: '/inventory/units',
-    childRoutes: [
-      /^\/inventory\/.*/
-    ]
-  },
-  {
-    icon: Wrench,
-    title: 'Services',
-    url: '/services',
+    icon: NotepadText,
+    title: 'Sales & Orders',
+    url: '/sales',
     childRoutes: [
       /^\/sales\/.*/
     ]
@@ -45,9 +37,17 @@ export const sidebarNavList: SideBarNavDataItem[] = [
     url: '/vehicles'
   },
   {
-    icon: NotepadText,
-    title: 'Sales & Orders',
-    url: '/sales',
+    icon: ListTodo,
+    title: 'Inventory',
+    url: '/inventory/units',
+    childRoutes: [
+      /^\/inventory\/.*/
+    ]
+  },
+  {
+    icon: Wrench,
+    title: 'Services',
+    url: '/services',
     childRoutes: [
       /^\/sales\/.*/
     ]

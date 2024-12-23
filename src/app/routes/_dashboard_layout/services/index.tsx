@@ -19,7 +19,7 @@ export function ServicePage() {
           Services
         </TypographyH1>
         <Subtitle>
-          Page for handling category creation, deletion,
+          Page for handling services creation, deletion,
           and update.
         </Subtitle>
       </SectionHeader>
