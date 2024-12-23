@@ -18,7 +18,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   const debouncedQ = useDebounce(q, 500);
   
   const { isError,data } = useQuery({
-    queryKey: ['products' + category?.name || null, debouncedQ],
+    queryKey: ['products', category?.name || null, debouncedQ],
     queryFn: () => getProducts({ categoryId: category?.id, q: debouncedQ })
   });
 

@@ -44,7 +44,7 @@ export function VehicleSearchItem({ className, vehicle, setQ }: VehicleSearchIte
               </div>
             </div>
             <div>
-              {vehicle.customer.name}
+              {vehicle.customer?.name}
             </div>
           </div>
         </div>

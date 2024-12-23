@@ -7,10 +7,13 @@ import { CustomerDto } from "@/features/customer/types/customer.dto";
 
 interface CustomerInformationProps {
   className?: string;
-  customer: CustomerDto;
+  customer: CustomerDto | undefined;
 }
 
 export function CustomerInformation({ customer, className } : CustomerInformationProps) {
+  if (!customer) {
+    return 'empty...';
+  }
   return (
     <div className={cn([
       className

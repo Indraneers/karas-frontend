@@ -3,7 +3,7 @@ import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
 import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
-import { NewCustomerButton } from '@/features/customer/components/new-customer-btn';
+import { NewVehicleButton } from '@/features/vehicles/components/new-vehicle.btn';
 import { VehicleTable } from '@/features/vehicles/components/vehicle-table';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -26,7 +26,7 @@ function VehiclePage() {
       <SectionContent>
         <div className='flex justify-between'>
           <div></div>
-          <NewCustomerButton />
+          <NewVehicleButton />
         </div>
         <VehicleTable className='mt-4' />
       </SectionContent>

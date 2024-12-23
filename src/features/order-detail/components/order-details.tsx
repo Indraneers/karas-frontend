@@ -104,7 +104,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
                 className="gap-2 border-accent/50 bg-accent/10 border rounded-full min-w-6 h-6 font-medium text-primary hover:text-background"
               >
                 <CircleUser />
-                {vehicle.customer.name || '-'}
+                {vehicle.customer?.name || '-'}
               </Button>
             </PopoverTrigger>
             <PopoverContent className="p-2 w-80">

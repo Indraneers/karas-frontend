@@ -2,7 +2,7 @@ import { CustomerDto } from "@/features/customer/types/customer.dto";
 
 export interface VehicleDto {
   id?: string;
-  customer: CustomerDto;
+  customer?: CustomerDto;
   vinNo: string;
   engineNo: string;
   mileage: number;

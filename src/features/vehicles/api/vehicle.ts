@@ -12,6 +12,12 @@ export const getVehicles = (query?: VehicleQuery): Promise<VehicleDto[]> =>
     params: query
   });
 
+export const createVehicle = (vehicleDto: VehicleDto): Promise<VehicleDto> =>
+  request({
+    url: '/vehicles',
+    method: 'POST',
+    data: vehicleDto
+  });
 
 export const deleteVehicle = (id: string): Promise<VehicleDto> =>
   request({

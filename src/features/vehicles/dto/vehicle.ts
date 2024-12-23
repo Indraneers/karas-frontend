@@ -2,7 +2,7 @@ import { Customer } from "@/features/customer/types/customer";
 
 export interface Vehicle {
   id?: string;
-  customer: Customer;
+  customer?: Customer;
   vinNo: string;
   engineNo: string;
   mileage: number;
