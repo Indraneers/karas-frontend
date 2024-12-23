@@ -26,6 +26,7 @@ import { Route as DashboardlayoutCustomersIndexImport } from './routes/_dashboar
 import { Route as DashboardlayoutServicesCreateImport } from './routes/_dashboard_layout/services/create'
 import { Route as DashboardlayoutSalesSaleIdImport } from './routes/_dashboard_layout/sales/$saleId'
 import { Route as DashboardlayoutInventoryInventorylayoutImport } from './routes/_dashboard_layout/inventory/_inventory_layout'
+import { Route as DashboardlayoutServicesEditServiceIdImport } from './routes/_dashboard_layout/services/edit/$serviceId'
 import { Route as DashboardlayoutSalesEditSaleIdImport } from './routes/_dashboard_layout/sales/edit/$saleId'
 import { Route as DashboardlayoutInventoryUnitsCreateImport } from './routes/_dashboard_layout/inventory/units/create'
 import { Route as DashboardlayoutInventoryProductsCreateImport } from './routes/_dashboard_layout/inventory/products/create'
@@ -122,6 +123,12 @@ const DashboardlayoutInventoryInventorylayoutRoute =
   DashboardlayoutInventoryInventorylayoutImport.update({
     id: '/_inventory_layout',
     getParentRoute: () => DashboardlayoutInventoryRoute,
+  } as any)
+
+const DashboardlayoutServicesEditServiceIdRoute =
+  DashboardlayoutServicesEditServiceIdImport.update({
+    path: '/services/edit/$serviceId',
+    getParentRoute: () => DashboardlayoutRoute,
   } as any)
 
 const DashboardlayoutSalesEditSaleIdRoute =
@@ -314,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardlayoutSalesEditSaleIdImport
       parentRoute: typeof DashboardlayoutImport
     }
+    '/_dashboard_layout/services/edit/$serviceId': {
+      id: '/_dashboard_layout/services/edit/$serviceId'
+      path: '/services/edit/$serviceId'
+      fullPath: '/services/edit/$serviceId'
+      preLoaderRoute: typeof DashboardlayoutServicesEditServiceIdImport
+      parentRoute: typeof DashboardlayoutImport
+    }
     '/_dashboard_layout/inventory/categories/edit/$categoryId': {
       id: '/_dashboard_layout/inventory/categories/edit/$categoryId'
       path: '/categories/edit/$categoryId'
@@ -388,6 +402,7 @@ export const routeTree = rootRoute.addChildren({
     DashboardlayoutServicesIndexRoute,
     DashboardlayoutVehiclesIndexRoute,
     DashboardlayoutSalesEditSaleIdRoute,
+    DashboardlayoutServicesEditServiceIdRoute,
   }),
   LoginRoute,
 })
@@ -417,7 +432,8 @@ export const routeTree = rootRoute.addChildren({
         "/_dashboard_layout/sales/",
         "/_dashboard_layout/services/",
         "/_dashboard_layout/vehicles/",
-        "/_dashboard_layout/sales/edit/$saleId"
+        "/_dashboard_layout/sales/edit/$saleId",
+        "/_dashboard_layout/services/edit/$serviceId"
       ]
     },
     "/login": {
@@ -500,6 +516,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_dashboard_layout/sales/edit/$saleId": {
       "filePath": "_dashboard_layout/sales/edit/$saleId.tsx",
+      "parent": "/_dashboard_layout"
+    },
+    "/_dashboard_layout/services/edit/$serviceId": {
+      "filePath": "_dashboard_layout/services/edit/$serviceId.tsx",
       "parent": "/_dashboard_layout"
     },
     "/_dashboard_layout/inventory/categories/edit/$categoryId": {

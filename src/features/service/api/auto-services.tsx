@@ -7,10 +7,23 @@ export const getAutoServices = (): Promise<ServiceDto[]> =>
     method: 'GET'
   });
 
+export const getAutoServiceById = (id: string): Promise<ServiceDto> =>
+  request({
+    url: '/auto-services/' + id,
+    method: 'GET'
+  });
+
 export const createAutoService = (serviceDto: ServiceDto): Promise<ServiceDto> =>
   request({
     url: '/auto-services',
     method: 'POST',
+    data: serviceDto
+  });
+
+export const updateAutoService = (id: string, serviceDto: ServiceDto): Promise<ServiceDto> =>
+  request({
+    url: '/auto-services/' + id,
+    method: 'PUT',
     data: serviceDto
   });
 

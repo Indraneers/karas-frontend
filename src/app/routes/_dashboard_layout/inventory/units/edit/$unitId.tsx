@@ -25,7 +25,7 @@ function UpdateUnitPage() {
         queryFn: async () => getProducts()
       },
       {
-        queryKey: ['unit-', unitId],
+        queryKey: ['unit-' + unitId],
         queryFn: async () => await getUnitById(unitId)
       }
     ]
@@ -38,7 +38,7 @@ function UpdateUnitPage() {
         queryKey: ['units']
       });
       queryClient.invalidateQueries({
-        queryKey: ['unit-', unitId]
+        queryKey: ['unit-' + unitId]
       });
     }
   });

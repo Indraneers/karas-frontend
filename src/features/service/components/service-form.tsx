@@ -58,6 +58,7 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
   }
 
   useEffect(() => {
+    console.log(data);
     form.reset(data);
   }, [data, form]);
 
@@ -98,6 +99,7 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
                     className="w-24 h-9"
                     defaultValue={field.value}
                     disableGroupSeparators
+                    value={field.value}
                     onValueChange={(value) => {
                       field.onChange(value); 
                     }}  

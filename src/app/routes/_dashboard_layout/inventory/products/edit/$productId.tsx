@@ -24,7 +24,7 @@ function UpdateProductPage() {
         queryFn: async () => getCategories()
       },
       {
-        queryKey: ['product-', productId],
+        queryKey: ['product-' + productId],
         queryFn: async () => await getProductById(productId)
       }
     ]
@@ -37,7 +37,7 @@ function UpdateProductPage() {
         queryKey: ['products']
       });
       queryClient.invalidateQueries({
-        queryKey: ['product-', productId]
+        queryKey: ['product-' + productId]
       });
     }
   });

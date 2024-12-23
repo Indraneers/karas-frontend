@@ -17,7 +17,7 @@ function UpdateCategoryPage() {
   const queryClient = useQueryClient();
 
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['category-', categoryId],
+    queryKey: ['category-' + categoryId],
     queryFn: async () => await getCategoryById(categoryId)
   });
   
@@ -27,8 +27,9 @@ function UpdateCategoryPage() {
       queryClient.invalidateQueries({
         queryKey: ['categories']
       });
+
       queryClient.invalidateQueries({
-        queryKey: ['category-', categoryId]
+        queryKey: ['category-' + categoryId]
       });
     }
   });
