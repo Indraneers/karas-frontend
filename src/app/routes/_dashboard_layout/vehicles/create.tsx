@@ -24,7 +24,7 @@ function CreateVehiclePage() {
   });
 
   return (
-    <Section className='pt-4'>
+    <Section className='py-4'>
       <SectionHeader>
         <TypographyH1>
           Create New Vehicle

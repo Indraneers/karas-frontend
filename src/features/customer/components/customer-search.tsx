@@ -16,7 +16,7 @@ export function CustomerSearch({ value, onChange }: { value?: CustomerDto, onCha
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
   
-  const { data } = useQuery({
+  const { isLoading, data } = useQuery({
     queryKey: ['customers', debouncedQ],
     queryFn: () => getCustomers({ q: debouncedQ }),
     enabled: q !== ''
@@ -51,7 +51,11 @@ export function CustomerSearch({ value, onChange }: { value?: CustomerDto, onCha
               placeholder="Search for Customer" 
             />
             <CommandList>
-              { !data && <CommandEmpty>No Customer found.</CommandEmpty> }
+              {
+                q !== '' && data?.length === 0 && !isLoading &&
+                <CommandEmpty>No Customer found.</CommandEmpty>
+              }
+              { q !== '' &&
               <CommandGroup heading="Customers">
                 {data?.map((c) => (
                   <CommandItem
@@ -72,6 +76,7 @@ export function CustomerSearch({ value, onChange }: { value?: CustomerDto, onCha
                   </CommandItem>
                 ))}
               </CommandGroup>
+              }
             </CommandList>
           </Command>
         </PopoverContent>
