@@ -1,7 +1,7 @@
 import { request } from "@/lib/request";
 import { CustomerDto } from "../types/customer.dto";
 
-export const getAllCustomers = (): Promise<CustomerDto[]> => 
+export const getCustomers = (): Promise<CustomerDto[]> => 
   request({
     url: '/customers',
     method: 'GET'

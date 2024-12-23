@@ -11,3 +11,10 @@ export const getVehicles = (query?: VehicleQuery): Promise<VehicleDto[]> =>
     method: 'GET',
     params: query
   });
+
+
+export const deleteVehicle = (id: string): Promise<VehicleDto> =>
+  request({
+    url: '/vehicles/' + id,
+    method: 'DELETE'
+  });

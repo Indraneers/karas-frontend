@@ -19,7 +19,7 @@ export function CustomerPage() {
           Customers
         </TypographyH1>
         <Subtitle>
-          Page for handling category creation, deletion,
+          Page for handling customer creation, deletion,
           and update.
         </Subtitle>
       </SectionHeader>

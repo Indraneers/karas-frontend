@@ -1,13 +1,13 @@
 import { DataTablePagination } from "@/components/data-table-pagination";
 import { columns } from "./columns";
+import { convertVehicleDtoToVehicle } from "../../utils/vehicle";
 import { useQuery } from "@tanstack/react-query";
-import { getCustomers } from "../../api/customer";
-import { convertCustomerDtoToCustomer } from "../../utils/customer";
+import { getVehicles } from "../../api/vehicle";
 
-export function CustomerTable({ className } : { className?: string }) {
+export function VehicleTable({ className }: { className?: string }) {
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['customers'],
-    queryFn: () => getCustomers()
+    queryKey: ['vehicles'],
+    queryFn: () => getVehicles()
   });
 
   if (isError) {
@@ -24,7 +24,7 @@ export function CustomerTable({ className } : { className?: string }) {
 
   return (
     <div className={className}>
-      <DataTablePagination data={data.map(c => convertCustomerDtoToCustomer(c))} columns={columns} />
+      <DataTablePagination data={data.map(v => convertVehicleDtoToVehicle(v))} columns={columns} />
     </div>
   );
 }
