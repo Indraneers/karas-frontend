@@ -20,8 +20,6 @@ export function CustomerInformation({ customer, className } : CustomerInformatio
   const queryClient = useQueryClient();
   const { setCustomer, setDefaultVehicleAndCustomer } = usePosStore();
 
-  console.log(customer);
-
   const createMutation = useMutation({
     mutationFn: (customerDto: CustomerDto) => createCustomer(customerDto),
     onSuccess: () => {
@@ -90,8 +88,9 @@ export function CustomerInformation({ customer, className } : CustomerInformatio
             />
           </PopoverButton>
           <PopoverButton 
+            disabled={!customer.id}
             trigger={
-              <Button variant="ghost"  size="icon">
+              <Button disabled={!customer.id} variant="ghost" size="icon">
                 <Edit />
               </Button>
             }

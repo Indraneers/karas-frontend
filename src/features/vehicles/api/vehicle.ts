@@ -18,6 +18,15 @@ export const getVehicleById = (id: string): Promise<VehicleDto> =>
     method: 'GET'
   });
 
+export const getVehiclesByCustomerId = (customerId: string): Promise<VehicleDto[]> =>
+  request({
+    url: '/vehicles',
+    method: 'GET',
+    params: {
+      customerId
+    }
+  });
+
 export const createVehicle = (vehicleDto: VehicleDto): Promise<VehicleDto> =>
   request({
     url: '/vehicles',

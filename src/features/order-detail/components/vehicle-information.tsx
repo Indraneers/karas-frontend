@@ -3,6 +3,7 @@ import { TypographyH3 } from "@/components/ui/typography/h3";
 import { SaleDetailElement } from "@/features/sale/components/sale-detail-element";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
 import { cn } from "@/lib/utils";
+import { VehicleSelect } from "./vehicle-select";
 
 interface VehicleInformationProps {
   className?: string;
@@ -18,7 +19,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           Vehicle Information
       </TypographyH3>
       <SaleDetailElement className="mt-3" label="Make & Model">
-        <span className="font-medium">{vehicle.makeAndModel}</span>
+        <VehicleSelect className="mt-1" />
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="Plate Number">
         <span className="font-medium">{vehicle.plateNumber}</span>

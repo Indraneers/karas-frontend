@@ -49,7 +49,7 @@ export const sidebarNavList: SideBarNavDataItem[] = [
     title: 'Services',
     url: '/services',
     childRoutes: [
-      /^\/sales\/.*/
+      /^\/services\/.*/
     ]
   },
   {
