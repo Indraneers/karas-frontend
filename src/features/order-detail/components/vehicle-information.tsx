@@ -102,7 +102,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           </Button>
         </div>
       </div>
-      <SaleDetailElement className="mt-2" label="Make and Model">
+      <SaleDetailElement className="mt-4" label="Make and Model">
         <span className="font-medium">{vehicle.makeAndModel}</span>
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="Plate Number">

@@ -14,38 +14,39 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
-import { Route as DashboardlayoutImport } from './routes/_dashboard_layout'
-import { Route as DashboardlayoutIndexImport } from './routes/_dashboard_layout/index'
-import { Route as DashboardlayoutPosImport } from './routes/_dashboard_layout/pos'
-import { Route as DashboardlayoutVehiclesIndexImport } from './routes/_dashboard_layout/vehicles/index'
-import { Route as DashboardlayoutServicesIndexImport } from './routes/_dashboard_layout/services/index'
-import { Route as DashboardlayoutSalesIndexImport } from './routes/_dashboard_layout/sales/index'
-import { Route as DashboardlayoutMaintenanceIndexImport } from './routes/_dashboard_layout/maintenance/index'
-import { Route as DashboardlayoutInventoryIndexImport } from './routes/_dashboard_layout/inventory/index'
-import { Route as DashboardlayoutCustomersIndexImport } from './routes/_dashboard_layout/customers/index'
-import { Route as DashboardlayoutVehiclesCreateImport } from './routes/_dashboard_layout/vehicles/create'
-import { Route as DashboardlayoutServicesCreateImport } from './routes/_dashboard_layout/services/create'
-import { Route as DashboardlayoutSalesSaleIdImport } from './routes/_dashboard_layout/sales/$saleId'
-import { Route as DashboardlayoutInventoryInventorylayoutImport } from './routes/_dashboard_layout/inventory/_inventory_layout'
-import { Route as DashboardlayoutCustomersCreateImport } from './routes/_dashboard_layout/customers/create'
-import { Route as DashboardlayoutVehiclesEditVehicleIdImport } from './routes/_dashboard_layout/vehicles/edit/$vehicleId'
-import { Route as DashboardlayoutServicesEditServiceIdImport } from './routes/_dashboard_layout/services/edit/$serviceId'
-import { Route as DashboardlayoutSalesEditSaleIdImport } from './routes/_dashboard_layout/sales/edit/$saleId'
-import { Route as DashboardlayoutInventoryUnitsCreateImport } from './routes/_dashboard_layout/inventory/units/create'
-import { Route as DashboardlayoutInventoryProductsCreateImport } from './routes/_dashboard_layout/inventory/products/create'
-import { Route as DashboardlayoutInventoryCategoriesCreateImport } from './routes/_dashboard_layout/inventory/categories/create'
-import { Route as DashboardlayoutCustomersEditCustomerIdImport } from './routes/_dashboard_layout/customers/edit/$customerId'
-import { Route as DashboardlayoutInventoryInventorylayoutUnitsIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/units/index'
-import { Route as DashboardlayoutInventoryInventorylayoutProductsIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/products/index'
-import { Route as DashboardlayoutInventoryInventorylayoutCategoriesIndexImport } from './routes/_dashboard_layout/inventory/_inventory_layout/categories/index'
-import { Route as DashboardlayoutInventoryUnitsEditUnitIdImport } from './routes/_dashboard_layout/inventory/units/edit/$unitId'
-import { Route as DashboardlayoutInventoryProductsEditProductIdImport } from './routes/_dashboard_layout/inventory/products/edit/$productId'
-import { Route as DashboardlayoutInventoryCategoriesEditCategoryIdImport } from './routes/_dashboard_layout/inventory/categories/edit/$categoryId'
+import { Route as ProtectedlayoutInvoiceImport } from './routes/_protected_layout/invoice'
+import { Route as ProtectedlayoutDashboardlayoutImport } from './routes/_protected_layout/_dashboard_layout'
+import { Route as ProtectedlayoutDashboardlayoutIndexImport } from './routes/_protected_layout/_dashboard_layout/index'
+import { Route as ProtectedlayoutDashboardlayoutPosImport } from './routes/_protected_layout/_dashboard_layout/pos'
+import { Route as ProtectedlayoutDashboardlayoutVehiclesIndexImport } from './routes/_protected_layout/_dashboard_layout/vehicles/index'
+import { Route as ProtectedlayoutDashboardlayoutServicesIndexImport } from './routes/_protected_layout/_dashboard_layout/services/index'
+import { Route as ProtectedlayoutDashboardlayoutSalesIndexImport } from './routes/_protected_layout/_dashboard_layout/sales/index'
+import { Route as ProtectedlayoutDashboardlayoutMaintenanceIndexImport } from './routes/_protected_layout/_dashboard_layout/maintenance/index'
+import { Route as ProtectedlayoutDashboardlayoutInventoryIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/index'
+import { Route as ProtectedlayoutDashboardlayoutCustomersIndexImport } from './routes/_protected_layout/_dashboard_layout/customers/index'
+import { Route as ProtectedlayoutDashboardlayoutVehiclesCreateImport } from './routes/_protected_layout/_dashboard_layout/vehicles/create'
+import { Route as ProtectedlayoutDashboardlayoutServicesCreateImport } from './routes/_protected_layout/_dashboard_layout/services/create'
+import { Route as ProtectedlayoutDashboardlayoutSalesSaleIdImport } from './routes/_protected_layout/_dashboard_layout/sales/$saleId'
+import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout'
+import { Route as ProtectedlayoutDashboardlayoutCustomersCreateImport } from './routes/_protected_layout/_dashboard_layout/customers/create'
+import { Route as ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdImport } from './routes/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId'
+import { Route as ProtectedlayoutDashboardlayoutServicesEditServiceIdImport } from './routes/_protected_layout/_dashboard_layout/services/edit/$serviceId'
+import { Route as ProtectedlayoutDashboardlayoutSalesEditSaleIdImport } from './routes/_protected_layout/_dashboard_layout/sales/edit/$saleId'
+import { Route as ProtectedlayoutDashboardlayoutInventoryUnitsCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/units/create'
+import { Route as ProtectedlayoutDashboardlayoutInventoryProductsCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/products/create'
+import { Route as ProtectedlayoutDashboardlayoutInventoryCategoriesCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/categories/create'
+import { Route as ProtectedlayoutDashboardlayoutCustomersEditCustomerIdImport } from './routes/_protected_layout/_dashboard_layout/customers/edit/$customerId'
+import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/index'
+import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/index'
+import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/index'
+import { Route as ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId'
+import { Route as ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/products/edit/$productId'
+import { Route as ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId'
 
 // Create Virtual Routes
 
-const DashboardlayoutInventoryImport = createFileRoute(
-  '/_dashboard_layout/inventory',
+const ProtectedlayoutDashboardlayoutInventoryImport = createFileRoute(
+  '/_protected_layout/_dashboard_layout/inventory',
 )()
 
 // Create/Update Routes
@@ -55,181 +56,192 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardlayoutRoute = DashboardlayoutImport.update({
-  id: '/_dashboard_layout',
+const ProtectedlayoutInvoiceRoute = ProtectedlayoutInvoiceImport.update({
+  path: '/invoice',
   getParentRoute: () => rootRoute,
 } as any)
 
-const DashboardlayoutInventoryRoute = DashboardlayoutInventoryImport.update({
-  path: '/inventory',
-  getParentRoute: () => DashboardlayoutRoute,
-} as any)
-
-const DashboardlayoutIndexRoute = DashboardlayoutIndexImport.update({
-  path: '/',
-  getParentRoute: () => DashboardlayoutRoute,
-} as any)
-
-const DashboardlayoutPosRoute = DashboardlayoutPosImport.update({
-  path: '/pos',
-  getParentRoute: () => DashboardlayoutRoute,
-} as any)
-
-const DashboardlayoutVehiclesIndexRoute =
-  DashboardlayoutVehiclesIndexImport.update({
-    path: '/vehicles/',
-    getParentRoute: () => DashboardlayoutRoute,
+const ProtectedlayoutDashboardlayoutRoute =
+  ProtectedlayoutDashboardlayoutImport.update({
+    id: '/_protected_layout/_dashboard_layout',
+    getParentRoute: () => rootRoute,
   } as any)
 
-const DashboardlayoutServicesIndexRoute =
-  DashboardlayoutServicesIndexImport.update({
-    path: '/services/',
-    getParentRoute: () => DashboardlayoutRoute,
+const ProtectedlayoutDashboardlayoutInventoryRoute =
+  ProtectedlayoutDashboardlayoutInventoryImport.update({
+    path: '/inventory',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutSalesIndexRoute = DashboardlayoutSalesIndexImport.update({
-  path: '/sales/',
-  getParentRoute: () => DashboardlayoutRoute,
-} as any)
-
-const DashboardlayoutMaintenanceIndexRoute =
-  DashboardlayoutMaintenanceIndexImport.update({
-    path: '/maintenance/',
-    getParentRoute: () => DashboardlayoutRoute,
-  } as any)
-
-const DashboardlayoutInventoryIndexRoute =
-  DashboardlayoutInventoryIndexImport.update({
+const ProtectedlayoutDashboardlayoutIndexRoute =
+  ProtectedlayoutDashboardlayoutIndexImport.update({
     path: '/',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutCustomersIndexRoute =
-  DashboardlayoutCustomersIndexImport.update({
+const ProtectedlayoutDashboardlayoutPosRoute =
+  ProtectedlayoutDashboardlayoutPosImport.update({
+    path: '/pos',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutVehiclesIndexRoute =
+  ProtectedlayoutDashboardlayoutVehiclesIndexImport.update({
+    path: '/vehicles/',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutServicesIndexRoute =
+  ProtectedlayoutDashboardlayoutServicesIndexImport.update({
+    path: '/services/',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutSalesIndexRoute =
+  ProtectedlayoutDashboardlayoutSalesIndexImport.update({
+    path: '/sales/',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutMaintenanceIndexRoute =
+  ProtectedlayoutDashboardlayoutMaintenanceIndexImport.update({
+    path: '/maintenance/',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutInventoryIndexRoute =
+  ProtectedlayoutDashboardlayoutInventoryIndexImport.update({
+    path: '/',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutCustomersIndexRoute =
+  ProtectedlayoutDashboardlayoutCustomersIndexImport.update({
     path: '/customers/',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutVehiclesCreateRoute =
-  DashboardlayoutVehiclesCreateImport.update({
+const ProtectedlayoutDashboardlayoutVehiclesCreateRoute =
+  ProtectedlayoutDashboardlayoutVehiclesCreateImport.update({
     path: '/vehicles/create',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutServicesCreateRoute =
-  DashboardlayoutServicesCreateImport.update({
+const ProtectedlayoutDashboardlayoutServicesCreateRoute =
+  ProtectedlayoutDashboardlayoutServicesCreateImport.update({
     path: '/services/create',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutSalesSaleIdRoute = DashboardlayoutSalesSaleIdImport.update(
-  {
+const ProtectedlayoutDashboardlayoutSalesSaleIdRoute =
+  ProtectedlayoutDashboardlayoutSalesSaleIdImport.update({
     path: '/sales/$saleId',
-    getParentRoute: () => DashboardlayoutRoute,
-  } as any,
-)
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
 
-const DashboardlayoutInventoryInventorylayoutRoute =
-  DashboardlayoutInventoryInventorylayoutImport.update({
+const ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute =
+  ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport.update({
     id: '/_inventory_layout',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
-const DashboardlayoutCustomersCreateRoute =
-  DashboardlayoutCustomersCreateImport.update({
+const ProtectedlayoutDashboardlayoutCustomersCreateRoute =
+  ProtectedlayoutDashboardlayoutCustomersCreateImport.update({
     path: '/customers/create',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutVehiclesEditVehicleIdRoute =
-  DashboardlayoutVehiclesEditVehicleIdImport.update({
+const ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdRoute =
+  ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdImport.update({
     path: '/vehicles/edit/$vehicleId',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutServicesEditServiceIdRoute =
-  DashboardlayoutServicesEditServiceIdImport.update({
+const ProtectedlayoutDashboardlayoutServicesEditServiceIdRoute =
+  ProtectedlayoutDashboardlayoutServicesEditServiceIdImport.update({
     path: '/services/edit/$serviceId',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutSalesEditSaleIdRoute =
-  DashboardlayoutSalesEditSaleIdImport.update({
+const ProtectedlayoutDashboardlayoutSalesEditSaleIdRoute =
+  ProtectedlayoutDashboardlayoutSalesEditSaleIdImport.update({
     path: '/sales/edit/$saleId',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutInventoryUnitsCreateRoute =
-  DashboardlayoutInventoryUnitsCreateImport.update({
+const ProtectedlayoutDashboardlayoutInventoryUnitsCreateRoute =
+  ProtectedlayoutDashboardlayoutInventoryUnitsCreateImport.update({
     path: '/units/create',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
-const DashboardlayoutInventoryProductsCreateRoute =
-  DashboardlayoutInventoryProductsCreateImport.update({
+const ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute =
+  ProtectedlayoutDashboardlayoutInventoryProductsCreateImport.update({
     path: '/products/create',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
-const DashboardlayoutInventoryCategoriesCreateRoute =
-  DashboardlayoutInventoryCategoriesCreateImport.update({
+const ProtectedlayoutDashboardlayoutInventoryCategoriesCreateRoute =
+  ProtectedlayoutDashboardlayoutInventoryCategoriesCreateImport.update({
     path: '/categories/create',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
-const DashboardlayoutCustomersEditCustomerIdRoute =
-  DashboardlayoutCustomersEditCustomerIdImport.update({
+const ProtectedlayoutDashboardlayoutCustomersEditCustomerIdRoute =
+  ProtectedlayoutDashboardlayoutCustomersEditCustomerIdImport.update({
     path: '/customers/edit/$customerId',
-    getParentRoute: () => DashboardlayoutRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
-const DashboardlayoutInventoryInventorylayoutUnitsIndexRoute =
-  DashboardlayoutInventoryInventorylayoutUnitsIndexImport.update({
-    path: '/units/',
-    getParentRoute: () => DashboardlayoutInventoryInventorylayoutRoute,
-  } as any)
+const ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute =
+  ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexImport.update(
+    {
+      path: '/units/',
+      getParentRoute: () =>
+        ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute,
+    } as any,
+  )
 
-const DashboardlayoutInventoryInventorylayoutProductsIndexRoute =
-  DashboardlayoutInventoryInventorylayoutProductsIndexImport.update({
-    path: '/products/',
-    getParentRoute: () => DashboardlayoutInventoryInventorylayoutRoute,
-  } as any)
+const ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexRoute =
+  ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexImport.update(
+    {
+      path: '/products/',
+      getParentRoute: () =>
+        ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute,
+    } as any,
+  )
 
-const DashboardlayoutInventoryInventorylayoutCategoriesIndexRoute =
-  DashboardlayoutInventoryInventorylayoutCategoriesIndexImport.update({
-    path: '/categories/',
-    getParentRoute: () => DashboardlayoutInventoryInventorylayoutRoute,
-  } as any)
+const ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexRoute =
+  ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexImport.update(
+    {
+      path: '/categories/',
+      getParentRoute: () =>
+        ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute,
+    } as any,
+  )
 
-const DashboardlayoutInventoryUnitsEditUnitIdRoute =
-  DashboardlayoutInventoryUnitsEditUnitIdImport.update({
+const ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdRoute =
+  ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdImport.update({
     path: '/units/edit/$unitId',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
-const DashboardlayoutInventoryProductsEditProductIdRoute =
-  DashboardlayoutInventoryProductsEditProductIdImport.update({
+const ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdRoute =
+  ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdImport.update({
     path: '/products/edit/$productId',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
-const DashboardlayoutInventoryCategoriesEditCategoryIdRoute =
-  DashboardlayoutInventoryCategoriesEditCategoryIdImport.update({
+const ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdRoute =
+  ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdImport.update({
     path: '/categories/edit/$categoryId',
-    getParentRoute: () => DashboardlayoutInventoryRoute,
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/_dashboard_layout': {
-      id: '/_dashboard_layout'
-      path: ''
-      fullPath: ''
-      preLoaderRoute: typeof DashboardlayoutImport
-      parentRoute: typeof rootRoute
-    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -237,194 +249,208 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
-    '/_dashboard_layout/pos': {
-      id: '/_dashboard_layout/pos'
+    '/_protected_layout/_dashboard_layout': {
+      id: '/_protected_layout/_dashboard_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected_layout/invoice': {
+      id: '/_protected_layout/invoice'
+      path: '/invoice'
+      fullPath: '/invoice'
+      preLoaderRoute: typeof ProtectedlayoutInvoiceImport
+      parentRoute: typeof rootRoute
+    }
+    '/_protected_layout/_dashboard_layout/pos': {
+      id: '/_protected_layout/_dashboard_layout/pos'
       path: '/pos'
       fullPath: '/pos'
-      preLoaderRoute: typeof DashboardlayoutPosImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutPosImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/': {
-      id: '/_dashboard_layout/'
+    '/_protected_layout/_dashboard_layout/': {
+      id: '/_protected_layout/_dashboard_layout/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof DashboardlayoutIndexImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/customers/create': {
-      id: '/_dashboard_layout/customers/create'
+    '/_protected_layout/_dashboard_layout/customers/create': {
+      id: '/_protected_layout/_dashboard_layout/customers/create'
       path: '/customers/create'
       fullPath: '/customers/create'
-      preLoaderRoute: typeof DashboardlayoutCustomersCreateImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutCustomersCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/inventory': {
-      id: '/_dashboard_layout/inventory'
+    '/_protected_layout/_dashboard_layout/inventory': {
+      id: '/_protected_layout/_dashboard_layout/inventory'
       path: '/inventory'
       fullPath: '/inventory'
-      preLoaderRoute: typeof DashboardlayoutInventoryImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/inventory/_inventory_layout': {
-      id: '/_dashboard_layout/inventory/_inventory_layout'
+    '/_protected_layout/_dashboard_layout/inventory/_inventory_layout': {
+      id: '/_protected_layout/_dashboard_layout/inventory/_inventory_layout'
       path: '/inventory'
       fullPath: '/inventory'
-      preLoaderRoute: typeof DashboardlayoutInventoryInventorylayoutImport
-      parentRoute: typeof DashboardlayoutInventoryRoute
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryRoute
     }
-    '/_dashboard_layout/sales/$saleId': {
-      id: '/_dashboard_layout/sales/$saleId'
+    '/_protected_layout/_dashboard_layout/sales/$saleId': {
+      id: '/_protected_layout/_dashboard_layout/sales/$saleId'
       path: '/sales/$saleId'
       fullPath: '/sales/$saleId'
-      preLoaderRoute: typeof DashboardlayoutSalesSaleIdImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutSalesSaleIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/services/create': {
-      id: '/_dashboard_layout/services/create'
+    '/_protected_layout/_dashboard_layout/services/create': {
+      id: '/_protected_layout/_dashboard_layout/services/create'
       path: '/services/create'
       fullPath: '/services/create'
-      preLoaderRoute: typeof DashboardlayoutServicesCreateImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutServicesCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/vehicles/create': {
-      id: '/_dashboard_layout/vehicles/create'
+    '/_protected_layout/_dashboard_layout/vehicles/create': {
+      id: '/_protected_layout/_dashboard_layout/vehicles/create'
       path: '/vehicles/create'
       fullPath: '/vehicles/create'
-      preLoaderRoute: typeof DashboardlayoutVehiclesCreateImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutVehiclesCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/customers/': {
-      id: '/_dashboard_layout/customers/'
+    '/_protected_layout/_dashboard_layout/customers/': {
+      id: '/_protected_layout/_dashboard_layout/customers/'
       path: '/customers'
       fullPath: '/customers'
-      preLoaderRoute: typeof DashboardlayoutCustomersIndexImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutCustomersIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/inventory/': {
-      id: '/_dashboard_layout/inventory/'
+    '/_protected_layout/_dashboard_layout/inventory/': {
+      id: '/_protected_layout/_dashboard_layout/inventory/'
       path: '/'
       fullPath: '/inventory/'
-      preLoaderRoute: typeof DashboardlayoutInventoryIndexImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/maintenance/': {
-      id: '/_dashboard_layout/maintenance/'
+    '/_protected_layout/_dashboard_layout/maintenance/': {
+      id: '/_protected_layout/_dashboard_layout/maintenance/'
       path: '/maintenance'
       fullPath: '/maintenance'
-      preLoaderRoute: typeof DashboardlayoutMaintenanceIndexImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutMaintenanceIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/sales/': {
-      id: '/_dashboard_layout/sales/'
+    '/_protected_layout/_dashboard_layout/sales/': {
+      id: '/_protected_layout/_dashboard_layout/sales/'
       path: '/sales'
       fullPath: '/sales'
-      preLoaderRoute: typeof DashboardlayoutSalesIndexImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutSalesIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/services/': {
-      id: '/_dashboard_layout/services/'
+    '/_protected_layout/_dashboard_layout/services/': {
+      id: '/_protected_layout/_dashboard_layout/services/'
       path: '/services'
       fullPath: '/services'
-      preLoaderRoute: typeof DashboardlayoutServicesIndexImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutServicesIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/vehicles/': {
-      id: '/_dashboard_layout/vehicles/'
+    '/_protected_layout/_dashboard_layout/vehicles/': {
+      id: '/_protected_layout/_dashboard_layout/vehicles/'
       path: '/vehicles'
       fullPath: '/vehicles'
-      preLoaderRoute: typeof DashboardlayoutVehiclesIndexImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutVehiclesIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/customers/edit/$customerId': {
-      id: '/_dashboard_layout/customers/edit/$customerId'
+    '/_protected_layout/_dashboard_layout/customers/edit/$customerId': {
+      id: '/_protected_layout/_dashboard_layout/customers/edit/$customerId'
       path: '/customers/edit/$customerId'
       fullPath: '/customers/edit/$customerId'
-      preLoaderRoute: typeof DashboardlayoutCustomersEditCustomerIdImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutCustomersEditCustomerIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/inventory/categories/create': {
-      id: '/_dashboard_layout/inventory/categories/create'
+    '/_protected_layout/_dashboard_layout/inventory/categories/create': {
+      id: '/_protected_layout/_dashboard_layout/inventory/categories/create'
       path: '/categories/create'
       fullPath: '/inventory/categories/create'
-      preLoaderRoute: typeof DashboardlayoutInventoryCategoriesCreateImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryCategoriesCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/inventory/products/create': {
-      id: '/_dashboard_layout/inventory/products/create'
+    '/_protected_layout/_dashboard_layout/inventory/products/create': {
+      id: '/_protected_layout/_dashboard_layout/inventory/products/create'
       path: '/products/create'
       fullPath: '/inventory/products/create'
-      preLoaderRoute: typeof DashboardlayoutInventoryProductsCreateImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryProductsCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/inventory/units/create': {
-      id: '/_dashboard_layout/inventory/units/create'
+    '/_protected_layout/_dashboard_layout/inventory/units/create': {
+      id: '/_protected_layout/_dashboard_layout/inventory/units/create'
       path: '/units/create'
       fullPath: '/inventory/units/create'
-      preLoaderRoute: typeof DashboardlayoutInventoryUnitsCreateImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryUnitsCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/sales/edit/$saleId': {
-      id: '/_dashboard_layout/sales/edit/$saleId'
+    '/_protected_layout/_dashboard_layout/sales/edit/$saleId': {
+      id: '/_protected_layout/_dashboard_layout/sales/edit/$saleId'
       path: '/sales/edit/$saleId'
       fullPath: '/sales/edit/$saleId'
-      preLoaderRoute: typeof DashboardlayoutSalesEditSaleIdImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutSalesEditSaleIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/services/edit/$serviceId': {
-      id: '/_dashboard_layout/services/edit/$serviceId'
+    '/_protected_layout/_dashboard_layout/services/edit/$serviceId': {
+      id: '/_protected_layout/_dashboard_layout/services/edit/$serviceId'
       path: '/services/edit/$serviceId'
       fullPath: '/services/edit/$serviceId'
-      preLoaderRoute: typeof DashboardlayoutServicesEditServiceIdImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutServicesEditServiceIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/vehicles/edit/$vehicleId': {
-      id: '/_dashboard_layout/vehicles/edit/$vehicleId'
+    '/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId': {
+      id: '/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId'
       path: '/vehicles/edit/$vehicleId'
       fullPath: '/vehicles/edit/$vehicleId'
-      preLoaderRoute: typeof DashboardlayoutVehiclesEditVehicleIdImport
-      parentRoute: typeof DashboardlayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
-    '/_dashboard_layout/inventory/categories/edit/$categoryId': {
-      id: '/_dashboard_layout/inventory/categories/edit/$categoryId'
+    '/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId': {
+      id: '/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId'
       path: '/categories/edit/$categoryId'
       fullPath: '/inventory/categories/edit/$categoryId'
-      preLoaderRoute: typeof DashboardlayoutInventoryCategoriesEditCategoryIdImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/inventory/products/edit/$productId': {
-      id: '/_dashboard_layout/inventory/products/edit/$productId'
+    '/_protected_layout/_dashboard_layout/inventory/products/edit/$productId': {
+      id: '/_protected_layout/_dashboard_layout/inventory/products/edit/$productId'
       path: '/products/edit/$productId'
       fullPath: '/inventory/products/edit/$productId'
-      preLoaderRoute: typeof DashboardlayoutInventoryProductsEditProductIdImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/inventory/units/edit/$unitId': {
-      id: '/_dashboard_layout/inventory/units/edit/$unitId'
+    '/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId': {
+      id: '/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId'
       path: '/units/edit/$unitId'
       fullPath: '/inventory/units/edit/$unitId'
-      preLoaderRoute: typeof DashboardlayoutInventoryUnitsEditUnitIdImport
-      parentRoute: typeof DashboardlayoutInventoryImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
-    '/_dashboard_layout/inventory/_inventory_layout/categories/': {
-      id: '/_dashboard_layout/inventory/_inventory_layout/categories/'
+    '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/': {
+      id: '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/'
       path: '/categories'
       fullPath: '/inventory/categories'
-      preLoaderRoute: typeof DashboardlayoutInventoryInventorylayoutCategoriesIndexImport
-      parentRoute: typeof DashboardlayoutInventoryInventorylayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
     }
-    '/_dashboard_layout/inventory/_inventory_layout/products/': {
-      id: '/_dashboard_layout/inventory/_inventory_layout/products/'
+    '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/': {
+      id: '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/'
       path: '/products'
       fullPath: '/inventory/products'
-      preLoaderRoute: typeof DashboardlayoutInventoryInventorylayoutProductsIndexImport
-      parentRoute: typeof DashboardlayoutInventoryInventorylayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
     }
-    '/_dashboard_layout/inventory/_inventory_layout/units/': {
-      id: '/_dashboard_layout/inventory/_inventory_layout/units/'
+    '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/': {
+      id: '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/'
       path: '/units'
       fullPath: '/inventory/units'
-      preLoaderRoute: typeof DashboardlayoutInventoryInventorylayoutUnitsIndexImport
-      parentRoute: typeof DashboardlayoutInventoryInventorylayoutImport
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
     }
   }
 }
@@ -432,39 +458,44 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
-  DashboardlayoutRoute: DashboardlayoutRoute.addChildren({
-    DashboardlayoutPosRoute,
-    DashboardlayoutIndexRoute,
-    DashboardlayoutCustomersCreateRoute,
-    DashboardlayoutInventoryRoute: DashboardlayoutInventoryRoute.addChildren({
-      DashboardlayoutInventoryInventorylayoutRoute:
-        DashboardlayoutInventoryInventorylayoutRoute.addChildren({
-          DashboardlayoutInventoryInventorylayoutCategoriesIndexRoute,
-          DashboardlayoutInventoryInventorylayoutProductsIndexRoute,
-          DashboardlayoutInventoryInventorylayoutUnitsIndexRoute,
-        }),
-      DashboardlayoutInventoryIndexRoute,
-      DashboardlayoutInventoryCategoriesCreateRoute,
-      DashboardlayoutInventoryProductsCreateRoute,
-      DashboardlayoutInventoryUnitsCreateRoute,
-      DashboardlayoutInventoryCategoriesEditCategoryIdRoute,
-      DashboardlayoutInventoryProductsEditProductIdRoute,
-      DashboardlayoutInventoryUnitsEditUnitIdRoute,
-    }),
-    DashboardlayoutSalesSaleIdRoute,
-    DashboardlayoutServicesCreateRoute,
-    DashboardlayoutVehiclesCreateRoute,
-    DashboardlayoutCustomersIndexRoute,
-    DashboardlayoutMaintenanceIndexRoute,
-    DashboardlayoutSalesIndexRoute,
-    DashboardlayoutServicesIndexRoute,
-    DashboardlayoutVehiclesIndexRoute,
-    DashboardlayoutCustomersEditCustomerIdRoute,
-    DashboardlayoutSalesEditSaleIdRoute,
-    DashboardlayoutServicesEditServiceIdRoute,
-    DashboardlayoutVehiclesEditVehicleIdRoute,
-  }),
   LoginRoute,
+  ProtectedlayoutDashboardlayoutRoute:
+    ProtectedlayoutDashboardlayoutRoute.addChildren({
+      ProtectedlayoutDashboardlayoutPosRoute,
+      ProtectedlayoutDashboardlayoutIndexRoute,
+      ProtectedlayoutDashboardlayoutCustomersCreateRoute,
+      ProtectedlayoutDashboardlayoutInventoryRoute:
+        ProtectedlayoutDashboardlayoutInventoryRoute.addChildren({
+          ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute:
+            ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute.addChildren(
+              {
+                ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexRoute,
+                ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexRoute,
+                ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute,
+              },
+            ),
+          ProtectedlayoutDashboardlayoutInventoryIndexRoute,
+          ProtectedlayoutDashboardlayoutInventoryCategoriesCreateRoute,
+          ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute,
+          ProtectedlayoutDashboardlayoutInventoryUnitsCreateRoute,
+          ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdRoute,
+          ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdRoute,
+          ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdRoute,
+        }),
+      ProtectedlayoutDashboardlayoutSalesSaleIdRoute,
+      ProtectedlayoutDashboardlayoutServicesCreateRoute,
+      ProtectedlayoutDashboardlayoutVehiclesCreateRoute,
+      ProtectedlayoutDashboardlayoutCustomersIndexRoute,
+      ProtectedlayoutDashboardlayoutMaintenanceIndexRoute,
+      ProtectedlayoutDashboardlayoutSalesIndexRoute,
+      ProtectedlayoutDashboardlayoutServicesIndexRoute,
+      ProtectedlayoutDashboardlayoutVehiclesIndexRoute,
+      ProtectedlayoutDashboardlayoutCustomersEditCustomerIdRoute,
+      ProtectedlayoutDashboardlayoutSalesEditSaleIdRoute,
+      ProtectedlayoutDashboardlayoutServicesEditServiceIdRoute,
+      ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdRoute,
+    }),
+  ProtectedlayoutInvoiceRoute,
 })
 
 /* prettier-ignore-end */
@@ -475,156 +506,160 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_dashboard_layout",
-        "/login"
-      ]
-    },
-    "/_dashboard_layout": {
-      "filePath": "_dashboard_layout.tsx",
-      "children": [
-        "/_dashboard_layout/pos",
-        "/_dashboard_layout/",
-        "/_dashboard_layout/customers/create",
-        "/_dashboard_layout/inventory",
-        "/_dashboard_layout/sales/$saleId",
-        "/_dashboard_layout/services/create",
-        "/_dashboard_layout/vehicles/create",
-        "/_dashboard_layout/customers/",
-        "/_dashboard_layout/maintenance/",
-        "/_dashboard_layout/sales/",
-        "/_dashboard_layout/services/",
-        "/_dashboard_layout/vehicles/",
-        "/_dashboard_layout/customers/edit/$customerId",
-        "/_dashboard_layout/sales/edit/$saleId",
-        "/_dashboard_layout/services/edit/$serviceId",
-        "/_dashboard_layout/vehicles/edit/$vehicleId"
+        "/login",
+        "/_protected_layout/_dashboard_layout",
+        "/_protected_layout/invoice"
       ]
     },
     "/login": {
       "filePath": "login.tsx"
     },
-    "/_dashboard_layout/pos": {
-      "filePath": "_dashboard_layout/pos.tsx",
-      "parent": "/_dashboard_layout"
-    },
-    "/_dashboard_layout/": {
-      "filePath": "_dashboard_layout/index.tsx",
-      "parent": "/_dashboard_layout"
-    },
-    "/_dashboard_layout/customers/create": {
-      "filePath": "_dashboard_layout/customers/create.tsx",
-      "parent": "/_dashboard_layout"
-    },
-    "/_dashboard_layout/inventory": {
-      "filePath": "_dashboard_layout/inventory",
-      "parent": "/_dashboard_layout",
+    "/_protected_layout/_dashboard_layout": {
+      "filePath": "_protected_layout/_dashboard_layout.tsx",
       "children": [
-        "/_dashboard_layout/inventory/_inventory_layout",
-        "/_dashboard_layout/inventory/",
-        "/_dashboard_layout/inventory/categories/create",
-        "/_dashboard_layout/inventory/products/create",
-        "/_dashboard_layout/inventory/units/create",
-        "/_dashboard_layout/inventory/categories/edit/$categoryId",
-        "/_dashboard_layout/inventory/products/edit/$productId",
-        "/_dashboard_layout/inventory/units/edit/$unitId"
+        "/_protected_layout/_dashboard_layout/pos",
+        "/_protected_layout/_dashboard_layout/",
+        "/_protected_layout/_dashboard_layout/customers/create",
+        "/_protected_layout/_dashboard_layout/inventory",
+        "/_protected_layout/_dashboard_layout/sales/$saleId",
+        "/_protected_layout/_dashboard_layout/services/create",
+        "/_protected_layout/_dashboard_layout/vehicles/create",
+        "/_protected_layout/_dashboard_layout/customers/",
+        "/_protected_layout/_dashboard_layout/maintenance/",
+        "/_protected_layout/_dashboard_layout/sales/",
+        "/_protected_layout/_dashboard_layout/services/",
+        "/_protected_layout/_dashboard_layout/vehicles/",
+        "/_protected_layout/_dashboard_layout/customers/edit/$customerId",
+        "/_protected_layout/_dashboard_layout/sales/edit/$saleId",
+        "/_protected_layout/_dashboard_layout/services/edit/$serviceId",
+        "/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId"
       ]
     },
-    "/_dashboard_layout/inventory/_inventory_layout": {
-      "filePath": "_dashboard_layout/inventory/_inventory_layout.tsx",
-      "parent": "/_dashboard_layout/inventory",
+    "/_protected_layout/invoice": {
+      "filePath": "_protected_layout/invoice.tsx"
+    },
+    "/_protected_layout/_dashboard_layout/pos": {
+      "filePath": "_protected_layout/_dashboard_layout/pos.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
+    },
+    "/_protected_layout/_dashboard_layout/": {
+      "filePath": "_protected_layout/_dashboard_layout/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
+    },
+    "/_protected_layout/_dashboard_layout/customers/create": {
+      "filePath": "_protected_layout/_dashboard_layout/customers/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
+    },
+    "/_protected_layout/_dashboard_layout/inventory": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory",
+      "parent": "/_protected_layout/_dashboard_layout",
       "children": [
-        "/_dashboard_layout/inventory/_inventory_layout/categories/",
-        "/_dashboard_layout/inventory/_inventory_layout/products/",
-        "/_dashboard_layout/inventory/_inventory_layout/units/"
+        "/_protected_layout/_dashboard_layout/inventory/_inventory_layout",
+        "/_protected_layout/_dashboard_layout/inventory/",
+        "/_protected_layout/_dashboard_layout/inventory/categories/create",
+        "/_protected_layout/_dashboard_layout/inventory/products/create",
+        "/_protected_layout/_dashboard_layout/inventory/units/create",
+        "/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId",
+        "/_protected_layout/_dashboard_layout/inventory/products/edit/$productId",
+        "/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId"
       ]
     },
-    "/_dashboard_layout/sales/$saleId": {
-      "filePath": "_dashboard_layout/sales/$saleId.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/inventory/_inventory_layout": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/_inventory_layout.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory",
+      "children": [
+        "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/",
+        "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/",
+        "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/"
+      ]
     },
-    "/_dashboard_layout/services/create": {
-      "filePath": "_dashboard_layout/services/create.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/sales/$saleId": {
+      "filePath": "_protected_layout/_dashboard_layout/sales/$saleId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/vehicles/create": {
-      "filePath": "_dashboard_layout/vehicles/create.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/services/create": {
+      "filePath": "_protected_layout/_dashboard_layout/services/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/customers/": {
-      "filePath": "_dashboard_layout/customers/index.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/vehicles/create": {
+      "filePath": "_protected_layout/_dashboard_layout/vehicles/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/inventory/": {
-      "filePath": "_dashboard_layout/inventory/index.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/customers/": {
+      "filePath": "_protected_layout/_dashboard_layout/customers/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/maintenance/": {
-      "filePath": "_dashboard_layout/maintenance/index.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/inventory/": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/sales/": {
-      "filePath": "_dashboard_layout/sales/index.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/maintenance/": {
+      "filePath": "_protected_layout/_dashboard_layout/maintenance/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/services/": {
-      "filePath": "_dashboard_layout/services/index.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/sales/": {
+      "filePath": "_protected_layout/_dashboard_layout/sales/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/vehicles/": {
-      "filePath": "_dashboard_layout/vehicles/index.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/services/": {
+      "filePath": "_protected_layout/_dashboard_layout/services/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/customers/edit/$customerId": {
-      "filePath": "_dashboard_layout/customers/edit/$customerId.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/vehicles/": {
+      "filePath": "_protected_layout/_dashboard_layout/vehicles/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/inventory/categories/create": {
-      "filePath": "_dashboard_layout/inventory/categories/create.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/customers/edit/$customerId": {
+      "filePath": "_protected_layout/_dashboard_layout/customers/edit/$customerId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/inventory/products/create": {
-      "filePath": "_dashboard_layout/inventory/products/create.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/inventory/categories/create": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/categories/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/inventory/units/create": {
-      "filePath": "_dashboard_layout/inventory/units/create.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/inventory/products/create": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/products/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/sales/edit/$saleId": {
-      "filePath": "_dashboard_layout/sales/edit/$saleId.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/inventory/units/create": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/units/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/services/edit/$serviceId": {
-      "filePath": "_dashboard_layout/services/edit/$serviceId.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/sales/edit/$saleId": {
+      "filePath": "_protected_layout/_dashboard_layout/sales/edit/$saleId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/vehicles/edit/$vehicleId": {
-      "filePath": "_dashboard_layout/vehicles/edit/$vehicleId.tsx",
-      "parent": "/_dashboard_layout"
+    "/_protected_layout/_dashboard_layout/services/edit/$serviceId": {
+      "filePath": "_protected_layout/_dashboard_layout/services/edit/$serviceId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/inventory/categories/edit/$categoryId": {
-      "filePath": "_dashboard_layout/inventory/categories/edit/$categoryId.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId": {
+      "filePath": "_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
     },
-    "/_dashboard_layout/inventory/products/edit/$productId": {
-      "filePath": "_dashboard_layout/inventory/products/edit/$productId.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/inventory/units/edit/$unitId": {
-      "filePath": "_dashboard_layout/inventory/units/edit/$unitId.tsx",
-      "parent": "/_dashboard_layout/inventory"
+    "/_protected_layout/_dashboard_layout/inventory/products/edit/$productId": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/products/edit/$productId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/inventory/_inventory_layout/categories/": {
-      "filePath": "_dashboard_layout/inventory/_inventory_layout/categories/index.tsx",
-      "parent": "/_dashboard_layout/inventory/_inventory_layout"
+    "/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/units/edit/$unitId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
-    "/_dashboard_layout/inventory/_inventory_layout/products/": {
-      "filePath": "_dashboard_layout/inventory/_inventory_layout/products/index.tsx",
-      "parent": "/_dashboard_layout/inventory/_inventory_layout"
+    "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory/_inventory_layout"
     },
-    "/_dashboard_layout/inventory/_inventory_layout/units/": {
-      "filePath": "_dashboard_layout/inventory/_inventory_layout/units/index.tsx",
-      "parent": "/_dashboard_layout/inventory/_inventory_layout"
+    "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory/_inventory_layout"
+    },
+    "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory/_inventory_layout"
     }
   }
 }
