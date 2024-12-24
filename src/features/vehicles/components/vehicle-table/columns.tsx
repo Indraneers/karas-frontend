@@ -52,7 +52,7 @@ export const columns: ColumnDef<Vehicle>[] = [
     accessorKey: 'customer.name',
     header: 'Owner',
     cell: ({ row }) => (
-      <CustomLink to={'/customers/edit/' + row.original.customer.id}>{row.original.customer.name}</CustomLink>
+      <CustomLink to={'/customers/edit/' + row.original.customer?.id || ''}>{row.original.customer?.name}</CustomLink>
     )
   },
   {

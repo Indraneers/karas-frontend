@@ -109,7 +109,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         <span className="font-medium">{vehicle.plateNumber}</span>
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="Mileage">
-        {vehicle.mileage}
+        {vehicle.mileage} km
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="VIN N.O">
         {vehicle.vinNo}

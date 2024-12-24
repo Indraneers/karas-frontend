@@ -36,7 +36,7 @@ export const columns: ColumnDef<Sale>[] = [
     accessorKey: 'customer.name',
     header: 'Customer',
     cell: ({ row }) => (
-      <CustomLink to={'/customers/' + row.original.customer.id}>
+      <CustomLink to={'/customers/' + row.original.customer.id || ''}>
         {row.original.customer.name}
       </CustomLink>
     )
