@@ -16,6 +16,7 @@ const defaultVehicle: VehicleDto = {
   note: '',
   plateNumber: '-',
   customer: {
+    id: '',
     name: ''
   }
 };
@@ -27,6 +28,7 @@ function getDefaultPosState() {
     items: [],
     vehicle: defaultVehicle,
     customer: {
+      id: '',
       name: ''
     },
     discount: 0,
@@ -54,6 +56,7 @@ export interface PosStateWithFunctions extends PosState {
   addItem: (i: UnitItem) => void;
   updateItem: (itemId: string, i: UnitItem) => void
   removeItem: (itemId: string) => void;
+  setCustomer: (c: CustomerDto) => void;
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
   resetPos: () => void;
@@ -102,6 +105,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     return newState;
   }),
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
+  setCustomer: (customer: CustomerDto) => set((state) => ({ ...state, customer: customer, vehicle: defaultVehicle })),
   setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer })),
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
   resetPos: () => set(((state) => {
