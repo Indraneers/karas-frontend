@@ -6,7 +6,11 @@ import { FormEvent, useState } from "react";
 import { VehicleSearchItem } from "./vehicle-search-item";
 import { useDebounce } from "@uidotdev/usehooks";
 import { getVehicles } from "@/features/vehicles/api/vehicle";
-import { useQuery } from "@tanstack/react-query";
+import { useQueries } from "@tanstack/react-query";
+import { SearchGroup } from "./search-group";
+import { Separator } from "@/components/ui/separator";
+import { getCustomers } from "@/features/customer/api/customer";
+import { CustomerSearchItem } from "./customer-search-item";
 
 interface VehicleCustomerSearchProps {
   className?: string;
@@ -18,9 +22,17 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
   const [q, setQ] = useState('');
   const debouncedQ = useDebounce(q, 200);
   
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['vehicles', debouncedQ],
-    queryFn: () => getVehicles({ q: debouncedQ })
+  const [vehicleQuery, customerQuery] = useQueries({ 
+    queries: [
+      {
+        queryKey: ['vehicles', debouncedQ],
+        queryFn: () => getVehicles({ q: debouncedQ })
+      },
+      {
+        queryKey: ['customers', debouncedQ],
+        queryFn: () => getCustomers({ q: debouncedQ })
+      }
+    ]
   });
 
   function handleOnInput(event: FormEvent<HTMLInputElement>) {
@@ -54,24 +66,50 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
         <div className="px-2 pt-2 font-medium text-muted-foreground text-sm">Search Result</div>
         <div className="relative mt-1 h-80">
           <div className="absolute inset-0 flex flex-col gap-1 h-full max-h-full overflow-scroll">
-            <div className="px-2 pb-2">
-              <div className="font-medium text-muted-foreground text-xs">
-                Vehicles
-              </div>
-              <div className="mt-2">
+            <div className="pb-2">
+              <SearchGroup title="Customer" isOpen={(q !== '' && customerQuery.data !== undefined && customerQuery.data.length > 0)}>
                 {
-                  isError && "Error"
+                  customerQuery.isError && "Error"
                 }
                 {
-                  (!data || q === '') && <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Empty...</div>
+                  (!customerQuery.data || q === '') && <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Empty...</div>
                 }
                 {
-                  isLoading &&  <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Loading...</div>
+                  customerQuery.isLoading &&  <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Loading...</div>
                 }
                 {
                   q !== '' &&
-              data &&
-              data.map((v, index) => (
+                  customerQuery.data &&
+                  customerQuery.data.map((c, index) => (
+                    <CustomerSearchItem 
+                      key={c.id || index}
+                      setQ={setQ}
+                      customer={c}
+                    />
+                  ))
+                }
+              </SearchGroup>
+              <Separator className={cn([
+                "my-2 hidden",
+                q !== '' 
+                && vehicleQuery.data !== undefined && vehicleQuery.data?.length > 0 
+                && customerQuery.data !== undefined && customerQuery.data?.length > 0
+                && 'block'
+              ])} />
+              <SearchGroup title="Vehicles" isOpen={(q !== '' && vehicleQuery.data !== undefined && vehicleQuery.data.length > 0)}>
+                {
+                  vehicleQuery.isError && "Error"
+                }
+                {
+                  (!vehicleQuery.data || q === '') && <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Empty...</div>
+                }
+                {
+                  vehicleQuery.isLoading &&  <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Loading...</div>
+                }
+                {
+                  q !== '' &&
+              vehicleQuery.data &&
+              vehicleQuery.data.map((v, index) => (
                 <VehicleSearchItem 
                   key={v.id || index}
                   setQ={setQ}
@@ -79,7 +117,7 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
                 />
               ))
                 }
-              </div>
+              </SearchGroup>
             </div>
           </div>
         </div>

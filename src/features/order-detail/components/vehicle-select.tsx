@@ -35,7 +35,9 @@ export function VehicleSelect({ className }: VehicleSelectProps) {
         <SelectValue placeholder="Select Vehicles" />
       </SelectTrigger>
       <SelectContent>
-        { !data && ''}
+        { !data &&
+          'Empty'
+        }
         {data && data.map((v) => (
           <SelectItem value={v.id || ''} key={v.id}>
             <div className="flex items-center gap-2">
