@@ -64,7 +64,6 @@ export function VehicleForm({ data = defaultData, handleSubmit }: VehicleFormPro
   }
   
   useEffect(() => {
-    console.log(data);
     form.reset(data);
   }, [data, form]);
 

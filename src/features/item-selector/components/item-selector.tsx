@@ -2,7 +2,7 @@ import { Section } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { TypographyH2 } from "@/components/ui/typography/h2";
-import { ChevronLeft, PackageSearch } from "lucide-react";
+import { ChevronLeft } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { ItemSelectorHeader } from "./item-selector-header";
@@ -34,7 +34,6 @@ export function ItemSelector({ children }: ItemSelectionProps) {
       <SectionHeader>
         <ItemSelectorHeader>
           <div className="flex justify-between gap-2">
-            <PackageSearch />
             <TypographyH2>Items</TypographyH2>
           </div>
           <Separator className="h-4" orientation="vertical" />

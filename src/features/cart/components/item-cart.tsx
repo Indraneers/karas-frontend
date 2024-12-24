@@ -1,3 +1,4 @@
+import { TypographyH3 } from "@/components/ui/typography/h3";
 import { cn } from "@/lib/utils";
 
 interface ItemCartProps {
@@ -9,11 +10,16 @@ export function ItemCart({ className, children } : ItemCartProps) {
   return (
 
     <div className={cn([
-      "relative h-full",
+      'overflow-hidden flex flex-col',
       className
     ])}>
-      <div className="absolute inset-0 flex flex-col gap-2 bg-foreground/5 p-2 rounded-xl overflow-scroll">
-        { children }
+      <TypographyH3>
+        Item Cart
+      </TypographyH3>
+      <div className="relative flex-grow mt-2 h-full">
+        <div className="absolute inset-0 flex flex-col gap-3 p-1 overflow-scroll">
+          { children }
+        </div>
       </div>
     </div>
   );

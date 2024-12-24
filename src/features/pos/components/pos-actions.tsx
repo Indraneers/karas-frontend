@@ -96,7 +96,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       ])}>
         <Button 
           onClick={() => handlePOSAction(StatusEnum.PAID)}
-          className="bg-green-500 hover:bg-green-400 rounded-l-full rounded-r-none font-semibold"
+          className="bg-green-500 hover:bg-green-400 rounded-l-xl rounded-r-none font-semibold"
         >
           <span>
             <ShoppingCart />
@@ -114,7 +114,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         </Button>
         <Button 
           onClick={() => resetPos()}
-          className="bg-primary rounded-l-none rounded-r-full font-semibold"
+          className="bg-primary rounded-l-none rounded-r-xl font-semibold"
         >
           <span>
             <Trash />

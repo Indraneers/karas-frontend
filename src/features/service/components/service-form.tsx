@@ -58,7 +58,6 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
   }
 
   useEffect(() => {
-    console.log(data);
     form.reset(data);
   }, [data, form]);
 

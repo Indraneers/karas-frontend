@@ -1,6 +1,8 @@
-import { OrderDetailElement } from "./order-detail-element";
 import { Textarea } from "@/components/ui/textarea";
+import { TypographyH3 } from "@/components/ui/typography/h3";
+import { SaleDetailElement } from "@/features/sale/components/sale-detail-element";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { cn } from "@/lib/utils";
 
 interface VehicleInformationProps {
   className?: string;
@@ -9,31 +11,32 @@ interface VehicleInformationProps {
 
 export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
   return (
-    <div className={className}>
-      <div className="gap-4 grid grid-cols-[2fr,3fr]">
-        <div className="self-start">
-          <OrderDetailElement label="Plate Number">
-            {vehicle.plateNumber}
-          </OrderDetailElement>
-          <OrderDetailElement label="Mileage" className="mt-2">
-            {vehicle.mileage === 0 ? '-' : `${ vehicle.mileage } km`}
-          </OrderDetailElement>
-        </div>
-        <div>
-          <OrderDetailElement label="VIN N.O">
-            {vehicle.vinNo}
-          </OrderDetailElement>
-          <OrderDetailElement label="Engine N.O" className="mt-2">
-            {vehicle.engineNo}
-          </OrderDetailElement>
-        </div>
-      </div>
-      <Textarea 
-        className="mt-2 rounded-sm text-xs" 
-        rows={1}
-        placeholder="Add vehicle notes here..."
-        defaultValue={vehicle.note}
-      />
+    <div className={cn([
+      className
+    ])}>
+      <TypographyH3>
+          Vehicle Information
+      </TypographyH3>
+      <SaleDetailElement className="mt-3" label="Make & Model">
+        <span className="font-medium">{vehicle.makeAndModel}</span>
+      </SaleDetailElement>
+      <SaleDetailElement className="mt-2" label="Plate Number">
+        <span className="font-medium">{vehicle.plateNumber}</span>
+      </SaleDetailElement>
+      <SaleDetailElement className="mt-2" label="Mileage">
+        {vehicle.mileage}
+      </SaleDetailElement>
+      <SaleDetailElement className="mt-2" label="VIN N.O">
+        {vehicle.vinNo}
+      </SaleDetailElement>
+      <SaleDetailElement className="mt-2" label="Engine N.O">
+        {vehicle.engineNo}
+      </SaleDetailElement>
+      <SaleDetailElement className="mt-2" label="Vehicle Note">
+        <Textarea className="mt-2">
+          {vehicle.note}
+        </Textarea>
+      </SaleDetailElement>
     </div>
   );
 }

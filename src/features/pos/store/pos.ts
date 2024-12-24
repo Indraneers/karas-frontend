@@ -26,7 +26,9 @@ function getDefaultPosState() {
     defaultServices: [],
     items: [],
     vehicle: defaultVehicle,
-    customer: defaultVehicle.customer,
+    customer: {
+      name: ''
+    },
     discount: 0,
     dueDate: new Date(),
     isInit: false

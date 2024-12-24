@@ -2,11 +2,13 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePosStore } from "@/features/pos/store/pos";
 import { ServiceSelectorItem } from "../types/service-selector-item";
+import { convertCurrencyToInputString } from "@/lib/currency";
+import { useEffect } from "react";
 
 export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   {
     id: 'select',
-    header: function CheckboxHeaderCell() {
+    header: function CheckboxHeaderCell({ table }) {
       const { services, addService, removeService } = usePosStore();
       const isAllChecked = !services.find((s) => !s.checked);
       const isSomeChecked = !!services.find((s) => s.checked);
@@ -23,6 +25,7 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
             else {
               services.forEach((s) => removeService(s.service.id));
             }
+            table.toggleAllPageRowsSelected(!!value);
           }}
           aria-label="Select all"
         />
@@ -32,6 +35,13 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
       const { addService, removeService } = usePosStore();
       const service = row.original;
       const isChecked = row.original.checked || false;
+
+      useEffect(() => {
+        if (row.getIsSelected() !== isChecked) {
+          row.toggleSelected(isChecked);
+        }
+      }, [isChecked, row]);
+
       return (
         <Checkbox
           checked={isChecked}
@@ -42,6 +52,8 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
             else {
               removeService(service.service.id);
             }
+
+            row.toggleSelected(!isChecked);
           }}
           aria-label="Select row"
         />
@@ -52,7 +64,13 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   },
   {
     accessorKey: 'service',
-    header: 'Services Check',
+    header: 'Services Name',
     cell: ({ row }) => <div className="font-medium">{row.original.service.name}</div>
+  },
+  {
+    accessorKey: 'price',
+    header: 'Original Price',
+    size: 100,
+    cell: ({ row }) => <div className="text-muted-foreground">$ {convertCurrencyToInputString(row.original.price)}</div>
   }
 ];
