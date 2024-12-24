@@ -43,9 +43,10 @@ const defaultData: VehicleDto = {
 interface VehicleFormProps {
   handleSubmit: (vehicleDto: VehicleDto) => void;
   data?: VehicleDto | undefined;
+  isPopover?: boolean;
 }
 
-export function VehicleForm({ data = defaultData, handleSubmit }: VehicleFormProps) {
+export function VehicleForm({ data = defaultData, handleSubmit, isPopover = false }: VehicleFormProps) {
   const router = useRouter();
   const navigate = useNavigate();
   
@@ -59,13 +60,160 @@ export function VehicleForm({ data = defaultData, handleSubmit }: VehicleFormPro
     values.id = '';
     handleSubmit(values);  
     form.reset();
-    navigate({ to: '/vehicles', replace: true });
-    router.invalidate();
+    if (!isPopover) {
+      navigate({ to: '/vehicles', replace: true });
+      router.invalidate();
+    }
   }
   
   useEffect(() => {
     form.reset(data);
   }, [data, form]);
+
+  if (isPopover) {
+    return (
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <FormGroup title="General Information">
+            <div className="gap-4 grid grid-cols-[1fr,2fr]">
+  
+              <FormField
+                control={form.control}
+                name="plateNumber"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Plate Number</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 7XLF906" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                  Set the Plate Number. Min. 3 Max. 75
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="makeAndModel"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Make and Model</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: Toyota Prius 2024" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                  Set the Make and Model. Min. 3 Max. 75
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+  
+            <FormField
+              control={form.control}
+              name="customer"
+              render={({ field }) => (
+                <FormItem className="mt-4">
+                  <FormLabel>Customer</FormLabel>
+                  <FormControl>
+                    <CustomerSearch 
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                  </FormControl>
+                  <FormDescription>
+                   Search and Select for Customer
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+  
+          </FormGroup>  
+          <FormGroup title="Vehicle Detail">
+  
+            <FormField
+              control={form.control}
+              name="mileage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mileage</FormLabel>
+                  <FormControl>
+                    <Input type="number" placeholder="Ex: 60000 miles" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Set Mileage
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+  
+            <div className="gap-4 grid grid-cols-2 mt-4">
+              <FormField
+                control={form.control}
+                name="vinNo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Vin N.O</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 2HGFG21588H705472" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                  Set Vin Number
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+  
+              <FormField
+                control={form.control}
+                name="engineNo"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Engine N.O</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Ex: 2HGFG21588H705472" {...field} />
+                    </FormControl>
+                    <FormDescription>
+                      Set Engine Number
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+  
+            <FormField
+              control={form.control}
+              name="note"
+              render={({ field }) => (
+                <FormItem className='mt-4'>
+                  <FormLabel>Note</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} />
+                  </FormControl>
+                  <FormDescription>
+                  Set the Vehicle Note
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </FormGroup>  
+          <Button
+            type="submit"
+          >
+            Submit
+          </Button>
+        </form>
+      </Form>
+    );
+  }
 
   return (
     <Form {...form}>

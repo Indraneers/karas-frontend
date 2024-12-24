@@ -4,6 +4,14 @@ import { SaleDetailElement } from "@/features/sale/components/sale-detail-elemen
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
 import { cn } from "@/lib/utils";
 import { VehicleSelect } from "./vehicle-select";
+import { Separator } from "@/components/ui/separator";
+import { PopoverButton } from "./popover-button";
+import { Button } from "@/components/ui/button";
+import { Edit, RotateCcw, SquarePlus } from "lucide-react";
+import { VehicleForm } from "@/features/vehicles/components/vehicle-form";
+import { usePosStore } from "@/features/pos/store/pos";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createVehicle, updateVehicle } from "@/features/vehicles/api/vehicle";
 
 interface VehicleInformationProps {
   className?: string;
@@ -11,6 +19,39 @@ interface VehicleInformationProps {
 }
 
 export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
+  const { customer, setVehicle, setDefaultVehicle } = usePosStore();
+  const queryClient = useQueryClient();
+
+  console.log(vehicle);
+
+  const createMutation = useMutation({
+    mutationFn: (vehicleDto: VehicleDto) => createVehicle(vehicleDto),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['vehicles']
+      });
+    }
+  });
+
+  const updateMutation = useMutation({
+    mutationFn: (vehicleDto: VehicleDto) => updateVehicle(vehicle?.id || '', vehicleDto),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['vehicles']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['vehicle-' + vehicle?.id]
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['vehicles-customer-', customer.id || '']
+      });
+    }
+  });
+
+  if (!vehicle) {
+    return 'empty...';
+  }
+  
   return (
     <div className={cn([
       className
@@ -18,8 +59,51 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
       <TypographyH3>
           Vehicle Information
       </TypographyH3>
-      <SaleDetailElement className="mt-3" label="Make & Model">
-        <VehicleSelect className="mt-1" />
+      <div className="items-center gap-4 grid grid-cols-[2fr,auto,1fr] mt-3">
+        <SaleDetailElement className="w-full" label="Vehicle">
+          <VehicleSelect className="mt-2" />
+        </SaleDetailElement>
+        <Separator orientation="vertical" />
+        <div className="flex gap-2">
+          <PopoverButton 
+            trigger={
+              <Button variant="ghost"  size="icon">
+                <SquarePlus />
+              </Button>
+            }
+          >
+            <VehicleForm 
+              handleSubmit={async (vehicleDto: VehicleDto) => {
+                const vehicle = await createMutation.mutateAsync(vehicleDto);
+                setVehicle(vehicle);
+              }}
+              isPopover
+            />
+          </PopoverButton>
+          <PopoverButton 
+            disabled={!vehicle.id}
+            trigger={
+              <Button disabled={!vehicle.id} variant="ghost" size="icon">
+                <Edit />
+              </Button>
+            }
+          >
+            <VehicleForm 
+              data={vehicle}
+              handleSubmit={async (vehicleDto: VehicleDto) => {
+                const vehicle = await updateMutation.mutateAsync(vehicleDto);
+                setVehicle(vehicle);
+              }}
+              isPopover
+            />
+          </PopoverButton>
+          <Button variant="ghost" onClick={setDefaultVehicle} size='icon'>
+            <RotateCcw />
+          </Button>
+        </div>
+      </div>
+      <SaleDetailElement className="mt-2" label="Make and Model">
+        <span className="font-medium">{vehicle.makeAndModel}</span>
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="Plate Number">
         <span className="font-medium">{vehicle.plateNumber}</span>

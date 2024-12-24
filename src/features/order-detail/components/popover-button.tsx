@@ -4,7 +4,7 @@ import { useState } from "react";
 interface PopoverButtonProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 }
 
 export function PopoverButton({ trigger, children, disabled = false }: PopoverButtonProps) {
@@ -14,7 +14,7 @@ export function PopoverButton({ trigger, children, disabled = false }: PopoverBu
       <PopoverTrigger>
         {trigger}
       </PopoverTrigger>
-      <PopoverContent  className="relative mr-2 w-[600px] h-[450px]">
+      <PopoverContent  className="relative mr-2 w-[600px] h-[300px]">
         <div className="absolute inset-0 p-4 overflow-scroll">
           {children}
         </div>

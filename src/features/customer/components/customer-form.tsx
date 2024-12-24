@@ -58,7 +58,7 @@ export function CustomerForm({ data = defaultData, handleSubmit = console.log, i
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormGroup title="General Information">
-            <div className='items-center gap-2 grid grid-cols-2'>
+            <div className='items-center gap-4 grid grid-cols-2'>
               <FormField
                 control={form.control}
                 name="name"

@@ -57,8 +57,10 @@ export interface PosStateWithFunctions extends PosState {
   updateItem: (itemId: string, i: UnitItem) => void
   removeItem: (itemId: string) => void;
   setCustomer: (c: CustomerDto) => void;
+  setVehicle: (v: VehicleDto) => void;
   setVehicleAndCustomer: (v: VehicleDto) => void;
   setDefaultVehicleAndCustomer: () => void;
+  setDefaultVehicle: () => void;
   resetPos: () => void;
   setDiscount: (discount: number) => void;
   setPosState: (saleDto: SaleResponseDto | undefined) => void;
@@ -105,6 +107,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     return newState;
   }),
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
+  setVehicle: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle })),
   setCustomer: (customer: CustomerDto) => set((state) => ({ ...state, customer: customer, vehicle: defaultVehicle })),
   setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer })),
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
@@ -115,6 +118,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
       services: state.defaultServices
     };
   })),
+  setDefaultVehicle: () => set((state) => ({ ...state, vehicle: defaultVehicle })),
   setDiscount: (discount: number) => set((state) => ({ ...state, discount })),
   setPosState: (saleDto: SaleResponseDto | undefined) => set((state) => {
     if (!saleDto || !state.defaultServices) {
