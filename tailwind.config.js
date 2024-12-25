@@ -17,7 +17,8 @@ module.exports = {
   		}
   	},
   	fontFamily: {
-  		body: ['"Montserrat"', 'sans-serif']
+  		body: ['"Montserrat"', "Noto Sans Khmer", 'sans-serif'],
+			display: ['"Montserrat"', "Moul", 'serif']
   	},
   	extend: {
   		colors: {

@@ -41,9 +41,9 @@ export function ItemsDataTable({
   });
  
   return (
-    <div className="rounded-md">
-      <Table>
-        <TableHeader>
+    <div className="rounded-md w-full">
+      <Table className="w-full">
+        <TableHeader className="w-full">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
@@ -61,7 +61,7 @@ export function ItemsDataTable({
             </TableRow>
           ))}
         </TableHeader>
-        <TableBody>
+        <TableBody className="w-full">
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow

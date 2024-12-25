@@ -14,9 +14,9 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
-import { Route as ProtectedlayoutInvoiceImport } from './routes/_protected_layout/invoice'
 import { Route as ProtectedlayoutDashboardlayoutImport } from './routes/_protected_layout/_dashboard_layout'
 import { Route as ProtectedlayoutDashboardlayoutIndexImport } from './routes/_protected_layout/_dashboard_layout/index'
+import { Route as ProtectedlayoutInvoiceSaleIdImport } from './routes/_protected_layout/invoice/$saleId'
 import { Route as ProtectedlayoutDashboardlayoutPosImport } from './routes/_protected_layout/_dashboard_layout/pos'
 import { Route as ProtectedlayoutDashboardlayoutVehiclesIndexImport } from './routes/_protected_layout/_dashboard_layout/vehicles/index'
 import { Route as ProtectedlayoutDashboardlayoutServicesIndexImport } from './routes/_protected_layout/_dashboard_layout/services/index'
@@ -56,11 +56,6 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
-const ProtectedlayoutInvoiceRoute = ProtectedlayoutInvoiceImport.update({
-  path: '/invoice',
-  getParentRoute: () => rootRoute,
-} as any)
-
 const ProtectedlayoutDashboardlayoutRoute =
   ProtectedlayoutDashboardlayoutImport.update({
     id: '/_protected_layout/_dashboard_layout',
@@ -77,6 +72,12 @@ const ProtectedlayoutDashboardlayoutIndexRoute =
   ProtectedlayoutDashboardlayoutIndexImport.update({
     path: '/',
     getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutInvoiceSaleIdRoute =
+  ProtectedlayoutInvoiceSaleIdImport.update({
+    path: '/invoice/$saleId',
+    getParentRoute: () => rootRoute,
   } as any)
 
 const ProtectedlayoutDashboardlayoutPosRoute =
@@ -256,19 +257,19 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutImport
       parentRoute: typeof rootRoute
     }
-    '/_protected_layout/invoice': {
-      id: '/_protected_layout/invoice'
-      path: '/invoice'
-      fullPath: '/invoice'
-      preLoaderRoute: typeof ProtectedlayoutInvoiceImport
-      parentRoute: typeof rootRoute
-    }
     '/_protected_layout/_dashboard_layout/pos': {
       id: '/_protected_layout/_dashboard_layout/pos'
       path: '/pos'
       fullPath: '/pos'
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutPosImport
       parentRoute: typeof ProtectedlayoutDashboardlayoutImport
+    }
+    '/_protected_layout/invoice/$saleId': {
+      id: '/_protected_layout/invoice/$saleId'
+      path: '/invoice/$saleId'
+      fullPath: '/invoice/$saleId'
+      preLoaderRoute: typeof ProtectedlayoutInvoiceSaleIdImport
+      parentRoute: typeof rootRoute
     }
     '/_protected_layout/_dashboard_layout/': {
       id: '/_protected_layout/_dashboard_layout/'
@@ -495,7 +496,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedlayoutDashboardlayoutServicesEditServiceIdRoute,
       ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdRoute,
     }),
-  ProtectedlayoutInvoiceRoute,
+  ProtectedlayoutInvoiceSaleIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -508,7 +509,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/login",
         "/_protected_layout/_dashboard_layout",
-        "/_protected_layout/invoice"
+        "/_protected_layout/invoice/$saleId"
       ]
     },
     "/login": {
@@ -535,12 +536,12 @@ export const routeTree = rootRoute.addChildren({
         "/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId"
       ]
     },
-    "/_protected_layout/invoice": {
-      "filePath": "_protected_layout/invoice.tsx"
-    },
     "/_protected_layout/_dashboard_layout/pos": {
       "filePath": "_protected_layout/_dashboard_layout/pos.tsx",
       "parent": "/_protected_layout/_dashboard_layout"
+    },
+    "/_protected_layout/invoice/$saleId": {
+      "filePath": "_protected_layout/invoice/$saleId.tsx"
     },
     "/_protected_layout/_dashboard_layout/": {
       "filePath": "_protected_layout/_dashboard_layout/index.tsx",

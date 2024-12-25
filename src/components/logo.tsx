@@ -1,7 +1,7 @@
-export function Logo() {
+export function Logo({ className }: { className?: string }) {
   return (
     <div>
-      <img src="/logo.png" alt="Logo" />
+      <img className={className} src="/logo.png" alt="Logo" />
     </div>
   );
 }
