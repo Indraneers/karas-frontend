@@ -27,7 +27,6 @@ export const columns: ColumnDef<ItemTypes>[] = [
   {
     id: 'name',
     header: 'Item/Service Name',
-    size: 400,
     cell: ({ row }) => (
       <>
         {row.original.type === 'service' && row.original.service?.name
@@ -62,7 +61,9 @@ export const columns: ColumnDef<ItemTypes>[] = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Qty'
+    header: 'Qty',
+    size: 100,
+    cell: ({ row }) => <div className="text-center">{row.getValue('quantity')}</div>
   },
   {
     accessorKey: 'Total',

@@ -6,6 +6,7 @@ import { CustomLink } from "@/components/link";
 import { SaleDetailElement } from "./sale-detail-element";
 import { format } from 'date-fns';
 import { EditButton } from "@/components/edit-button";
+import { PrintButton } from "@/components/print-button";
 
 interface SaleInformationProps {
   sale: Sale;
@@ -23,6 +24,7 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
           Order #1111
           </TypographyH1>
           <EditButton className="w-8 h-8" to={'/sales/edit/' + sale.id} />
+          <PrintButton className="w-8 h-8" to={'/invoice/' + sale.id + '?print=true'} />
         </div>
         <StatusBadge className="text-md" status={sale.status} />
       </div>

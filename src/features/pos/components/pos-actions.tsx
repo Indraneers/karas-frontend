@@ -86,7 +86,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
     const data = await saleMutation.mutateAsync(sale);
     resetPos();
     setSelector(ItemSelectionEnum.CATEGORY);
-    navigate({ to: '/sales/' + data.id });
+    navigate({ to: '/sales/' + data.id + '?print=true' });
   }
   
   return (

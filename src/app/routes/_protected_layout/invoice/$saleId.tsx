@@ -13,24 +13,47 @@ import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { cn } from '@/lib/utils';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { format } from 'date-fns';
 
+interface InvoiceSearch {
+  print: boolean;
+}
+
 export const Route = createFileRoute('/_protected_layout/invoice/$saleId')({
-  component: () => <InvoicePage />
+  component: () => <InvoicePage />,
+  validateSearch: (search: Record<string, unknown>): InvoiceSearch => {
+    return {
+      print: Boolean(search.print) || false
+    };
+  }
 });
 
 export function InvoicePage() {
   const { saleId } = Route.useParams();
+  const { print } = Route.useSearch();
 
-  const { isError, isLoading, data } = useQuery({
+  const { isError, isLoading, isSuccess, data } = useQuery({
     queryKey: ['sale-' + saleId],
     queryFn: () => getSaleById(saleId)
   });
   
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({ contentRef });
+  const reactToPrintFn = useReactToPrint({ 
+    contentRef, 
+    onAfterPrint: () => {
+      console.log('hi');
+      window.open("", "_self");
+      window.close();
+    } 
+  });
+
+  useEffect(() => {
+    if (print && isSuccess) {
+      setTimeout(() => reactToPrintFn(), 500);
+    }
+  }, [print, reactToPrintFn, isSuccess]);
 
   if (isError) {
     return 'error';
@@ -46,7 +69,6 @@ export function InvoicePage() {
 
   return (
     <div className='flex justify-center items-center w-full'>
-      <button onClick={() => reactToPrintFn()}>print</button>
       <div className='p-4 border font-body a4-page' ref={contentRef}>
         <div className='flex justify-between items-center'>
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
