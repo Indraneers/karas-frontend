@@ -14,6 +14,7 @@ import { createFileRoute } from '@tanstack/react-router'
 
 import { Route as rootRoute } from './routes/__root'
 import { Route as LoginImport } from './routes/login'
+import { Route as ProtectedlayoutImport } from './routes/_protected_layout'
 import { Route as ProtectedlayoutDashboardlayoutImport } from './routes/_protected_layout/_dashboard_layout'
 import { Route as ProtectedlayoutDashboardlayoutIndexImport } from './routes/_protected_layout/_dashboard_layout/index'
 import { Route as ProtectedlayoutInvoiceSaleIdImport } from './routes/_protected_layout/invoice/$saleId'
@@ -56,10 +57,15 @@ const LoginRoute = LoginImport.update({
   getParentRoute: () => rootRoute,
 } as any)
 
+const ProtectedlayoutRoute = ProtectedlayoutImport.update({
+  id: '/_protected_layout',
+  getParentRoute: () => rootRoute,
+} as any)
+
 const ProtectedlayoutDashboardlayoutRoute =
   ProtectedlayoutDashboardlayoutImport.update({
-    id: '/_protected_layout/_dashboard_layout',
-    getParentRoute: () => rootRoute,
+    id: '/_dashboard_layout',
+    getParentRoute: () => ProtectedlayoutRoute,
   } as any)
 
 const ProtectedlayoutDashboardlayoutInventoryRoute =
@@ -77,7 +83,7 @@ const ProtectedlayoutDashboardlayoutIndexRoute =
 const ProtectedlayoutInvoiceSaleIdRoute =
   ProtectedlayoutInvoiceSaleIdImport.update({
     path: '/invoice/$saleId',
-    getParentRoute: () => rootRoute,
+    getParentRoute: () => ProtectedlayoutRoute,
   } as any)
 
 const ProtectedlayoutDashboardlayoutPosRoute =
@@ -243,6 +249,13 @@ const ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdRoute =
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/_protected_layout': {
+      id: '/_protected_layout'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof ProtectedlayoutImport
+      parentRoute: typeof rootRoute
+    }
     '/login': {
       id: '/login'
       path: '/login'
@@ -255,7 +268,7 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof ProtectedlayoutImport
     }
     '/_protected_layout/_dashboard_layout/pos': {
       id: '/_protected_layout/_dashboard_layout/pos'
@@ -269,7 +282,7 @@ declare module '@tanstack/react-router' {
       path: '/invoice/$saleId'
       fullPath: '/invoice/$saleId'
       preLoaderRoute: typeof ProtectedlayoutInvoiceSaleIdImport
-      parentRoute: typeof rootRoute
+      parentRoute: typeof ProtectedlayoutImport
     }
     '/_protected_layout/_dashboard_layout/': {
       id: '/_protected_layout/_dashboard_layout/'
@@ -459,44 +472,46 @@ declare module '@tanstack/react-router' {
 // Create and export the route tree
 
 export const routeTree = rootRoute.addChildren({
+  ProtectedlayoutRoute: ProtectedlayoutRoute.addChildren({
+    ProtectedlayoutDashboardlayoutRoute:
+      ProtectedlayoutDashboardlayoutRoute.addChildren({
+        ProtectedlayoutDashboardlayoutPosRoute,
+        ProtectedlayoutDashboardlayoutIndexRoute,
+        ProtectedlayoutDashboardlayoutCustomersCreateRoute,
+        ProtectedlayoutDashboardlayoutInventoryRoute:
+          ProtectedlayoutDashboardlayoutInventoryRoute.addChildren({
+            ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute:
+              ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute.addChildren(
+                {
+                  ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexRoute,
+                  ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexRoute,
+                  ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute,
+                },
+              ),
+            ProtectedlayoutDashboardlayoutInventoryIndexRoute,
+            ProtectedlayoutDashboardlayoutInventoryCategoriesCreateRoute,
+            ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute,
+            ProtectedlayoutDashboardlayoutInventoryUnitsCreateRoute,
+            ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdRoute,
+            ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdRoute,
+            ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdRoute,
+          }),
+        ProtectedlayoutDashboardlayoutSalesSaleIdRoute,
+        ProtectedlayoutDashboardlayoutServicesCreateRoute,
+        ProtectedlayoutDashboardlayoutVehiclesCreateRoute,
+        ProtectedlayoutDashboardlayoutCustomersIndexRoute,
+        ProtectedlayoutDashboardlayoutMaintenanceIndexRoute,
+        ProtectedlayoutDashboardlayoutSalesIndexRoute,
+        ProtectedlayoutDashboardlayoutServicesIndexRoute,
+        ProtectedlayoutDashboardlayoutVehiclesIndexRoute,
+        ProtectedlayoutDashboardlayoutCustomersEditCustomerIdRoute,
+        ProtectedlayoutDashboardlayoutSalesEditSaleIdRoute,
+        ProtectedlayoutDashboardlayoutServicesEditServiceIdRoute,
+        ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdRoute,
+      }),
+    ProtectedlayoutInvoiceSaleIdRoute,
+  }),
   LoginRoute,
-  ProtectedlayoutDashboardlayoutRoute:
-    ProtectedlayoutDashboardlayoutRoute.addChildren({
-      ProtectedlayoutDashboardlayoutPosRoute,
-      ProtectedlayoutDashboardlayoutIndexRoute,
-      ProtectedlayoutDashboardlayoutCustomersCreateRoute,
-      ProtectedlayoutDashboardlayoutInventoryRoute:
-        ProtectedlayoutDashboardlayoutInventoryRoute.addChildren({
-          ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute:
-            ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute.addChildren(
-              {
-                ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexRoute,
-                ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexRoute,
-                ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute,
-              },
-            ),
-          ProtectedlayoutDashboardlayoutInventoryIndexRoute,
-          ProtectedlayoutDashboardlayoutInventoryCategoriesCreateRoute,
-          ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute,
-          ProtectedlayoutDashboardlayoutInventoryUnitsCreateRoute,
-          ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdRoute,
-          ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdRoute,
-          ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdRoute,
-        }),
-      ProtectedlayoutDashboardlayoutSalesSaleIdRoute,
-      ProtectedlayoutDashboardlayoutServicesCreateRoute,
-      ProtectedlayoutDashboardlayoutVehiclesCreateRoute,
-      ProtectedlayoutDashboardlayoutCustomersIndexRoute,
-      ProtectedlayoutDashboardlayoutMaintenanceIndexRoute,
-      ProtectedlayoutDashboardlayoutSalesIndexRoute,
-      ProtectedlayoutDashboardlayoutServicesIndexRoute,
-      ProtectedlayoutDashboardlayoutVehiclesIndexRoute,
-      ProtectedlayoutDashboardlayoutCustomersEditCustomerIdRoute,
-      ProtectedlayoutDashboardlayoutSalesEditSaleIdRoute,
-      ProtectedlayoutDashboardlayoutServicesEditServiceIdRoute,
-      ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdRoute,
-    }),
-  ProtectedlayoutInvoiceSaleIdRoute,
 })
 
 /* prettier-ignore-end */
@@ -507,7 +522,13 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/login",
+        "/_protected_layout",
+        "/login"
+      ]
+    },
+    "/_protected_layout": {
+      "filePath": "_protected_layout.tsx",
+      "children": [
         "/_protected_layout/_dashboard_layout",
         "/_protected_layout/invoice/$saleId"
       ]
@@ -517,6 +538,7 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected_layout/_dashboard_layout": {
       "filePath": "_protected_layout/_dashboard_layout.tsx",
+      "parent": "/_protected_layout",
       "children": [
         "/_protected_layout/_dashboard_layout/pos",
         "/_protected_layout/_dashboard_layout/",
@@ -541,7 +563,8 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_protected_layout/_dashboard_layout"
     },
     "/_protected_layout/invoice/$saleId": {
-      "filePath": "_protected_layout/invoice/$saleId.tsx"
+      "filePath": "_protected_layout/invoice/$saleId.tsx",
+      "parent": "/_protected_layout"
     },
     "/_protected_layout/_dashboard_layout/": {
       "filePath": "_protected_layout/_dashboard_layout/index.tsx",

@@ -5,7 +5,17 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { routeTree } from './routeTree.gen';
 import { Toaster } from '@/components/ui/sonner';
 
-const router = createRouter({ routeTree });
+import AuthProvider from 'react-auth-kit';
+import { store } from '@/features/auth/store/auth';
+import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
+
+
+const router = createRouter({ 
+  routeTree, 
+  context: {
+    isAuthenticated: false
+  }
+});
 
 const queryClient = new QueryClient();
 
@@ -16,11 +26,24 @@ declare module '@tanstack/react-router' {
   }
 }
 
+function AuthorizedRouter({ children }: { children: React.ReactNode}) {
+  const isAuthenticated = useIsAuthenticated();
+  return (
+    <>
+      <RouterProvider router={router} context={{ isAuthenticated }} />
+      {children}
+    </>
+  );
+}
+
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-      <Toaster richColors />
+      <AuthProvider store={store}>
+        <AuthorizedRouter>
+          <Toaster richColors />
+        </AuthorizedRouter>
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

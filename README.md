@@ -37,6 +37,7 @@ PORT=
 
 # backend api url
 VITE_BACKEND_API_URL=
+VITE_KEYCLOAK_URL=
 ```
 
 ### Running the app locally

@@ -1,12 +1,29 @@
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const client = (() => {
-  return axios.create({
+  const instance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_API_URL,
     headers: {
       Accept: "application/json, text/plain, */*"
     }
   });
+
+  // Attach token to every request
+  instance.interceptors.request.use(
+    (config) => {
+      const token = localStorage.getItem('karas-auth'); // Get the token from localStorage
+      if (token) {
+        // Attach token to the Authorization header
+        config.headers['Authorization'] = `Bearer ${ token }`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
 })();
 
 export const request = async(options: AxiosRequestConfig) => {
