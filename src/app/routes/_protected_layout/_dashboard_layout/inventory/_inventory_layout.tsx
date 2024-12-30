@@ -35,9 +35,9 @@ export function InventoryLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   return (
-    <div className='flex flex-col h-full'>
+    <div className='flex flex-col'>
       <div className='flex justify-center w-full'>
-        <Tabs className='pt-2' value={location.pathname}>
+        <Tabs className='pt-4' value={location.pathname}>
           <TabsList>
             {
               data.map((d) => (
