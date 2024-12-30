@@ -6,14 +6,12 @@ import { routeTree } from './routeTree.gen';
 import { Toaster } from '@/components/ui/sonner';
 
 import AuthProvider from 'react-auth-kit';
-import { store } from '@/features/auth/store/auth';
-import useIsAuthenticated from 'react-auth-kit/hooks/useIsAuthenticated';
-
+import { store, useAuthStore } from '@/features/auth/store/auth';
 
 const router = createRouter({ 
   routeTree, 
   context: {
-    isAuthenticated: false
+    auth: undefined!
   }
 });
 
@@ -27,10 +25,10 @@ declare module '@tanstack/react-router' {
 }
 
 function AuthorizedRouter({ children }: { children: React.ReactNode}) {
-  const isAuthenticated = useIsAuthenticated();
+  const { auth } = useAuthStore();
   return (
     <>
-      <RouterProvider router={router} context={{ isAuthenticated }} />
+      <RouterProvider router={router} context={{ auth }} />
       {children}
     </>
   );

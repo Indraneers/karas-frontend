@@ -1,6 +1,6 @@
 import { Separator } from "./ui/separator";
-import { Header } from "./header";
 import { cn } from "@/lib/utils";
+import { TypographyH2 } from "./ui/typography/h2";
 
 interface FormGroupProps {
   title: string;
@@ -13,7 +13,7 @@ export function FormGroup({ title, children, className }: FormGroupProps) {
     <div className={cn([
       className
     ])}>
-      <Header level={2}>{title}</Header>
+      <TypographyH2>{title}</TypographyH2>
       <Separator className="mt-2" />
       <div className="mt-4">
         {children}

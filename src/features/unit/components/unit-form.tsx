@@ -115,7 +115,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                 <FormLabel>Product</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-[400px]">
                       <SelectValue placeholder="Select Product" />
                     </SelectTrigger>
                   </FormControl>

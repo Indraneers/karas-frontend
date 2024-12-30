@@ -1,6 +1,7 @@
 import createRefresh from 'react-auth-kit/createRefresh';
 import createStore from 'react-auth-kit/createStore';
 import { postTokenKeycloak } from '../api/auth';
+import { create } from 'zustand';
 
 const refresh = createRefresh({
   interval: 10,
@@ -14,23 +15,32 @@ const refresh = createRefresh({
       const response = await postTokenKeycloak(
         formData
       );
-    
-
-      return {
-        isSuccess: true,
-        newAuthToken: response.data.access_token,
-        newRefreshToken: response.data.refresh_token,
-        newAuthTokenExpireIn: 10,
-        newRefreshTokenExpiresIn: 60
-      };
+      
+      if (response.type === 'success') {
+        return {
+          isSuccess: true,
+          newAuthToken: response.access_token,
+          newRefreshToken: response.refresh_token,
+          newAuthTokenExpireIn: 5,
+          newRefreshTokenExpiresIn: 15
+        };
+      }
+      else {
+        return {
+          isSuccess: false,
+          newAuthToken: '',
+          newAuthTokenExpireIn: 5,
+          newRefreshTokenExpiresIn: 15
+        }; 
+      }
     }
     catch(error){
       console.error(error);
       return {
         isSuccess: false,
         newAuthToken: '',
-        newAuthTokenExpireIn: 10,
-        newRefreshTokenExpiresIn: 60
+        newAuthTokenExpireIn: 5,
+        newRefreshTokenExpiresIn: 15
       }; 
     }
   }
@@ -41,3 +51,13 @@ export const store = createStore({
   authType: 'localstorage',
   refresh
 });
+
+interface AuthStoreState {
+  auth: boolean;
+  setAuth: (isAuth: boolean) => void
+}
+
+export const useAuthStore = create<AuthStoreState>((set) => ({
+  auth: false,
+  setAuth: (isAuth: boolean) => set(() => ({ auth: isAuth }))
+}));

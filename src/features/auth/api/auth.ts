@@ -1,8 +1,34 @@
-import axios from "axios";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import axios, { AxiosError } from "axios";
+import { FailedAuthDto, SuccessAuthDto } from "../types/auth";
 
-export const postTokenKeycloak = (formData: URLSearchParams) => 
-  axios
-    .post(
-      `${ import.meta.env.VITE_KEYCLOAK_URL }/realms/karas-keycloak/protocol/openid-connect/token`,
-      formData
-    );
+export const postTokenKeycloak = async (formData: URLSearchParams): Promise<SuccessAuthDto | FailedAuthDto> => {
+  try {
+    const response = await axios
+      .post(
+        `${ import.meta.env.VITE_KEYCLOAK_URL }/realms/karas-keycloak/protocol/openid-connect/token`,
+        formData
+      );
+
+    return {
+      type: 'success',
+      access_token: response.data.access_token,
+      refresh_token: response.data.refresh_token
+    };
+  }
+  catch (error: Error | AxiosError | unknown) {
+    if (axios.isAxiosError(error))  {
+      return {
+        type: 'failed',
+        error: error.response?.data.error,
+        error_description: error.response?.data.error_description
+      };
+    }
+
+    return {
+      type: 'failed',
+      error: '',
+      error_description: ''
+    };
+  }
+};

@@ -23,7 +23,7 @@ const formSchema = z.object({
   mileage: z.coerce.number().int(),
   vinNo: z.string(),
   engineNo: z.string(),
-  note: z.string().min(2).max(75)
+  note: z.string().max(75)
 });
 
 const defaultData: VehicleDto = {
@@ -336,7 +336,7 @@ export function VehicleForm({ data = defaultData, handleSubmit, isPopover = fals
             control={form.control}
             name="note"
             render={({ field }) => (
-              <FormItem className='mt-4'>
+              <FormItem className='my-4'>
                 <FormLabel>Note</FormLabel>
                 <FormControl>
                   <Textarea {...field} />

@@ -1,32 +1,14 @@
 import { cn } from "@/lib/utils";
+import React from "react";
 
-interface HeaderProps {
-  level?: number;
-  className?: string;
-  children: React.ReactNode;
-}
-
-export function Header({ className, children, level = 1 }: HeaderProps) {
-  if (level === 2) {
-    return (
-      <h2 className={
-        cn(
-          'font-semibold text-xl',
-          className
-        )
-      }>
-        {children}
-      </h2>
-    );
-  }
+export function Header
+({ children, className }: { children: React.ReactNode, className?: string }) {
   return (
-    <h1 className={
-      cn(
-        'font-semibold text-xl',
-        className
-      )
-    }>
+    <header className={cn([
+      "flex gap-2 border-b h-16 shrink-0 items-center px-8",
+      className
+    ])}>
       {children}
-    </h1>
+    </header>
   );
 }

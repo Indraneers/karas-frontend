@@ -1,6 +1,6 @@
  
 
-import { createFileRoute, redirect, useNavigate } from '@tanstack/react-router';
+import { createFileRoute, redirect, useNavigate, useRouter } from '@tanstack/react-router';
 
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -12,6 +12,12 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { postTokenKeycloak } from '@/features/auth/api/auth';
+import { useAuthStore } from '@/features/auth/store/auth';
+import { useState } from 'react';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
+import { jwtDecode } from "jwt-decode";
+import { TokenPayload } from '@/features/auth/types/auth';
 
 interface LoginSearch {
   redirect: string;
@@ -24,8 +30,7 @@ export const Route = createFileRoute('/login')({
     };
   },
   beforeLoad: ({ context, search }) => {
-    if (context.isAuthenticated) {
-      console.log(search.redirect);
+    if (context.auth) {
       throw redirect({
         to: search.redirect ? search.redirect : '/'
       });
@@ -41,14 +46,17 @@ const formSchema = z.object({
 
 
 function LoginPage() {
+  const router = useRouter();
   const search = Route.useSearch();
   const navigate = useNavigate();
   const signIn = useSignIn();
+  const { setAuth } = useAuthStore();
+  const [error, setError] = useState('');
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema)
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     const formData = new URLSearchParams();
     formData.append('username', values.username);
     formData.append('password', values.password);
@@ -56,24 +64,34 @@ function LoginPage() {
     formData.append('client_secret', 'secret');
     formData.append('grant_type', 'password');
 
-    postTokenKeycloak(formData)
-      .then((res) => {
-        const signInSuccess = signIn({
-          auth: {
-            token: res.data.access_token,
-            type: 'Bearer'
-          },
-          refresh: res.data.refresh_token
-        });
+    const tokenResponse = await postTokenKeycloak(formData);
 
-        if (signInSuccess) {
-          navigate({ to: search.redirect ?? '/' });
-          return;
-        }
-        else {
-          console.log('error');
+    if (tokenResponse.type === 'success') {
+      const decodedToken = jwtDecode<TokenPayload>(tokenResponse.access_token);
+      
+      const signInSuccess = signIn({
+        auth: {
+          token: tokenResponse.access_token,
+          type: 'Bearer'
+        },
+        refresh: tokenResponse.refresh_token,
+        userState: {
+          name: decodedToken.name,
+          email: decodedToken.email
         }
       });
+  
+      router.invalidate();
+  
+      if (signInSuccess) {
+        setAuth(true);
+        navigate({ to: search.redirect ? search.redirect : '/' });
+        return;
+      }
+    }
+    else if (tokenResponse.type === 'failed') {
+      setError(tokenResponse.error_description);
+    }
   }
   
 
@@ -84,14 +102,14 @@ function LoginPage() {
           <CardContent className="grid md:grid-cols-2 p-0">
             <form onSubmit={form.handleSubmit(onSubmit)} className="p-6 md:p-8">
               <Form {...form}>
-                <div className="flex flex-col gap-6">
+                <div className="flex flex-col">
                   <div className="flex flex-col items-center text-center">
                     <h1 className="font-bold text-2xl">Welcome back</h1>
                     <p className="text-balance text-muted-foreground">
                   Login to your Twister Cambodia Account
                     </p>
                   </div>
-                  <div className="gap-2 grid">
+                  <div className="gap-2 grid mt-4">
                     <FormField
                       control={form.control}
                       name="username"
@@ -113,7 +131,7 @@ function LoginPage() {
                       )}
                     />
                   </div>
-                  <div className="gap-2 grid">
+                  <div className="gap-2 grid mt-4">
                     <FormField
                       control={form.control}
                       name="password"
@@ -131,7 +149,19 @@ function LoginPage() {
                       )}
                     />
                   </div>
-                  <Button type="submit" className="mt-16 w-full">
+                  <div className='my-4'>
+                    <Alert className={cn([
+                      'hidden',
+                      error && 'block'
+                    ])} variant="destructive">
+                      <AlertCircle className="w-4 h-4" />
+                      <AlertTitle>Error</AlertTitle>
+                      <AlertDescription>
+                        {error}
+                      </AlertDescription>
+                    </Alert>
+                  </div>
+                  <Button type="submit" className="mt-4 w-full">
                     Login
                   </Button>
                 </div>

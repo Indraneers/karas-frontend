@@ -44,7 +44,7 @@ export function CustomerForm({ data = defaultData, handleSubmit = console.log, i
     handleSubmit(values);
     form.reset();
     if (!isPopover) {
-      navigate({ to: '/customer' });
+      navigate({ to: '/customers' });
       router.invalidate();
     }
   }

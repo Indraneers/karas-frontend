@@ -81,8 +81,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       toastError('Total is negative');
       return;
     }
-
-    console.log(sale);
+    
     const data = await saleMutation.mutateAsync(sale);
     resetPos();
     setSelector(ItemSelectionEnum.CATEGORY);

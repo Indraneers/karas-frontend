@@ -76,7 +76,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
                 <FormLabel>Category</FormLabel>
                 <Select onValueChange={field.onChange} defaultValue={field.value}>
                   <FormControl>
-                    <SelectTrigger>
+                    <SelectTrigger className="w-[2re00px]">
                       <SelectValue placeholder="Select Category" />
                     </SelectTrigger>
                   </FormControl>

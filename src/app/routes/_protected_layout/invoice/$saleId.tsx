@@ -43,7 +43,6 @@ export function InvoicePage() {
   const reactToPrintFn = useReactToPrint({ 
     contentRef, 
     onAfterPrint: () => {
-      console.log('hi');
       window.open("", "_self");
       window.close();
     } 

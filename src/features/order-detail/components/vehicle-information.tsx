@@ -21,9 +21,7 @@ interface VehicleInformationProps {
 export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
   const { customer, setVehicle, setDefaultVehicle } = usePosStore();
   const queryClient = useQueryClient();
-
-  console.log(vehicle);
-
+  
   const createMutation = useMutation({
     mutationFn: (vehicleDto: VehicleDto) => createVehicle(vehicleDto),
     onSuccess: () => {
@@ -118,7 +116,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         {vehicle.engineNo}
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="Vehicle Note">
-        <Textarea className="mt-2">
+        <Textarea rows={1} className="mt-2">
           {vehicle.note}
         </Textarea>
       </SaleDetailElement>
