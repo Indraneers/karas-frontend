@@ -2,6 +2,8 @@ export interface SuccessAuthDto {
   type: 'success',
   access_token: string;
   refresh_token: string;
+  expires_in: 300;
+  refresh_expires_in: number;
 }
 
 export interface FailedAuthDto {

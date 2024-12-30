@@ -7,7 +7,7 @@ interface SideBarNavDataItem {
   childRoutes?: RegExp[];
 }
 
-export const sidebarNavList: SideBarNavDataItem[] = [
+export const sidebarUserList: SideBarNavDataItem[] = [
   {
     icon: House,
     title: 'Dashboard',
@@ -56,11 +56,14 @@ export const sidebarNavList: SideBarNavDataItem[] = [
     icon: CalendarDays,
     title: 'Maintenance',
     url: '/maintenance'
-  },
+  }
+];
+
+export const sidebarAdminList: SideBarNavDataItem[] = [
   {
     icon: Users,
     title: 'Users',
-    url: '/users'
+    url: import.meta.env.VITE_KEYCLOAK_URL + '/'
   },
   {
     icon: Cog,

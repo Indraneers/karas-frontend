@@ -21,13 +21,38 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
   if (childRoutes) {
     orHasChild = !!childRoutes.find((regex) => regex.test(location.pathname));
   }
-  
+
+  function validateText(string: string) {
+    return /(http(s?)):\/\//i.test(string);
+  }
+
+  if (validateText(url)) {
+    return (
+      <SidebarMenuButton 
+
+        className={
+          cn([
+            'hover:bg-accent hover:text-background transition cursor-pointer',
+            (isSelected || orHasChild) ? 'bg-accent text-background' : ''
+          ])
+        }
+        asChild
+      >
+        <a href={url} target="_blank" rel="noreferrer">
+          <Icon />
+          <span>{children}</span>
+        </a>
+      </SidebarMenuButton>
+    );
+  }
+
+
   return (
     <SidebarMenuButton 
       onClick={() => navigate({ to: url })}
       className={
         cn([
-          'hover:bg-accent hover:text-background transition',
+          'hover:bg-accent hover:text-background transition cursor-pointer',
           (isSelected || orHasChild) ? 'bg-accent text-background' : ''
         ])
       }

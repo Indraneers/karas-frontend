@@ -11,7 +11,7 @@ import {
   SidebarMenuItem
 } from "@/components/ui/sidebar";
 
-import { sidebarNavList } from "../data/sidebar-nav-list";
+import { sidebarUserList, sidebarAdminList } from "../data/sidebar-nav-list";
 import { SidebarMenuItemWrapper } from "./sidebar-menu-item-wrapper";
 
 export function AppSidebar() {
@@ -25,7 +25,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {sidebarNavList.map((item) => (
+              {sidebarUserList.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuItemWrapper
                     Icon={item.icon}
@@ -38,6 +38,24 @@ export function AppSidebar() {
               ))}
             </SidebarMenu>
           </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Admin Section</SidebarGroupLabel>
+          <SidebarContent>
+            <SidebarMenu>
+              {sidebarAdminList.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItemWrapper
+                    Icon={item.icon}
+                    url={item.url}
+                    childRoutes={item.childRoutes}
+                  >
+                    {item.title}
+                  </SidebarMenuItemWrapper>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarContent>
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter />

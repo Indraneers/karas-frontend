@@ -21,8 +21,8 @@ const refresh = createRefresh({
           isSuccess: true,
           newAuthToken: response.access_token,
           newRefreshToken: response.refresh_token,
-          newAuthTokenExpireIn: 5,
-          newRefreshTokenExpiresIn: 15
+          newAuthTokenExpireIn: response.refresh_expires_in,
+          newRefreshTokenExpiresIn: response.expires_in
         };
       }
       else {
