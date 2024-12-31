@@ -11,9 +11,9 @@ export function useUnitSearch({ productId }: { productId?: string } = {}) {
     queryKey: [
       'units'
       +
-      productId ? '-' + productId : ''
+      (productId ? ('-' + productId) : '')
       +
-      debouncedQ ? '-' + debouncedQ : ''
+      (debouncedQ ? ('-' + debouncedQ) : '')
     ],
     queryFn: () => getUnits({ productId, q: debouncedQ })
   });
@@ -21,6 +21,8 @@ export function useUnitSearch({ productId }: { productId?: string } = {}) {
   if (isError) {
     toast('error in unit-search');
   }
+
+  console.log(debouncedQ, data);
 
   return {
     q,

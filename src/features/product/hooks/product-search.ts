@@ -11,9 +11,9 @@ export function useProductSearch
   const { isError, data } = useQuery({
     queryKey: ['products'
       + 
-      debouncedQ ? '-' + debouncedQ : ''
+      (debouncedQ ? ('-' + debouncedQ) : '')
       + 
-      categoryId ? '-' + categoryId : ''
+      (categoryId ? ('-' + categoryId) : '')
     ],
     queryFn: () => getProducts({ categoryId: categoryId, q: debouncedQ })
   });
