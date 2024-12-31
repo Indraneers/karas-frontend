@@ -1,26 +1,19 @@
 import { cn } from "@/lib/utils";
 import { ItemCardList } from "./item-card-list";
-import { useQuery } from "@tanstack/react-query";
-import { getUnits } from "@/features/unit/api/unit";
 import { UnitSelectionCard } from "./unit-selection-card";
 import { useItemSelectionStore } from "../store/item-selection";
 import { UnitSearch } from "@/features/unit/components/unit-search";
-import { useState } from "react";
-import { useDebounce } from "@uidotdev/usehooks";
 import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { useUnitSearch } from "@/features/unit/hooks/unit-search";
 
 interface UnitSelectionProps {
   className?: string;
 }
 
 export function UnitSelection({ className }: UnitSelectionProps) {
-  const [q, setQ] = useState<string>('');
-  const debouncedQ = useDebounce(q, 500);
   const { product } = useItemSelectionStore();
-  const { isError, data } = useQuery({
-    queryKey: ['units', debouncedQ],
-    queryFn: () => getUnits({ productId: product?.id, q: debouncedQ })
-  });
+
+  const { q, setQ, data, isError } = useUnitSearch({ productId: product?.id });
 
   return (
     <div className={

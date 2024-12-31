@@ -7,12 +7,16 @@ import { SectionHeader } from '@/components/section-header';
 import { SectionContent } from '@/components/section-content';
 import { UnitSearch } from '@/features/unit/components/unit-search';
 import { Subtitle } from '@/components/subtitle';
+import { useUnitSearch } from '@/features/unit/hooks/unit-search';
+import { convertUnitDtoToUnit } from '@/features/unit/util/convert';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/')({
   component: () => <UnitPage />
 });
 
 function UnitPage() {
+  const { q, setQ, data } = useUnitSearch();
+
   return (
     <>
       <SectionHeader className='mt-2'>
@@ -25,14 +29,16 @@ function UnitPage() {
       </SectionHeader>
       <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between'>
-          <UnitSearch className='w-[400px]' value='' />
+          <UnitSearch 
+            className='w-[400px]' value={q} onChange={setQ}
+          />
           <div className='flex flex-row-reverse gap-4'>
             <NewUnitButton />
             <RestockButton />
           </div>
         </div>
         <div className='relative flex-grow mt-4 h-full'>
-          <UnitTable className='absolute inset-0 h-full' />
+          <UnitTable units={data?.map((u) => convertUnitDtoToUnit(u)) || []} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>
