@@ -15,6 +15,8 @@ import { getCheckedServiceItem } from "@/features/service-selector/utils/service
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
+import useAuthUser from "react-auth-kit/hooks/useAuthUser";
+import { TokenPayload } from "@/features/auth/types/auth";
 
 interface PosActionsProps {
   className?: string;
@@ -27,6 +29,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
   const { dueDate, setDueDate, items, services, discount, customer, vehicle, resetPos } = usePosStore();
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
+  const authUser = useAuthUser<TokenPayload>();
 
   const saleMutation = useMutation({
     mutationFn: (saleRequestDto: SaleRequestDto) => {
@@ -52,7 +55,8 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         defaultServices: [],
         isInit: false
       },
-      status
+      status,
+      authUser?.userId || ''
     );
 
     if (!sale.customerId || !sale.vehicleId) {

@@ -5,7 +5,7 @@ import { ItemRequestDto, UnitRequestItemDto, ServiceRequestItemDto } from "@/fea
 import { convertDateToLocaleDate } from "@/lib/date";
 
 export function convertPosStoreToSaleRequestDto
-(posState: PosState, status: StatusEnum): SaleRequestDto {
+(posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
   const unitItemList: UnitRequestItemDto[] = 
     posState.items.map((i) => ({
       type: 'unit',
@@ -37,13 +37,13 @@ export function convertPosStoreToSaleRequestDto
   });
 
   return {
-    userId: '362444bf-734d-4854-abc1-c20dbeab55bf',
     dueDate: convertDateToLocaleDate(posState.dueDate),
     created: convertDateToLocaleDate(new Date()),
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
     status,
+    userId,
     items
   };
 }

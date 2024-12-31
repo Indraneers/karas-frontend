@@ -1,3 +1,5 @@
+import { JwtPayload } from "jwt-decode";
+
 export interface SuccessAuthDto {
   type: 'success',
   access_token: string;
@@ -12,7 +14,8 @@ export interface FailedAuthDto {
   error_description: string;
 }
 
-export interface TokenPayload {
+export interface TokenPayload extends JwtPayload {
   name: string;
   email: string;
+  userId: string;
 }

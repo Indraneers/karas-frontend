@@ -11,13 +11,13 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import useSignIn from 'react-auth-kit/hooks/useSignIn';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
-import { postTokenKeycloak } from '@/features/auth/api/auth';
 import { useAuthStore } from '@/features/auth/store/auth';
 import { useState } from 'react';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle } from 'lucide-react';
 import { jwtDecode } from "jwt-decode";
 import { TokenPayload } from '@/features/auth/types/auth';
+import { authenticateWithUsernamePassword } from '@/features/auth/utils/auth';
 
 interface LoginSearch {
   redirect: string;
@@ -30,6 +30,7 @@ export const Route = createFileRoute('/login')({
     };
   },
   beforeLoad: ({ context, search }) => {
+
     if (context.auth) {
       throw redirect({
         to: search.redirect ? search.redirect : '/'
@@ -57,14 +58,10 @@ function LoginPage() {
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const formData = new URLSearchParams();
-    formData.append('username', values.username);
-    formData.append('password', values.password);
-    formData.append('client_id', 'karas-frontend');
-    formData.append('client_secret', 'secret');
-    formData.append('grant_type', 'password');
-
-    const tokenResponse = await postTokenKeycloak(formData);
+    const tokenResponse = await authenticateWithUsernamePassword(
+      values.username,
+      values.password
+    );
 
     if (tokenResponse.type === 'success') {
       const decodedToken = jwtDecode<TokenPayload>(tokenResponse.access_token);
@@ -77,7 +74,8 @@ function LoginPage() {
         refresh: tokenResponse.refresh_token,
         userState: {
           name: decodedToken.name,
-          email: decodedToken.email
+          email: decodedToken.email,
+          userId: decodedToken.sub
         }
       });
   

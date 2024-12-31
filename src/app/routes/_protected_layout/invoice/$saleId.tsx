@@ -71,7 +71,7 @@ export function InvoicePage() {
       <div className='p-4 border font-body a4-page' ref={contentRef}>
         <div className='flex justify-between items-center'>
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
-          <InvoiceNumber />
+          <InvoiceNumber id={data.id || ''} />
         </div>
         <Separator className='mt-2' />
         <div className='gap-8 grid grid-cols-[auto,auto,1fr] py-4'>

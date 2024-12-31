@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import axios, { AxiosError } from "axios";
 import { FailedAuthDto, SuccessAuthDto } from "../types/auth";
 
