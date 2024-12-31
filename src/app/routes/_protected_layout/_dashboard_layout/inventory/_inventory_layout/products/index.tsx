@@ -5,6 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
 import { ProductSearch } from '@/features/product/components/product-search';
 import { ProductTable } from '@/features/product/components/product-table';
+import { useProductSearch } from '@/features/product/hooks/useProductSearch';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/')({
@@ -12,6 +13,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function ProductPage() {
+  const { q, setQ, data } = useProductSearch();
   return (
     <>
       <SectionHeader className='mt-2'>
@@ -25,13 +27,17 @@ function ProductPage() {
       </SectionHeader>
       <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between'>
-          <ProductSearch className='w-[400px]' />
+          <ProductSearch 
+            className='w-[400px]'
+            value={q}
+            onChange={(setQ)}
+          />
           <div className='flex flex-row-reverse gap-4'>
             <NewProductButton />
           </div>
         </div>
         <div className='relative flex-grow mt-4 h-full'>
-          <ProductTable className='absolute inset-0 h-full' />
+          <ProductTable products={data || []} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>

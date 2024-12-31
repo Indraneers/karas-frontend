@@ -8,7 +8,13 @@ export function useUnitSearch({ productId }: { productId?: string } = {}) {
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
   const { isError, data } = useQuery({
-    queryKey: ['units', debouncedQ],
+    queryKey: [
+      'units'
+      +
+      productId ? '-' + productId : ''
+      +
+      debouncedQ ? '-' + debouncedQ : ''
+    ],
     queryFn: () => getUnits({ productId, q: debouncedQ })
   });
 

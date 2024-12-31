@@ -1,31 +1,18 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
-import { useQuery } from "@tanstack/react-query";
-import { getProducts } from "../../api/product";
 import { DataTablePagination } from "@/components/data-table-pagination";
+import { Product } from "@/types/product";
 
 
 interface ProductTablePage {
   className?: string;
+  products: Product[]
 }
 
-export function ProductTable({ className }: ProductTablePage) {
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['products'],
-    queryFn: async () => await getProducts()
-  });
-
-  if (isError) {
-    return 'error';
-  }
-
-  if (isLoading) {
-    return 'loading';
-  }
-
+export function ProductTable({ className, products }: ProductTablePage) {
   return (
     <div className={cn(className)}>
-      <DataTablePagination columns={columns} data={data || []} />
+      <DataTablePagination columns={columns} data={products} />
     </div>
   );
 }
