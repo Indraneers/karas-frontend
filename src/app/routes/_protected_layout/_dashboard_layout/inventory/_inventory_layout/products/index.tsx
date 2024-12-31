@@ -5,7 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
 import { ProductSearch } from '@/features/product/components/product-search';
 import { ProductTable } from '@/features/product/components/product-table';
-import { useProductSearch } from '@/features/product/hooks/useProductSearch';
+import { useProductSearch } from '@/features/product/hooks/product-search';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/')({

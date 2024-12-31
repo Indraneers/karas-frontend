@@ -1,30 +1,17 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
-import { useQuery } from "@tanstack/react-query";
-import { getCategories } from "../../api/category";
 import { DataTablePagination } from "@/components/data-table-pagination";
+import { Category } from "@/types/category";
 
 interface CategoryTablePage {
   className?: string;
+  categories: Category[]
 }
 
-export function CategoryTable({ className }: CategoryTablePage) {
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['categories'],
-    queryFn: async () => await getCategories()
-  });
-
-  if (isError) {
-    return 'error';
-  }
-
-  if (isLoading) {
-    return 'loading';
-  }
-
+export function CategoryTable({ className, categories }: CategoryTablePage) {
   return (
     <div className={cn(className)}>
-      <DataTablePagination columns={columns} data={data || []} />
+      <DataTablePagination columns={columns} data={categories} />
     </div>
   );
 }

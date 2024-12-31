@@ -3,7 +3,7 @@ import { ItemCardList } from "./item-card-list";
 import { ProductSelectionCard } from "./product-selection-card";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ProductSearch } from "@/features/product/components/product-search";
-import { useProductSearch } from "@/features/product/hooks/useProductSearch";
+import { useProductSearch } from "@/features/product/hooks/product-search";
 
 interface ProductSelectionProps {
   className?: string;

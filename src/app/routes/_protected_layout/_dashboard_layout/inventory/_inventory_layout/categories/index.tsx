@@ -5,6 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { CategorySearch } from '@/features/category/components/category-search';
 import { CategoryTable } from '@/features/category/components/category-table';
 import { NewCategoryButton } from '@/features/category/components/new-category-btn';
+import { useCategorySearch } from '@/features/category/hooks/category-search';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/')({
@@ -12,6 +13,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function CategoryPage() {
+  const { q, setQ,  data } = useCategorySearch();
   return (
     <>
       <SectionHeader className='mt-2'>
@@ -25,13 +27,17 @@ function CategoryPage() {
       </SectionHeader>
       <SectionContent className='flex flex-col pt-2 h-full'>
         <div className='flex justify-between gap-4'>
-          <CategorySearch className='w-[400px]' />
+          <CategorySearch
+            className='w-[400px]' 
+            value={q}
+            onChange={setQ}
+          />
           <div className='flex flex-row-reverse gap-4'>
             <NewCategoryButton />
           </div>
         </div>
         <div className='relative flex-grow mt-4'>
-          <CategoryTable className='absolute inset-0 h-full' />
+          <CategoryTable categories={data || []} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>
