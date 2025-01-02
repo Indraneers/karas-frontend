@@ -3,8 +3,8 @@ import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dia
 import { ItemAdder } from "../../pos/components/item-adder";
 import { useState } from "react";
 import { Unit } from "@/features/unit/types/unit";
-import { UnitItem } from "@/features/sale/types/item";
 import { Currency } from "@/components/currency";
+import { Item } from "@/features/sale/types/item";
 
 interface UnitSelectionCardProps {
   unit: Unit
@@ -17,8 +17,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     return 'error: no id';
   }
 
-  const item: UnitItem = {
-    type: 'unit',
+  const item: Item = {
     id: '',
     quantity: 1,
     price: unit.price,

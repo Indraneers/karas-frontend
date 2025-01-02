@@ -15,13 +15,13 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { ItemTypes } from "../../types/item";
 import { getSubtotal } from "../../utils/sale";
 import { Sale } from "../../types/sale";
 import { Currency } from "@/components/currency";
+import { Item } from "../../types/item";
  
 interface ItemsDataTableProps {
-  columns: ColumnDef<ItemTypes>[];
+  columns: ColumnDef<Item>[];
   sale: Sale;
 }
  
@@ -29,13 +29,12 @@ export function ItemsDataTable({
   columns,
   sale
 }: ItemsDataTableProps) {
-  const data = sale.items; 
-  const unitItems = data.filter((i) => i.type === 'unit');
-  const serviceItems = data.filter((i) => i.type === 'service');
-  const subTotal = getSubtotal({ items: unitItems, services: serviceItems });
+  const { items } = sale;
+  // const serviceItems = data.filter((i) => i.type === 'service');
+  const subTotal = getSubtotal({ items });
 
   const table = useReactTable({
-    data,
+    data: items,
     columns,
     getCoreRowModel: getCoreRowModel()
   });

@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
 import { DataTablePagination } from "@/components/data-table-pagination";
-import { Product } from "@/types/product";
+import { Product } from "@/features/product/types/product";
 
 
 interface ProductTablePage {

@@ -2,11 +2,12 @@ import { create } from 'zustand';
 import { VehicleDto } from '@/features/vehicles/dto/vehicle.dto';
 import { CustomerDto } from '@/features/customer/types/customer.dto';
 import { ServiceSelectorItem } from '@/features/service-selector/types/service-selector-item';
-import { ServiceItem, UnitItem } from '@/features/sale/types/item';
-import { getCheckedServiceItem } from '@/features/service-selector/utils/service-selector';
+// import { getCheckedServiceItem } from '@/features/service-selector/utils/service-selector';
 import { SaleResponseDto } from '@/features/sale/types/sale.dto';
-import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
+import { convertItemDtoToItem, convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { Sale } from '@/features/sale/types/sale';
+import { ItemResponseDto } from '@/features/sale/types/item.dto';
+import { Item } from '@/features/sale/types/item';
 
 const defaultVehicle: VehicleDto = {
   engineNo: '-',
@@ -40,7 +41,7 @@ function getDefaultPosState() {
 export interface PosState {
   services: ServiceSelectorItem[];
   defaultServices: ServiceSelectorItem[];
-  items: UnitItem[];
+  items: Item[];
   vehicle: VehicleDto;
   customer: CustomerDto;
   discount: number;
@@ -53,8 +54,8 @@ export interface PosStateWithFunctions extends PosState {
   addService: (s: string) => void;
   updateService: (serviceId: string, s: ServiceSelectorItem) => void
   removeService: (serviceId: string) => void;
-  addItem: (i: UnitItem) => void;
-  updateItem: (itemId: string, i: UnitItem) => void
+  addItem: (i: Item) => void;
+  updateItem: (itemId: string, i: Item) => void
   removeItem: (itemId: string) => void;
   setCustomer: (c: CustomerDto) => void;
   setVehicle: (v: VehicleDto) => void;
@@ -91,12 +92,12 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: false } : s);
     return newState;
   }),
-  addItem: (i: UnitItem) => set((state) => {
+  addItem: (i: Item) => set((state) => {
     const newState = { ... state };
     newState.items.push(i);
     return newState;
   }),
-  updateItem: (itemId: string, i: UnitItem) => set((state) => {
+  updateItem: (itemId: string, i: Item) => set((state) => {
     const newState = { ...state };
     newState.items = newState.items.map((item) => {
       if (itemId === item.id) {
@@ -127,33 +128,32 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
 
     const sale: Sale = convertSaleResponseDtoToSale(saleDto);
 
-    const unitItemDtos: UnitItem[] =
-      sale.items.filter((i) => i.type === 'unit');
+    const itemDtos: ItemResponseDto[] = sale.items;
 
-    const services: ServiceItem[] =
-      sale.items
-        .filter((i) => i.type === 'service');
+    // const services: ServiceItem[] =
+    //   sale.items
+    //     .filter((i) => i.type === 'service');
 
-    const selectedServices: ServiceSelectorItem[] =
-      state.defaultServices.map(ds => {
-        const service = services.find(s => s.service?.id === ds.service.id);
-        if (service) {
-          return {
-            ...ds,
-            discount: service.discount,
-            price: service.price,
-            checked: true
-          };
-        }
-        return ds;
-      });
+    // const selectedServices: ServiceSelectorItem[] =
+    //   state.defaultServices.map(ds => {
+    //     const service = services.find(s => s.service?.id === ds.service.id);
+    //     if (service) {
+    //       return {
+    //         ...ds,
+    //         discount: service.discount,
+    //         price: service.price,
+    //         checked: true
+    //       };
+    //     }
+    //     return ds;
+    //   });
       
     return {
       ...state,
       isInit: true,
       dueDate: new Date(sale.dueDate),
-      items: unitItemDtos,
-      services: selectedServices,
+      items: itemDtos.map((i) => convertItemDtoToItem(i)),
+      services: [],
       vehicle: sale.vehicle,
       customer: sale.customer,
       user: sale.user,
@@ -163,7 +163,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   setDueDate: (dueDate: Date | undefined) => set((state) => ({ ...state, dueDate }))
 }));
 
-export function useCheckedServices(): ServiceItem[] {
-  const { services } = usePosStore();
-  return getCheckedServiceItem(services);
-}
+// export function useCheckedServices(): ServiceItem[] {
+//   const { services } = usePosStore();
+//   return getCheckedServiceItem(services);
+// }

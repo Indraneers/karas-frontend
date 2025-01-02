@@ -9,7 +9,7 @@ const UnderlineCurrencyInput = React.forwardRef<HTMLInputElement, CurrencyInputP
     return (
       <CurrencyInput
         className={cn([
-          'flex w-full',
+          'flex',
           'border-0 outline-none focus-visible:ring-0 bg-transparent !text-lg',
           'shadow-none p-0 rounded-none border-b h-6 border-background',
           '[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none',

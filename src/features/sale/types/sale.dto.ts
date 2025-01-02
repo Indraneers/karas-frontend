@@ -1,5 +1,5 @@
 import { StatusEnum } from "./sale";
-import { ItemRequestDto, ItemResponseDtoTypes } from "./item.dto";
+import { ItemRequestDto, ItemResponseDto } from "./item.dto";
 import { UserDto } from "@/features/user/types/user.dto";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
@@ -24,6 +24,6 @@ export interface SaleResponseDto {
   user: UserDto;
   customer: CustomerDto;
   vehicle: VehicleDto;
-  items: ItemResponseDtoTypes[];
+  items: ItemResponseDto[];
   status: StatusEnum
 }

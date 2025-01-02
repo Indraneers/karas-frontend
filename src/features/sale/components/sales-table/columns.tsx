@@ -64,13 +64,11 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Subtotal ($)',
     cell: ({ row }) => {
       const { items } = row.original;
-      
-      const itemUnit = items.filter((i) => i.type === 'unit');
-      const services = items.filter((i) => i.type === 'service');
+      // const services = items.filter((i) => i.type === 'service');
 
       return (
         <div className="font-medium text-green-600">
-          <Currency amount={getSubtotal({ items: itemUnit, services })} />
+          <Currency amount={getSubtotal({ items })} />
         </div>
       );
     }
@@ -89,10 +87,9 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Total ($)',
     cell: ({ row }) => {
       const { items } = row.original;
-      
-      const itemUnits = items.filter((i) => i.type === 'unit');
-      const services = items.filter((i) => i.type === 'service');
-      const total = getTotal({ items: itemUnits, services, discount: row.original.discount });
+    
+      // const services = items.filter((i) => i.type === 'service');
+      const total = getTotal({ items, discount: row.original.discount });
 
       return (
         <div className="font-medium text-green-700">

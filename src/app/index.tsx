@@ -53,8 +53,6 @@ function AuthorizedRouter({ children }: { children: React.ReactNode}) {
             }
           });
           
-          console.log(response);
-          
           if (signInSuccess) {
             setAuth(true);
           }

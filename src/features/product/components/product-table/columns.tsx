@@ -1,10 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Product } from "@/types/product";
+import { Product } from "@/features/product/types/product";
 import { CategoryCell } from "../category-cell";
 import { deleteProduct } from "../../api/product";
 import { InventoryActions } from "@/components/inventory-actions";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -39,6 +40,36 @@ export const columns: ColumnDef<Product>[] = [
     header: 'Category',
     cell: ({ row }) => (
       <CategoryCell categoryId={row.getValue('categoryId')} />
+    )
+  },
+  {
+    accessorKey: 'variable',
+    header: 'Type',
+    cell: ({ row }) => (
+      <>
+        { row.original.variable &&
+          <Badge className="bg-amber-500 hover:bg-amber-600">Variable</Badge>
+        }
+        { !row.original.variable &&
+          <Badge className="bg-green-500 hover:bg-green-600">Countable</Badge>
+        }
+      </>
+    )
+  },
+  {
+    accessorKey: 'baseUnit',
+    header: 'Base Unit',
+    cell: ({ row }) => (
+      <>
+        {row.original.variable && 
+          <Badge className="border-primary text-primary" variant='outline'>
+            1{row.original.baseUnit}
+          </Badge>
+        }
+        {
+          !row.original.variable && "N/A"
+        }
+      </>
     )
   },
   {

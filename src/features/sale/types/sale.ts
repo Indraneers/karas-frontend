@@ -1,7 +1,7 @@
 import { CustomerDto } from "@/features/customer/types/customer.dto";
-import { ItemTypes } from "./item";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
 import { UserDto } from "@/features/user/types/user.dto";
+import { Item } from "./item";
 
 export enum StatusEnum {
   PAID = 'PAID',
@@ -15,6 +15,6 @@ export interface Sale {
   user: UserDto;
   customer: CustomerDto;
   vehicle: VehicleDto;
-  items: ItemTypes[];
+  items: Item[];
   status: StatusEnum;
 }

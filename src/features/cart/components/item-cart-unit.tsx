@@ -4,15 +4,15 @@ import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
-import { UnitItem } from "@/features/sale/types/item";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 import { useQuery } from "@tanstack/react-query";
 import { getProductById } from "@/features/product/api/product";
+import { Item } from "@/features/sale/types/item";
 
-export function ItemCartUnit({ item }: { item: UnitItem }) {
+export function ItemCartUnit({ item }: { item: Item }) {
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['product-', item.unit?.productId],
-    queryFn: () => getProductById(item.unit?.productId || ''),
+    queryKey: ['product-', item.unit.product.id],
+    queryFn: () => getProductById(item.unit.product.id || ''),
     enabled: !!item.unit
   });
   const { updateItem, removeItem } = usePosStore();

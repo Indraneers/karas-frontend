@@ -1,6 +1,8 @@
 export interface ProductDto {
-  id?: string;
+  id: string;
   name: string;
   categoryId: string;
   unitCount?: number;
+  variable: boolean;
+  baseUnit: string;
 }

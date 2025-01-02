@@ -1,10 +1,10 @@
-import { UnitDto } from "../types/unit.dto";
+import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
 import { convertCurrencyToString, convertStringToCurrency } from "@/lib/currency";
 import { Unit } from "../types/unit";
 
-export function convertUnitFormToUnitDto(unit: UnitForm): UnitDto {
-  if (!unit.productId || unit?.product?.id) {
+export function convertUnitFormToUnitDto(unit: UnitForm): UnitRequestDto {
+  if (!unit.product) {
     throw new Error("TODO: ERROR");
   }
   return {
@@ -12,12 +12,13 @@ export function convertUnitFormToUnitDto(unit: UnitForm): UnitDto {
     sku: unit.sku,
     quantity: unit.quantity,
     price: convertStringToCurrency(unit.price),
-    productId: unit.productId || unit?.product?.id || ''
+    productId: unit.product.id,
+    toBaseUnit: unit.toBaseUnit
   };
 }
 
-export function convertUnitDtoToUnit(unit: UnitDto): Unit {
-  if (!unit.productId || !unit.id) {
+export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
+  if (!unit.product || !unit.id) {
     throw new Error("TODO: ERROR");
   }
   return {
@@ -26,17 +27,19 @@ export function convertUnitDtoToUnit(unit: UnitDto): Unit {
     sku: unit.sku,
     quantity: unit.quantity,
     price: unit.price,
-    productId: unit.productId
+    product: unit.product,
+    toBaseUnit: unit.toBaseUnit
   };
 }
 
-export function convertUnitDtoToUnitForm(unitDto: UnitDto): UnitForm {
+export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
   return {
     id: unitDto.id || '',
     name: unitDto.name,
     sku: unitDto.sku,
     quantity: unitDto.quantity,
     price: convertCurrencyToString(unitDto.price),
-    productId: unitDto.productId
+    product: unitDto.product,
+    toBaseUnit: unitDto.toBaseUnit
   };
 }

@@ -10,16 +10,27 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect } from "react";
+import { Switch } from "@/components/ui/switch";
 
 const formSchema = z.object({
+  id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  categoryId: z.string({ message: 'Category is required' })
+  categoryId: z.string({ message: 'Category is required' }),
+  variable: z.boolean({ message: 'Variable is required' }),
+  baseUnit: z.string()
+}).refine(schema => {
+  return !(schema.variable && !schema.baseUnit);
+}, {
+  message: "Base Unit is required if variable is true",
+  path: ['baseUnit']
 });
 
 const defaultData: ProductDto = {
   id: '',
   name: '',
-  categoryId: ''
+  categoryId: '',
+  variable: false,
+  baseUnit: ''
 };
 
 interface ProductFormProps {
@@ -57,7 +68,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category Name</FormLabel>
+                <FormLabel>Product Name</FormLabel>
                 <FormControl>
                   <Input className="w-[500px]" placeholder="Ex: Twister 40W-80" {...field} />
                 </FormControl>
@@ -96,6 +107,48 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
               </FormItem>
             )}
           />
+        </FormGroup>
+        <FormGroup title="Stock Information">
+          <div className="items-center gap-8 grid grid-cols-3 mt-4">
+            <FormField
+              control={form.control}
+              name="variable"
+              render={({ field }) => (
+                <FormItem className="flex flex-row justify-between items-center shadow-sm p-4 border rounded-lg">
+                  <div className="space-y-0.5">
+                    <FormLabel>Variable Status</FormLabel>
+                    <FormDescription>
+                      Set if the product is variable (handling partial units)
+                    </FormDescription>
+                  </div>
+                  <FormControl>
+                    <Switch
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                      aria-readonly
+                    />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="baseUnit"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Base Unit Name (Required if Variable Status is on)</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Ex: 1L" {...field} />
+                  </FormControl>
+                  <FormDescription>
+                    Set the most basic unit of the product
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
         </FormGroup>
         <Button
           type="submit"

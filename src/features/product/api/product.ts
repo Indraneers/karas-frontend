@@ -1,5 +1,5 @@
 import { request } from "@/lib/request";
-import { Product } from "@/types/product";
+import { Product } from "@/features/product/types/product";
 import { ProductDto } from "../types/product.dto";
 
 interface ProductQuery {

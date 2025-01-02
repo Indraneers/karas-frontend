@@ -5,7 +5,9 @@ import { Unit } from "@/features/unit/types/unit";
 import { ProductCell } from "../product-cell";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
-import { Currency } from "@/components/currency";
+import { ToBaseUnitCell } from "../to-base-unit-cell";
+import { UnitQuantityCell } from "../unit-quantity";
+import { PriceCell } from "../price-cell";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -39,7 +41,7 @@ export const columns: ColumnDef<Unit>[] = [
     accessorKey: 'productId',
     header: 'Product',
     cell: ({ row }) => (
-      <ProductCell productId={row.getValue('productId')} />
+      <ProductCell product={row.original.product} />
     )
   },
   {
@@ -47,13 +49,32 @@ export const columns: ColumnDef<Unit>[] = [
     header: 'SKU'
   },
   {
+    accessorKey: 'toBaseUnit',
+    header: 'Base Unit',
+    cell: ({ row }) => 
+      <ToBaseUnitCell 
+        product={row.original.product}
+        toBaseUnit={row.original.toBaseUnit} 
+      />
+  },
+  {
     accessorKey: 'price',
     header: 'Price',
-    cell: ({ row }) => <Currency amount={row.original.price} />
+    cell: ({ row }) => 
+      <PriceCell 
+        product={row.original.product}
+        price={row.original.price}
+      />
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantity'
+    header: 'Unit Quantity',
+    cell: ({ row }) => 
+      <UnitQuantityCell
+        product={row.original.product}
+        quantity={row.original.quantity} 
+        toBaseUnit={row.original.toBaseUnit} 
+      />
   },
   {
     id: "actions",

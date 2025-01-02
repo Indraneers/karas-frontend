@@ -1,43 +1,35 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ItemTypes } from "@/features/sale/types/item";
-import { ProductCell } from "@/features/sale/components/product-cell";
 import { Currency } from "@/components/currency";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
+import { Item } from "@/features/sale/types/item";
 
-export const columns: ColumnDef<ItemTypes>[] = [
+export const columns: ColumnDef<Item>[] = [
   {
     id: 'no',
     header: 'N.O',
     cell: ({ row }) => row.index + 1
   },
-  {
-    accessorKey: 'type',
-    header: 'Item Type',
-    cell: ({ row }) => (
-      <>
-        {row.original.type === 'service' &&
-            'Service'
-        }
-        {row.original.type === 'unit' &&
-            'Product'
-        }
-      </>
-    )
-  },
+  // {
+  //   accessorKey: 'type',
+  //   header: 'Item Type',
+  //   cell: ({ row }) => (
+  //     <>
+
+  //     </>
+  //   )
+  // },
   {
     id: 'name',
     header: 'Item/Service Name',
     cell: ({ row }) => (
       <>
-        {row.original.type === 'service' && row.original.service?.name
-        }
-        {row.original.type === 'unit' && 
-          <div>
-            <ProductCell productId={row.original.unit?.productId || ''} />
-            {' '}
-            ({ row.original.unit?.name })
-          </div>
-        }
+        {/* {row.original.type === 'service' && row.original.service?.name
+        } */}
+        <div>
+          {row.original.unit.product.name}
+          {' '}
+          { row.original.unit?.name }
+        </div>
       </>
     )
   },

@@ -11,7 +11,6 @@ import { useItemSelectionStore } from "@/features/item-selector/store/item-selec
 import { ItemSelectionEnum } from "@/features/item-selector/types/item-selection-enum";
 import { toastError } from "@/lib/toast";
 import { getSubtotal } from "@/features/sale/utils/sale";
-import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
@@ -79,9 +78,9 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       return;
     }
 
-    const checkedServices = getCheckedServiceItem(services);
+    // const checkedServices = getCheckedServiceItem(services);
 
-    if ((getSubtotal({ items, services: checkedServices }) - sale.discount) < 0) {
+    if ((getSubtotal({ items }) - sale.discount) < 0) {
       toastError('Total is negative');
       return;
     }

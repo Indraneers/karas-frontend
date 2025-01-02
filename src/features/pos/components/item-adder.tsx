@@ -5,12 +5,13 @@ import { UnderlineInput } from "@/features/pos/components/underline-input";
 import { Numpad } from "./numpad";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
-import { UnitItem } from "@/features/sale/types/item";
 import { Currency } from "@/components/currency";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
+import { Item } from "@/features/sale/types/item";
+import { cn } from "@/lib/utils";
 
 interface ItemAdderProps {
-  item: UnitItem;
+  item: Item;
   setOpen: (b: boolean) => void
 }
 
@@ -47,7 +48,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   }
 
   function handleSubmit() {
-    const itemResult: UnitItem = {
+    const itemResult: Item = {
       ...item,
       price: convertStringToCurrency(price),
       quantity: parseInt(qty) || 0,
@@ -106,10 +107,11 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       <div className="bg-accent rounded-[2rem] text-background">
         {/* Input screen */}
         <div className="p-4">
-          <div className="flex gap-2 text-xl">
+          <div className="flex gap-2 text-">
             <div className="flex items-baseline gap-2">
               <span>$</span>
               <UnderlineCurrencyInput 
+                className="w-12"
                 value={price}
                 onValueChange={(value) => onValueChange(value, setterList[0])}
                 onFocus={() => setCurrentElementIndex(0)} 
@@ -122,6 +124,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
             <div className="flex items-baseline gap-2">
               <span>$</span>
               <UnderlineCurrencyInput
+                className="w-12"
                 value={discount}
                 onValueChange={(value) => onValueChange(value, setterList[1])}
                 onFocus={() => setCurrentElementIndex(1)} 
@@ -129,9 +132,10 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
                 type="text" 
               />
             </div>
-            <div className="flex items-baseline gap-2 ml-2">
+            <div className="flex flex-nowrap items-baseline gap-2">
               <span>Qty</span>
               <UnderlineInput 
+                className="w-10"
                 value={qty}  
                 onInput={handleQtyInput}
                 onFocus={() => setCurrentElementIndex(2)} 
@@ -139,6 +143,10 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
                 type="number" 
               />
             </div>
+            <span className={cn([
+              "text-lg hidden",
+              item.unit.product?.variable && 'block'
+            ])}>{item.unit.product?.baseUnit}</span>
           </div>
           <div className="text-right mt-4 font-semibold text-2xl">
             <Currency amount={totalCost} />

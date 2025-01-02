@@ -7,29 +7,38 @@ import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, For
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Product } from "@/types/product";
-import { UnitDto } from "../types/unit.dto";
+import { Product } from "@/features/product/types/product";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { useEffect } from "react";
 import { convertUnitFormToUnitDto } from "../util/convert";
+import { cn } from "@/lib/utils";
+import { UnitRequestDto } from "../types/unit.dto";
 
 export interface UnitForm {
   id: string;
   name: string;
   quantity: number;
   price: string;
-  product?: Product;
-  productId: string;
+  product: Product;
   sku: string;
+  toBaseUnit: number;
 }
 
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  sku: z.string({ message: 'Name is required' }).min(2).max(50),
+  sku: z.string({ message: 'sku is required' }).min(2).max(50),
   price: z.string(),
+  product: z.object({
+    id: z.string(),
+    name: z.string(),
+    categoryId: z.string(),
+    variable: z.boolean(),
+    baseUnit: z.string()
+  }),
   quantity: z.number(),
-  productId: z.string({ message: 'Product is required' })
+  productId: z.string({ message: 'Product is required' }),
+  toBaseUnit: z.number().int()
 });
 
 const defaultData: UnitForm = {
@@ -38,11 +47,18 @@ const defaultData: UnitForm = {
   sku: '',
   price: '',
   quantity: 0,
-  productId: ''
+  product: {
+    id: '',
+    name: '',
+    categoryId: '',
+    variable: false,
+    baseUnit: ''
+  },
+  toBaseUnit: 0
 };
 
 interface UnitFormProps {
-  handleSubmit: (values: UnitDto) => void;
+  handleSubmit: (values: UnitRequestDto) => void;
   data?: UnitForm | undefined;
   products: Product[];
 }
@@ -51,10 +67,14 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
   const navigate = useNavigate();
   const router = useRouter();
 
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
+
+  const { getValues } = form;
+  const product = getValues().product;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     values.id = '';
@@ -109,11 +129,17 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
           </div>
           <FormField
             control={form.control}
-            name="productId"
+            name="product"
             render={({ field }) => (
               <FormItem className="mt-4">
                 <FormLabel>Product</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <Select 
+                  onValueChange={(value) => {
+                    const product = 
+                      products.find(p => p.id === value);
+                    field.onChange(product);
+                  }} 
+                  value={field.value.id}>
                   <FormControl>
                     <SelectTrigger className="w-[400px]">
                       <SelectValue placeholder="Select Product" />
@@ -137,13 +163,22 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
           />
         </FormGroup>
         <FormGroup title="Stock Information (Quantity and Price)">
-          <div className="gap-8 grid grid-cols-3">
+          <div className="items-center gap-8 grid grid-cols-3">
             <FormField
               control={form.control}
               name="price"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Unit Price ($)</FormLabel>
+                  <FormLabel>
+                    {
+                      product.variable  &&
+                      "Price ($ / " + product.baseUnit + ")"
+                    }
+                    {
+                      !product.variable &&
+                      "Price ($)"
+                    }
+                  </FormLabel>
                   <FormControl>
                     <PrefixedCurrencyInput
                       className="w-24 h-9"
@@ -161,26 +196,33 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                 </FormItem>
               )}
             />
-            <FormField
-              control={form.control}
-              name="quantity"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Initial Unit Quantity</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="number" 
-                      {...field} 
-                      onChange={event => field.onChange(+event.target.value)}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                      Set the initial quantity
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div
+              className={cn([
+                'hidden',
+                product.variable && 'block'
+              ])}
+            >
+              <FormField
+                control={form.control}
+                name="toBaseUnit"
+                render={({ field }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>To Base Unit ({product.baseUnit})</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="number" 
+                        {...field} 
+                        onChange={event => field.onChange(+event.target.value)}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Set the conversion to base unit
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
           </div>
         </FormGroup>
         <Button

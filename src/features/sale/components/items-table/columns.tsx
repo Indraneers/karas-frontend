@@ -1,11 +1,10 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { ItemTypes } from "../../types/item";
 import { Badge } from "@/components/ui/badge";
-import { ProductCell } from "../product-cell";
 import { Currency } from "@/components/currency";
 import { calculateTotalCost } from "../../utils/sale";
+import { Item } from "../../types/item";
 
-export const columns: ColumnDef<ItemTypes>[] = [
+export const columns: ColumnDef<Item>[] = [
   {
     accessorKey: 'id',
     header: () => <div className="font-semibold"> Item ID</div>,
@@ -18,18 +17,16 @@ export const columns: ColumnDef<ItemTypes>[] = [
   {
     accessorKey: 'type',
     header: 'Item Type',
-    cell: ({ row }) => (
+    cell: () => (
       <>
-        {row.original.type === 'service' &&
+        {/* {row.original.type === 'service' &&
           <Badge className="bg-amber-400 hover:bg-amber-500">
             Service
           </Badge>
-        }
-        {row.original.type === 'unit' &&
-          <Badge className="bg-green-500 hover:bg-green-600">
+        } */}
+        <Badge className="bg-green-500 hover:bg-green-600">
             Product
-          </Badge>
-        }
+        </Badge>
       </>
     )
   },
@@ -38,11 +35,11 @@ export const columns: ColumnDef<ItemTypes>[] = [
     header: 'Item Name',
     cell: ({ row }) => (
       <>
-        {row.original.type === 'service' && row.original.service?.name
-        }
-        {row.original.type === 'unit' && 
+        {/* {row.original.type === 'service' && row.original.service?.name
+        } */}
+        {
           <div>
-            <ProductCell productId={row.original.unit?.productId || ''} />
+            {row.original.unit.product.name}
             {' '}
             ({ row.original.unit?.name })
           </div>

@@ -1,28 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-import { getProductById } from "@/features/product/api/product";
-import { useQuery } from "@tanstack/react-query";
+import { Product } from "@/features/product/types/product";
 
 interface ProductCellProps {
-  productId: string;
+  product: Product
 }
 
-export function ProductCell({ productId }: ProductCellProps) {
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['product-' + productId],
-    queryFn: async () => await getProductById(productId)
-  });
-
-  if (isError) {
-    return 'error';
-  }
-
-  if (isLoading) {
-    return 'loading';
-  }
-
-  if (!data) {
-    return '';
-  }
-
-  return <Badge className="bg-accent">{data?.name}</Badge>;
+export function ProductCell({ product }: ProductCellProps) {
+  return <Badge className="bg-accent">{product.name}</Badge>;
 }

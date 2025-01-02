@@ -5,7 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { getUnitById, updateUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
-import { UnitDto } from '@/features/unit/types/unit.dto';
+import { UnitRequestDto } from '@/features/unit/types/unit.dto';
 import { convertUnitDtoToUnitForm } from '@/features/unit/util/convert';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
@@ -32,7 +32,7 @@ function UpdateUnitPage() {
   });
   
   const mutation = useMutation({
-    mutationFn: async (unitDto: UnitDto) => await updateUnit(unitId, unitDto),
+    mutationFn: async (unitDto: UnitRequestDto) => await updateUnit(unitId, unitDto),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['units']
