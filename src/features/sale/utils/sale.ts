@@ -3,9 +3,10 @@ import { Item } from "../types/item";
 import { ItemResponseDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
-import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { convertBaseUnitQuantityDtoToBaseUnitQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
+  console.log(saleResponseDto);
   return {
     id: saleResponseDto.id,
     dueDate: saleResponseDto.dueDate,
@@ -21,6 +22,16 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
 
 
 export function convertItemDtoToItem(itemDto: ItemResponseDto): Item {
+  if (itemDto.unit.product.variable) {
+    return {
+      id: itemDto.id,
+      price: itemDto.price,
+      discount: itemDto.discount,
+      quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(itemDto.quantity),
+      unit: convertUnitDtoToUnit(itemDto.unit)
+    };
+  }
+
   return {
     id: itemDto.id,
     price: itemDto.price,
