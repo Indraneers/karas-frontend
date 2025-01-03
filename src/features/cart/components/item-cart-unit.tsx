@@ -5,16 +5,9 @@ import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
-import { useQuery } from "@tanstack/react-query";
-import { getProductById } from "@/features/product/api/product";
 import { Item } from "@/features/sale/types/item";
 
 export function ItemCartUnit({ item }: { item: Item }) {
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['product-', item.unit.product.id],
-    queryFn: () => getProductById(item.unit.product.id || ''),
-    enabled: !!item.unit
-  });
   const { updateItem, removeItem } = usePosStore();
 
   const price = item.price;
@@ -24,7 +17,11 @@ export function ItemCartUnit({ item }: { item: Item }) {
   const totalCost = calculateTotalCost(price, discount, qty);
 
   return (
-    <ItemCartItem totalCost={totalCost} onClickRemove={() => removeItem(item?.id || '')}>
+    <ItemCartItem 
+      product={item.unit.product}
+      totalCost={totalCost} 
+      onClickRemove={() => removeItem(item?.id || '')}
+    >
       <div className="flex items-center gap-2">
         <Thumbnail className="h-auto" src="/sample-product.webp"  />
         <div className="flex flex-col flex-grow justify-between gap-2 h-full">
@@ -32,16 +29,14 @@ export function ItemCartUnit({ item }: { item: Item }) {
           <div className="flex justify-between justify-items-start items-center gap-2 w-full">
             <div>
               <div className="font-medium text-[14px]">
-                {isError && "error"}
-                {isLoading && "loading"}
-                {data && data.name}
+                {item.unit.product.name}
               </div>
               <div className="text-[8px] text-foreground/50">
-                {item.unit?.sku || ''}
+                {item.unit.sku || ''}
               </div>
             </div>
-            <div className="font-medium text-xl">
-              {item.unit?.name || ''}
+            <div className="font-medium text-sm self-start">
+              {item.unit.name || ''}
             </div>
           </div>
           <div className="flex-grow"></div>
@@ -61,9 +56,9 @@ export function ItemCartUnit({ item }: { item: Item }) {
                 onValueChange={(value) => updateItem(item.id, { ...item, discount: convertStringToCurrency(value || '') })}
               />
             </div>
-            <ItemCounter 
-              value={String(qty)}
-              setValue={(value) => updateItem(item.id, { ...item, quantity: Number(value) })}
+            <ItemCounter
+              value={String(qty) || ''}
+              setValue={(value) => updateItem(item.id, { ...item, quantity: Number(value) || 0 })}
             />
           </div>
         </div>

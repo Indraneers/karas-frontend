@@ -1,13 +1,14 @@
-import { UnderlineCurrencyInput } from "@/features/pos/components/underline-currency-input";
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePosStore } from "../store/pos";
-import { UnderlineInput } from "@/features/pos/components/underline-input";
 import { Numpad } from "./numpad";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
 import { Currency } from "@/components/currency";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 import { Item } from "@/features/sale/types/item";
+import { ItemAdderPanelCountable } from "./item-adder-panel-countable";
+import { ItemAdderPanelVariable } from "./item-adder-panel-variable";
+import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
 import { cn } from "@/lib/utils";
 
 interface ItemAdderProps {
@@ -16,6 +17,10 @@ interface ItemAdderProps {
 }
 
 export function ItemAdder({ item, setOpen }: ItemAdderProps) {
+  const product = item.unit.product;
+
+  const [isBaseUnit, setIsBaseUnit] = useState(false);
+
   const firstInput = useRef<HTMLInputElement>(null);
   const secondInput = useRef<HTMLInputElement>(null);
   const thirdInput = useRef<HTMLInputElement>(null);
@@ -39,19 +44,11 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   );
 
 
-  function onValueChange(value: string | undefined, setter: (id: string) => void) {
-    setter(value || '');
-  }
-
-  function handleQtyInput(event: FormEvent<HTMLInputElement>) {
-    setQty(Number(event.currentTarget.value).toString());
-  }
-
   function handleSubmit() {
     const itemResult: Item = {
       ...item,
       price: convertStringToCurrency(price),
-      quantity: parseInt(qty) || 0,
+      quantity: Number(qty) || 0,
       discount: convertStringToCurrency(discount),
       // temporary solution for id
       id: uuidv4()
@@ -100,66 +97,64 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   }, [currentElementIndex]);
 
   return (
-    <div 
-      onKeyDown={handleOnEnter}
-      className="bg-background p-2 rounded-[2.5rem] w-[22.5vw]"
-    >
-      <div className="bg-accent rounded-[2rem] text-background">
-        {/* Input screen */}
-        <div className="p-4">
-          <div className="flex gap-2 text-">
-            <div className="flex items-baseline gap-2">
-              <span>$</span>
-              <UnderlineCurrencyInput 
-                className="w-12"
-                value={price}
-                onValueChange={(value) => onValueChange(value, setterList[0])}
-                onFocus={() => setCurrentElementIndex(0)} 
-                ref={firstInput} 
-              />
-            </div>
-            <span>
-            - 
-            </span>
-            <div className="flex items-baseline gap-2">
-              <span>$</span>
-              <UnderlineCurrencyInput
-                className="w-12"
-                value={discount}
-                onValueChange={(value) => onValueChange(value, setterList[1])}
-                onFocus={() => setCurrentElementIndex(1)} 
-                ref={secondInput} 
-                type="text" 
-              />
-            </div>
-            <div className="flex flex-nowrap items-baseline gap-2">
-              <span>Qty</span>
-              <UnderlineInput 
-                className="w-10"
-                value={qty}  
-                onInput={handleQtyInput}
-                onFocus={() => setCurrentElementIndex(2)} 
-                ref={thirdInput} 
-                type="number" 
-              />
-            </div>
-            <span className={cn([
-              "text-lg hidden",
-              item.unit.product?.variable && 'block'
-            ])}>{item.unit.product?.baseUnit}</span>
-          </div>
-          <div className="text-right mt-4 font-semibold text-2xl">
-            <Currency amount={totalCost} />
-          </div>
-        </div>
-        <Numpad 
-          currentElementIndex={currentElementIndex}
-          setCurrentElementIndex={setCurrentElementIndex}
-          input={refList[currentElementIndex]}
-          getter={getterList[currentElementIndex]}
-          setter={setterList[currentElementIndex]}
-          handleSubmit={handleSubmit}
+    <div className={cn([
+      "relative",
+      product.variable && 'pt-12'
+    ])}>
+      <div className={cn([
+        "top-0 right-0 absolute items-center hidden",
+        product.variable && 'flex'
+      ])}>
+        <ToBaseUnitSwitch 
+          className="mr-4"
+          onChange={setIsBaseUnit}
+          baseUnit={product.baseUnit} 
         />
+      </div>
+      <div 
+        onKeyDown={handleOnEnter}
+        className="bg-background p-2 rounded-[2.5rem] w-[22.5vw]"
+      >
+        <div className="bg-accent rounded-[2rem] text-background">
+          {/* Input screen */}
+          <div className="p-4">
+            {
+              !product.variable &&
+            <ItemAdderPanelCountable 
+              getterList={getterList}
+              setterList={setterList}
+              refList={refList}
+              setCurrentElementIndex={setCurrentElementIndex}
+            />
+            }
+            {
+              product.variable &&
+            <ItemAdderPanelVariable
+              getterList={getterList}
+              setterList={setterList}
+              isBaseUnit={isBaseUnit}
+              refList={refList}
+              setCurrentElementIndex={setCurrentElementIndex}
+              product={product}
+              unit={item.unit}
+            />
+            }
+            <div className="text-right mt-6 font-semibold text-2xl">
+              <Currency amount={totalCost} />
+            </div>
+          </div>
+          <Numpad 
+            currentElementIndex={currentElementIndex}
+            setCurrentElementIndex={setCurrentElementIndex}
+            input={refList[currentElementIndex]}
+            getter={getterList[currentElementIndex]}
+            setter={setterList[currentElementIndex]}
+            isVariable={product.variable}
+            isBaseUnit={isBaseUnit}
+            unit={item.unit}
+            handleSubmit={handleSubmit}
+          />
+        </div>
       </div>
     </div>
   );

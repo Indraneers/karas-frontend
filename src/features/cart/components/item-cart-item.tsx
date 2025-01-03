@@ -1,10 +1,13 @@
 import { Currency } from "@/components/currency";
 import { Button } from "@/components/ui/button";
+import { Product } from "@/features/product/types/product";
+import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { MouseEventHandler } from "react";
 
 interface ItemCartItemProps {
   children?: React.ReactNode;
+  product?: Product;
   totalCost: number;
   onClickRemove?: MouseEventHandler<HTMLButtonElement>;
 }
@@ -12,7 +15,9 @@ interface ItemCartItemProps {
 export function ItemCartItem
 ({ children, totalCost, onClickRemove }: ItemCartItemProps) {
   return (
-    <div className="relative border rounded-lg">
+    <div className={cn([
+      "relative border rounded-lg"
+    ])}>
       <Button
         onClick={onClickRemove}
         className="top-[-0.25rem] left-[-0.25rem] absolute hover:bg-primary/80 border w-6 h-6" 

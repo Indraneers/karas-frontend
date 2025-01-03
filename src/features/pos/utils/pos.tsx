@@ -3,15 +3,15 @@ import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
 import { convertDateToLocaleDate } from "@/lib/date";
+import { convertBaseUnitQuantityToBaseUnitQuantityDto } from "@/features/unit/util/convert";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
   const items: ItemRequestDto[] = 
     posState.items.map((i) => ({
-      type: 'unit',
       price: i.price,
       discount: i.discount,
-      quantity: i.quantity,
+      quantity: convertBaseUnitQuantityToBaseUnitQuantityDto(i.quantity),
       unitId: i.unit.id
     }));
 

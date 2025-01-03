@@ -59,7 +59,7 @@ function UpdateUnitPage() {
     <Section className='pt-4'>
       <SectionHeader>
         <TypographyH1>
-          Update New Unit
+          Update Unit
         </TypographyH1>
       </SectionHeader>
       <SectionContent>

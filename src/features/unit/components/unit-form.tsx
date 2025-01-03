@@ -37,7 +37,6 @@ const formSchema = z.object({
     baseUnit: z.string()
   }),
   quantity: z.number(),
-  productId: z.string({ message: 'Product is required' }),
   toBaseUnit: z.number().int()
 });
 
@@ -67,7 +66,6 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
   const navigate = useNavigate();
   const router = useRouter();
 
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data
@@ -79,11 +77,14 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
   async function onSubmit(values: z.infer<typeof formSchema>) {
     values.id = '';
     const unitDto = convertUnitFormToUnitDto(values);
+    console.log(unitDto);
     handleSubmit(unitDto);  
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
     router.invalidate();
   }
+
+  console.log(getValues());
 
   useEffect(() => {
     form.reset(data);
@@ -133,7 +134,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
             render={({ field }) => (
               <FormItem className="mt-4">
                 <FormLabel>Product</FormLabel>
-                <Select 
+                <Select
                   onValueChange={(value) => {
                     const product = 
                       products.find(p => p.id === value);

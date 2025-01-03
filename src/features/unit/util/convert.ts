@@ -90,9 +90,9 @@ export function convertBaseUnitQuantityDtoToBaseUnitQuantity(baseUnitDto: number
 }
 
 export function convertBaseUnitQuantityToQuantity(toBaseUnit: number, baseUnitQuantity: number): number {
-  return baseUnitQuantity / toBaseUnit;
+  return Math.round((baseUnitQuantity / toBaseUnit) * 1000)/1000;
 }
 
 export function convertQuantityToBaseUnitQuantity(toBaseUnit: number, quantity: number): number {
-  return quantity / toBaseUnit;
+  return Math.round((quantity * toBaseUnit) * 1000)/1000;
 }

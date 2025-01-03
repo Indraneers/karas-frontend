@@ -1,5 +1,7 @@
 import { ArrowRight, Check, Delete } from "lucide-react";
 import { NumpadKey } from "./numpad-key";
+import { Unit } from "@/features/unit/types/unit";
+import { convertQuantityToBaseUnitQuantity } from "@/features/unit/util/convert";
 import { cn } from "@/lib/utils";
 
 interface NumpadProps {
@@ -8,7 +10,10 @@ interface NumpadProps {
   setter: (v: string) => void;
   handleSubmit: () => void;
   currentElementIndex: number;
-  setCurrentElementIndex: (i: number) => void
+  setCurrentElementIndex: (i: number) => void;
+  isBaseUnit: boolean;
+  isVariable: boolean;
+  unit: Unit;
 }
 
 export function Numpad({ 
@@ -16,6 +21,9 @@ export function Numpad({
   currentElementIndex, 
   setCurrentElementIndex,
   input,
+  isBaseUnit,
+  isVariable,
+  unit,
   setter,
   getter
 }: NumpadProps) {
@@ -37,7 +45,7 @@ export function Numpad({
     return isValidCurrencyInput(t) && !isMoreThanTwoDigit(t);
   }
 
-  function handleNumpadKey(key: string | number) {    
+  function handleNumpadKey(key: string | number) {  
     if (!input || !input.current) {
       return;
     }
@@ -46,7 +54,7 @@ export function Numpad({
 
     if (currentElementIndex == 0 || currentElementIndex == 1) {
 
-      if (key == 'd') {
+      if (key === 'd') {
         newInput = newInput.slice(0, -1);
       }
       else {
@@ -54,13 +62,35 @@ export function Numpad({
       }
     }
     else if (currentElementIndex == 2) {
-      if (!Number.isInteger(parseInt(newInput)) && newInput != '') {
-        return;
+      console.log('h');
+      const isDirectChange = isBaseUnit || !isVariable;
+
+      if (key === 'd') {
+        if (isDirectChange)  {
+          newInput = newInput.slice(0, -1);
+        }
+        else {
+          const newQty = String(newInput).slice(0, -1);
+          newInput = String(convertQuantityToBaseUnitQuantity(unit.toBaseUnit, Number(newQty)));
+        }
       }
-      if (key == '.') {
-        return;
+      else if (key === '.') {
+        if (isDirectChange) {
+          newInput += key;
+        }
       }
-      newInput += key;
+      else {
+        if (isDirectChange) {
+          newInput += key;
+        }
+        else {
+          const newQty = newInput + key;
+          newInput = String(convertQuantityToBaseUnitQuantity(unit.toBaseUnit, Number(newQty)));
+        }
+      }
+
+      setter(newInput);
+      return;
     }
 
     if (!isValidCurrencyValue(newInput)) {
@@ -131,7 +161,7 @@ export function Numpad({
       </NumpadKey>
       <NumpadKey
         className={cn([
-          currentElementIndex === 2 && 'bg-foreground/20 hover:bg-foreground/20 cursor-auto hover:text-foreground'
+          currentElementIndex === 2 && isVariable && !isBaseUnit && 'bg-foreground/20 hover:bg-foreground/20 cursor-auto hover:text-foreground'
         ])}
         onClick={() => handleNumpadKey('.')}
       >

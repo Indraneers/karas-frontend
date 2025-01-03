@@ -33,9 +33,15 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
       <DialogTrigger>
         <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
           <CardHeader className="space-y-0 text-left">
-            <div className="font-medium text-2xl">{unit.name}</div>
+            <div className="font-medium text-xl">{unit.name}</div>
             <div className="group-hover:text-background text-foreground/50">
               <Currency amount={unit.price} />
+              {
+                unit.product.variable &&
+                <span>
+                  {' '} / {unit.product.baseUnit}
+                </span>
+              }
             </div>
           </CardHeader>
           <CardContent className="flex-grow" />
