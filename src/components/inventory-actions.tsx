@@ -3,7 +3,7 @@ import { EditButton } from "./edit-button";
 
 interface InventoryActionsProps<T> {
   id: string,
-  type: 'categories' | 'products' | 'units',
+  type: 'categories' | 'subcategories' | 'products' | 'units',
   handleDelete: (d: string) => Promise<T>
 }
 

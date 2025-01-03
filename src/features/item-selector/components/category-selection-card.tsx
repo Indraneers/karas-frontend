@@ -27,7 +27,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
       <CardContent className="flex-grow" />
       <CardFooter className="flex flex-col items-start text-sm">
         <div className="font-medium">{category.name}</div>
-        <div className="group-hover:text-background text-foreground/50">{category.productCount || 0} products</div>
+        <div className="group-hover:text-background text-foreground/50">{category.subcategoryCount || 0} products</div>
       </CardFooter>
     </Card>
   );

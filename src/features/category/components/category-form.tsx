@@ -10,10 +10,12 @@ import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
 
 const formSchema = z.object({
+  id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50)
 });
 
 const defaultData: CategoryDto = {
+  id: '',
   name: ''
 };
 

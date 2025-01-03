@@ -1,5 +1,5 @@
 export interface CategoryDto {
-  id?: string;
+  id: string;
   name: string;
-  productCount?: number;
+  subcategoryCount?: number;
 }

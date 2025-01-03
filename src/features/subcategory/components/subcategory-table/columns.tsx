@@ -1,11 +1,13 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Category } from "@/features/category/types/category";
 import { InventoryActions } from "@/components/inventory-actions";
-import { deleteCategory } from "../../api/category";
+import { Subcategory } from "../../types/subcategory";
+import { deleteSubcategory } from "../../api/subcategory";
+import { Badge } from "@/components/ui/badge";
+import { CategoryCell } from "@/features/category/components/category-cell";
 
-export const columns: ColumnDef<Category>[] = [
+export const columns: ColumnDef<Subcategory>[] = [
   {
     id: 'select',
     size: 50,
@@ -31,13 +33,21 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Category',
+    header: 'Name',
     cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
   },
   {
-    accessorKey: 'subcategoryCount',
+    accessorKey: 'categoryId',
+    header: 'Category',
+    cell: ({ row }) => 
+      <Badge variant='outline' className="border-accent text-accent">
+        <CategoryCell categoryId={row.original.categoryId} />
+      </Badge>
+  },
+  {
+    accessorKey: 'productCount',
     size: 125,
-    header: () => <div className="min-w-[250px]">Subcategory Count</div>
+    header: () => <div className="min-w-[250px]">Product Count</div>
   },
   {
     id: "actions",
@@ -49,8 +59,8 @@ export const columns: ColumnDef<Category>[] = [
       return (
         <InventoryActions 
           id={category.id} 
-          type="categories"
-          handleDelete={deleteCategory}
+          type="subcategories"
+          handleDelete={deleteSubcategory}
         />
       );
     }
