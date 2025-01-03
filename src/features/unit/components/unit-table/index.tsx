@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
 import { DataTablePagination } from "@/components/data-table-pagination";
-import { convertUnitDtoToUnit } from "../../util/convert";
 import { Unit } from "../../types/unit";
 
 interface UnitTablePage {
@@ -12,7 +11,7 @@ interface UnitTablePage {
 export function UnitTable({ className, units }: UnitTablePage) {
   return (
     <div className={cn([className])}>
-      <DataTablePagination columns={columns} data={units.map((u) => convertUnitDtoToUnit(u)) || []} />
+      <DataTablePagination columns={columns} data={units} />
     </div>
   );
 }

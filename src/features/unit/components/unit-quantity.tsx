@@ -1,4 +1,5 @@
 import { Product } from "@/features/product/types/product";
+import { convertBaseUnitQuantityToQuantity } from "../util/convert";
 
 interface UnitQuantityCellProps {
   product: Product;
@@ -11,7 +12,7 @@ export function UnitQuantityCell({ product, quantity, toBaseUnit }: UnitQuantity
     <>
       {product.variable && 
       <>
-        {quantity / toBaseUnit}
+        {convertBaseUnitQuantityToQuantity(toBaseUnit, quantity)}
       </>
       }
       {

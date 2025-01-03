@@ -8,7 +8,6 @@ interface ToBaseUnitCellProps {
 }
 
 export function ToBaseUnitCell({ product, toBaseUnit }: ToBaseUnitCellProps) {
-
   return (
     <>
       {product.variable && 
