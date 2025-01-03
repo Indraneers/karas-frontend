@@ -4,7 +4,7 @@ import { SectionHeader } from '@/components/section-header';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategoryById, updateCategory } from '@/features/category/api/category';
 import { CategoryForm } from '@/features/category/components/category-form';
-import { CategoryDto } from '@/features/category/dto/category.dto';
+import { CategoryDto } from '@/features/category/types/category.dto';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 

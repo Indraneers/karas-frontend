@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ProductDto } from "../types/product.dto";
-import { Category } from "@/types/category";
+import { Category } from "@/features/category/types/category";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";

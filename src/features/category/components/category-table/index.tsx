@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
 import { columns } from "./columns";
 import { DataTablePagination } from "@/components/data-table-pagination";
-import { Category } from "@/types/category";
+import { Category } from "@/features/category/types/category";
 
 interface CategoryTablePage {
   className?: string;

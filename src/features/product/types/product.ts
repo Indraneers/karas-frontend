@@ -1,4 +1,4 @@
-import { Category } from "../../../types/category";
+import { Category } from "../../category/types/category";
 import { Unit } from "../../unit/types/unit";
 
 export interface Product {

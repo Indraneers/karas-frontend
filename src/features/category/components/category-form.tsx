@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
-import { CategoryDto } from "../dto/category.dto";
+import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
 
 const formSchema = z.object({

@@ -1,6 +1,6 @@
 import { request } from "@/lib/request";
-import { Category } from "@/types/category";
-import { CategoryDto } from "../dto/category.dto";
+import { Category } from "@/features/category/types/category";
+import { CategoryDto } from "../types/category.dto";
 
 interface CategoryQuery {
   q: string | undefined;

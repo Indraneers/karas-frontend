@@ -1,7 +1,7 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
-import { Category } from "@/types/category";
+import { Category } from "@/features/category/types/category";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteCategory } from "../../api/category";
 

@@ -1,5 +1,5 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { CategoryDto } from "@/features/category/dto/category.dto";
+import { CategoryDto } from "@/features/category/types/category.dto";
 import { Droplet } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";

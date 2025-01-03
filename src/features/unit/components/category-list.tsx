@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Category } from "@/types/category";
+import { Category } from "@/features/category/types/category";
 
 import ResetIcon from '../assets/reset.svg?react';
 

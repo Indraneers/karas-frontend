@@ -34,13 +34,16 @@ import { Route as ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdImport } fr
 import { Route as ProtectedlayoutDashboardlayoutServicesEditServiceIdImport } from './routes/_protected_layout/_dashboard_layout/services/edit/$serviceId'
 import { Route as ProtectedlayoutDashboardlayoutSalesEditSaleIdImport } from './routes/_protected_layout/_dashboard_layout/sales/edit/$saleId'
 import { Route as ProtectedlayoutDashboardlayoutInventoryUnitsCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/units/create'
+import { Route as ProtectedlayoutDashboardlayoutInventorySubcategoriesCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/subcategories/create'
 import { Route as ProtectedlayoutDashboardlayoutInventoryProductsCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/products/create'
 import { Route as ProtectedlayoutDashboardlayoutInventoryCategoriesCreateImport } from './routes/_protected_layout/_dashboard_layout/inventory/categories/create'
 import { Route as ProtectedlayoutDashboardlayoutCustomersEditCustomerIdImport } from './routes/_protected_layout/_dashboard_layout/customers/edit/$customerId'
 import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/index'
+import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutSubcategoriesIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/index'
 import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/index'
 import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/index'
 import { Route as ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId'
+import { Route as ProtectedlayoutDashboardlayoutInventorySubcategoriesEditSubcategoryIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/subcategories/edit/$subcategoryId'
 import { Route as ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/products/edit/$productId'
 import { Route as ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdImport } from './routes/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId'
 
@@ -182,6 +185,12 @@ const ProtectedlayoutDashboardlayoutInventoryUnitsCreateRoute =
     getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
+const ProtectedlayoutDashboardlayoutInventorySubcategoriesCreateRoute =
+  ProtectedlayoutDashboardlayoutInventorySubcategoriesCreateImport.update({
+    path: '/subcategories/create',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
+  } as any)
+
 const ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute =
   ProtectedlayoutDashboardlayoutInventoryProductsCreateImport.update({
     path: '/products/create',
@@ -204,6 +213,15 @@ const ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute =
   ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexImport.update(
     {
       path: '/units/',
+      getParentRoute: () =>
+        ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute,
+    } as any,
+  )
+
+const ProtectedlayoutDashboardlayoutInventoryInventorylayoutSubcategoriesIndexRoute =
+  ProtectedlayoutDashboardlayoutInventoryInventorylayoutSubcategoriesIndexImport.update(
+    {
+      path: '/subcategories/',
       getParentRoute: () =>
         ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute,
     } as any,
@@ -232,6 +250,14 @@ const ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdRoute =
     path: '/units/edit/$unitId',
     getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
+
+const ProtectedlayoutDashboardlayoutInventorySubcategoriesEditSubcategoryIdRoute =
+  ProtectedlayoutDashboardlayoutInventorySubcategoriesEditSubcategoryIdImport.update(
+    {
+      path: '/subcategories/edit/$subcategoryId',
+      getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
+    } as any,
+  )
 
 const ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdRoute =
   ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdImport.update({
@@ -396,6 +422,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryProductsCreateImport
       parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
+    '/_protected_layout/_dashboard_layout/inventory/subcategories/create': {
+      id: '/_protected_layout/_dashboard_layout/inventory/subcategories/create'
+      path: '/subcategories/create'
+      fullPath: '/inventory/subcategories/create'
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventorySubcategoriesCreateImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
+    }
     '/_protected_layout/_dashboard_layout/inventory/units/create': {
       id: '/_protected_layout/_dashboard_layout/inventory/units/create'
       path: '/units/create'
@@ -438,6 +471,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdImport
       parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
+    '/_protected_layout/_dashboard_layout/inventory/subcategories/edit/$subcategoryId': {
+      id: '/_protected_layout/_dashboard_layout/inventory/subcategories/edit/$subcategoryId'
+      path: '/subcategories/edit/$subcategoryId'
+      fullPath: '/inventory/subcategories/edit/$subcategoryId'
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventorySubcategoriesEditSubcategoryIdImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
+    }
     '/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId': {
       id: '/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId'
       path: '/units/edit/$unitId'
@@ -457,6 +497,13 @@ declare module '@tanstack/react-router' {
       path: '/products'
       fullPath: '/inventory/products'
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
+    }
+    '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/': {
+      id: '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/'
+      path: '/subcategories'
+      fullPath: '/inventory/subcategories'
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutSubcategoriesIndexImport
       parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
     }
     '/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/': {
@@ -485,15 +532,18 @@ export const routeTree = rootRoute.addChildren({
                 {
                   ProtectedlayoutDashboardlayoutInventoryInventorylayoutCategoriesIndexRoute,
                   ProtectedlayoutDashboardlayoutInventoryInventorylayoutProductsIndexRoute,
+                  ProtectedlayoutDashboardlayoutInventoryInventorylayoutSubcategoriesIndexRoute,
                   ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute,
                 },
               ),
             ProtectedlayoutDashboardlayoutInventoryIndexRoute,
             ProtectedlayoutDashboardlayoutInventoryCategoriesCreateRoute,
             ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute,
+            ProtectedlayoutDashboardlayoutInventorySubcategoriesCreateRoute,
             ProtectedlayoutDashboardlayoutInventoryUnitsCreateRoute,
             ProtectedlayoutDashboardlayoutInventoryCategoriesEditCategoryIdRoute,
             ProtectedlayoutDashboardlayoutInventoryProductsEditProductIdRoute,
+            ProtectedlayoutDashboardlayoutInventorySubcategoriesEditSubcategoryIdRoute,
             ProtectedlayoutDashboardlayoutInventoryUnitsEditUnitIdRoute,
           }),
         ProtectedlayoutDashboardlayoutSalesSaleIdRoute,
@@ -582,9 +632,11 @@ export const routeTree = rootRoute.addChildren({
         "/_protected_layout/_dashboard_layout/inventory/",
         "/_protected_layout/_dashboard_layout/inventory/categories/create",
         "/_protected_layout/_dashboard_layout/inventory/products/create",
+        "/_protected_layout/_dashboard_layout/inventory/subcategories/create",
         "/_protected_layout/_dashboard_layout/inventory/units/create",
         "/_protected_layout/_dashboard_layout/inventory/categories/edit/$categoryId",
         "/_protected_layout/_dashboard_layout/inventory/products/edit/$productId",
+        "/_protected_layout/_dashboard_layout/inventory/subcategories/edit/$subcategoryId",
         "/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId"
       ]
     },
@@ -594,6 +646,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/",
         "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/",
+        "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/",
         "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/"
       ]
     },
@@ -645,6 +698,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected_layout/_dashboard_layout/inventory/products/create.tsx",
       "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
+    "/_protected_layout/_dashboard_layout/inventory/subcategories/create": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/subcategories/create.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
+    },
     "/_protected_layout/_dashboard_layout/inventory/units/create": {
       "filePath": "_protected_layout/_dashboard_layout/inventory/units/create.tsx",
       "parent": "/_protected_layout/_dashboard_layout/inventory"
@@ -669,6 +726,10 @@ export const routeTree = rootRoute.addChildren({
       "filePath": "_protected_layout/_dashboard_layout/inventory/products/edit/$productId.tsx",
       "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
+    "/_protected_layout/_dashboard_layout/inventory/subcategories/edit/$subcategoryId": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/subcategories/edit/$subcategoryId.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
+    },
     "/_protected_layout/_dashboard_layout/inventory/units/edit/$unitId": {
       "filePath": "_protected_layout/_dashboard_layout/inventory/units/edit/$unitId.tsx",
       "parent": "/_protected_layout/_dashboard_layout/inventory"
@@ -679,6 +740,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/": {
       "filePath": "_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory/_inventory_layout"
+    },
+    "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/index.tsx",
       "parent": "/_protected_layout/_dashboard_layout/inventory/_inventory_layout"
     },
     "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/": {

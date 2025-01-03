@@ -1,7 +1,7 @@
 import { Section } from '@/components/section';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { createFileRoute, Outlet, useLocation, useNavigate } from '@tanstack/react-router';
-import { Box, Boxes, LayoutGrid, LucideIcon } from 'lucide-react';
+import { Box, Boxes, Grid, LayoutGrid, LucideIcon } from 'lucide-react';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout')({
   component: () => <InventoryLayout />
@@ -18,6 +18,11 @@ const data: InventoryTabNavData[] = [
     icon: LayoutGrid,
     url: '/inventory/categories',
     title: 'Categories'
+  },
+  {
+    icon: Grid,
+    url: '/inventory/subcategories',
+    title: 'Subcategories'
   },
   {
     icon: Box,
