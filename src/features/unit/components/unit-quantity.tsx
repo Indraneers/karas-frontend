@@ -13,6 +13,7 @@ export function UnitQuantityCell({ product, quantity, toBaseUnit }: UnitQuantity
       {product.variable && 
       <>
         {convertBaseUnitQuantityToQuantity(toBaseUnit, quantity)}
+        {' '}({quantity} {product.baseUnit})
       </>
       }
       {
