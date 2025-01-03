@@ -62,7 +62,6 @@ export function Numpad({
       }
     }
     else if (currentElementIndex == 2) {
-      console.log('h');
       const isDirectChange = isBaseUnit || !isVariable;
 
       if (key === 'd') {

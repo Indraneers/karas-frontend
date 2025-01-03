@@ -24,8 +24,6 @@ export function SalesTable({ className } : { className?: string}) {
 
   const sales = data?.map(s => convertSaleResponseDtoToSale(s));
 
-  console.log(sales);
-
   return (
     <div className={cn(className)}>
       <DataTablePagination 

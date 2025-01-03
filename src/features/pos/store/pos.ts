@@ -4,9 +4,8 @@ import { CustomerDto } from '@/features/customer/types/customer.dto';
 import { ServiceSelectorItem } from '@/features/service-selector/types/service-selector-item';
 // import { getCheckedServiceItem } from '@/features/service-selector/utils/service-selector';
 import { SaleResponseDto } from '@/features/sale/types/sale.dto';
-import { convertItemDtoToItem, convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
+import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { Sale } from '@/features/sale/types/sale';
-import { ItemResponseDto } from '@/features/sale/types/item.dto';
 import { Item } from '@/features/sale/types/item';
 
 const defaultVehicle: VehicleDto = {
@@ -128,8 +127,6 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
 
     const sale: Sale = convertSaleResponseDtoToSale(saleDto);
 
-    const itemDtos: ItemResponseDto[] = sale.items;
-
     // const services: ServiceItem[] =
     //   sale.items
     //     .filter((i) => i.type === 'service');
@@ -147,12 +144,14 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     //     }
     //     return ds;
     //   });
+
+    console.log(sale, 'hey');
       
     return {
       ...state,
       isInit: true,
       dueDate: new Date(sale.dueDate),
-      items: itemDtos.map((i) => convertItemDtoToItem(i)),
+      items: sale.items,
       services: [],
       vehicle: sale.vehicle,
       customer: sale.customer,

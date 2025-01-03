@@ -55,6 +55,7 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
 
   useEffect(() => {
     if (saleId) {
+      console.log('hey');
       setPosState(saleQuery.data);
     }
   }, [saleId, saleQuery.data, setPosState]);

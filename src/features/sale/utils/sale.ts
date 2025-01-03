@@ -6,7 +6,6 @@ import {  SaleResponseDto } from "../types/sale.dto";
 import { convertBaseUnitQuantityDtoToBaseUnitQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
-  console.log(saleResponseDto);
   return {
     id: saleResponseDto.id,
     dueDate: saleResponseDto.dueDate,
