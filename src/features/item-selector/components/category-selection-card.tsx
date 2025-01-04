@@ -25,9 +25,9 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
         <Droplet className="group-hover:text-background text-accent" size={36} />
       </CardHeader>
       <CardContent className="flex-grow" />
-      <CardFooter className="flex flex-col items-start text-sm">
+      <CardFooter className="flex flex-col items-start text-md">
         <div className="font-medium">{category.name}</div>
-        <div className="group-hover:text-background text-foreground/50">{category.subcategoryCount || 0} subcategories</div>
+        <div className="group-hover:text-background text-foreground/50 text-sm">{category.subcategoryCount || 0} subcategories</div>
       </CardFooter>
     </Card>
   );

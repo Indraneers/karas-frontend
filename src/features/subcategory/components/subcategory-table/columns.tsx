@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { InventoryActions } from "@/components/inventory-actions";
 import { Subcategory } from "../../types/subcategory";
 import { deleteSubcategory } from "../../api/subcategory";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<Subcategory>[] = [
   {
@@ -36,7 +37,8 @@ export const columns: ColumnDef<Subcategory>[] = [
   },
   {
     accessorKey: 'category.name',
-    header: 'Category'
+    header: 'Category',
+    cell: ({ row }) => <Badge variant='outline' className="border-accent text-accent">{row.original.category.name}</Badge>
   },
   {
     accessorKey: 'productCount',

@@ -25,9 +25,9 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
         <Droplet className="group-hover:text-background text-accent" size={36} />
       </CardHeader>
       <CardContent className="flex-grow" />
-      <CardFooter className="flex flex-col items-start text-sm">
-        <div className="font-medium">{subcategory.name}</div>
-        <div className="group-hover:text-background text-foreground/50">{subcategory.productCount || 0} products</div>
+      <CardFooter className="flex flex-col items-start">
+        <div className="font-medium text-md">{subcategory.name}</div>
+        <div className="group-hover:text-background text-foreground/50 text-sm">{subcategory.productCount || 0} products</div>
       </CardFooter>
     </Card>
   );
