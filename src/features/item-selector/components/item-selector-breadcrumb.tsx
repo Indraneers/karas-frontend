@@ -8,6 +8,11 @@ export function ItemSelectorBreadCrumb() {
 
   function isBreadcrumbVisible(itemSelectionType: ItemSelectionEnum) {
     switch(itemSelectionType) {
+    case ItemSelectionEnum.SUBCATEGORY:
+      if (selector === ItemSelectionEnum.UNIT || selector === ItemSelectionEnum.PRODUCT || selector === ItemSelectionEnum.SUBCATEGORY) {
+        return 'block';
+      }
+      break;
     case ItemSelectionEnum.PRODUCT:
       if (selector === ItemSelectionEnum.UNIT || selector === ItemSelectionEnum.PRODUCT) {
         return 'block';
