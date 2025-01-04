@@ -16,7 +16,7 @@ import { ProductFormType } from "../types/product";
 
 const formSchema = z.object({
   id: z.string(),
-  name: z.string({ message: 'Name is required' }).min(2).max(50),
+  name: z.string({ message: 'Name is required' }).min(2).max(150),
   subcategory: z.object({
     id: z.string(),
     name: z.string(),
@@ -96,7 +96,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
                   <Input className="w-[500px]" placeholder="Ex: Twister 40W-80" {...field} />
                 </FormControl>
                 <FormDescription>
-                Set the product name. Min. 3 Max. 50
+                Set the product name. Min. 3 Max. 150
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -10,7 +10,7 @@ export function useSubcategorySearch
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['subcategories', debouncedQ],
+    queryKey: ['subcategories', debouncedQ, categoryId],
     queryFn: () => getSubcategories({ q: debouncedQ, categoryId })
   });
 
