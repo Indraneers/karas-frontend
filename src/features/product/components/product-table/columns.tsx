@@ -2,7 +2,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 
 import { Product } from "@/features/product/types/product";
-import { CategoryCell } from "../category-cell";
 import { deleteProduct } from "../../api/product";
 import { InventoryActions } from "@/components/inventory-actions";
 import { Badge } from "@/components/ui/badge";
@@ -36,10 +35,12 @@ export const columns: ColumnDef<Product>[] = [
     cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
   },
   {
-    accessorKey: 'categoryId',
+    accessorKey: 'subcategory.name',
     header: 'Category',
     cell: ({ row }) => (
-      <CategoryCell categoryId={row.getValue('categoryId')} />
+      <Badge variant='outline' className="border-accent text-accent">
+        {row.original.subcategory.name}
+      </Badge>
     )
   },
   {

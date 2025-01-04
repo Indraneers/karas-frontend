@@ -17,7 +17,10 @@ const defaultVehicle: VehicleDto = {
   plateNumber: '-',
   customer: {
     id: '',
-    name: ''
+    name: '',
+    note: '',
+    address: '',
+    contact: ''
   }
 };
 
@@ -29,7 +32,10 @@ function getDefaultPosState() {
     vehicle: defaultVehicle,
     customer: {
       id: '',
-      name: ''
+      name: '',
+      note: '',
+      address: '',
+      contact: ''
     },
     discount: 0,
     dueDate: new Date(),

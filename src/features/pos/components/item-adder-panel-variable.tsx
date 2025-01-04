@@ -1,9 +1,9 @@
 import { FormEvent } from "react";
 import { UnderlineCurrencyInput } from "./underline-currency-input";
 import { UnderlineInput } from "./underline-input";
-import { Product } from "@/features/product/types/product";
 import { Unit } from "@/features/unit/types/unit";
 import { convertBaseUnitQuantityToQuantity, convertQuantityToBaseUnitQuantity } from "@/features/unit/util/convert";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface ItemAdderPanelVariableProps {
   getterList: string[];
@@ -11,7 +11,7 @@ interface ItemAdderPanelVariableProps {
   refList: React.RefObject<HTMLInputElement>[];
   setCurrentElementIndex:  React.Dispatch<React.SetStateAction<number>>;
   isBaseUnit: boolean;
-  product: Product;
+  product: ProductRequestDto;
   unit: Unit;
 }
 

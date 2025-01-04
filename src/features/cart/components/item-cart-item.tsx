@@ -1,13 +1,13 @@
 import { Currency } from "@/components/currency";
 import { Button } from "@/components/ui/button";
-import { Product } from "@/features/product/types/product";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
 import { MouseEventHandler } from "react";
 
 interface ItemCartItemProps {
   children?: React.ReactNode;
-  product?: Product;
+  product?: ProductRequestDto;
   totalCost: number;
   onClickRemove?: MouseEventHandler<HTMLButtonElement>;
 }

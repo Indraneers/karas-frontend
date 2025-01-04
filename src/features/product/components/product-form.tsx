@@ -1,6 +1,5 @@
 import { z } from "zod";
-import { ProductDto } from "../types/product.dto";
-import { Category } from "@/features/category/types/category";
+import { ProductRequestDto, ProductResponseDto } from "../types/product.dto";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
@@ -8,14 +7,22 @@ import { FormGroup } from "@/components/form-group";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
+import { FormSearch } from "@/components/form-search";
+import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
+import { convertProductFormToProductRequestDto } from "../utils/convert";
 
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  categoryId: z.string({ message: 'Category is required' }),
+  subcategory: z.object({
+    id: z.string(),
+    name: z.string(),
+    categoryId: z.string(),
+    productCount: z.number()
+  }),
+  unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
   baseUnit: z.string()
 }).refine(schema => {
@@ -25,21 +32,26 @@ const formSchema = z.object({
   path: ['baseUnit']
 });
 
-const defaultData: ProductDto = {
+const defaultData: ProductResponseDto = {
   id: '',
   name: '',
-  categoryId: '',
+  subcategory: {
+    id: '',
+    name: '',
+    categoryId: '',
+    productCount: 0
+  },
+  unitCount: 0,
   variable: false,
   baseUnit: ''
 };
 
 interface ProductFormProps {
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
-  data?: ProductDto | undefined;
-  categories: Category[];
+  handleSubmit: (values: ProductRequestDto) => void;
+  data?: ProductResponseDto | undefined;
 }
 
-export function ProductForm({ data = defaultData, handleSubmit = console.log, categories }: ProductFormProps) {
+export function ProductForm({ data = defaultData, handleSubmit = console.log }: ProductFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
@@ -49,7 +61,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    handleSubmit(values);
+    handleSubmit(convertProductFormToProductRequestDto(values));
     form.reset(data);
     navigate({ to: '/inventory/products' });
     router.invalidate();
@@ -81,27 +93,19 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log, ca
           />
           <FormField
             control={form.control}
-            name="categoryId"
+            name="subcategory"
             render={({ field }) => (
               <FormItem className="mt-4">
-                <FormLabel>Category</FormLabel>
-                <Select onValueChange={field.onChange} defaultValue={field.value}>
-                  <FormControl>
-                    <SelectTrigger className="w-[2re00px]">
-                      <SelectValue placeholder="Select Category" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    { categories.map((c) => (
-                      <SelectItem value={c.id} key={c.id}>
-                        {c.name}
-                      </SelectItem>
-                    ))
-                    }
-                  </SelectContent>
-                </Select>
+                <FormLabel>Select Subcategory</FormLabel>
+                <FormSearch 
+                  value={field.value}
+                  onChange={field.onChange}
+                  placeholder="Search for Subcategories"
+                  entityName="subcategory"
+                  useSearch={useSubcategorySearch}
+                />
                 <FormDescription>
-                  Select the category that this product belongs to
+                  Select the subcategory that this product belongs to
                 </FormDescription>
                 <FormMessage />
               </FormItem>

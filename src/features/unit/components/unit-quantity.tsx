@@ -1,8 +1,8 @@
-import { Product } from "@/features/product/types/product";
 import { convertBaseUnitQuantityToQuantity } from "../util/convert";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface UnitQuantityCellProps {
-  product: Product;
+  product: ProductRequestDto;
   quantity: number;
   toBaseUnit: number;
 }

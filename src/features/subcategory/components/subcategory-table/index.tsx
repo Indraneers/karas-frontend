@@ -1,7 +1,7 @@
 import { cn } from "@/lib/utils";
-import { Subcategory } from "../../types/subcategory";
 import { DataTablePagination } from "@/components/data-table-pagination";
 import { columns } from "./columns";
+import { Subcategory } from "../../types/subcategory";
 
 interface SubcategoryTableProps {
   className?: string;

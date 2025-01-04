@@ -12,13 +12,15 @@ import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
 const formSchema = z.object({
+  id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  contact: z.string().max(15).optional(),
-  address: z.string().max(150).optional(),
-  note: z.string().max(200).optional()
+  contact: z.string().max(15),
+  address: z.string().max(150),
+  note: z.string().max(200)
 });
 
 const defaultData: CustomerDto = {
+  id: '',
   name: '',
   contact: '',
   address: '',
@@ -26,7 +28,7 @@ const defaultData: CustomerDto = {
 };
 
 interface CustomerFormProps {
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
+  handleSubmit: (values: CustomerDto) => void;
   data?: CustomerDto | undefined;
   isPopover?: boolean;
 }

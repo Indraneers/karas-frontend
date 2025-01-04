@@ -13,13 +13,14 @@ import { useEffect } from "react";
 import { convertUnitFormToUnitDto } from "../util/convert";
 import { cn } from "@/lib/utils";
 import { UnitRequestDto } from "../types/unit.dto";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 export interface UnitForm {
   id: string;
   name: string;
   quantity: number;
   price: string;
-  product: Product;
+  product: ProductRequestDto;
   sku: string;
   toBaseUnit: number;
 }
@@ -32,9 +33,10 @@ const formSchema = z.object({
   product: z.object({
     id: z.string(),
     name: z.string(),
-    categoryId: z.string(),
+    subcategoryId: z.string(),
     variable: z.boolean(),
-    baseUnit: z.string()
+    baseUnit: z.string(),
+    unitCount: z.number()
   }),
   quantity: z.number(),
   toBaseUnit: z.number().int()
@@ -49,9 +51,10 @@ const defaultData: UnitForm = {
   product: {
     id: '',
     name: '',
-    categoryId: '',
+    subcategoryId: '',
     variable: false,
-    baseUnit: ''
+    baseUnit: '',
+    unitCount: 0
   },
   toBaseUnit: 0
 };
@@ -75,7 +78,6 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
   const product = getValues().product;
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    values.id = '';
     const unitDto = convertUnitFormToUnitDto(values);
     console.log(unitDto);
     handleSubmit(unitDto);  

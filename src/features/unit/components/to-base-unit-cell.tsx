@@ -1,9 +1,9 @@
 import { Badge } from "@/components/ui/badge";
 import { Dot } from "lucide-react";
-import { Product } from "@/features/product/types/product";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface ToBaseUnitCellProps {
-  product: Product
+  product: ProductRequestDto
   toBaseUnit: number;
 }
 

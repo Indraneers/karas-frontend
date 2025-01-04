@@ -1,16 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useState } from "react";
-import { getCategories } from "../api/category";
+import { getCustomers } from "../api/customer";
 import { UseSearch } from "@/types/use-search";
-import { CategoryDto } from "../types/category.dto";
+import { CustomerDto } from "../types/customer.dto";
 
-export function useCategorySearch(): UseSearch<CategoryDto> {
+export function useCustomerSearch(): UseSearch<CustomerDto> {
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
-  const { isError, isLoading, data } = useQuery({
-    queryKey: ['categories', debouncedQ],
-    queryFn: () => getCategories({ q: debouncedQ })
+  
+  const { isLoading, isError, data } = useQuery({
+    queryKey: ['customers', debouncedQ],
+    queryFn: () => getCustomers({ q: debouncedQ }),
+    enabled: q !== ''
   });
 
   return {

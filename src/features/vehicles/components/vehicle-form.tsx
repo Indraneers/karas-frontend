@@ -10,7 +10,8 @@ import { FormGroup } from "@/components/form-group";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { CustomerSearch } from "@/features/customer/components/customer-search";
+import { FormSearch } from "@/components/form-search";
+import { useCustomerSearch } from "@/features/customer/hooks/customer-search";
 
 const formSchema = z.object({
   id: z.string(),
@@ -18,7 +19,10 @@ const formSchema = z.object({
   makeAndModel: z.string({ message: 'Make and Model are required' }).min(3).max(75),
   customer: z.object({
     id: z.string(),
-    name: z.string()
+    name: z.string(),
+    note: z.string(),
+    address: z.string(),
+    contact: z.string()
   }),
   mileage: z.coerce.number().int(),
   vinNo: z.string(),
@@ -32,7 +36,10 @@ const defaultData: VehicleDto = {
   makeAndModel: '',
   customer: {
     id: '',
-    name: ''
+    name: '',
+    note: '',
+    address: '',
+    contact: ''
   },
   mileage: 0,
   vinNo: '',
@@ -119,9 +126,12 @@ export function VehicleForm({ data = defaultData, handleSubmit, isPopover = fals
                 <FormItem className="mt-4">
                   <FormLabel>Customer</FormLabel>
                   <FormControl>
-                    <CustomerSearch 
+                    <FormSearch
                       value={field.value}
                       onChange={field.onChange}
+                      useSearch={useCustomerSearch}
+                      placeholder='Search for customers'
+                      entityName='customer'
                     />
                   </FormControl>
                   <FormDescription>
@@ -263,9 +273,12 @@ export function VehicleForm({ data = defaultData, handleSubmit, isPopover = fals
               <FormItem className="mt-4">
                 <FormLabel>Customer</FormLabel>
                 <FormControl>
-                  <CustomerSearch 
+                  <FormSearch
                     value={field.value}
                     onChange={field.onChange}
+                    useSearch={useCustomerSearch}
+                    placeholder='Search for customers'
+                    entityName='customer'
                   />
                 </FormControl>
                 <FormDescription>

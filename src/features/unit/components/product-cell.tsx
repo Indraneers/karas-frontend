@@ -1,8 +1,8 @@
 import { Badge } from "@/components/ui/badge";
-import { Product } from "@/features/product/types/product";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface ProductCellProps {
-  product: Product
+  product: ProductRequestDto
 }
 
 export function ProductCell({ product }: ProductCellProps) {

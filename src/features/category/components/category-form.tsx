@@ -11,12 +11,14 @@ import { useEffect } from "react";
 
 const formSchema = z.object({
   id: z.string(),
-  name: z.string({ message: 'Name is required' }).min(2).max(50)
+  name: z.string({ message: 'Name is required' }).min(2).max(50),
+  subcategoryCount: z.number()
 });
 
 const defaultData: CategoryDto = {
   id: '',
-  name: ''
+  name: '',
+  subcategoryCount: 0
 };
 
 interface CategoryFormProps {

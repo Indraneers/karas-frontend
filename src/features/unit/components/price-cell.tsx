@@ -1,8 +1,8 @@
 import { Currency } from "@/components/currency";
-import { Product } from "@/features/product/types/product";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface PriceCellProps {
-  product: Product;
+  product: ProductRequestDto;
   price: number;
 }
 

@@ -1,4 +1,4 @@
-import { ProductDto } from "@/features/product/types/product.dto";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 export interface UnitRequestDto {
   id?: string;
@@ -17,5 +17,5 @@ export interface UnitResponseDto {
   quantity: number;
   toBaseUnit: number;
   price: number;
-  product: ProductDto;
+  product: ProductRequestDto;
 }

@@ -1,6 +1,8 @@
+import { Category } from "@/features/category/types/category";
+
 export interface Subcategory {
   id: string;
   name: string;
-  categoryId: string;
+  category: Category;
   productCount: number;
 }
