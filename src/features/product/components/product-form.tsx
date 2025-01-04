@@ -109,6 +109,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               <FormItem className="mt-4">
                 <FormLabel>Select Subcategory</FormLabel>
                 <FormSearch 
+                  autoQuery
                   value={field.value}
                   onChange={field.onChange}
                   placeholder="Search for Subcategories"

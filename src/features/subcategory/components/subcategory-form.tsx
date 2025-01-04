@@ -87,6 +87,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
                 <FormItem>
                   <FormLabel>Select Category</FormLabel>
                   <FormSearch
+                    autoQuery
                     value={field.value}
                     onChange={field.onChange}
                     useSearch={useCategorySearch}

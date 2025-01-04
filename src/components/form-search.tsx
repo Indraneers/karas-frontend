@@ -12,6 +12,7 @@ interface FormSearchProps<T> {
   useSearch: () => UseSearch<T>;
   placeholder: string;
   entityName: string;
+  autoQuery?: boolean;
 }
 
 interface Entity {
@@ -19,7 +20,7 @@ interface Entity {
   name: string;
 }
 
-export function FormSearch<T extends Entity>({ value, onChange, useSearch, placeholder, entityName }: FormSearchProps<T> ) {
+export function FormSearch<T extends Entity>({ value, onChange, useSearch, placeholder, entityName, autoQuery = false }: FormSearchProps<T> ) {
   const [open, setOpen] = useState(false);
   const [entity, setEntity] = useState<T | undefined>(value);
 
@@ -58,10 +59,10 @@ export function FormSearch<T extends Entity>({ value, onChange, useSearch, place
             />
             <CommandList>
               {
-                q !== '' && data?.length === 0 && !isLoading &&
+                (autoQuery ||  q !== '') && data?.length === 0 && !isLoading &&
                 <CommandEmpty>No {entityName} found.</CommandEmpty>
               }
-              { q !== '' &&
+              { (autoQuery ||  q !== '') &&
               <CommandGroup className="capitalize" heading={entityName}>
                 {data?.map((e) => (
                   <CommandItem
