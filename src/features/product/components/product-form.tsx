@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ProductRequestDto, ProductResponseDto } from "../types/product.dto";
+import { ProductRequestDto } from "../types/product.dto";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
@@ -12,6 +12,7 @@ import { Switch } from "@/components/ui/switch";
 import { FormSearch } from "@/components/form-search";
 import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
 import { convertProductFormToProductRequestDto } from "../utils/convert";
+import { ProductFormType } from "../types/product";
 
 const formSchema = z.object({
   id: z.string(),
@@ -19,7 +20,11 @@ const formSchema = z.object({
   subcategory: z.object({
     id: z.string(),
     name: z.string(),
-    categoryId: z.string(),
+    category: z.object({
+      id: z.string(),
+      name: z.string(),
+      subcategoryCount: z.number()
+    }),
     productCount: z.number()
   }),
   unitCount: z.number(),
@@ -32,13 +37,17 @@ const formSchema = z.object({
   path: ['baseUnit']
 });
 
-const defaultData: ProductResponseDto = {
+const defaultData: ProductFormType = {
   id: '',
   name: '',
   subcategory: {
     id: '',
     name: '',
-    categoryId: '',
+    category: {
+      id: '',
+      name: '',
+      subcategoryCount: 0
+    },
     productCount: 0
   },
   unitCount: 0,
@@ -48,7 +57,7 @@ const defaultData: ProductResponseDto = {
 
 interface ProductFormProps {
   handleSubmit: (values: ProductRequestDto) => void;
-  data?: ProductResponseDto | undefined;
+  data?: ProductFormType | undefined;
 }
 
 export function ProductForm({ data = defaultData, handleSubmit = console.log }: ProductFormProps) {
@@ -59,6 +68,8 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
+
+  console.log(form.getValues());
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(convertProductFormToProductRequestDto(values));
@@ -143,7 +154,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
                 <FormItem>
                   <FormLabel>Base Unit Name (Required if Variable Status is on)</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ex: 1L" {...field} />
+                    <Input placeholder="Ex: L" {...field} />
                   </FormControl>
                   <FormDescription>
                     Set the most basic unit of the product

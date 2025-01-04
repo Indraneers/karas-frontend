@@ -12,7 +12,6 @@ interface FormSearchProps<T> {
   useSearch: () => UseSearch<T>;
   placeholder: string;
   entityName: string;
-  className?: string;
 }
 
 interface Entity {
@@ -20,7 +19,7 @@ interface Entity {
   name: string;
 }
 
-export function FormSearch<T extends Entity>({ className, value, onChange, useSearch, placeholder, entityName }: FormSearchProps<T> ) {
+export function FormSearch<T extends Entity>({ value, onChange, useSearch, placeholder, entityName }: FormSearchProps<T> ) {
   const [open, setOpen] = useState(false);
   const [entity, setEntity] = useState<T | undefined>(value);
 
@@ -31,6 +30,8 @@ export function FormSearch<T extends Entity>({ className, value, onChange, useSe
     onChange(entityDto);
   }
 
+
+  console.log(value);
   return (
     <div>
       <Popover open={open} onOpenChange={setOpen}>
@@ -44,7 +45,7 @@ export function FormSearch<T extends Entity>({ className, value, onChange, useSe
             ])}
           >
             {value
-              ? (entity ? entity.name : '' )
+              ? (entity ? value.name : '' )
               : `Select ${ entityName }...`}
             <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
           </Button>

@@ -13,14 +13,14 @@ import { useEffect } from "react";
 import { convertUnitFormToUnitDto } from "../util/convert";
 import { cn } from "@/lib/utils";
 import { UnitRequestDto } from "../types/unit.dto";
-import { ProductRequestDto } from "@/features/product/types/product.dto";
+import { ProductResponseDto } from "@/features/product/types/product.dto";
 
 export interface UnitForm {
   id: string;
   name: string;
   quantity: number;
   price: string;
-  product: ProductRequestDto;
+  product: ProductResponseDto;
   sku: string;
   toBaseUnit: number;
 }
@@ -33,7 +33,12 @@ const formSchema = z.object({
   product: z.object({
     id: z.string(),
     name: z.string(),
-    subcategoryId: z.string(),
+    subcategory: z.object({
+      id: z.string(),
+      name: z.string(),
+      categoryId: z.string(),
+      productCount: z.number()
+    }),
     variable: z.boolean(),
     baseUnit: z.string(),
     unitCount: z.number()
@@ -51,7 +56,12 @@ const defaultData: UnitForm = {
   product: {
     id: '',
     name: '',
-    subcategoryId: '',
+    subcategory: {
+      id: '',
+      name: '',
+      categoryId: '',
+      productCount: 0
+    },
     variable: false,
     baseUnit: '',
     unitCount: 0
@@ -76,6 +86,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
 
   const { getValues } = form;
   const product = getValues().product;
+  console.log(product);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const unitDto = convertUnitFormToUnitDto(values);
@@ -104,7 +115,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
                 <FormItem>
                   <FormLabel>Unit Name</FormLabel>
                   <FormControl>
-                    <Input placeholder="Ex: 1L, 2L, 1 Drum" {...field} />
+                    <Input placeholder="Ex: Bottle, Drum, Box, etc" {...field} />
                   </FormControl>
                   <FormDescription>
                 Set the unit name. Min. 3 Max. 50

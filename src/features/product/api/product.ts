@@ -3,7 +3,7 @@ import { ProductRequestDto, ProductResponseDto } from "../types/product.dto";
 
 interface ProductQuery {
   q?: string;
-  categoryId?: string;
+  subcategoryId?: string;
 }
 
 export const getProducts = async (query?: ProductQuery): Promise<ProductResponseDto[]>  =>

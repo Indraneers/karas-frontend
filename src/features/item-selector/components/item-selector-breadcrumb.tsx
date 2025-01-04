@@ -4,7 +4,7 @@ import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { cn } from "@/lib/utils";
 
 export function ItemSelectorBreadCrumb() {
-  const { selector, setSelector, category, product } = useItemSelectionStore();
+  const { selector, setSelector, category, subcategory, product } = useItemSelectionStore();
 
   function isBreadcrumbVisible(itemSelectionType: ItemSelectionEnum) {
     switch(itemSelectionType) {
@@ -33,6 +33,19 @@ export function ItemSelectorBreadCrumb() {
         >
           Categories
         </BreadcrumbItem>
+        {/* Subcategory */}
+        <BreadcrumbSeparator 
+          className={cn([isBreadcrumbVisible(ItemSelectionEnum.SUBCATEGORY) ? 'block text-accent' : 'hidden'])} 
+        />
+        <BreadcrumbItem
+          onClick={() => setSelector(ItemSelectionEnum.SUBCATEGORY)}
+          className={cn([
+            "hover:underline cursor-pointer text-accent",
+            isBreadcrumbVisible(ItemSelectionEnum.SUBCATEGORY) ? 'block' : 'hidden'
+          ])} 
+        >
+          {category?.name}
+        </BreadcrumbItem>
         {/* Product */}
         <BreadcrumbSeparator 
           className={cn([isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block text-accent' : 'hidden'])} 
@@ -44,7 +57,7 @@ export function ItemSelectorBreadCrumb() {
             isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'
           ])} 
         >
-          {category?.name}
+          {subcategory?.name}
         </BreadcrumbItem>
         {/* Unit */}
         <BreadcrumbSeparator 

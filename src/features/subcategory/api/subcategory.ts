@@ -3,6 +3,7 @@ import { SubcategoryRequestDto, SubcategoryResponseDto } from "../types/subcateg
 
 interface SubcategoryQuery {
   q: string | undefined;
+  categoryId: string | undefined;
 }
 
 export const getSubcategories = 

@@ -6,7 +6,7 @@ import { useState } from "react";
 import { ProductResponseDto } from "../types/product.dto";
 
 export function useProductSearch
-({ categoryId }: { categoryId?: string } = {}): UseSearch<ProductResponseDto> {
+({ subcategoryId }: { subcategoryId?: string } = {}): UseSearch<ProductResponseDto> {
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
   
@@ -15,9 +15,9 @@ export function useProductSearch
       + 
       (debouncedQ ? ('-' + debouncedQ) : '')
       + 
-      (categoryId ? ('-' + categoryId) : '')
+      (subcategoryId ? ('-' + subcategoryId) : '')
     ],
-    queryFn: () => getProducts({ categoryId: categoryId, q: debouncedQ })
+    queryFn: () => getProducts({ subcategoryId: subcategoryId, q: debouncedQ })
   });
 
   return { 

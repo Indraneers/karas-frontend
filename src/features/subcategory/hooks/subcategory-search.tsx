@@ -5,12 +5,13 @@ import { getSubcategories } from "../api/subcategory";
 import { UseSearch } from "@/types/use-search";
 import { SubcategoryResponseDto } from "../types/subcategory.dto";
 
-export function useSubcategorySearch(): UseSearch<SubcategoryResponseDto> {
+export function useSubcategorySearch
+({ categoryId } : { categoryId?: string } = {}): UseSearch<SubcategoryResponseDto> {
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
   const { isError, isLoading, data } = useQuery({
     queryKey: ['subcategories', debouncedQ],
-    queryFn: () => getSubcategories({ q: debouncedQ })
+    queryFn: () => getSubcategories({ q: debouncedQ, categoryId })
   });
 
   return {

@@ -1,19 +1,19 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { CategoryDto } from "@/features/category/types/category.dto";
 import { Droplet } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
+import { SubcategoryResponseDto } from "@/features/subcategory/types/subcategory.dto";
 
-interface CategorySelectionCardProps {
-  category: CategoryDto;
+interface SubcategorySelectionCardProps {
+  subcategory: SubcategoryResponseDto
 }
 
-export function CategorySelectionCard({ category }: CategorySelectionCardProps) {
-  const { setSelector, setCategory } = useItemSelectionStore();
+export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCardProps) {
+  const { setSelector, setSubcategory } = useItemSelectionStore();
 
   function handleClick() {
-    setSelector(ItemSelectionEnum.SUBCATEGORY);
-    setCategory(category);
+    setSelector(ItemSelectionEnum.PRODUCT);
+    setSubcategory(subcategory);
   }
 
   return (
@@ -26,8 +26,8 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
       </CardHeader>
       <CardContent className="flex-grow" />
       <CardFooter className="flex flex-col items-start text-sm">
-        <div className="font-medium">{category.name}</div>
-        <div className="group-hover:text-background text-foreground/50">{category.subcategoryCount || 0} subcategories</div>
+        <div className="font-medium">{subcategory.name}</div>
+        <div className="group-hover:text-background text-foreground/50">{subcategory.productCount || 0} products</div>
       </CardFooter>
     </Card>
   );

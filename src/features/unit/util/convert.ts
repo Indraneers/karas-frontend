@@ -66,7 +66,15 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
       sku: unitDto.sku,
       quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.quantity),
       price: convertCurrencyToString(unitDto.price),
-      product: unitDto.product,
+      product: {
+        ...unitDto.product,
+        subcategory: {
+          id: '',
+          name: '',
+          categoryId: '',
+          productCount: 0
+        }
+      },
       toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
     };
   }
@@ -77,7 +85,15 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     sku: unitDto.sku,
     quantity: unitDto.quantity,
     price: convertCurrencyToString(unitDto.price),
-    product: unitDto.product,
+    product: {
+      ...unitDto.product,
+      subcategory: {
+        id: '',
+        name: '',
+        categoryId: '',
+        productCount: 0
+      }
+    },
     toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
   };
 }

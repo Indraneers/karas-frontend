@@ -9,6 +9,7 @@ export interface ProductRequestDto {
   baseUnit: string;
 }
 
+
 export interface ProductResponseDto {
   id: string;
   name: string;

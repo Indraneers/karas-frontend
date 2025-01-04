@@ -15,6 +15,7 @@ import { useEffect } from 'react';
 import { usePosStore } from '../store/pos';
 import { useRouter } from '@tanstack/react-router';
 import { getAutoServices } from '@/features/service/api/auto-services';
+import { SubcategorySelection } from '@/features/item-selector/components/subcategory-selection';
 
 interface PosFormProps {
   saleId?: string;
@@ -74,13 +75,14 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
     <>
       <div className='gap-8 grid grid-cols-[5fr,3fr] py-4 h-full max-h-full overflow-hidden'>
         <SelectionMenu>
-          <ServiceSelection />
-          <Separator className='mt-2' />
           <ItemSelector>
             { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
+            { (selector === ItemSelectionEnum.SUBCATEGORY) && <SubcategorySelection /> }
             { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
             { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
           </ItemSelector>
+          <Separator className='mt-2' />
+          <ServiceSelection />
         </SelectionMenu>
         <OrderDetails saleId={saleId} handlePayment={handlePayment} />
       </div>

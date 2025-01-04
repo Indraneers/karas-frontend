@@ -1,18 +1,18 @@
 import { cn } from "@/lib/utils";
 import { ItemCardList } from "./item-card-list";
-import { ProductSelectionCard } from "./product-selection-card";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ProductSearch } from "@/features/product/components/product-search";
-import { useProductSearch } from "@/features/product/hooks/product-search";
+import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
+import { SubcategorySelectionCard } from "./subcategory-selection-card";
 
-interface ProductSelectionProps {
+interface SubcategorySelectionProps {
   className?: string;
 }
 
-export function ProductSelection({ className }: ProductSelectionProps) {
-  const { subcategory } = useItemSelectionStore();
+export function SubcategorySelection({ className }: SubcategorySelectionProps) {
+  const { category } = useItemSelectionStore();
 
-  const { q, setQ, isError, data } = useProductSearch({ subcategoryId: subcategory?.id });
+  const { q, setQ, isError, data } = useSubcategorySearch({ categoryId: category?.id || '' });
 
   return (
     <div className={
@@ -29,7 +29,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
         &&
         <ItemCardList className="mt-2">
           {data?.map((p) => (
-            <ProductSelectionCard product={p} key={p.id} />
+            <SubcategorySelectionCard subcategory={p} key={p.id} />
           ))}
         </ItemCardList>
       }
