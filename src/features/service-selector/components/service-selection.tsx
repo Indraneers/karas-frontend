@@ -7,7 +7,8 @@ import { SectionHeader } from "@/components/section-header";
 import { SectionContent } from "@/components/section-content";
 
 export function ServiceSelection() {
-  const { services } = usePosStore();
+  const { serviceSelectorItems } = usePosStore();
+  console.log(serviceSelectorItems);
   return (
     <div className="h-full">
       <Section className="inset-0 flex flex-col h-full">
@@ -17,7 +18,7 @@ export function ServiceSelection() {
         <SectionContent className="flex-grow pt-0">
           <div className="relative h-full">
             <div className="absolute inset-0">
-              <DataTable columns={ServiceColumns} data={services} />
+              <DataTable columns={ServiceColumns} data={serviceSelectorItems} />
             </div>
           </div>
         </SectionContent>

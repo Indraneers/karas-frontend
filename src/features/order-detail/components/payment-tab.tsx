@@ -14,12 +14,12 @@ interface PaymentTabProps {
 
 
 export function PaymentTab({ saleId, handlePayment }: PaymentTabProps) {
-  const { services, items } = usePosStore();
-  const checkedServices = services.filter(s => s.checked);
+  const { maintenance, items } = usePosStore();
+  const { services } = maintenance;
   return (
     <div className="flex flex-col h-full">
       <ItemCart className="flex-grow mt-4 px-4">
-        { items.length === 0 && checkedServices.length == 0 &&
+        { items.length === 0 && services.length == 0 &&
             <div className="place-content-center grid w-full h-full text-center text-muted-foreground">
               Empty...
             </div>
@@ -27,12 +27,12 @@ export function PaymentTab({ saleId, handlePayment }: PaymentTabProps) {
         {items.map((i) => (
           <ItemCartUnit item={i} key={i.id} />
         ))}
-        { (items.length > 0 && checkedServices.length > 0) &&
+        { (items.length > 0 &&  services.length > 0) &&
             <Separator className="bg-gray-400 my-2" />
         }
-        { (checkedServices.length > 0) &&
-            checkedServices.map((s) => (
-              <ItemCartService service={s} key={s.service.id} />
+        { (services.length > 0) &&
+            services.map((s) => (
+              <ItemCartService maintenanceService={s} key={s.service.id} />
             ))
         }
       </ItemCart>

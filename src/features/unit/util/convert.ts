@@ -35,7 +35,6 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
   }
 
   if (unit.product.variable) {
-    console.log(unit.quantity, convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.quantity));
     return {
       id: unit.id,
       name: unit.name,

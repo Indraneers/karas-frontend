@@ -1,35 +1,49 @@
 import { ColumnDef } from "@tanstack/react-table";
+import { Badge } from "@/components/ui/badge";
 import { Currency } from "@/components/currency";
-import { calculateTotalCost } from "@/features/sale/utils/sale";
-import { Item } from "@/features/sale/types/item";
+import { calculateTotalCost } from "../../utils/sale";
+import { Item } from "../../types/item";
 
-export const columns: ColumnDef<Item>[] = [
+export const itemColumns: ColumnDef<Item>[] = [
   {
-    id: 'no',
-    header: 'N.O',
-    cell: ({ row }) => row.index + 1
+    accessorKey: 'id',
+    header: () => <div className="font-semibold"> Item ID</div>,
+    cell: ({ row }) => (
+      <div className="font-semibold">
+        # {row.original.id?.slice(0,4)}
+      </div>
+    )
   },
-  // {
-  //   accessorKey: 'type',
-  //   header: 'Item Type',
-  //   cell: ({ row }) => (
-  //     <>
-
-  //     </>
-  //   )
-  // },
+  {
+    accessorKey: 'type',
+    header: 'Item Type',
+    cell: () => (
+      <>
+        {/* {row.original.type === 'service' &&
+          <Badge className="bg-amber-400 hover:bg-amber-500">
+            Service
+          </Badge>
+        } */}
+        <Badge className="bg-green-500 hover:bg-green-600">
+            Product
+        </Badge>
+      </>
+    )
+  },
   {
     id: 'name',
-    header: 'Item/Service Name',
+    header: 'Item Name',
     cell: ({ row }) => (
       <>
         {/* {row.original.type === 'service' && row.original.service?.name
         } */}
-        <div>
-          {row.original.unit.product.name}
-          {' '}
-          { row.original.unit?.name }
-        </div>
+        {
+          <div>
+            {row.original.unit.product.name}
+            {' '}
+            ({ row.original.unit?.name })
+          </div>
+        }
       </>
     )
   },
@@ -53,9 +67,7 @@ export const columns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Qty',
-    size: 100,
-    cell: ({ row }) => <div className="text-center">{row.getValue('quantity')}</div>
+    header: 'Quantity'
   },
   {
     accessorKey: 'Total',

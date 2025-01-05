@@ -86,18 +86,14 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
 
   const { getValues } = form;
   const product = getValues().product;
-  console.log(product);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const unitDto = convertUnitFormToUnitDto(values);
-    console.log(unitDto);
     handleSubmit(unitDto);  
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
     router.invalidate();
   }
-
-  console.log(getValues());
 
   useEffect(() => {
     form.reset(data);

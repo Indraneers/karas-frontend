@@ -69,8 +69,6 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
     defaultValues: data
   });
 
-  console.log(form.getValues());
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(convertProductFormToProductRequestDto(values));
     form.reset(data);

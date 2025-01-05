@@ -11,11 +11,10 @@ import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/cur
 import { cn } from "@/lib/utils";
 
 export function PaymentDetail({ children, className } : { children: React.ReactNode, className?: string }) {
-  const { items,  discount, setDiscount } = usePosStore();
+  const { items, maintenance, discount, setDiscount } = usePosStore();
+  const { services } = maintenance;
 
-  // const checkedServices =  getCheckedServiceItem(services);
-
-  const subTotal = getSubtotal({ items });
+  const subTotal= getSubtotal({ items, maintenanceServices: services  });
   const total = subTotal - discount;
 
   return (

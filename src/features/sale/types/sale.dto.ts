@@ -3,6 +3,7 @@ import { ItemRequestDto, ItemResponseDto } from "./item.dto";
 import { UserDto } from "@/features/user/types/user.dto";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 
 export interface SaleRequestDto {
   id?: string;
@@ -14,6 +15,7 @@ export interface SaleRequestDto {
   vehicleId: string;
   items: ItemRequestDto[];
   status: StatusEnum
+  maintenance: MaintenanceDto;
 }
 
 export interface SaleResponseDto {
@@ -25,5 +27,6 @@ export interface SaleResponseDto {
   customer: CustomerDto;
   vehicle: VehicleDto;
   items: ItemResponseDto[];
-  status: StatusEnum
+  status: StatusEnum;
+  maintenance: MaintenanceDto;
 }

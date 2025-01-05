@@ -7,6 +7,8 @@ import { SaleResponseDto } from '@/features/sale/types/sale.dto';
 import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { Sale } from '@/features/sale/types/sale';
 import { Item } from '@/features/sale/types/item';
+import { Maintenance } from '@/features/maintenance/types/maintenance';
+import { MaintenanceService } from '@/features/maintenance/types/maintenance-service';
 
 const defaultVehicle: VehicleDto = {
   engineNo: '-',
@@ -24,10 +26,18 @@ const defaultVehicle: VehicleDto = {
   }
 };
 
-function getDefaultPosState() {
+function getDefaultPosState(): PosState {
   return {
-    services: [],
-    defaultServices: [],
+    maintenance: {
+      id: '',
+      createdAt: new Date(),
+      saleId : '',
+      vehicleId: '',
+      mileage: 0,
+      note: '',
+      services: []
+    },
+    serviceSelectorItems: [],
     items: [],
     vehicle: defaultVehicle,
     customer: {
@@ -44,8 +54,8 @@ function getDefaultPosState() {
 }
 
 export interface PosState {
-  services: ServiceSelectorItem[];
-  defaultServices: ServiceSelectorItem[];
+  maintenance: Maintenance;
+  serviceSelectorItems: ServiceSelectorItem[];
   items: Item[];
   vehicle: VehicleDto;
   customer: CustomerDto;
@@ -55,9 +65,9 @@ export interface PosState {
 }
 
 export interface PosStateWithFunctions extends PosState {
-  setServices: (as: ServiceSelectorItem[]) => void;
+  setServiceSelectorItems: (as: ServiceSelectorItem[]) => void;
   addService: (s: string) => void;
-  updateService: (serviceId: string, s: ServiceSelectorItem) => void
+  updateService: (serviceId: string, s: MaintenanceService) => void
   removeService: (serviceId: string) => void;
   addItem: (i: Item) => void;
   updateItem: (itemId: string, i: Item) => void
@@ -75,17 +85,41 @@ export interface PosStateWithFunctions extends PosState {
 
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
   ...getDefaultPosState(),
-  setServices: (autoServices: ServiceSelectorItem[]) => set((state) => ({ ...state, services: autoServices, defaultServices: autoServices })),
+  setServiceSelectorItems: (autoServices: ServiceSelectorItem[]) => set((state) => {
+    console.log(autoServices);
+    return { 
+      ...state, 
+      serviceSelectorItems: autoServices 
+    };
+  }),
   addService: (sId: string) => set((state) => {
     const newState = { ...state };
-    newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: true } : s);
+    const serviceSelectorItem = newState.serviceSelectorItems.find((s) => s.service.id === sId);
+
+    if (!serviceSelectorItem) {
+      return state;
+    }
+    
+
+    const { service } = serviceSelectorItem;
+
+    const maintenanceService: MaintenanceService = {
+      id: '',
+      service,
+      price: service.price,
+      discount: 0
+    };
+
+    newState.maintenance.services.push(maintenanceService);
+    serviceSelectorItem.checked = true;
+
     return newState;
   }),
-  updateService: (serviceId: string, s: ServiceSelectorItem) => set((state) => {
+  updateService: (serviceId: string, ms: MaintenanceService) => set((state) => {
     const newState = { ...state };
-    newState.services = newState.services.map((a) => {
+    newState.maintenance.services = newState.maintenance.services.map((a) => {
       if (a.service.id === serviceId) {
-        return s;
+        return ms;
       }
       return a;
     });
@@ -94,7 +128,15 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
   }),
   removeService: (sId: string) => set((state) => {
     const newState = { ...state };
-    newState.services = newState.services.map((s) => s.service.id === sId ? { ...s, checked: false } : s);
+    const serviceSelectorItem = newState.serviceSelectorItems.find((s) => s.service.id === sId);
+
+    if (!serviceSelectorItem) {
+      return state;
+    }
+    
+    newState.maintenance.services = newState.maintenance.services.map((s) => s.service.id === sId ? { ...s, checked: false } : s);
+    serviceSelectorItem.checked = false;
+
     return newState;
   }),
   addItem: (i: Item) => set((state) => {
@@ -113,21 +155,20 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     return newState;
   }),
   removeItem: (itemId: string) => set((state) => ({ ...state, items: state.items.filter(i => itemId !== i.id) })),
-  setVehicle: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle })),
+  setVehicle: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, maintenance: { ...state.maintenance, vehicleId: vehicle.id || '' } })),
   setCustomer: (customer: CustomerDto) => set((state) => ({ ...state, customer: customer, vehicle: defaultVehicle })),
-  setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer })),
+  setVehicleAndCustomer: (vehicle: VehicleDto) => set((state) => ({ ...state, vehicle, customer: vehicle.customer, maintenance: { ...state.maintenance, vehicleId: vehicle.id || '' } })),
   setDefaultVehicleAndCustomer: () => set((state) => ({ ...state, vehicle: defaultVehicle, customer: defaultVehicle.customer })),
   resetPos: () => set(((state) => {
     return {
       ...getDefaultPosState(),
-      defaultServices: state.defaultServices,
-      services: state.defaultServices
+      serviceSelectorItems: state.serviceSelectorItems.map(sst => ({ ...sst, checked: false }))
     };
   })),
   setDefaultVehicle: () => set((state) => ({ ...state, vehicle: defaultVehicle })),
   setDiscount: (discount: number) => set((state) => ({ ...state, discount })),
   setPosState: (saleDto: SaleResponseDto | undefined) => set((state) => {
-    if (!saleDto || !state.defaultServices) {
+    if (!saleDto || !state.serviceSelectorItems) {
       return state;
     }
 
@@ -150,8 +191,6 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     //     }
     //     return ds;
     //   });
-
-    console.log(sale, 'hey');
       
     return {
       ...state,

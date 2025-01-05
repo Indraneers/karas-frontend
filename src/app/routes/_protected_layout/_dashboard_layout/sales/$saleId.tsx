@@ -1,9 +1,10 @@
 import { Separator } from '@/components/ui/separator';
 import { getSaleById } from '@/features/sale/api/sale';
 import { CustomerInformation } from '@/features/sale/components/customer-information';
-import { ItemsTable } from '@/features/sale/components/items-table';
+import { ItemServiceDataTable } from '@/features/sale/components/item-service-data-table';
 import { SaleDetailAside } from '@/features/sale/components/sale-detail-aside';
 import { SaleInformation } from '@/features/sale/components/sale-information';
+import { SaleTable } from '@/features/sale/components/sale-table';
 import { VehicleInformation } from '@/features/sale/components/vehicle-information';
 import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { onClickUrl } from '@/lib/link';
@@ -61,7 +62,7 @@ function SaleDetailPage() {
         <VehicleInformation vehicle={sale.vehicle} />
       </SaleDetailAside>
       <div className='col-span-2 h-full'>
-        <ItemsTable sale={sale} />
+        <SaleTable sale={sale} />
       </div>
     </div>
   );

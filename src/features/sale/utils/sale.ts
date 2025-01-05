@@ -1,11 +1,12 @@
-import { ServiceSelectorItem } from "@/features/service-selector/types/service-selector-item";
 import { Item } from "../types/item";
 import { ItemResponseDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
 import { convertBaseUnitQuantityDtoToBaseUnitQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
+  console.log(saleResponseDto);
   return {
     id: saleResponseDto.id,
     dueDate: saleResponseDto.dueDate,
@@ -15,7 +16,11 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
     user: saleResponseDto.user,
     vehicle: saleResponseDto.vehicle,
     customer: saleResponseDto.customer,
-    items: saleResponseDto.items.map((i) => convertItemDtoToItem(i))
+    items: saleResponseDto.items.map((i) => convertItemDtoToItem(i)),
+    maintenance: {
+      ...saleResponseDto.maintenance,
+      createdAt: new Date(saleResponseDto.maintenance.createdAt)
+    }
   };
 }
 
@@ -51,7 +56,7 @@ export function getUnitsTotal(items: Item[]): number {
   }, 0);
 }
 
-export function getServicesTotal(services: ServiceSelectorItem[]): number {
+export function getServicesTotal(services: MaintenanceService[]): number {
   return services.reduce((prev, curr) => {
     const serviceTotal = calculateTotalCost(curr.price, curr.discount, 1);
     return prev + serviceTotal;
@@ -59,10 +64,11 @@ export function getServicesTotal(services: ServiceSelectorItem[]): number {
 }
 
 // TODO: add maintenances
-export function getSubtotal({ items }: { items: Item[]}) {
-  return getUnitsTotal(items);
+export function getSubtotal({ items, maintenanceServices }: { items: Item[], maintenanceServices: MaintenanceService[] }) {
+  return getUnitsTotal(items) + getServicesTotal(maintenanceServices);
 }
 
-export function getTotal({ items, discount }: { items: Item[], discount: string | number}) {
-  return  getUnitsTotal(items) - Number(discount);
+export function getTotal
+({ items, maintenanceServices, discount }: { items: Item[], maintenanceServices: MaintenanceService[], discount: string | number}) {
+  return  getUnitsTotal(items) + getServicesTotal(maintenanceServices) - Number(discount);
 }

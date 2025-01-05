@@ -25,7 +25,8 @@ interface PosActionsProps {
 
 export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
   const [openHoldDialog, setOpenHoldDialog] = useState(false);
-  const { dueDate, setDueDate, items, services, discount, customer, vehicle, resetPos } = usePosStore();
+  const { dueDate, setDueDate, items, maintenance, discount, customer, vehicle, resetPos } = usePosStore();
+  const { services } = maintenance;
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
   const authUser = useAuthUser<TokenPayload>();
@@ -46,12 +47,12 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
     const sale: SaleRequestDto = convertPosStoreToSaleRequestDto(
       {
         items,
-        services,
+        maintenance,
         discount,
         customer,
         vehicle,
         dueDate,
-        defaultServices: [],
+        serviceSelectorItems: [],
         isInit: false
       },
       status,
@@ -68,6 +69,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       return;
     }
 
+    console.log(sale, authUser);
     if (!sale.userId) {
       toastError('Error, initiated user is not set');
       return;
@@ -80,7 +82,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
 
     // const checkedServices = getCheckedServiceItem(services);
 
-    if ((getSubtotal({ items }) - sale.discount) < 0) {
+    if ((getSubtotal({ items, maintenanceServices: services }) - sale.discount) < 0) {
       toastError('Total is negative');
       return;
     }

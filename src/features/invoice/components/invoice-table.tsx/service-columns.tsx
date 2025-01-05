@@ -1,49 +1,33 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Badge } from "@/components/ui/badge";
 import { Currency } from "@/components/currency";
-import { calculateTotalCost } from "../../utils/sale";
-import { Item } from "../../types/item";
+import { calculateTotalCost } from "@/features/sale/utils/sale";
+import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
-export const columns: ColumnDef<Item>[] = [
+export const serviceColumns: ColumnDef<MaintenanceService>[] = [
   {
-    accessorKey: 'id',
-    header: () => <div className="font-semibold"> Item ID</div>,
-    cell: ({ row }) => (
-      <div className="font-semibold">
-        # {row.original.id?.slice(0,4)}
-      </div>
-    )
+    id: 'no',
+    header: 'N.O',
+    cell: ({ row }) => row.index + 1
   },
-  {
-    accessorKey: 'type',
-    header: 'Item Type',
-    cell: () => (
-      <>
-        {/* {row.original.type === 'service' &&
-          <Badge className="bg-amber-400 hover:bg-amber-500">
-            Service
-          </Badge>
-        } */}
-        <Badge className="bg-green-500 hover:bg-green-600">
-            Product
-        </Badge>
-      </>
-    )
-  },
+  // {
+  //   accessorKey: 'type',
+  //   header: 'Item Type',
+  //   cell: ({ row }) => (
+  //     <>
+
+  //     </>
+  //   )
+  // },
   {
     id: 'name',
-    header: 'Item Name',
+    header: 'Item/Service Name',
     cell: ({ row }) => (
       <>
         {/* {row.original.type === 'service' && row.original.service?.name
         } */}
-        {
-          <div>
-            {row.original.unit.product.name}
-            {' '}
-            ({ row.original.unit?.name })
-          </div>
-        }
+        <div>
+          {row.original.service.name}
+        </div>
       </>
     )
   },
@@ -67,7 +51,9 @@ export const columns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantity'
+    header: 'Qty',
+    size: 100,
+    cell: ({ row }) => <div className="text-center">{row.getValue('quantity')}</div>
   },
   {
     accessorKey: 'Total',
@@ -78,7 +64,7 @@ export const columns: ColumnDef<Item>[] = [
           calculateTotalCost(
             row.original.price,
             row.original.discount,
-            row.original.quantity
+            1
           )
         } />
       </div>

@@ -25,7 +25,7 @@ interface PosFormProps {
 export function PosForm({ saleId, handlePayment }: PosFormProps) {
   const router = useRouter();
   const { selector } = useItemSelectionStore();
-  const { setPosState, resetPos, isInit, setServices } = usePosStore();
+  const { setPosState, resetPos, isInit, setServiceSelectorItems } = usePosStore();
 
   router.subscribe('onBeforeLoad', () => {
     resetPos();
@@ -44,7 +44,7 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
 
   useEffect(() => {
     if (serviceQuery.data) {
-      setServices(serviceQuery.data.map((d) => ({ 
+      setServiceSelectorItems(serviceQuery.data.map((d) => ({ 
         service: d, 
         price: d.price,
         discount: 0,
@@ -52,11 +52,10 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
         checked: false
       })));
     }
-  }, [serviceQuery.data, setServices]);
+  }, [serviceQuery.data, setServiceSelectorItems]);
 
   useEffect(() => {
     if (saleId) {
-      console.log('hey');
       setPosState(saleQuery.data);
     }
   }, [saleId, saleQuery.data, setPosState]);

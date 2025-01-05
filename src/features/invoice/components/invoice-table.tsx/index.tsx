@@ -1,7 +1,8 @@
-import { columns } from "./columns";
+import { itemColumns } from "./item-columns";
 import { Sale } from "@/features/sale/types/sale";
-import { ItemsDataTable } from "@/features/sale/components/items-table/items-data-table";
+import { ItemServiceDataTable } from "@/features/sale/components/item-service-data-table";
 import { cn } from "@/lib/utils";
+import { serviceColumns } from "./service-columns";
 
 export function InvoiceTable({ sale, className } : { sale: Sale, className?: string }) {
   return (
@@ -9,9 +10,10 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
       'w-full',
       className
     ])}>
-      <ItemsDataTable
-        columns={columns}
+      <ItemServiceDataTable 
         sale={sale}
+        itemColumns={itemColumns}
+        serviceColumns={serviceColumns}
       />
     </div>
   );

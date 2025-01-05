@@ -15,27 +15,37 @@ import {
   TableHeader,
   TableRow
 } from "@/components/ui/table";
-import { getSubtotal } from "../../utils/sale";
-import { Sale } from "../../types/sale";
+import { getSubtotal } from "../utils/sale";
+import { Sale } from "../types/sale";
 import { Currency } from "@/components/currency";
-import { Item } from "../../types/item";
+import { Item } from "../types/item";
+import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
+import { cn } from "@/lib/utils";
  
-interface ItemsDataTableProps {
-  columns: ColumnDef<Item>[];
+interface ItemServiceDataTableProps {
+  itemColumns: ColumnDef<Item>[];
+  serviceColumns: ColumnDef<MaintenanceService>[];
   sale: Sale;
 }
  
-export function ItemsDataTable({
-  columns,
+export function ItemServiceDataTable({
+  itemColumns,
+  serviceColumns,
   sale
-}: ItemsDataTableProps) {
-  const { items } = sale;
+}: ItemServiceDataTableProps) {
+  const { items, maintenance: { services } } = sale;
   // const serviceItems = data.filter((i) => i.type === 'service');
-  const subTotal = getSubtotal({ items });
+  const subTotal = getSubtotal({ items, maintenanceServices: services });
 
-  const table = useReactTable({
+  const itemTable = useReactTable({
     data: items,
-    columns,
+    columns: itemColumns,
+    getCoreRowModel: getCoreRowModel()
+  });
+
+  const serviceTable = useReactTable({
+    data: services,
+    columns: serviceColumns,
     getCoreRowModel: getCoreRowModel()
   });
  
@@ -43,7 +53,7 @@ export function ItemsDataTable({
     <div className="rounded-md w-full">
       <Table className="w-full">
         <TableHeader className="w-full">
-          {table.getHeaderGroups().map((headerGroup) => (
+          {itemTable.getHeaderGroups().map((headerGroup) => (
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
@@ -61,8 +71,8 @@ export function ItemsDataTable({
           ))}
         </TableHeader>
         <TableBody className="w-full">
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+          {
+            itemTable.getRowModel().rows.map((row) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
@@ -74,13 +84,30 @@ export function ItemsDataTable({
                 ))}
               </TableRow>
             ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
+          }
+          <TableRow className={cn([
+            'font-semibold text-start',
+            services.length === 0 && 'hidden'
+          ])}>
+            <TableCell colSpan={6}>
+              Service Description
+            </TableCell>
+          </TableRow>
+          {
+            serviceTable.getRowModel().rows.map((row) => (
+              <TableRow
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell key={cell.id}>
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                  </TableCell>
+                ))}
+              </TableRow>
+            ))
+          }
+
         </TableBody>
         <TableFooter>
           <TableRow>

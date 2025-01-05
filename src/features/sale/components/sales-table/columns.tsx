@@ -68,7 +68,12 @@ export const columns: ColumnDef<Sale>[] = [
 
       return (
         <div className="font-medium text-green-600">
-          <Currency amount={getSubtotal({ items })} />
+          <Currency amount={
+            getSubtotal({ 
+              items, 
+              maintenanceServices: row.original.maintenance.services
+            })
+          } />
         </div>
       );
     }
@@ -89,7 +94,11 @@ export const columns: ColumnDef<Sale>[] = [
       const { items } = row.original;
     
       // const services = items.filter((i) => i.type === 'service');
-      const total = getTotal({ items, discount: row.original.discount });
+      const total = getTotal({ 
+        items, 
+        maintenanceServices: row.original.maintenance.services,
+        discount: row.original.discount 
+      });
 
       return (
         <div className="font-medium text-green-700">

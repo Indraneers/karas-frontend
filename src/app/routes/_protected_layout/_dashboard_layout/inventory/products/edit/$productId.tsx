@@ -25,8 +25,6 @@ function UpdateProductPage() {
       }
     ]
   });
-
-  console.log(productQuery.data);
   
   const mutation = useMutation({
     mutationFn: async (productDto: ProductRequestDto) => await updateProduct(productId, productDto),

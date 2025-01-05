@@ -24,8 +24,6 @@ export function useUnitSearch({ productId }: { productId?: string } = {}): UseSe
     toast('error in unit-search');
   }
 
-  console.log(debouncedQ, data);
-
   return {
     q,
     setQ,

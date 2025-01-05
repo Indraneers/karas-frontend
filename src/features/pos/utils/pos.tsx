@@ -33,6 +33,10 @@ export function convertPosStoreToSaleRequestDto
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
+    maintenance: {
+      ...posState.maintenance,
+      createdAt: convertDateToLocaleDate(posState.maintenance.createdAt)
+    },
     status,
     userId,
     items

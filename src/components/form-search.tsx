@@ -32,7 +32,6 @@ export function FormSearch<T extends Entity>({ value, onChange, useSearch, place
   }
 
 
-  console.log(value);
   return (
     <div>
       <Popover open={open} onOpenChange={setOpen}>

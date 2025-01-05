@@ -9,9 +9,9 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   {
     id: 'select',
     header: function CheckboxHeaderCell({ table }) {
-      const { services, addService, removeService } = usePosStore();
-      const isAllChecked = !services.find((s) => !s.checked);
-      const isSomeChecked = !!services.find((s) => s.checked);
+      const { serviceSelectorItems, addService, removeService } = usePosStore();
+      const isAllChecked = !serviceSelectorItems.find((s) => !s.checked);
+      const isSomeChecked = !!serviceSelectorItems.find((s) => s.checked);
       return (
         <Checkbox
           checked={
@@ -20,10 +20,10 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
           }
           onCheckedChange={(value) => {
             if (value) {
-              services.forEach((s) => addService(s.service.id));
+              serviceSelectorItems.forEach((s) => addService(s.service.id));
             }
             else {
-              services.forEach((s) => removeService(s.service.id));
+              serviceSelectorItems.forEach((s) => removeService(s.service.id));
             }
             table.toggleAllPageRowsSelected(!!value);
           }}
