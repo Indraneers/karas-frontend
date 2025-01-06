@@ -4,7 +4,7 @@ import { create } from 'zustand';
 import { getRefreshToken, requestWithRefreshToken } from '../utils/auth';
 
 const refresh = createRefresh({
-  interval: 10,
+  interval: 5,
   refreshApiCallback: async (param) => {
     try {
       const response = await requestWithRefreshToken(param.refreshToken);
@@ -14,8 +14,8 @@ const refresh = createRefresh({
           isSuccess: true,
           newAuthToken: response.access_token,
           newRefreshToken: response.refresh_token,
-          newAuthTokenExpireIn: response.refresh_expires_in,
-          newRefreshTokenExpiresIn: response.expires_in
+          newAuthTokenExpireIn: response.refresh_expires_in/60,
+          newRefreshTokenExpiresIn: response.expires_in/60
         };
       }
       else {
