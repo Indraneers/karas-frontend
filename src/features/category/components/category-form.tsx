@@ -8,8 +8,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
-
-const ACCEPTED_IMAGE_TYPES = ["image/svg+xml", "image/png"];
+import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 
 const formSchema = z.object({
   id: z.string(),
@@ -78,8 +77,8 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
             name="file"
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-2">
-                <FormLabel>Category Icon</FormLabel>
+              <FormItem className="mt-6">
+                <FormLabel>Set POS Icon</FormLabel>
                 <Input 
                   {...fieldProps}
                   id="picture" 

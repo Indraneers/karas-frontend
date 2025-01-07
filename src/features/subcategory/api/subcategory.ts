@@ -22,20 +22,45 @@ async ( subcategoryId: string ): Promise<SubcategoryResponseDto> =>
   });
 
 export const createSubcategory = 
-async ( subcategoryDto: SubcategoryRequestDto): Promise<SubcategoryResponseDto> =>
-  request({
+async ( subcategoryDto: SubcategoryRequestDto, file?: File): Promise<SubcategoryResponseDto> => {
+  const formData = new FormData();
+  
+  // Append the categoryDto as a JSON string
+  formData.append('data', new Blob([JSON.stringify(subcategoryDto)], { type: 'application/json' }));
+  
+  // Append the file if provided
+  if (file) {
+    formData.append('file', file);
+  }
+
+  return request({
     url: '/subcategories',
     method: 'POST',
-    data: subcategoryDto
+    data: formData,
+    headers: {
+      "Content-Type": 'multipart/form-data'
+    }
   });
+};
 
 export const updateSubcategory = 
-async ( subcategoryId: string, subcategoryDto: SubcategoryRequestDto ): Promise<SubcategoryResponseDto> =>
-  request({
+async ( subcategoryId: string, subcategoryDto: SubcategoryRequestDto, file?: File ): Promise<SubcategoryResponseDto> => {
+  const formData = new FormData();
+  
+  // Append the categoryDto as a JSON string
+  formData.append('data', new Blob([JSON.stringify(subcategoryDto)], { type: 'application/json' }));
+  
+  // Append the file if provided
+  if (file) {
+    formData.append('file', file);
+  }
+
+  return request({
     url: '/subcategories/' + subcategoryId,
     method: 'PUT',
-    data: subcategoryDto
+    data: formData
   });
+};
 
 export const deleteSubcategory = 
 async ( subcategoryId: string ): Promise<SubcategoryResponseDto> =>

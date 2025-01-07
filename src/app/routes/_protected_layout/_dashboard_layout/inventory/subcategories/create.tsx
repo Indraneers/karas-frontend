@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 function CreateSubcategoryPage() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (subcategoryDto: SubcategoryRequestDto) => await createSubcategory(subcategoryDto),
+    mutationFn: async ({ scDto, file }: { scDto: SubcategoryRequestDto, file?: File }) => await createSubcategory(scDto, file),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['subcategories']

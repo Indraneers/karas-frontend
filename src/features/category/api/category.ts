@@ -54,10 +54,7 @@ export const updateCategory = async ( categoryId: string, categoryDto: CategoryD
   return request({
     url: '/categories/' + categoryId,
     method: 'PUT',
-    data: {
-      data: categoryDto,
-      file
-    },
+    data: formData,
     headers: {
       "Content-Type": 'multipart/form-data'
     }

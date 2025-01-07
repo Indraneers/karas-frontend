@@ -12,6 +12,7 @@ import { useCategorySearch } from "@/features/category/hooks/category-search";
 import { SubcategoryFormType } from "../types/subcategory-form";
 import { convertSCFormToSCDto } from "../utils/convert";
 import { SubcategoryRequestDto } from "../types/subcategory.dto";
+import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 
 const formSchema = z.object({
   id: z.string(),
@@ -20,7 +21,11 @@ const formSchema = z.object({
     name: z.string(),
     subcategoryCount: z.number()
   }),
-  name: z.string({ message: 'Name is required' }).min(2).max(50)
+  name: z.string({ message: 'Name is required' }).min(2).max(50),
+  file: z.any()
+    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "Only SVG and PNG files are allowed"
+    })
 });
 
 const defaultData: SubcategoryFormType = {
@@ -34,7 +39,7 @@ const defaultData: SubcategoryFormType = {
 };
 
 interface SubcategoryFormProps {
-  handleSubmit: (values: SubcategoryRequestDto) => void;
+  handleSubmit: ({ scDto, file } : { scDto: SubcategoryRequestDto, file?: File}) => void;
   data?: SubcategoryFormType | undefined;
 }
 
@@ -48,8 +53,8 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const subcategoryDto = convertSCFormToSCDto(values);
-    handleSubmit(subcategoryDto);
+    const scDto = convertSCFormToSCDto(values);
+    handleSubmit({ scDto, file: values.file });
     form.reset();
     navigate({ to: '/inventory/subcategories' });
     router.invalidate();
@@ -68,7 +73,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Category Name</FormLabel>
+                <FormLabel>Subcategory Name</FormLabel>
                 <FormControl>
                   <Input className="w-[500px]" placeholder="Ex: Diesel Engine Oil" {...field} />
                 </FormControl>
@@ -79,28 +84,47 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
               </FormItem>
             )}
           />
-          <div className='mt-8'>
-            <FormField
-              control={form.control}
-              name="category"
-              render={({ field }) => (  
-                <FormItem>
-                  <FormLabel>Select Category</FormLabel>
-                  <FormSearch
-                    autoQuery
-                    value={field.value}
-                    onChange={field.onChange}
-                    useSearch={useCategorySearch}
-                    placeholder='Search for categories'
-                    entityName='category'
-                  />
-                  <FormDescription>
+          <FormField 
+            control={form.control}
+            name="file"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Set POS Icon</FormLabel>
+                <Input 
+                  {...fieldProps}
+                  id="picture" 
+                  type="file"
+                  className="w-[300px] cursor-pointer"
+                  accept="image/*"
+                  onChange={(event) =>
+                    onChange(event.target.files && event.target.files[0])
+                  }
+                />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={form.control}
+            name="category"
+            render={({ field }) => (  
+              <FormItem className="mt-6">
+                <FormLabel>Select Category</FormLabel>
+                <FormSearch
+                  autoQuery
+                  value={field.value}
+                  onChange={field.onChange}
+                  useSearch={useCategorySearch}
+                  placeholder='Search for categories'
+                  entityName='category'
+                />
+                <FormDescription>
                   Choose a Category
-                  </FormDescription>
-                </FormItem>
-              )}
-            />
-          </div>
+                </FormDescription>
+              </FormItem>
+            )}
+          />
         </FormGroup>
         <Button 
           type="submit"
