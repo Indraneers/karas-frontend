@@ -13,8 +13,8 @@ export function ItemCartService({ maintenanceService } : { maintenanceService: M
 
   return (
     <ItemCartItem totalCost={totalCost} onClickRemove={() => removeService(maintenanceService.service.id)}>
-      <div className="flex flex-col gap-5">
-        <div className="flex-grow pl-4 text-md self-start">
+      <div className="flex flex-col gap-3">
+        <div className="flex-grow font-medium text-md self-start">
           {maintenanceService.service?.name}
         </div>
         <div className="flex justify-between">

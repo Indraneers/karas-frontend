@@ -8,7 +8,7 @@ const ItemCartInput = React.forwardRef<HTMLInputElement, React.ComponentProps<"i
     return (
       <Input
         className={cn([
-          "border-0 bg-gray-200 px-0 rounded-full h-5 text-center" ,
+          "border-0 bg-gray-200 px-1 rounded-sm h-5 text-center" ,
           className
         ])}
         type={type}

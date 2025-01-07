@@ -17,7 +17,7 @@ export function ItemCart({ className, children } : ItemCartProps) {
         Item Cart
       </TypographyH3>
       <div className="relative flex-grow mt-2 h-full">
-        <div className="absolute inset-0 flex flex-col gap-3 p-1 overflow-scroll">
+        <div className="absolute inset-0 flex flex-col gap-3 p-2 overflow-scroll">
           { children }
         </div>
       </div>

@@ -1,5 +1,4 @@
 import { ItemCounter } from "@/features/cart/components/item-counter";
-import { Thumbnail } from "@/components/thumbnail";
 import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
@@ -23,8 +22,7 @@ export function ItemCartUnit({ item }: { item: Item }) {
       onClickRemove={() => removeItem(item?.id || '')}
     >
       <div className="flex items-center gap-2">
-        <Thumbnail className="h-auto" src="/sample-product.webp"  />
-        <div className="flex flex-col flex-grow justify-between gap-2 h-full">
+        <div className="flex flex-col flex-grow justify-between gap-1 h-full">
           {/* Unit Name, Product and SKU */}
           <div className="flex justify-between justify-items-start items-center gap-2 w-full">
             <div>
@@ -57,8 +55,8 @@ export function ItemCartUnit({ item }: { item: Item }) {
               />
             </div>
             <ItemCounter
-              value={String(qty) || ''}
-              setValue={(value) => updateItem(item.id, { ...item, quantity: Number(value) || 0 })}
+              value={qty}
+              setValue={(value) => updateItem(item.id, { ...item, quantity: Number(value) })}
             />
           </div>
         </div>

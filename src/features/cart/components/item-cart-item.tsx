@@ -16,20 +16,22 @@ export function ItemCartItem
 ({ children, totalCost, onClickRemove }: ItemCartItemProps) {
   return (
     <div className={cn([
-      "relative border rounded-lg"
+      "relative border border-primary bg-accent rounded-lg"
     ])}>
       <Button
         onClick={onClickRemove}
-        className="top-[-0.25rem] left-[-0.25rem] absolute hover:bg-primary/80 border w-6 h-6" 
+        className="top-[-0.5rem] left-[-0.5rem] absolute hover:bg-primary/80 border w-5 h-5" 
         size='icon'>
-        <X className="!w-4 !h-4" />
+        <X className="!w-3 !h-3" />
       </Button>
-      <div className="items-center grid grid-cols-[5fr,1fr] bg-accent rounded-lg h-full">
-        <div className="bg-card p-2 rounded-lg h-full">
-          {children}
-        </div>
-        <div className="place-content-center grid text-background text-xs">
-          <Currency amount={totalCost} />
+      <div className="rounded-t-lg w-full h-full overflow-hidden">
+        <div className="flex flex-col items-center h-full">
+          <div className="flex-grow bg-card p-2 rounded-t-lg w-full">
+            {children}
+          </div>
+          <div className="place-content-center grid py-2 font-medium text-background text-xs">
+            <Currency amount={totalCost} />
+          </div>
         </div>
       </div>
     </div>

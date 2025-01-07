@@ -12,7 +12,7 @@ const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, ItemCartCurrenc
   ({ className, onValueChange, type, prefix, ...props }, ref) => {
     return (
       <div className={cn([
-        "flex items-center bg-gray-200 px-1 rounded-full",
+        "flex items-center bg-gray-200 px-1 rounded-sm",
         className
       ])}>
         <span className="text-xs">{prefix}</span>
