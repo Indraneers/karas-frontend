@@ -20,7 +20,7 @@ const formSchema = z.object({
     id: z.string(),
     name: z.string(),
     subcategoryCount: z.number(),
-    img: z.string()
+    img: z.string().default('')
   }),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   file: z.any()
@@ -53,6 +53,8 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
+
+  console.log(form.formState.errors, form.getValues());
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const scDto = convertSCFormToSCDto(values);

@@ -69,7 +69,6 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       return;
     }
 
-    console.log(sale, authUser);
     if (!sale.userId) {
       toastError('Error, initiated user is not set');
       return;

@@ -8,7 +8,6 @@ import { SectionContent } from "@/components/section-content";
 
 export function ServiceSelection() {
   const { serviceSelectorItems } = usePosStore();
-  console.log(serviceSelectorItems);
   return (
     <div className="h-full">
       <Section className="inset-0 flex flex-col h-full">

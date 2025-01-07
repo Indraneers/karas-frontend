@@ -25,7 +25,7 @@ const formSchema = z.object({
       id: z.string(),
       name: z.string(),
       subcategoryCount: z.number(),
-      img: z.string()
+      img: z.string().default('')
     }),
     productCount: z.number(),
     img: z.string().default('')
@@ -80,6 +80,8 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
+
+  console.log(form.formState.errors, form.getValues());
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const productDto = convertProductFormToProductRequestDto(values);
