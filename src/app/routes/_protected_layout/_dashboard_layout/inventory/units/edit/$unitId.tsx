@@ -2,7 +2,6 @@ import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
 import { TypographyH1 } from '@/components/ui/typography/h1';
-import { getProducts } from '@/features/product/api/product';
 import { getUnitById, updateUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
 import { UnitRequestDto } from '@/features/unit/types/unit.dto';
@@ -18,12 +17,8 @@ function UpdateUnitPage() {
   const { unitId } = Route.useParams();
   const queryClient = useQueryClient();
 
-  const [productQuery, unitQuery] = useQueries({
+  const [unitQuery] = useQueries({
     queries: [
-      {
-        queryKey: ['categories'],
-        queryFn: async () => getProducts()
-      },
       {
         queryKey: ['unit-' + unitId],
         queryFn: async () => await getUnitById(unitId)
@@ -43,15 +38,15 @@ function UpdateUnitPage() {
     }
   });
 
-  if (productQuery.isError || unitQuery.isError) {
+  if (unitQuery.isError) {
     return 'error';
   }
 
-  if (productQuery.isLoading || unitQuery.isLoading) {
+  if (unitQuery.isLoading) {
     return 'loading';
   }
 
-  if (!productQuery.data || !unitQuery.data) {
+  if (!unitQuery.data) {
     return 'empty';
   }
 
