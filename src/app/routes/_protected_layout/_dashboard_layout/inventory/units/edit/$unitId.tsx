@@ -63,7 +63,7 @@ function UpdateUnitPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <UnitForm data={convertUnitDtoToUnitForm(unitQuery.data)} products={productQuery.data} handleSubmit={mutation.mutate} />
+        <UnitForm data={convertUnitDtoToUnitForm(unitQuery.data)} handleSubmit={mutation.mutate} />
       </SectionContent>
     </Section>
   );

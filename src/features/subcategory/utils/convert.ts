@@ -1,23 +1,25 @@
 import { Subcategory } from "../types/subcategory";
-import { SubcategoryFormType } from "../types/subcategory-form";
 import { SubcategoryRequestDto, SubcategoryResponseDto } from "../types/subcategory.dto";
 
-export function convertSCFormToSCDto(subcategoryForm: SubcategoryFormType): SubcategoryRequestDto {
-  return {
-    id: subcategoryForm.id,
-    name: subcategoryForm.name,
-    categoryId: subcategoryForm.category.id
-  };
-}
-
 export function convertSCDtoToSC(subcategoryDto: SubcategoryResponseDto): Subcategory {
-  console.log(subcategoryDto);
+
   return {
-    ...subcategoryDto,
+    id: subcategoryDto.id,
+    name: subcategoryDto.name,
     productCount: subcategoryDto.productCount || 0,
     category: {
       ...subcategoryDto.category,
       subcategoryCount: subcategoryDto.category.subcategoryCount || 0
     }
+  };
+}
+
+export function convertSCResponseDtoToSCRequestDto(
+  scResponseDto: SubcategoryResponseDto
+): SubcategoryRequestDto {
+  return {
+    id: scResponseDto.id,
+    name: scResponseDto.name,
+    categoryId: scResponseDto.category.id
   };
 }

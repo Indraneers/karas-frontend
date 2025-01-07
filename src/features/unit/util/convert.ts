@@ -3,18 +3,18 @@ import { UnitForm } from "../components/unit-form";
 import { convertCurrencyToString, convertStringToCurrency } from "@/lib/currency";
 import { Unit } from "../types/unit";
 
-export function convertUnitFormToUnitDto(unit: UnitForm): UnitRequestDto {
-  if (!unit.product) {
+export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): UnitRequestDto {
+  if (!unit.productId) {
     throw new Error("TODO: ERROR");
   }
 
-  if (unit.product.variable) {
+  if (variable) {
     return {
       name: unit.name,
       sku: unit.sku,
       quantity: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.quantity),
       price: convertStringToCurrency(unit.price),
-      productId: unit.product.id,
+      productId: unit.productId,
       toBaseUnit: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.toBaseUnit)
     };
   }
@@ -24,7 +24,7 @@ export function convertUnitFormToUnitDto(unit: UnitForm): UnitRequestDto {
     sku: unit.sku,
     quantity: unit.quantity,
     price: convertStringToCurrency(unit.price),
-    productId: unit.product.id,
+    productId: unit.productId,
     toBaseUnit: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.toBaseUnit)
   };
 }
@@ -65,16 +65,7 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
       sku: unitDto.sku,
       quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.quantity),
       price: convertCurrencyToString(unitDto.price),
-      product: {
-        ...unitDto.product,
-        subcategory: {
-          id: '',
-          name: '',
-          categoryId: '',
-          productCount: 0
-        },
-        img: ''
-      },
+      productId: unitDto.product.id,
       toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
     };
   }
@@ -85,16 +76,7 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     sku: unitDto.sku,
     quantity: unitDto.quantity,
     price: convertCurrencyToString(unitDto.price),
-    product: {
-      ...unitDto.product,
-      img: '',
-      subcategory: {
-        id: '',
-        name: '',
-        categoryId: '',
-        productCount: 0
-      }
-    },
+    productId: unitDto.product.id,
     toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
   };
 }

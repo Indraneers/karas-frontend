@@ -11,25 +11,14 @@ import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { FormSearch } from "@/components/form-search";
 import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
-import { convertProductFormToProductRequestDto } from "../utils/convert";
-import { ProductFormType } from "../types/product";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
+import { toast } from "sonner";
+import axios from "axios";
 
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(150),
-  subcategory: z.object({
-    id: z.string(),
-    name: z.string(),
-    category: z.object({
-      id: z.string(),
-      name: z.string(),
-      subcategoryCount: z.number(),
-      img: z.string().optional()
-    }),
-    productCount: z.number(),
-    img: z.string().optional()
-  }),
+  subcategoryId: z.string({ message: 'Subcategory is requiqred' }).min(1, 'Subcategory is requiqred'),
   unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
   baseUnit: z.string(),
@@ -37,8 +26,7 @@ const formSchema = z.object({
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
     })
-    .optional(),
-  img: z.string().optional()
+    .optional()
 }).refine(schema => {
   return !(schema.variable && !schema.baseUnit);
 }, {
@@ -46,30 +34,18 @@ const formSchema = z.object({
   path: ['baseUnit']
 });
 
-const defaultData: ProductFormType = {
+const defaultData: ProductRequestDto = {
   id: '',
   name: '',
-  subcategory: {
-    id: '',
-    name: '',
-    category: {
-      id: '',
-      name: '',
-      subcategoryCount: 0,
-      img: ''
-    },
-    productCount: 0,
-    img: ''
-  },
+  subcategoryId: '',
   unitCount: 0,
   variable: false,
-  baseUnit: '',
-  img: ''
+  baseUnit: ''
 };
 
 interface ProductFormProps {
   handleSubmit: ({ productDto, file } : { productDto: ProductRequestDto, file?: File }) => void;
-  data?: ProductFormType | undefined;
+  data?: ProductRequestDto | undefined;
 }
 
 export function ProductForm({ data = defaultData, handleSubmit = console.log }: ProductFormProps) {
@@ -84,11 +60,17 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
   console.log(form.formState.errors, form.getValues());
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const productDto = convertProductFormToProductRequestDto(values);
-    handleSubmit({ productDto, file: values.file });
-    form.reset(data);
-    navigate({ to: '/inventory/products' });
-    router.invalidate();
+    try {
+      handleSubmit({ productDto: values, file: values.file });
+      form.reset();
+      navigate({ to: '/inventory/products' });
+      router.invalidate();
+    }
+    catch(error: unknown) {
+      if (axios.isAxiosError(error))  {
+        toast(error.message);
+      }
+    }
   }
 
   useEffect(() => {
@@ -117,7 +99,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
           />
           <FormField
             control={form.control}
-            name="subcategory"
+            name="subcategoryId"
             render={({ field }) => (
               <FormItem className="mt-4">
                 <FormLabel>Select Subcategory</FormLabel>
@@ -128,6 +110,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
                   placeholder="Search for Subcategories"
                   entityName="subcategory"
                   useSearch={useSubcategorySearch}
+                  useId
                 />
                 <FormDescription>
                   Select the subcategory that this product belongs to

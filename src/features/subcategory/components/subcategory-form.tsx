@@ -1,3 +1,4 @@
+ 
 import { FormGroup } from "@/components/form-group";
 import { Button } from "@/components/ui/button";
 import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
@@ -9,19 +10,14 @@ import { z } from 'zod';
 import { useEffect } from "react";
 import { FormSearch } from "@/components/form-search";
 import { useCategorySearch } from "@/features/category/hooks/category-search";
-import { SubcategoryFormType } from "../types/subcategory-form";
-import { convertSCFormToSCDto } from "../utils/convert";
 import { SubcategoryRequestDto } from "../types/subcategory.dto";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
+import { toast } from "sonner";
+import axios from "axios";
 
 const formSchema = z.object({
   id: z.string(),
-  category: z.object({
-    id: z.string(),
-    name: z.string(),
-    subcategoryCount: z.number(),
-    img: z.string().optional()
-  }),
+  categoryId: z.string({ message: 'Category is required' }).min(1, 'Category is required'),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   file: z.any()
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
@@ -29,20 +25,15 @@ const formSchema = z.object({
     }).optional()
 });
 
-const defaultData: SubcategoryFormType = {
+const defaultData: SubcategoryRequestDto = {
   id: '',
   name: '',
-  category: {
-    id: '',
-    name: '',
-    subcategoryCount: 0,
-    img: ''
-  }
+  categoryId: ''
 };
 
 interface SubcategoryFormProps {
   handleSubmit: ({ scDto, file } : { scDto: SubcategoryRequestDto, file?: File}) => void;
-  data?: SubcategoryFormType | undefined;
+  data?: SubcategoryRequestDto | undefined;
 }
 
 export function SubcategoryForm({ data = defaultData, handleSubmit = console.log } : SubcategoryFormProps) {
@@ -54,14 +45,18 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
     defaultValues: data
   });
 
-  console.log(form.formState.errors, form.getValues());
-
   function onSubmit(values: z.infer<typeof formSchema>) {
-    const scDto = convertSCFormToSCDto(values);
-    handleSubmit({ scDto, file: values.file });
-    form.reset();
-    navigate({ to: '/inventory/subcategories' });
-    router.invalidate();
+    try {
+      handleSubmit({ scDto: values, file: values.file });
+      form.reset();
+      navigate({ to: '/inventory/subcategories' });
+      router.invalidate();
+    }
+    catch(error: unknown) {
+      if (axios.isAxiosError(error))  {
+        toast(error.message);
+      }
+    }
   }
 
   useEffect(() => {
@@ -91,8 +86,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
           <FormField 
             control={form.control}
             name="file"
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render={({ field: { value, onChange, ...fieldProps } }) => (
+            render={({ field: { onChange, ...fieldProps } }) => (
               <FormItem className="mt-6">
                 <FormLabel>Set POS Icon</FormLabel>
                 <Input 
@@ -111,7 +105,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
 
           <FormField
             control={form.control}
-            name="category"
+            name="categoryId"
             render={({ field }) => (  
               <FormItem className="mt-6">
                 <FormLabel>Select Category</FormLabel>
@@ -122,10 +116,12 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
                   useSearch={useCategorySearch}
                   placeholder='Search for categories'
                   entityName='category'
+                  useId
                 />
                 <FormDescription>
                   Choose a Category
                 </FormDescription>
+                <FormMessage />
               </FormItem>
             )}
           />

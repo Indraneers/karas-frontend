@@ -5,7 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProductById, updateProduct } from '@/features/product/api/product';
 import { ProductForm } from '@/features/product/components/product-form';
 import { ProductRequestDto } from '@/features/product/types/product.dto';
-import { convertProductDtoToProductForm } from '@/features/product/utils/convert';
+import { convertProductResponseDtoToProductRequestDto } from '@/features/product/utils/convert';
 import { useMutation, useQueries, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -58,7 +58,7 @@ function UpdateProductPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <ProductForm data={convertProductDtoToProductForm(productQuery.data)} handleSubmit={mutation.mutate} />
+        <ProductForm data={convertProductResponseDtoToProductRequestDto(productQuery.data)} handleSubmit={mutation.mutate} />
       </SectionContent>
     </Section>
   );

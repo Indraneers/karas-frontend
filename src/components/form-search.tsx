@@ -1,18 +1,20 @@
 import { Command, CommandInput, CommandEmpty, CommandGroup, CommandItem, CommandList } from "@/components/ui/command";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UseSearch } from "@/types/use-search";
 
-interface FormSearchProps<T> {
-  value?: T;
-  onChange: (value: T) => void;
+interface FormSearchProps<T, UseId> {
+  value?: UseId extends true ? string : T;
+  onChange: UseId extends true ? ((id: string) => void) : ((value: T) => void);
   useSearch: () => UseSearch<T>;
   placeholder: string;
   entityName: string;
   autoQuery?: boolean;
+  useId?: UseId;
+  onEntityChange?: (value: T) => void;
 }
 
 interface Entity {
@@ -20,17 +22,54 @@ interface Entity {
   name: string;
 }
 
-export function FormSearch<T extends Entity>({ value, onChange, useSearch, placeholder, entityName, autoQuery = false }: FormSearchProps<T> ) {
+export function FormSearch<T extends Entity, UseId extends boolean = false>({ 
+  value, 
+  onChange,
+  useSearch, 
+  placeholder, 
+  entityName,
+  autoQuery = false,
+  onEntityChange,
+  useId
+}: FormSearchProps<T, UseId> ) {
   const [open, setOpen] = useState(false);
-  const [entity, setEntity] = useState<T | undefined>(value);
+  const [entity, setEntity] = useState<T | undefined>();
 
   const { q, setQ, isLoading, data } = useSearch();
 
   function onClickEntity(entityDto: T) {
     setEntity(entityDto);
-    onChange(entityDto);
+
+    if (onEntityChange) {
+      onEntityChange(entityDto);
+    }
+
+    if (useId) {
+      (onChange as ((value: string) => void))(entityDto.id);
+    }
+    else {
+      (onChange as ((value: T) => void))(entityDto);
+    }
   }
 
+  useEffect(() => {
+    let entityDto: T | undefined;
+    if (!entity && value) {
+      if (useId) {
+        entityDto = data?.find(d => d.id === value);
+      }
+      else {
+        entityDto = data?.find(d => d.id === (value as T).id);
+      }
+
+      console.log(entityDto);
+      setEntity(entityDto);
+      if (onEntityChange && entityDto) {
+        console.log(entityDto);
+        onEntityChange(entityDto);
+      }
+    }
+  }, [entity, value, data, useId, onEntityChange]);
 
   return (
     <div>
@@ -45,7 +84,7 @@ export function FormSearch<T extends Entity>({ value, onChange, useSearch, place
             ])}
           >
             {value
-              ? (entity ? value.name : '' )
+              ? (entity  ? entity.name : '' )
               : `Select ${ entityName }...`}
             <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
           </Button>

@@ -4,7 +4,6 @@ export interface SubcategoryRequestDto {
   id: string;
   name: string;
   categoryId: string;
-  productCount?: number;
 }
 
 export interface SubcategoryResponseDto {
@@ -12,5 +11,5 @@ export interface SubcategoryResponseDto {
   name: string;
   category: CategoryDto;
   productCount: number;
-  img?: string;
+  img: string;
 }

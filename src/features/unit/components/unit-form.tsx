@@ -6,13 +6,13 @@ import { FormGroup } from "@/components/form-group";
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Product } from "@/features/product/types/product";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { convertUnitFormToUnitDto } from "../util/convert";
 import { cn } from "@/lib/utils";
 import { UnitRequestDto } from "../types/unit.dto";
+import { FormSearch } from "@/components/form-search";
+import { useProductSearch } from "@/features/product/hooks/product-search";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 
 export interface UnitForm {
@@ -20,7 +20,7 @@ export interface UnitForm {
   name: string;
   quantity: number;
   price: string;
-  product: ProductResponseDto;
+  productId: string;
   sku: string;
   toBaseUnit: number;
 }
@@ -30,20 +30,7 @@ const formSchema = z.object({
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   sku: z.string({ message: 'sku is required' }).min(2).max(50),
   price: z.string(),
-  product: z.object({
-    id: z.string(),
-    name: z.string(),
-    subcategory: z.object({
-      id: z.string(),
-      name: z.string(),
-      categoryId: z.string(),
-      productCount: z.number()
-    }),
-    variable: z.boolean(),
-    baseUnit: z.string(),
-    unitCount: z.number(),
-    img: z.string().optional()
-  }),
+  productId: z.string({ message: 'Product is required' }).min(1, 'Product is required'),
   quantity: z.number(),
   toBaseUnit: z.number().int()
 });
@@ -54,43 +41,41 @@ const defaultData: UnitForm = {
   sku: '',
   price: '',
   quantity: 0,
-  product: {
-    id: '',
-    name: '',
-    subcategory: {
-      id: '',
-      name: '',
-      categoryId: '',
-      productCount: 0
-    },
-    variable: false,
-    baseUnit: '',
-    unitCount: 0,
-    img: ''
-  },
+  productId: '',
   toBaseUnit: 0
 };
 
 interface UnitFormProps {
   handleSubmit: (values: UnitRequestDto) => void;
   data?: UnitForm | undefined;
-  products: Product[];
 }
 
-export function UnitForm({ data = defaultData, handleSubmit = console.log, products }: UnitFormProps) {
+export function UnitForm({ data = defaultData, handleSubmit = console.log }: UnitFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
+
+  const [product, setProduct] = useState<ProductResponseDto>({
+    variable: false,
+    id: '',
+    name: '',
+    subcategory: {
+      id: '',
+      name: '',
+      categoryId: ''
+    },
+    unitCount: 0,
+    baseUnit: ''
+  });
+
+  console.log(product);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data
   });
 
-  const { getValues } = form;
-  const product = getValues().product;
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const unitDto = convertUnitFormToUnitDto(values);
+    const unitDto = convertUnitFormToUnitDto(values, product.variable);
     handleSubmit(unitDto);  
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
@@ -141,31 +126,19 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log, produ
           </div>
           <FormField
             control={form.control}
-            name="product"
+            name="productId"
             render={({ field }) => (
               <FormItem className="mt-4">
-                <FormLabel>Product</FormLabel>
-                <Select
-                  onValueChange={(value) => {
-                    const product = 
-                      products.find(p => p.id === value);
-                    field.onChange(product);
-                  }} 
-                  value={field.value.id}>
-                  <FormControl>
-                    <SelectTrigger className="w-[400px]">
-                      <SelectValue placeholder="Select Product" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    { products.map((p) => (
-                      <SelectItem value={p.id} key={p.id}>
-                        {p.name}
-                      </SelectItem>
-                    ))
-                    }
-                  </SelectContent>
-                </Select>
+                <FormLabel>Select Product</FormLabel>
+                <FormSearch
+                  value={field.value}
+                  onChange={field.onChange}
+                  onEntityChange={setProduct}
+                  useSearch={useProductSearch}
+                  placeholder='Search for products'
+                  entityName='product'
+                  useId
+                />
                 <FormDescription>
                   Select the product that this unit belongs to
                 </FormDescription>

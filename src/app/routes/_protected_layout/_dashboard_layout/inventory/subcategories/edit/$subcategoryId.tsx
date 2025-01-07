@@ -5,6 +5,7 @@ import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getSubcategoryById, updateSubcategory } from '@/features/subcategory/api/subcategory';
 import { SubcategoryForm } from '@/features/subcategory/components/subcategory-form';
 import { SubcategoryRequestDto } from '@/features/subcategory/types/subcategory.dto';
+import { convertSCResponseDtoToSCRequestDto } from '@/features/subcategory/utils/convert';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 
@@ -51,7 +52,7 @@ function EditSubcategoryPage() {
         <TypographyH1>Edit Subcategory</TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <SubcategoryForm data={data} handleSubmit={mutation.mutate} />
+        <SubcategoryForm data={convertSCResponseDtoToSCRequestDto(data)} handleSubmit={mutation.mutate} />
       </SectionContent>
     </Section>
   );
