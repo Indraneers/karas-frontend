@@ -11,6 +11,7 @@ export function convertSCFormToSCDto(subcategoryForm: SubcategoryFormType): Subc
 }
 
 export function convertSCDtoToSC(subcategoryDto: SubcategoryResponseDto): Subcategory {
+  console.log(subcategoryDto);
   return {
     ...subcategoryDto,
     productCount: subcategoryDto.productCount || 0,

@@ -86,7 +86,6 @@ export interface PosStateWithFunctions extends PosState {
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
   ...getDefaultPosState(),
   setServiceSelectorItems: (autoServices: ServiceSelectorItem[]) => set((state) => {
-    console.log(autoServices);
     return { 
       ...state, 
       serviceSelectorItems: autoServices 
