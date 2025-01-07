@@ -27,7 +27,7 @@ function UpdateProductPage() {
   });
   
   const mutation = useMutation({
-    mutationFn: async (productDto: ProductRequestDto) => await updateProduct(productId, productDto),
+    mutationFn: async ({ productDto, file } : { productDto: ProductRequestDto, file?: File }) => await updateProduct(productId, productDto, file),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['products']

@@ -19,19 +19,41 @@ export const getProductById = async (productId: string): Promise<ProductResponse
     method: 'GET'
   });
 
-export const createProduct = async (productDto: ProductRequestDto): Promise<ProductResponseDto>  =>
-  request({
+export const createProduct = async (productDto: ProductRequestDto, file?: File): Promise<ProductResponseDto>  => {
+  const formData = new FormData();
+  
+  // Append the categoryDto as a JSON string
+  formData.append('data', new Blob([JSON.stringify(productDto)], { type: 'application/json' }));
+  
+  // Append the file if provided
+  if (file) {
+    formData.append('file', file);
+  }
+
+  return request({
     url: '/products',
     method: 'POST',
-    data: productDto
+    data: formData
   });
+};
 
-export const updateProduct = async (productId: string, productDto: ProductRequestDto): Promise<ProductResponseDto>  =>
-  request({
+export const updateProduct = async (productId: string, productDto: ProductRequestDto, file?: File): Promise<ProductResponseDto>  => {
+  const formData = new FormData();
+  
+  // Append the categoryDto as a JSON string
+  formData.append('data', new Blob([JSON.stringify(productDto)], { type: 'application/json' }));
+  
+  // Append the file if provided
+  if (file) {
+    formData.append('file', file);
+  }
+
+  return request({
     url: '/products/' + productId,
     method: 'PUT',
-    data: productDto
+    data: formData
   });
+};
 
 export const deleteProduct = async (productId: string): Promise<ProductResponseDto>  =>
   request({

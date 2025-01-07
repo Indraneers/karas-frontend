@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 function CreateProductPage() {
   const queryClient = useQueryClient();
   const mutation = useMutation({
-    mutationFn: async (productDto: ProductRequestDto) => await createProduct(productDto),
+    mutationFn: async ({ productDto, file } : { productDto: ProductRequestDto, file?: File }) => await createProduct(productDto, file),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['products']

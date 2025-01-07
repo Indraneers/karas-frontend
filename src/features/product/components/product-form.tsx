@@ -13,6 +13,7 @@ import { FormSearch } from "@/components/form-search";
 import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
 import { convertProductFormToProductRequestDto } from "../utils/convert";
 import { ProductFormType } from "../types/product";
+import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 
 const formSchema = z.object({
   id: z.string(),
@@ -29,7 +30,11 @@ const formSchema = z.object({
   }),
   unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
-  baseUnit: z.string()
+  baseUnit: z.string(),
+  file: z.any()
+    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "Only SVG and PNG files are allowed"
+    })
 }).refine(schema => {
   return !(schema.variable && !schema.baseUnit);
 }, {
@@ -56,7 +61,7 @@ const defaultData: ProductFormType = {
 };
 
 interface ProductFormProps {
-  handleSubmit: (values: ProductRequestDto) => void;
+  handleSubmit: ({ productDto, file } : { productDto: ProductRequestDto, file?: File }) => void;
   data?: ProductFormType | undefined;
 }
 
@@ -70,7 +75,8 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    handleSubmit(convertProductFormToProductRequestDto(values));
+    const productDto = convertProductFormToProductRequestDto(values);
+    handleSubmit({ productDto, file: values.file });
     form.reset(data);
     navigate({ to: '/inventory/products' });
     router.invalidate();
@@ -118,6 +124,26 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
                   Select the subcategory that this product belongs to
                 </FormDescription>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField 
+            control={form.control}
+            name="file"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Set POS Icon</FormLabel>
+                <Input 
+                  {...fieldProps}
+                  id="picture" 
+                  type="file"
+                  className="w-[300px] cursor-pointer"
+                  accept="image/*"
+                  onChange={(event) =>
+                    onChange(event.target.files && event.target.files[0])
+                  }
+                />
               </FormItem>
             )}
           />
