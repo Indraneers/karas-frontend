@@ -19,19 +19,50 @@ export const getCategoryById = async ( categoryId: string ): Promise<Category> =
     method: 'GET'
   });
 
-export const createCategory = async ( categoryDto: CategoryDto): Promise<Category> =>
-  request({
+export const createCategory = async ( categoryDto: CategoryDto, file?: File): Promise<Category> => {
+  const formData = new FormData();
+  
+  // Append the categoryDto as a JSON string
+  formData.append('data', new Blob([JSON.stringify(categoryDto)], { type: 'application/json' }));
+  
+  // Append the file if provided
+  if (file) {
+    formData.append('file', file);
+  }
+
+  return request({
     url: '/categories',
     method: 'POST',
-    data: categoryDto
+    data: formData,
+    headers: {
+      "Content-Type": 'multipart/form-data'
+    }
   });
+};
 
-export const updateCategory = async ( categoryId: string, categoryDto: CategoryDto ): Promise<Category> =>
-  request({
+export const updateCategory = async ( categoryId: string, categoryDto: CategoryDto, file?: File ): Promise<Category> => {
+  const formData = new FormData();
+  
+  // Append the categoryDto as a JSON string
+  formData.append('data', new Blob([JSON.stringify(categoryDto)], { type: 'application/json' }));
+  
+  // Append the file if provided
+  if (file) {
+    formData.append('file', file);
+  }
+  
+  return request({
     url: '/categories/' + categoryId,
     method: 'PUT',
-    data: categoryDto
+    data: {
+      data: categoryDto,
+      file
+    },
+    headers: {
+      "Content-Type": 'multipart/form-data'
+    }
   });
+};
 
 export const deleteCategory = async ( categoryId: string ): Promise<Category> =>
   request({

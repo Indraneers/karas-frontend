@@ -22,7 +22,8 @@ function UpdateCategoryPage() {
   });
   
   const mutation = useMutation({
-    mutationFn: async (categoryDto: CategoryDto) => await updateCategory(categoryId, categoryDto),
+    mutationFn: async ({ categoryDto, file } : { categoryDto: CategoryDto, file?: File }) =>
+      await updateCategory(categoryId, categoryDto, file),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['categories']

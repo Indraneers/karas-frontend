@@ -9,10 +9,16 @@ import { z } from 'zod';
 import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
 
+const ACCEPTED_IMAGE_TYPES = ["image/svg+xml", "image/png"];
+
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  subcategoryCount: z.number()
+  subcategoryCount: z.number(),
+  file: z.any()
+    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "Only SVG and PNG files are allowed"
+    })
 });
 
 const defaultData: CategoryDto = {
@@ -22,7 +28,7 @@ const defaultData: CategoryDto = {
 };
 
 interface CategoryFormProps {
-  handleSubmit: (values: z.infer<typeof formSchema>) => void;
+  handleSubmit: ({ categoryDto, file } : {categoryDto: CategoryDto, file?: File}) => void;
   data?: CategoryDto | undefined;
 }
 
@@ -36,7 +42,8 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
-    handleSubmit(values);
+    const { file, ...categoryDto } = values;
+    handleSubmit({ categoryDto, file });
     form.reset();
     navigate({ to: '/inventory/categories' });
     router.invalidate();
@@ -63,6 +70,26 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
                 Set the category name. Min. 3 Max. 50
                 </FormDescription>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField 
+            control={form.control}
+            name="file"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-2">
+                <FormLabel>Category Icon</FormLabel>
+                <Input 
+                  {...fieldProps}
+                  id="picture" 
+                  type="file"
+                  className="w-[300px] cursor-pointer"
+                  accept="image/*"
+                  onChange={(event) =>
+                    onChange(event.target.files && event.target.files[0])
+                  }
+                />
               </FormItem>
             )}
           />
