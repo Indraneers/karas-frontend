@@ -30,6 +30,8 @@ export const createCategory = async ( categoryDto: CategoryDto, file?: File): Pr
     formData.append('file', file);
   }
 
+  console.log('sending', formData);
+
   return request({
     url: '/categories',
     method: 'POST',
