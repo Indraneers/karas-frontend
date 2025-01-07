@@ -18,7 +18,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
 
   return (
     <Card 
-      className="flex flex-col border-primary hover:bg-accent shadow-none w-full h-full hover:text-background transition cursor-pointer aspect-square group"
+      className="flex flex-col border-primary hover:bg-accent shadow-none w-full hover:text-background transition cursor-pointer aspect-square group"
       onClick={handleClick}
     >
       <CardHeader>

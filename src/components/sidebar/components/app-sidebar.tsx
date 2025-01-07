@@ -16,9 +16,9 @@ import { SidebarMenuItemWrapper } from "./sidebar-menu-item-wrapper";
 
 export function AppSidebar() {
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
-        <Logo />
+        <Logo  />
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>

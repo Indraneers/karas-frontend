@@ -1,6 +1,6 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 import { MainContent } from '@/components/main-content';
-import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar';
+import { SidebarInset, SidebarProvider, SidebarTrigger } from '@/components/ui/sidebar';
 import { AppSidebar } from '@/components/sidebar/components/app-sidebar';
 import { Header } from '@/components/header';
 import { UserProfile } from '@/features/auth/components/user-profile';
@@ -29,6 +29,7 @@ function DashboardLayout() {
       <AppSidebar />
       <SidebarInset className='flex flex-col'>
         <Header>
+          <SidebarTrigger />
           <div className='flex justify-end items-center gap-4 w-full h-12'>
             <UserProfile />
             <Separator className='h-8' orientation='vertical' />

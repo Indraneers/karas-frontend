@@ -29,12 +29,18 @@ export const sidebarUserList: SideBarNavDataItem[] = [
   {
     icon: User,
     title: 'Customers',
-    url: '/customers'
+    url: '/customers',
+    childRoutes: [
+      /^\/customers\/.*/
+    ]
   },
   {
     icon: CarFront,
     title: 'Vehicles',
-    url: '/vehicles'
+    url: '/vehicles',
+    childRoutes: [
+      /^\/vehicles\/.*/
+    ]
   },
   {
     icon: ListTodo,

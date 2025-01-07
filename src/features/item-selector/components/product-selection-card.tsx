@@ -20,7 +20,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card 
-      className="relative place-content-center border-primary grid hover:bg-accent w-full h-full hover:text-background transition cursor-pointer overflow-hidden group"
+      className="relative place-content-center border-primary grid hover:bg-accent w-full hover:text-background transition cursor-pointer overflow-hidden aspect-square group"
       onClick={handleClick}
     >
       <div className="absolute inset-0">
