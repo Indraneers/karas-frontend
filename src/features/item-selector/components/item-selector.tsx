@@ -21,7 +21,7 @@ export function ItemSelector({ children }: ItemSelectionProps) {
   function handleBackBtn() {
     switch (selector) {
     case ItemSelectionEnum.SUBCATEGORY:
-      setSelector(ItemSelectionEnum.SUBCATEGORY);
+      setSelector(ItemSelectionEnum.CATEGORY);
       break;
     case ItemSelectionEnum.PRODUCT:
       setSelector(ItemSelectionEnum.SUBCATEGORY);
