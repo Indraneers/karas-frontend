@@ -1,8 +1,8 @@
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { CategoryDto } from "@/features/category/types/category.dto";
-import { Droplet } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
+import { getImageUrl } from "@/lib/image";
 
 interface CategorySelectionCardProps {
   category: CategoryDto;
@@ -18,15 +18,17 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
 
   return (
     <Card 
-      className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group"
+      className="flex flex-col border-primary hover:bg-accent shadow-none w-full h-full hover:text-background transition cursor-pointer aspect-square group"
       onClick={handleClick}
     >
       <CardHeader>
-        <Droplet className="group-hover:text-background text-accent" size={36} />
+        { category.img && 
+          <img className="w-8 h-8" src={getImageUrl(category.img)} loading="lazy" />
+        }
       </CardHeader>
       <CardContent className="flex-grow" />
       <CardFooter className="flex flex-col items-start text-md">
-        <div className="font-medium">{category.name}</div>
+        <div className="font-medium text-lg">{category.name}</div>
         <div className="group-hover:text-background text-foreground/50 text-sm">{category.subcategoryCount || 0} subcategories</div>
       </CardFooter>
     </Card>

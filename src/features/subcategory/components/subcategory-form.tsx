@@ -19,13 +19,14 @@ const formSchema = z.object({
   category: z.object({
     id: z.string(),
     name: z.string(),
-    subcategoryCount: z.number()
+    subcategoryCount: z.number(),
+    img: z.string()
   }),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   file: z.any()
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
-    })
+    }).optional()
 });
 
 const defaultData: SubcategoryFormType = {
@@ -34,7 +35,8 @@ const defaultData: SubcategoryFormType = {
   category: {
     id: '',
     name: '',
-    subcategoryCount: 0
+    subcategoryCount: 0,
+    img: ''
   }
 };
 

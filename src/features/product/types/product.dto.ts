@@ -17,4 +17,5 @@ export interface ProductResponseDto {
   unitCount: number;
   variable: boolean;
   baseUnit: string;
+  img: string;
 }

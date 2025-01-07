@@ -24,9 +24,11 @@ const formSchema = z.object({
     category: z.object({
       id: z.string(),
       name: z.string(),
-      subcategoryCount: z.number()
+      subcategoryCount: z.number(),
+      img: z.string()
     }),
-    productCount: z.number()
+    productCount: z.number(),
+    img: z.string()
   }),
   unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
@@ -35,6 +37,7 @@ const formSchema = z.object({
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
     })
+    .optional()
 }).refine(schema => {
   return !(schema.variable && !schema.baseUnit);
 }, {
@@ -51,9 +54,11 @@ const defaultData: ProductFormType = {
     category: {
       id: '',
       name: '',
-      subcategoryCount: 0
+      subcategoryCount: 0,
+      img: ''
     },
-    productCount: 0
+    productCount: 0,
+    img: ''
   },
   unitCount: 0,
   variable: false,
@@ -81,6 +86,8 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
     navigate({ to: '/inventory/products' });
     router.invalidate();
   }
+
+  console.log(form.formState.errors);
 
   useEffect(() => {
     form.reset(data);

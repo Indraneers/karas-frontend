@@ -41,7 +41,8 @@ const formSchema = z.object({
     }),
     variable: z.boolean(),
     baseUnit: z.string(),
-    unitCount: z.number()
+    unitCount: z.number(),
+    img: z.string()
   }),
   quantity: z.number(),
   toBaseUnit: z.number().int()
@@ -64,7 +65,8 @@ const defaultData: UnitForm = {
     },
     variable: false,
     baseUnit: '',
-    unitCount: 0
+    unitCount: 0,
+    img: ''
   },
   toBaseUnit: 0
 };

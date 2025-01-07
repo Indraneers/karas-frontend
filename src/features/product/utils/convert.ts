@@ -26,8 +26,11 @@ export function convertProductDtoToProductForm(productDto: ProductResponseDto): 
       category: {
         id: '',
         name: '',
-        subcategoryCount: 0
-      }
+        subcategoryCount: 0,
+        img: ""
+      },
+      img: "",
+      productCount: 0
     }
   };
 }

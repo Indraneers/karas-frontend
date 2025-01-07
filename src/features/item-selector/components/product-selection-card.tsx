@@ -1,8 +1,9 @@
-import { Card, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
-import { Thumbnail } from "@/components/thumbnail";
+import { getImageUrl } from "@/lib/image";
+import { Badge } from "@/components/ui/badge";
 
 interface ProductSelectionCardProps {
   product: ProductResponseDto
@@ -18,16 +19,23 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card 
-      className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer group"
+      className="relative place-content-center grid hover:bg-accent w-full h-full hover:text-background transition cursor-pointer overflow-hidden group"
       onClick={handleClick}
     >
-      <CardContent className="flex justify-center items-center pt-2 h-full">
-        <Thumbnail src="/sample-product.webp" />
+      <div className="absolute inset-0">
+        {
+          product.img &&
+          <img className="brightness-75 object-cover" src={getImageUrl(product.img)} loading="lazy" />
+        }
+      </div>
+      <CardContent className="z-10 flex flex-col justify-center bg-foreground/50 text-sm">
+        <div className="font-bold text-2xl text-background text-center">{product.name}</div>
+        <div className="group-hover:text-background inline-block text-right font-medium text-background/90">
+          <Badge className="bg-accent rounded-full">
+            {product.unitCount || 0} units
+          </Badge>
+        </div>
       </CardContent>
-      <CardFooter className="flex flex-col items-start text-sm">
-        <div className="font-medium">{product.name}</div>
-        <div className="group-hover:text-background text-foreground/50">{product.unitCount || 0} units</div>
-      </CardFooter>
     </Card>
   );
 }

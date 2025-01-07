@@ -17,13 +17,15 @@ const formSchema = z.object({
   file: z.any()
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
-    })
+    }).optional(),
+  img: z.string()
 });
 
 const defaultData: CategoryDto = {
   id: '',
   name: '',
-  subcategoryCount: 0
+  subcategoryCount: 0,
+  img: ''
 };
 
 interface CategoryFormProps {
