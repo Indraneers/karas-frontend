@@ -19,4 +19,5 @@ export interface ProductFormType {
   unitCount: number;
   variable: boolean;
   baseUnit: string;
+  img: string;
 }

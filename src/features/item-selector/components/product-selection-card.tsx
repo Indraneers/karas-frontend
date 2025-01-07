@@ -4,6 +4,7 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { getImageUrl } from "@/lib/image";
 import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface ProductSelectionCardProps {
   product: ProductResponseDto
@@ -19,7 +20,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card 
-      className="relative place-content-center grid hover:bg-accent w-full h-full hover:text-background transition cursor-pointer overflow-hidden group"
+      className="relative place-content-center border-primary grid hover:bg-accent w-full h-full hover:text-background transition cursor-pointer overflow-hidden group"
       onClick={handleClick}
     >
       <div className="absolute inset-0">
@@ -28,10 +29,19 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
           <img className="brightness-75 object-cover" src={getImageUrl(product.img)} loading="lazy" />
         }
       </div>
-      <CardContent className="z-10 flex flex-col justify-center bg-foreground/50 text-sm">
-        <div className="font-bold text-2xl text-background text-center">{product.name}</div>
+      <CardContent className={cn([
+        "z-10 flex flex-col justify-center text-sm",
+        product.img && 'bg-foreground/50'
+      ])}>
+        <div className={cn([
+          "font-bold text-2xl text-center",
+          product.img && 'text-background'
+        ])}>{product.name}</div>
         <div className="group-hover:text-background inline-block text-right font-medium text-background/90">
-          <Badge className="bg-accent rounded-full">
+          <Badge className={cn([
+            "bg-accent rounded-full",
+            !product.img && "group-hover:bg-background group-hover:text-accent"
+          ])}>
             {product.unitCount || 0} units
           </Badge>
         </div>

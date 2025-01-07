@@ -28,8 +28,9 @@ const formSchema = z.object({
       img: z.string()
     }),
     productCount: z.number(),
-    img: z.string()
+    img: z.string().default('')
   }),
+  img: z.string().default(''),
   unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
   baseUnit: z.string(),
@@ -62,7 +63,8 @@ const defaultData: ProductFormType = {
   },
   unitCount: 0,
   variable: false,
-  baseUnit: ''
+  baseUnit: '',
+  img: ''
 };
 
 interface ProductFormProps {
@@ -86,8 +88,6 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
     navigate({ to: '/inventory/products' });
     router.invalidate();
   }
-
-  console.log(form.formState.errors);
 
   useEffect(() => {
     form.reset(data);

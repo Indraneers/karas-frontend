@@ -31,7 +31,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
-        <Card className="flex flex-col hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
+        <Card className="flex flex-col border-primary hover:bg-accent w-full h-full hover:text-background transition cursor-pointer aspect-square group">
           <CardHeader className="space-y-0 text-left">
             <div className="font-medium text-xl">{unit.name}</div>
             <div className="group-hover:text-background text-foreground/50">

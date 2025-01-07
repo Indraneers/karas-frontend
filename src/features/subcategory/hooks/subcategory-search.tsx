@@ -19,6 +19,6 @@ export function useSubcategorySearch
     setQ,
     isLoading,
     isError,
-    data
+    data: data?.map(d => ({ ...d, category: { ...d.category, img: d.img || '' }, img: d.category.img || '' }))
   };
 }
