@@ -22,7 +22,7 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
       onClick={handleClick}
     >
       <CardHeader>
-        {subcategory.img && 
+        {subcategory.img && subcategory.img.length > 0 && 
                   <img className="w-8 h-8" src={getImageUrl(subcategory.img)} loading="lazy" />
         }
       </CardHeader>

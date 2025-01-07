@@ -22,7 +22,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
       onClick={handleClick}
     >
       <CardHeader>
-        { category.img && 
+        { category.img && category.img.length > 0 && 
           <img className="w-8 h-8" src={getImageUrl(category.img)} loading="lazy" />
         }
       </CardHeader>

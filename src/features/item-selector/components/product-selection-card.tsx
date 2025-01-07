@@ -25,7 +25,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
     >
       <div className="absolute inset-0">
         {
-          product.img &&
+          product.img && product.img.length > 0 &&
           <img className="brightness-75 object-cover" src={getImageUrl(product.img)} loading="lazy" />
         }
       </div>
