@@ -20,6 +20,7 @@ export function convertProductDtoToProductForm(productDto: ProductResponseDto): 
     name: productDto.name,
     unitCount: productDto.unitCount,
     variable: productDto.variable,
+    img: productDto.img,
     subcategory: {
       id: subcategory.id,
       name: subcategory.name,

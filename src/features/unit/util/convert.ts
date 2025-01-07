@@ -72,7 +72,8 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
           name: '',
           categoryId: '',
           productCount: 0
-        }
+        },
+        img: ''
       },
       toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
     };
@@ -86,6 +87,7 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     price: convertCurrencyToString(unitDto.price),
     product: {
       ...unitDto.product,
+      img: '',
       subcategory: {
         id: '',
         name: '',

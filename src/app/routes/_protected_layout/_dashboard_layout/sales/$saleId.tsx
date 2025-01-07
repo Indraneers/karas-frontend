@@ -1,7 +1,6 @@
 import { Separator } from '@/components/ui/separator';
 import { getSaleById } from '@/features/sale/api/sale';
 import { CustomerInformation } from '@/features/sale/components/customer-information';
-import { ItemServiceDataTable } from '@/features/sale/components/item-service-data-table';
 import { SaleDetailAside } from '@/features/sale/components/sale-detail-aside';
 import { SaleInformation } from '@/features/sale/components/sale-information';
 import { SaleTable } from '@/features/sale/components/sale-table';
