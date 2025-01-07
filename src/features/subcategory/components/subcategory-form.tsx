@@ -20,7 +20,7 @@ const formSchema = z.object({
     id: z.string(),
     name: z.string(),
     subcategoryCount: z.number(),
-    img: z.string().default('')
+    img: z.string().optional()
   }),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
   file: z.any()

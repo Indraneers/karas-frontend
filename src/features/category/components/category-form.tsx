@@ -18,7 +18,7 @@ const formSchema = z.object({
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
     }).optional(),
-  img: z.string()
+  img: z.string().optional()
 });
 
 const defaultData: CategoryDto = {

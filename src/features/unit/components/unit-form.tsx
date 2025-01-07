@@ -42,7 +42,7 @@ const formSchema = z.object({
     variable: z.boolean(),
     baseUnit: z.string(),
     unitCount: z.number(),
-    img: z.string()
+    img: z.string().optional()
   }),
   quantity: z.number(),
   toBaseUnit: z.number().int()

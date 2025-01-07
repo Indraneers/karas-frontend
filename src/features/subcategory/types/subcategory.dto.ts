@@ -12,5 +12,5 @@ export interface SubcategoryResponseDto {
   name: string;
   category: CategoryDto;
   productCount: number;
-  img: string;
+  img?: string;
 }

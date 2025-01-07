@@ -9,7 +9,7 @@ export interface Product {
   units?: Unit[];
   variable: boolean;
   baseUnit: string;
-  img: string;
+  img?: string;
 }
 
 export interface ProductFormType {
@@ -19,5 +19,5 @@ export interface ProductFormType {
   unitCount: number;
   variable: boolean;
   baseUnit: string;
-  img: string;
+  img?: string;
 }

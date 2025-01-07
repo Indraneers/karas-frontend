@@ -25,12 +25,11 @@ const formSchema = z.object({
       id: z.string(),
       name: z.string(),
       subcategoryCount: z.number(),
-      img: z.string().default('')
+      img: z.string().optional()
     }),
     productCount: z.number(),
-    img: z.string().default('')
+    img: z.string().optional()
   }),
-  img: z.string().default(''),
   unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
   baseUnit: z.string(),
@@ -38,7 +37,8 @@ const formSchema = z.object({
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
     })
-    .optional()
+    .optional(),
+  img: z.string().optional()
 }).refine(schema => {
   return !(schema.variable && !schema.baseUnit);
 }, {
