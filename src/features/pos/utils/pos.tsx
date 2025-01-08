@@ -11,7 +11,11 @@ export function convertPosStoreToSaleRequestDto
     posState.items.map((i) => ({
       price: i.price,
       discount: i.discount,
-      quantity: convertBaseUnitQuantityToBaseUnitQuantityDto(i.quantity),
+      quantity: 
+        i.unit.product.variable ?
+          convertBaseUnitQuantityToBaseUnitQuantityDto(i.quantity)
+          :
+          i.quantity,
       unitId: i.unit.id
     }));
 

@@ -10,6 +10,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow
@@ -106,6 +107,8 @@ export function ItemServiceDataTable({
               </TableRow>
             ))
           }
+        </TableBody>
+        <TableFooter>
           <TableRow>
             <TableCell colSpan={6}>Subtotal ($)</TableCell>
             <TableCell className="text-right">
@@ -124,7 +127,7 @@ export function ItemServiceDataTable({
               <Currency amount={subTotal - sale.discount} />
             </TableCell>
           </TableRow>
-        </TableBody>
+        </TableFooter>
       </Table>
     </div>
   );
