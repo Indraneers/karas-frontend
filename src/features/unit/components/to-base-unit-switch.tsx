@@ -13,7 +13,7 @@ export function ToBaseUnitSwitch({ baseUnit, onChange, className }: ToBaseUnitSw
       "flex items-center gap-2 bg-background p-2 rounded-md",
       className
     ])}>
-      <Switch onCheckedChange={onChange} />
+      <Switch checked={true} onCheckedChange={onChange} />
     Convert to {baseUnit}
     </div>
   );

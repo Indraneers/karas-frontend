@@ -19,7 +19,7 @@ interface ItemAdderProps {
 export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const product = item.unit.product;
 
-  const [isBaseUnit, setIsBaseUnit] = useState(false);
+  const [isBaseUnit, setIsBaseUnit] = useState(true);
 
   const firstInput = useRef<HTMLInputElement>(null);
   const secondInput = useRef<HTMLInputElement>(null);
