@@ -48,7 +48,6 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
             <CardContent className="flex-grow" />
             <CardFooter className="flex flex-col items-start text-xs">
               <div className="group-hover:text-background text-foreground/50">{unit.quantity || 0} units left</div>
-              <div className="group-hover:text-background">{unit.sku}</div>
             </CardFooter>
           </Card>
         </DialogTrigger>

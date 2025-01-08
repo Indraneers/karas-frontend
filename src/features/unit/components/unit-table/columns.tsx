@@ -45,10 +45,6 @@ export const columns: ColumnDef<Unit>[] = [
     )
   },
   {
-    accessorKey: 'sku',
-    header: 'SKU'
-  },
-  {
     accessorKey: 'toBaseUnit',
     header: 'Base Unit',
     cell: ({ row }) => 

@@ -20,27 +20,36 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card 
-      className="relative place-content-center border-primary grid hover:bg-accent w-full hover:text-background transition cursor-pointer overflow-hidden aspect-square group"
+      className="relative border-primary grid hover:bg-accent py-2 w-full hover:text-background transition cursor-pointer overflow-hidden aspect-square group"
       onClick={handleClick}
     >
       <div className="absolute inset-0">
         {
           product.img && product.img.length > 0 &&
-          <img className="brightness-75 object-cover" src={getImageUrl(product.img)} loading="lazy" />
+          <img className="brightness-50 object-cover" src={getImageUrl(product.img)} loading="lazy" />
         }
       </div>
       <CardContent className={cn([
-        "z-10 flex flex-col justify-center text-sm",
-        product.img && 'bg-foreground/50'
+        "z-10 text-sm w-full",
+        product.img
       ])}>
         <div className={cn([
-          "font-bold text-2xl text-center",
+          "font-bold text-2xl",
           product.img && 'text-background'
         ])}>{product.name}</div>
-        <div className="group-hover:text-background inline-block text-right font-medium text-background/90">
+        <div className={cn([
+          "group-hover:text-background flex flex-col items-start gap-1 font-medium text-background mt-2"
+        ])}>
+          <Badge className={cn([
+            'hidden rounded-full bg-amber-500 hover:bg-amber-600 text-xs',
+            product.identifier && 'inline-block'
+          ])}>
+            {product.identifier}
+          </Badge>
           <Badge className={cn([
             "bg-accent rounded-full",
-            !product.img && "group-hover:bg-background group-hover:text-accent"
+            !product.img && "group-hover:bg-background group-hover:text-accent",
+            product.identifier && 'mt-1'
           ])}>
             {product.unitCount || 0} units
           </Badge>

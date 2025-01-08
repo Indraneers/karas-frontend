@@ -18,6 +18,7 @@ import axios from "axios";
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(150),
+  identifier: z.string(),
   subcategoryId: z.string({ message: 'Subcategory is requiqred' }).min(1, 'Subcategory is requiqred'),
   unitCount: z.number(),
   variable: z.boolean({ message: 'Variable is required' }),
@@ -37,6 +38,7 @@ const formSchema = z.object({
 const defaultData: ProductRequestDto = {
   id: '',
   name: '',
+  identifier: '',
   subcategoryId: '',
   unitCount: 0,
   variable: false,
@@ -88,10 +90,26 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               <FormItem>
                 <FormLabel>Product Name</FormLabel>
                 <FormControl>
-                  <Input className="w-[500px]" placeholder="Ex: Twister 40W-80" {...field} />
+                  <Input className="w-[300px]" placeholder="Ex: TW ProTech F-1" {...field} />
                 </FormControl>
                 <FormDescription>
                 Set the product name. Min. 3 Max. 150
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="identifier"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Identifier</FormLabel>
+                <FormControl>
+                  <Input className="w-[200px]" placeholder="Ex: API SP SAE 5W-30" {...field} />
+                </FormControl>
+                <FormDescription>
+                  Set the product identifier. Min. 3 Max. 150
                 </FormDescription>
                 <FormMessage />
               </FormItem>

@@ -21,14 +21,12 @@ export interface UnitForm {
   quantity: number;
   price: string;
   productId: string;
-  sku: string;
   toBaseUnit: number;
 }
 
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  sku: z.string({ message: 'sku is required' }).min(2).max(50),
   price: z.string(),
   productId: z.string({ message: 'Product is required' }).min(1, 'Product is required'),
   quantity: z.number(),
@@ -38,7 +36,6 @@ const formSchema = z.object({
 const defaultData: UnitForm = {
   id: '',
   name: '',
-  sku: '',
   price: '',
   quantity: 0,
   productId: '',
@@ -58,6 +55,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
     variable: false,
     id: '',
     name: '',
+    identifier: '',
     subcategory: {
       id: '',
       name: '',
@@ -102,22 +100,6 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
                   </FormControl>
                   <FormDescription>
                 Set the unit name. Min. 3 Max. 50
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="sku"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Unit/Product SKU</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Ex: TWISTER-80W20-1L" {...field} />
-                  </FormControl>
-                  <FormDescription>
-                    Set the SKU
                   </FormDescription>
                   <FormMessage />
                 </FormItem>

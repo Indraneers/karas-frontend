@@ -5,6 +5,7 @@ import { SubcategoryRequestDto } from "@/features/subcategory/types/subcategory.
 export interface Product {
   id: string;
   name: string;
+  identifier: string;
   subcategory: SubcategoryRequestDto;
   units?: Unit[];
   variable: boolean;

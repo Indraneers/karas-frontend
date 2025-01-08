@@ -7,5 +7,4 @@ export interface Unit {
   price: number;
   product: ProductRequestDto;
   toBaseUnit: number;
-  sku: string;
 }

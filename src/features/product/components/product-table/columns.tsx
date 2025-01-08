@@ -31,8 +31,12 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Product',
+    header: 'Product Name',
     cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
+  },
+  {
+    accessorKey: 'identifier',
+    header: 'Identifier'
   },
   {
     accessorKey: 'subcategory.name',

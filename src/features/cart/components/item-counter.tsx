@@ -7,11 +7,13 @@ import { isValidVariableQty } from "@/lib/variable";
 
 interface CounterProps {
   className?: string;
+  variable?: boolean;
+  baseUnit?: string;
   value: number;
   setValue: (v: string) => void;
 }
 
-export function ItemCounter({ className, value, setValue }: CounterProps) {
+export function ItemCounter({ variable = false, baseUnit, className, value, setValue }: CounterProps) {
   const [quantity, setQuantity] = useState<string>(String(value));
 
   function handleInput(event: React.FormEvent<HTMLInputElement>) {
@@ -31,8 +33,6 @@ export function ItemCounter({ className, value, setValue }: CounterProps) {
     }
   }
 
-  console.log(quantity, value);
-
   return (
     <div className={cn([
       "gap-2 items-center justify-end flex",
@@ -41,7 +41,9 @@ export function ItemCounter({ className, value, setValue }: CounterProps) {
       <Button onClick={() => updateValue(Number(quantity) - 1)} className="w-5 h-5" size="icon">
         <ChevronLeft />
       </Button>
-      <ItemCartInput className="w-12 min-w-12" value={quantity} onInput={handleInput} />
+      <ItemCartInput className={cn([
+        "w-10 min-w-10"
+      ])} suffix={variable ? (baseUnit || '') : ''} value={quantity} onInput={handleInput} />
       <Button onClick={() => updateValue(Number(quantity) + 1)} className="w-5 h-5" size="icon">
         <ChevronRight />
       </Button>

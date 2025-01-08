@@ -11,7 +11,6 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
   if (variable) {
     return {
       name: unit.name,
-      sku: unit.sku,
       quantity: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.quantity),
       price: convertStringToCurrency(unit.price),
       productId: unit.productId,
@@ -21,7 +20,6 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
 
   return {
     name: unit.name,
-    sku: unit.sku,
     quantity: unit.quantity,
     price: convertStringToCurrency(unit.price),
     productId: unit.productId,
@@ -38,7 +36,6 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     return {
       id: unit.id,
       name: unit.name,
-      sku: unit.sku,
       quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.quantity),
       price: unit.price,
       product: unit.product,
@@ -49,7 +46,6 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
   return {
     id: unit.id,
     name: unit.name,
-    sku: unit.sku,
     quantity: unit.quantity,
     price: unit.price,
     product: unit.product,
@@ -62,7 +58,6 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     return {
       id: unitDto.id || '',
       name: unitDto.name,
-      sku: unitDto.sku,
       quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.quantity),
       price: convertCurrencyToString(unitDto.price),
       productId: unitDto.product.id,
@@ -73,7 +68,6 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
   return {
     id: unitDto.id || '',
     name: unitDto.name,
-    sku: unitDto.sku,
     quantity: unitDto.quantity,
     price: convertCurrencyToString(unitDto.price),
     productId: unitDto.product.id,
