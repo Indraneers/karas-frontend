@@ -6,5 +6,9 @@ export interface Unit {
   quantity: number;
   price: number;
   product: ProductRequestDto;
+  productImg: string;
+  subcategory: string;
+  subcategoryImg: string;
+  category: string;
   toBaseUnit: number;
 }

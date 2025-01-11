@@ -23,13 +23,13 @@ export function ItemCartService({ maintenanceService } : { maintenanceService: M
           </div>
           <div className="flex gap-2">
             <ItemCartCurrencyInput 
-              className="w-12 min-w-12"
+              className="w-14"
               prefix="$"
               defaultValue={convertCurrencyToInputString(price)}
               onValueChange={(value) => updateService(maintenanceService.service.id, { ...maintenanceService, price: convertStringToCurrency(value || '') })}
             />
             <ItemCartCurrencyInput 
-              className="w-12 min-w-12"
+              className="w-14"
               prefix="-$"
               defaultValue={convertCurrencyToInputString(discount)}
               onValueChange={(value) => updateService(maintenanceService.service.id, { ...maintenanceService, discount: convertStringToCurrency(value || '') })}

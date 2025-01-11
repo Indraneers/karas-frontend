@@ -5,6 +5,7 @@ import { Product } from "@/features/product/types/product";
 import { deleteProduct } from "../../api/product";
 import { InventoryActions } from "@/components/inventory-actions";
 import { Badge } from "@/components/ui/badge";
+import { ProductTypeBadge } from "../product-type-badge";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -51,14 +52,7 @@ export const columns: ColumnDef<Product>[] = [
     accessorKey: 'variable',
     header: 'Type',
     cell: ({ row }) => (
-      <>
-        { row.original.variable &&
-          <Badge className="bg-amber-500 hover:bg-amber-600">Variable</Badge>
-        }
-        { !row.original.variable &&
-          <Badge className="bg-green-500 hover:bg-green-600">Countable</Badge>
-        }
-      </>
+      <ProductTypeBadge variable={row.original.variable} />
     )
   },
   {

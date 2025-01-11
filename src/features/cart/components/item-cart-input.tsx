@@ -10,7 +10,7 @@ interface ItemCartInputProps extends React.ComponentProps<"input"> {
 const ItemCartInput = React.forwardRef<HTMLInputElement, ItemCartInputProps>(
   ({ className, type, suffix, ...props }, ref) => {
     return (
-      <div className="flex items-center bg-gray-200 rounded-sm overflow-hidden">
+      <div className="flex items-center bg-gray-200/75 rounded-sm h-full overflow-hidden">
         <Input
           className={cn([
             "border-0 px-1 h-5 text-center bg-transparent shadow-none rounded-none focus-visible:ring-0" ,

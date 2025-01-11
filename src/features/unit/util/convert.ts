@@ -39,6 +39,10 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
       quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.quantity),
       price: unit.price,
       product: unit.product,
+      productImg: unit.productImg,
+      subcategory: unit.subcategory,
+      subcategoryImg: unit.subcategoryImg,
+      category: unit.category,
       toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.toBaseUnit)
     };
   }
@@ -49,6 +53,10 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     quantity: unit.quantity,
     price: unit.price,
     product: unit.product,
+    productImg: unit.productImg,
+    subcategory: unit.subcategory,
+    subcategoryImg: unit.subcategoryImg,
+    category: unit.category,
     toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.toBaseUnit)
   };
 }

@@ -52,19 +52,20 @@ export function ItemCartUnit({ item }: { item: Item }) {
           <div className="flex justify-between items-center gap-8 mt-2">
             <div className="flex gap-2">
               <ItemCartCurrencyInput 
-                className="w-12 min-w-12"
+                className="w-14"
                 prefix="$"
                 defaultValue={convertCurrencyToInputString(price)}
                 onValueChange={(value) => updateItem(item.id, { ...item, price: convertStringToCurrency(value || '') })}
               />
               <ItemCartCurrencyInput 
-                className="w-12 min-w-12"
+                className="w-14"
                 prefix="-$"
                 defaultValue={convertCurrencyToInputString(discount)}
                 onValueChange={(value) => updateItem(item.id, { ...item, discount: convertStringToCurrency(value || '') })}
               />
             </div>
             <ItemCounter
+              className="w-32 h-6"
               variable={product.variable}
               baseUnit={product.baseUnit}
               value={qty}

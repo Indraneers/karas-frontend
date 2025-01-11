@@ -1,25 +1,19 @@
 import { cn } from "@/lib/utils";
 import { UnitResponseDto } from "../types/unit.dto";
-import { useQuery } from "@tanstack/react-query";
-import { getSubcategoryById } from "@/features/subcategory/api/subcategory";
 import { Box } from "lucide-react";
 import { getImageUrl } from "@/lib/image";
-import { Badge } from "@/components/ui/badge";
-import { convertBaseUnitQuantityDtoToBaseUnitQuantity, convertBaseUnitQuantityToQuantity } from "../util/convert";
+import { convertBaseUnitQuantityDtoToBaseUnitQuantity } from "../util/convert";
+import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
+import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 
-function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
-  const { isLoading, data } = useQuery({ 
-    queryKey: ['subcategory-' + unit.product.subcategoryId],
-    queryFn: () => getSubcategoryById(unit.product.subcategoryId)
-  });
-
+export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
 
   return (
     <div className="items-center gap-2 grid grid-cols-[auto,1fr] hover:bg-accent p-1 rounded-md cursor-pointer group">
       <div className="group-hover:bg-background border-2 border-accent p-2 rounded h-full aspect-square self-stretch">
-        { (isLoading || !data?.img) && <Box className="w-full h-full text-primary" />}
-        { (data && data.img) && <img className="w-full h-full" src={getImageUrl(data.img)} />}
+        { (!unit.subcategoryImg) && <Box className="w-full h-full text-primary" />}
+        { (unit.subcategoryImg) && <img className="w-full h-full" src={getImageUrl(unit.subcategoryImg)} />}
       </div>
       <div className="group-hover:text-background">
         <div className="flex justify-between items-center">
@@ -30,29 +24,16 @@ function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
             }
           </div>
           <div>
-            <Badge className="group-hover:text-background font-medium" variant="outline">
-              {
-                product.variable &&
-                <>
-                  {convertBaseUnitQuantityToQuantity(unit.toBaseUnit, unit.quantity)} Qty
-                  {' '}({convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.quantity)} {product.baseUnit})
-                </>
-              }
-              {
-                !product.variable &&
-                <>{unit.quantity} Qty</>
-              }
-            </Badge>
-            <Badge className={cn([
-              'ml-2 text-background font-semibold !text-xs',
-              product.variable && 'bg-amber-500 hover:bg-amber-600',
-              !product.variable && 'bg-green-500  hover:bg-green-600'
-            ])}>
-              {
-                product.variable 
-                  ? 'VARIABLE' : 'COUNTABLE'
-              }
-            </Badge>
+            <UnitDtoQuantityBadge 
+              variable={product.variable}
+              baseUnit={product.baseUnit}
+              quantity={unit.quantity}
+              toBaseUnit={unit.toBaseUnit}
+            />
+            <ProductTypeBadge 
+              className='ml-2 font-semibold !text-xs text-background'
+              variable={product.variable}
+            />
           </div>
         </div>
         <div className="mt-1 text-xs">{unit.product.name} ({unit.product.identifier})</div>
@@ -61,8 +42,14 @@ function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   );
 }
 
+interface UnitSearchListProps {
+  className?: string;
+  units?: UnitResponseDto[];
+  onValueChange: (unit: UnitResponseDto) => void
+}
+
 export function UnitSearchList
-({ className, units }: { className?: string, units?: UnitResponseDto[] }) {
+({ className, units, onValueChange }: UnitSearchListProps) {
   return (
     <>
       <div className="mb-1 font-semibold text-muted-foreground text-xs">Search Units</div>
@@ -71,7 +58,9 @@ export function UnitSearchList
         className
       ])}>
         {units && units.map(u => (
-          <UnitSearchItem unit={u} key={u.id} />
+          <div onClick={() => onValueChange(u)} key={u.id}>
+            <UnitSearchItem unit={u} />
+          </div>
         ))}
       </div>
     </>

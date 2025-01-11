@@ -1,4 +1,4 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { Button } from "../../../components/ui/button";
 import { cn } from "@/lib/utils";
 import { ItemCartInput } from "./item-cart-input";
@@ -35,17 +35,27 @@ export function ItemCounter({ variable = false, baseUnit, className, value, setV
 
   return (
     <div className={cn([
-      "gap-2 items-center justify-end flex",
+      "gap-2 items-center grid grid-cols-[auto,1fr,auto]",
       className
     ])}>
-      <Button onClick={() => updateValue(Number(quantity) - 1)} className="w-5 h-5" size="icon">
-        <ChevronLeft />
+      <Button 
+        variant='ghost' 
+        onClick={() => updateValue(Number(quantity) - 1)} 
+        className="w-5 h-5" 
+        size="icon"
+      >
+        <Minus />
       </Button>
       <ItemCartInput className={cn([
-        "w-10 min-w-10"
+        "w-full h-full"
       ])} suffix={variable ? (baseUnit || '') : ''} value={quantity} onInput={handleInput} />
-      <Button onClick={() => updateValue(Number(quantity) + 1)} className="w-5 h-5" size="icon">
-        <ChevronRight />
+      <Button 
+        variant='ghost' 
+        onClick={() => updateValue(Number(quantity) + 1)} 
+        className="w-5 h-5" 
+        size="icon"
+      >
+        <Plus />
       </Button>
     </div>
   );

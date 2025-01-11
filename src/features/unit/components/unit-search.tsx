@@ -6,9 +6,11 @@ interface UnitSearchProps {
   value: string;
   className?: string;
   onChange?: (value: string) => void;
+  onFocus?: () => void;
+  onBlur?: () => void;
 }
 
-export function UnitSearch({ className, value, onChange = console.log }: UnitSearchProps) {
+export function UnitSearch({ className, value, onChange = console.log, onFocus, onBlur }: UnitSearchProps) {
   function handleOnInput(event: FormEvent<HTMLInputElement>) {
     const inputText = event.currentTarget.value;
     onChange(inputText);
@@ -21,6 +23,8 @@ export function UnitSearch({ className, value, onChange = console.log }: UnitSea
       icon={Search} 
       iconProps={{ behavior: 'prepend' }}  
       placeholder="Search Units" 
+      onFocus={onFocus}
+      onBlur={onBlur}
     />
   );
 }
