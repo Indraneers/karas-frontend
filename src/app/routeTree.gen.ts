@@ -28,6 +28,7 @@ import { Route as ProtectedlayoutDashboardlayoutCustomersIndexImport } from './r
 import { Route as ProtectedlayoutDashboardlayoutVehiclesCreateImport } from './routes/_protected_layout/_dashboard_layout/vehicles/create'
 import { Route as ProtectedlayoutDashboardlayoutServicesCreateImport } from './routes/_protected_layout/_dashboard_layout/services/create'
 import { Route as ProtectedlayoutDashboardlayoutSalesSaleIdImport } from './routes/_protected_layout/_dashboard_layout/sales/$saleId'
+import { Route as ProtectedlayoutDashboardlayoutInventoryRestockImport } from './routes/_protected_layout/_dashboard_layout/inventory/restock'
 import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout'
 import { Route as ProtectedlayoutDashboardlayoutCustomersCreateImport } from './routes/_protected_layout/_dashboard_layout/customers/create'
 import { Route as ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdImport } from './routes/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId'
@@ -147,6 +148,12 @@ const ProtectedlayoutDashboardlayoutSalesSaleIdRoute =
   ProtectedlayoutDashboardlayoutSalesSaleIdImport.update({
     path: '/sales/$saleId',
     getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutInventoryRestockRoute =
+  ProtectedlayoutDashboardlayoutInventoryRestockImport.update({
+    path: '/restock',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutInventoryRoute,
   } as any)
 
 const ProtectedlayoutDashboardlayoutInventoryInventorylayoutRoute =
@@ -337,6 +344,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/inventory'
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport
       parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryRoute
+    }
+    '/_protected_layout/_dashboard_layout/inventory/restock': {
+      id: '/_protected_layout/_dashboard_layout/inventory/restock'
+      path: '/restock'
+      fullPath: '/inventory/restock'
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutInventoryRestockImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutInventoryImport
     }
     '/_protected_layout/_dashboard_layout/sales/$saleId': {
       id: '/_protected_layout/_dashboard_layout/sales/$saleId'
@@ -536,6 +550,7 @@ export const routeTree = rootRoute.addChildren({
                   ProtectedlayoutDashboardlayoutInventoryInventorylayoutUnitsIndexRoute,
                 },
               ),
+            ProtectedlayoutDashboardlayoutInventoryRestockRoute,
             ProtectedlayoutDashboardlayoutInventoryIndexRoute,
             ProtectedlayoutDashboardlayoutInventoryCategoriesCreateRoute,
             ProtectedlayoutDashboardlayoutInventoryProductsCreateRoute,
@@ -629,6 +644,7 @@ export const routeTree = rootRoute.addChildren({
       "parent": "/_protected_layout/_dashboard_layout",
       "children": [
         "/_protected_layout/_dashboard_layout/inventory/_inventory_layout",
+        "/_protected_layout/_dashboard_layout/inventory/restock",
         "/_protected_layout/_dashboard_layout/inventory/",
         "/_protected_layout/_dashboard_layout/inventory/categories/create",
         "/_protected_layout/_dashboard_layout/inventory/products/create",
@@ -649,6 +665,10 @@ export const routeTree = rootRoute.addChildren({
         "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/subcategories/",
         "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/"
       ]
+    },
+    "/_protected_layout/_dashboard_layout/inventory/restock": {
+      "filePath": "_protected_layout/_dashboard_layout/inventory/restock.tsx",
+      "parent": "/_protected_layout/_dashboard_layout/inventory"
     },
     "/_protected_layout/_dashboard_layout/sales/$saleId": {
       "filePath": "_protected_layout/_dashboard_layout/sales/$saleId.tsx",
