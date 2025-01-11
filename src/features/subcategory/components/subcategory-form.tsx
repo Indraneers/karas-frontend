@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
  
 import { FormGroup } from "@/components/form-group";
 import { Button } from "@/components/ui/button";
@@ -46,8 +47,9 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
+    const { file, ...scDto } = values;
     try {
-      handleSubmit({ scDto: values, file: values.file });
+      handleSubmit({ scDto, file });
       form.reset();
       navigate({ to: '/inventory/subcategories' });
       router.invalidate();
@@ -74,7 +76,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
               <FormItem>
                 <FormLabel>Subcategory Name</FormLabel>
                 <FormControl>
-                  <Input className="w-[500px]" placeholder="Ex: Diesel Engine Oil" {...field} />
+                  <Input className="w-[800px]" placeholder="Ex: Diesel Engine Oil" {...field} />
                 </FormControl>
                 <FormDescription>
                 Set the subcategory name. Min. 3 Max. 50
@@ -86,7 +88,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
           <FormField 
             control={form.control}
             name="file"
-            render={({ field: { onChange, ...fieldProps } }) => (
+            render={({ field: { value, onChange, ...fieldProps } }) => (
               <FormItem className="mt-6">
                 <FormLabel>Set POS Icon</FormLabel>
                 <Input 

@@ -8,7 +8,7 @@ export function RestockButton() {
     <Button 
       className="border-primary hover:bg-primary text-primary hover:text-white" 
       variant='outline'
-      onClick={() => navigate({ to: './restock ' })}
+      onClick={() => navigate({ to: '/inventory/restock' })}
     >
       <RefreshCcw />
       <span>
