@@ -108,11 +108,11 @@ export const columns: ColumnDef<Sale>[] = [
     }
   },
   {
-    accessorKey: 'created',
+    accessorKey: 'createdAt',
     header: 'Created Date',
     cell: ({ row }) => (
       <div>
-        {format(row.getValue('created'), 'do MMM yyyy (hh:mm aa)')}
+        {format(row.getValue('createdAt'), 'do MMM yyyy (hh:mm aa)')}
       </div>
     )
   },

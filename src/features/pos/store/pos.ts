@@ -48,7 +48,7 @@ function getDefaultPosState(): PosState {
       contact: ''
     },
     discount: 0,
-    dueDate: new Date(),
+    dueAt: new Date(),
     isInit: false
   };
 }
@@ -60,7 +60,7 @@ export interface PosState {
   vehicle: VehicleDto;
   customer: CustomerDto;
   discount: number;
-  dueDate: Date;
+  dueAt: Date;
   isInit: boolean;
 }
 
@@ -80,7 +80,7 @@ export interface PosStateWithFunctions extends PosState {
   resetPos: () => void;
   setDiscount: (discount: number) => void;
   setPosState: (saleDto: SaleResponseDto | undefined) => void;
-  setDueDate: (date: Date | undefined) => void;
+  setDueAt: (date: Date | undefined) => void;
 }
 
 export const usePosStore = create<PosStateWithFunctions>((set) => ({
@@ -194,7 +194,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
     return {
       ...state,
       isInit: true,
-      dueDate: new Date(sale.dueDate),
+      dueAt: new Date(sale.dueAt),
       items: sale.items,
       services: [],
       vehicle: sale.vehicle,
@@ -203,7 +203,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
       discount: sale.discount
     };
   }),
-  setDueDate: (dueDate: Date | undefined) => set((state) => ({ ...state, dueDate }))
+  setDueAt: (dueAt: Date | undefined) => set((state) => ({ ...state, dueAt }))
 }));
 
 // export function useCheckedServices(): ServiceItem[] {

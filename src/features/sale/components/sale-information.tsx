@@ -37,10 +37,10 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
       </SaleDetailElement>
       <div className="flex justify-between gap-2 mt-2">
         <SaleDetailElement label="Created At">
-          {format(sale.created, 'do MMM yyyy, hh:mm aa')}
+          {format(sale.createdAt, 'do MMM yyyy, hh:mm aa')}
         </SaleDetailElement>
         <SaleDetailElement label="Due At">
-          {format(sale.dueDate, 'do MMM yyyy, hh:mm aa')}
+          {format(sale.dueAt, 'do MMM yyyy, hh:mm aa')}
         </SaleDetailElement>
       </div>
     </div>

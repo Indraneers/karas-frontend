@@ -10,8 +10,8 @@ export enum StatusEnum {
 }
 export interface Sale {
   id?: string;
-  dueDate: string;
-  created: string;
+  dueAt: string;
+  createdAt: string;
   discount: number;
   user: UserDto;
   customer: CustomerDto;

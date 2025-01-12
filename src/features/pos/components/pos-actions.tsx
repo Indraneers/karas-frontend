@@ -25,7 +25,7 @@ interface PosActionsProps {
 
 export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
   const [openHoldDialog, setOpenHoldDialog] = useState(false);
-  const { dueDate, setDueDate, items, maintenance, discount, customer, vehicle, resetPos } = usePosStore();
+  const { dueAt, setDueAt, items, maintenance, discount, customer, vehicle, resetPos } = usePosStore();
   const { services } = maintenance;
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
@@ -51,7 +51,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         discount,
         customer,
         vehicle,
-        dueDate,
+        dueAt,
         serviceSelectorItems: [],
         isInit: false
       },
@@ -74,7 +74,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       return;
     }
 
-    if (!sale.dueDate || !sale.created) {
+    if (!sale.dueAt || !sale.createdAt) {
       toastError('Due Date or Created Date is not set');
       return;
     }
@@ -139,8 +139,8 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
             </label>
             <DateTimePicker
               hourCycle={12}
-              value={dueDate}
-              onChange={setDueDate} 
+              value={dueAt}
+              onChange={setDueAt} 
               locale={undefined}
               weekStartsOn={undefined} 
               showWeekNumber={undefined} 

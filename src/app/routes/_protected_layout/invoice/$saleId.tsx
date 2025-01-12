@@ -92,7 +92,7 @@ export function InvoicePage() {
               data.status === StatusEnum.HOLD && 'block'
             ])} label='Due By'>
               <span className="font-medium">
-                {format(data.dueDate, 'do MMM yyyy, hh:mm aa')}
+                {format(data.dueAt, 'do MMM yyyy, hh:mm aa')}
               </span>
             </InvoiceDetailElement>
           </div>
@@ -104,7 +104,7 @@ export function InvoicePage() {
             </InvoiceDetailElement>
             <InvoiceDetailElement label='Transaction Time'>
               <span className="font-medium">
-                {format(data.created, 'do MMM yyyy, hh:mm aa')}
+                {format(data.createdAt, 'do MMM yyyy, hh:mm aa')}
               </span>
             </InvoiceDetailElement>
           </div>

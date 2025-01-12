@@ -8,8 +8,8 @@ import { MaintenanceService } from "@/features/maintenance/types/maintenance-ser
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
   return {
     id: saleResponseDto.id,
-    dueDate: saleResponseDto.dueDate,
-    created: saleResponseDto.created,
+    dueAt: saleResponseDto.dueAt,
+    createdAt: saleResponseDto.createdAt,
     status: saleResponseDto.status,
     discount: saleResponseDto.discount,
     user: saleResponseDto.user,

@@ -32,8 +32,8 @@ export function convertPosStoreToSaleRequestDto
   //     }));
 
   return {
-    dueDate: convertDateToLocaleDate(posState.dueDate),
-    created: convertDateToLocaleDate(new Date()),
+    dueAt: convertDateToLocaleDate(posState.dueAt),
+    createdAt: convertDateToLocaleDate(new Date()),
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
