@@ -7,7 +7,7 @@ import { LucideIcon } from 'lucide-react';
 interface SidebarItemProps {
   Icon: LucideIcon;
   children: React.ReactNode;
-  url: string;
+  url?: string;
   childRoutes?: RegExp[];
 }
 
@@ -26,7 +26,7 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
     return /(http(s?)):\/\//i.test(string);
   }
 
-  if (validateText(url)) {
+  if (url && validateText(url)) {
     return (
       <SidebarMenuButton 
 
@@ -46,10 +46,28 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
     );
   }
 
+  if (url) {
+    return (
+      <SidebarMenuButton 
+        onClick={() => navigate({ to: url })}
+        className={
+          cn([
+            'hover:bg-accent hover:text-background transition cursor-pointer',
+            (isSelected || orHasChild) ? 'bg-accent text-background' : ''
+          ])
+        }
+        asChild
+      >
+        <a>
+          <Icon />
+          <span>{children}</span>
+        </a>
+      </SidebarMenuButton>
+    );
+  }
 
   return (
     <SidebarMenuButton 
-      onClick={() => navigate({ to: url })}
       className={
         cn([
           'hover:bg-accent hover:text-background transition cursor-pointer',

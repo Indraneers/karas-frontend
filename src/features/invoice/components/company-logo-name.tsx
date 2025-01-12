@@ -1,11 +1,12 @@
 import { Logo } from "@/components/logo";
+import { AppConfig } from "@/features/app-config/types/app-config";
 
-export function CompanyLogoName() {
+export function CompanyLogoName({ config } : { config: AppConfig }) {
   return (
     <div>
       <Logo className="h-10" />
-      <h2 className="font-bold text-2xl">KK LUBE EXPRESS</h2>
-      <h2 className="font-display text-xs">ខេខេ សេវាកម្មប្តូរប្រេងម៉ាស៊ីន រថយន្ត និងម៉ូតូគ្រប់ប្រភេទ</h2>
+      <h2 className="font-bold text-2xl">{config.branchNameEn}</h2>
+      <h2 className="font-display text-xs">{config.branchNameKh}</h2>
     </div>
   );
 }

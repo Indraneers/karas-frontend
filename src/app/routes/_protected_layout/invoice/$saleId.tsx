@@ -11,11 +11,12 @@ import { getSaleById } from '@/features/sale/api/sale';
 import { StatusEnum } from '@/features/sale/types/sale';
 import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { cn } from '@/lib/utils';
-import { useQuery } from '@tanstack/react-query';
+import { useQueries } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 import { format } from 'date-fns';
+import { getConfig } from '@/features/app-config/api/app-config';
 
 interface InvoiceSearch {
   print: boolean;
@@ -34,9 +35,17 @@ export function InvoicePage() {
   const { saleId } = Route.useParams();
   const { print } = Route.useSearch();
 
-  const { isError, isLoading, isSuccess, data } = useQuery({
-    queryKey: ['sale-' + saleId],
-    queryFn: () => getSaleById(saleId)
+  const [saleQuery, configQuery] = useQueries({ 
+    queries: [
+      {
+        queryKey: ['sale-' + saleId],
+        queryFn: () => getSaleById(saleId)
+      },
+      {
+        queryKey: ['config'],
+        queryFn: () => getConfig()
+      }
+    ]
   });
   
   const contentRef = useRef<HTMLDivElement>(null);
@@ -49,20 +58,20 @@ export function InvoicePage() {
   });
 
   useEffect(() => {
-    if (print && isSuccess) {
+    if (print && saleQuery.isSuccess) {
       setTimeout(() => reactToPrintFn(), 500);
     }
-  }, [print, reactToPrintFn, isSuccess]);
+  }, [print, reactToPrintFn, saleQuery.isSuccess]);
 
-  if (isError) {
+  if (saleQuery.isError || configQuery.isError) {
     return 'error';
   }
 
-  if (isLoading) {
+  if (saleQuery.isLoading || configQuery.isError) {
     return 'loading';
   }
 
-  if (!data) {
+  if (!saleQuery.data || !configQuery.data) {
     return 'empty';
   }
 
@@ -71,45 +80,45 @@ export function InvoicePage() {
       <div className='p-4 border font-body a4-page' ref={contentRef}>
         <div className='flex justify-between items-center'>
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
-          <InvoiceNumber id={data.id || ''} />
+          <InvoiceNumber id={saleQuery.data.id || ''} />
         </div>
         <Separator className='mt-2' />
         <div className='gap-8 grid grid-cols-[auto,auto,1fr] py-4'>
-          <CompanyLogoName />
+          <CompanyLogoName config={configQuery.data} />
           <Separator orientation='vertical' />
-          <CompanyInfo />
+          <CompanyInfo config={configQuery.data} />
         </div>
         <Separator />
-        <CustomerInfo customer={data.customer} className='my-2' />
+        <CustomerInfo customer={saleQuery.data.customer} className='my-2' />
         <Separator />
-        <VehicleInfo vehicle={data.vehicle} className='my-2' />
+        <VehicleInfo vehicle={saleQuery.data.vehicle} className='my-2' />
         <Separator />
         <div className='flex justify-between mt-2'>
           <div className='flex items-center gap-2'>
-            <InvoiceStatus statusEnum={data.status} />
+            <InvoiceStatus statusEnum={saleQuery.data.status} />
             <InvoiceDetailElement className={cn([
               'hidden',
-              data.status === StatusEnum.HOLD && 'block'
+              saleQuery.data.status === StatusEnum.HOLD && 'block'
             ])} label='Due By'>
               <span className="font-medium">
-                {format(data.dueAt, 'do MMM yyyy, hh:mm aa')}
+                {format(saleQuery.data.dueAt, 'do MMM yyyy, hh:mm aa')}
               </span>
             </InvoiceDetailElement>
           </div>
           <div className='flex gap-2'>
             <InvoiceDetailElement label='Initiated By'>
               <span className="font-medium">
-                {data.user.username}
+                {saleQuery.data.user.username}
               </span>
             </InvoiceDetailElement>
             <InvoiceDetailElement label='Transaction Time'>
               <span className="font-medium">
-                {format(data.createdAt, 'do MMM yyyy, hh:mm aa')}
+                {format(saleQuery.data.createdAt, 'do MMM yyyy, hh:mm aa')}
               </span>
             </InvoiceDetailElement>
           </div>
         </div>
-        <InvoiceTable className='mt-10 page-break' sale={convertSaleResponseDtoToSale(data)} />
+        <InvoiceTable className='mt-10 page-break' sale={convertSaleResponseDtoToSale(saleQuery.data)} />
       </div>
     </div>
   );

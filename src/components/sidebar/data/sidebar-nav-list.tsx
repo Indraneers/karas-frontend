@@ -1,10 +1,11 @@
-import { BadgeDollarSign, CalendarDays, CarFront, Cog, House, ListTodo, LucideIcon, NotepadText, User, Users, Wrench } from "lucide-react";
+import { BadgeDollarSign, CalendarDays, CarFront, Cog, House, ListTodo, LucideIcon, NotepadText, ReceiptText, User, Users, Wrench } from "lucide-react";
 
-interface SideBarNavDataItem {
+export interface SideBarNavDataItem {
   icon: LucideIcon;
   title: string;
   url: string;
   childRoutes?: RegExp[];
+  children?: SideBarNavDataItem[];
 }
 
 export const sidebarUserList: SideBarNavDataItem[] = [
@@ -74,6 +75,16 @@ export const sidebarAdminList: SideBarNavDataItem[] = [
   {
     icon: Cog,
     title: 'Setting',
-    url: '/setting'
+    url: '/setting',
+    childRoutes: [
+      /^\/setting\/.*/
+    ],
+    children: [
+      {
+        icon: ReceiptText,
+        title: 'Invoice',
+        url: '/setting/invoice'
+      }
+    ]
   }
 ];
