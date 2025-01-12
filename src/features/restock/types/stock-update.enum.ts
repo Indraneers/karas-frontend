@@ -1,6 +1,6 @@
 export enum StockUpdate {
-  SALE,
-  RESTOCK,
-  DEDUCT,
-  LOST
+  SALE = "SALE",
+  RESTOCK = "RESTOCK",
+  DEDUCT = "DEDUCT",
+  LOST = "LOST"
 }

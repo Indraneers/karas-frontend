@@ -5,12 +5,12 @@ export interface RestockRequestDto {
   id: string;
   items: RestockItemRequestDto[];
   userId: string;
-  createdAt: Date;
+  createdAt: string;
 }
 
 export interface RestockResponseDto {
   id: string;
   items: RestockItemResponseDto[];
-  user: UserDto
+  user: UserDto;
   createdAt: Date;
 }

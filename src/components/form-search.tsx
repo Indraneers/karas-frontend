@@ -62,10 +62,8 @@ export function FormSearch<T extends Entity, UseId extends boolean = false>({
         entityDto = data?.find(d => d.id === (value as T).id);
       }
 
-      console.log(entityDto);
       setEntity(entityDto);
       if (onEntityChange && entityDto) {
-        console.log(entityDto);
         onEntityChange(entityDto);
       }
     }

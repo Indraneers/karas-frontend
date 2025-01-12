@@ -42,8 +42,6 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
     defaultValues: data
   });
 
-  console.log(form.formState.errors, form.getValues());
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { file, ...categoryDto } = values;
     handleSubmit({ categoryDto, file });

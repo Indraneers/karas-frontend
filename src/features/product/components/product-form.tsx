@@ -59,8 +59,6 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
     defaultValues: data
   });
 
-  console.log(form.formState.errors, form.getValues());
-
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
       handleSubmit({ productDto: values, file: values.file });

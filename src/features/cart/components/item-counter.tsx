@@ -26,7 +26,6 @@ export function ItemCounter({ variable = false, baseUnit, className, value, setV
 
   function updateValue(value: number) {
     const formattedValue = String(value);
-    console.log(isValidVariableQty(formattedValue));
     if (isValidVariableQty(formattedValue)) {
       setQuantity(formattedValue);
       setValue(formattedValue);
@@ -46,9 +45,10 @@ export function ItemCounter({ variable = false, baseUnit, className, value, setV
       >
         <Minus />
       </Button>
-      <ItemCartInput className={cn([
-        "w-full h-full"
-      ])} suffix={variable ? (baseUnit || '') : ''} value={quantity} onInput={handleInput} />
+      <ItemCartInput 
+        className={cn([
+          "w-full h-full"
+        ])} suffix={variable ? (baseUnit || '') : 'Qty'} value={quantity} onInput={handleInput} />
       <Button 
         variant='ghost' 
         onClick={() => updateValue(Number(quantity) + 1)} 

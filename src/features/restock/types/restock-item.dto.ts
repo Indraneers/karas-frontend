@@ -5,12 +5,11 @@ export interface RestockItemResponseDto {
   id: string;
   unit: UnitRequestDto;
   quantity: number;
-  stockUpdate: StockUpdate;
+  status: StockUpdate;
 }
 
 export interface RestockItemRequestDto {
-  id: string;
   unitId: string;
   quantity: number;
-  stockUpdate: StockUpdate;
+  status: StockUpdate;
 }

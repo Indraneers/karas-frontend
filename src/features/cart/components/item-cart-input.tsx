@@ -8,7 +8,7 @@ interface ItemCartInputProps extends React.ComponentProps<"input"> {
 }
 
 const ItemCartInput = React.forwardRef<HTMLInputElement, ItemCartInputProps>(
-  ({ className, type, suffix, ...props }, ref) => {
+  ({ className, type, suffix = 'QTY', ...props }, ref) => {
     return (
       <div className="flex items-center bg-gray-200/75 rounded-sm h-full overflow-hidden">
         <Input
@@ -21,8 +21,8 @@ const ItemCartInput = React.forwardRef<HTMLInputElement, ItemCartInputProps>(
           {...props}
         />
         <div className={cn([
-          "hidden  items-center px-1 bg-gray-200 z-10",
-          suffix && 'flex'
+          "flex items-center px-2 bg-gray-300 z-10 h-full",
+          suffix.length > 2 && 'text-xs'
         ])}>
           {suffix}
         </div>

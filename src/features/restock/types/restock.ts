@@ -1,9 +1,9 @@
 import { UserDto } from "@/features/user/types/user.dto";
-import { RestockItemRequestDto } from "./restock-item.dto";
+import { RestockItem } from "./restock-item";
 
 export interface Restock {
   id: string;
-  items: RestockItemRequestDto[];
+  items: RestockItem[];
   user: UserDto;
   createdAt: Date;
 }

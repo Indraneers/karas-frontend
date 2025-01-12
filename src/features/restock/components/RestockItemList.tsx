@@ -11,11 +11,32 @@ import { StockUpdate } from "../types/stock-update.enum";
 import { ItemCounter } from "@/features/cart/components/item-counter";
 import { Separator } from "@/components/ui/separator";
 
-export function RestockItemElement({ restockItem }: { restockItem: RestockItem }) {
-  const [stockUpdate, setStockUpdate] = useState<StockUpdate>(restockItem.stockUpdate);
+interface RestockItemElementProps {
+  restockItem: RestockItem;
+  updateRestockItems: (ri: RestockItem) => void;
+}
+
+export function RestockItemElement({ restockItem, updateRestockItems }: RestockItemElementProps) {
+  const [status, setStatus] = useState<StockUpdate>(restockItem.status);
   const [quantity, setQuantity] = useState(String(restockItem.quantity));
   const unit = restockItem.unit;
   const product = restockItem.unit.product;
+
+  function changeStatus(newStatus: StockUpdate) {
+    setStatus(newStatus);
+    updateRestockItems({
+      ...restockItem,
+      status: newStatus
+    });
+  }
+
+  function changeQuantity(quantityString: string) {
+    setQuantity(quantityString);
+    updateRestockItems({
+      ...restockItem,
+      quantity: Number(quantityString)
+    });
+  }
   
   return (
     <>    
@@ -74,20 +95,20 @@ export function RestockItemElement({ restockItem }: { restockItem: RestockItem }
           <div className="flex justify-between items-center mt-4">
             <div className="space-x-4">
               <RestockItemStatusButton 
-                onClick={() => setStockUpdate(StockUpdate.RESTOCK)}
-                selected={stockUpdate === StockUpdate.RESTOCK}
+                onClick={() => changeStatus(StockUpdate.RESTOCK)}
+                selected={status === StockUpdate.RESTOCK}
               >
             RESTOCK
               </RestockItemStatusButton>
               <RestockItemStatusButton 
-                onClick={() => setStockUpdate(StockUpdate.DEDUCT)}
-                selected={stockUpdate === StockUpdate.DEDUCT}
+                onClick={() => changeStatus(StockUpdate.DEDUCT)}
+                selected={status === StockUpdate.DEDUCT}
               >
             DEDUCT
               </RestockItemStatusButton>
               <RestockItemStatusButton 
-                onClick={() => setStockUpdate(StockUpdate.LOST)}
-                selected={stockUpdate === StockUpdate.LOST}
+                onClick={() => changeStatus(StockUpdate.LOST)}
+                selected={status=== StockUpdate.LOST}
               >
             LOST
               </RestockItemStatusButton>
@@ -95,7 +116,7 @@ export function RestockItemElement({ restockItem }: { restockItem: RestockItem }
             <ItemCounter 
               className="w-[150px] h-8" 
               value={Number(quantity)} 
-              setValue={setQuantity} 
+              setValue={changeQuantity} 
               variable={product.variable}
               baseUnit={product.baseUnit}
             />

@@ -9,38 +9,144 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { TypographyH2 } from '@/components/ui/typography/h2';
+import { TokenPayload } from '@/features/auth/types/auth';
+import { ProductRequestDto } from '@/features/product/types/product.dto';
+import { createRestock } from '@/features/restock/api/restock';
 import { RestockHeaderElement } from '@/features/restock/components/RestockHeaderElement';
 import { RestockItemElement, RestockItemList } from '@/features/restock/components/RestockItemList';
+import { Restock } from '@/features/restock/types/restock';
 import { RestockItem } from '@/features/restock/types/restock-item';
+import { RestockRequestDto } from '@/features/restock/types/restock.dto';
 import { StockUpdate } from '@/features/restock/types/stock-update.enum';
+import { convertRestockToRestockDto } from '@/features/restock/utils/convert';
 import { UnitSearch } from '@/features/unit/components/unit-search';
 import { UnitSearchList } from '@/features/unit/components/unit-search-list';
 import { useUnitSearch } from '@/features/unit/hooks/unit-search';
 import { Unit } from '@/features/unit/types/unit';
 import { UnitResponseDto } from '@/features/unit/types/unit.dto';
-import { convertUnitDtoToUnit } from '@/features/unit/util/convert';
-import { createFileRoute } from '@tanstack/react-router';
+import { convertBaseUnitQuantityToQuantity, convertUnitDtoToUnit } from '@/features/unit/util/convert';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { v4 as uuidv4 } from 'uuid';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/restock/')({
   component: () => <RestockPage />
 });
 
 function RestockPage() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  const authUser = useAuthUser<TokenPayload>();
   const [restockItems, setRestockItems] = useState<RestockItem[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const { q, setQ, data } = useUnitSearch();
+  const products: ProductRequestDto[] = restockItems
+    .map(ri => ri.unit.product)
+    .reduce((arr: ProductRequestDto[], curr) => {
+      if (!arr.find(p => curr.id === p.id)) {
+        arr.push(curr);
+      }
 
+      return arr;
+    }, []);
+
+  const units: Unit[] = restockItems
+    .map(ri => ri.unit)
+    .reduce((arr: Unit[], curr) => {
+      if (!arr.find(p => curr.id === p.id)) {
+        arr.push(curr);
+      }
+
+      return arr;
+    }, []);
+
+  const unitsRestocked = restockItems
+    .filter(ri => ri.status === StockUpdate.RESTOCK)
+    .map(ri => ri.unit)
+    .reduce((arr: Unit[], curr) => {
+      if (!arr.find(p => curr.id === p.id)) {
+        arr.push(curr);
+      }
+
+      return arr;
+    }, []);
+
+  const unitsDeducted = restockItems
+    .filter(ri => ri.status === StockUpdate.DEDUCT)
+    .map(ri => ri.unit)
+    .reduce((arr: Unit[], curr) => {
+      if (!arr.find(p => curr.id === p.id)) {
+        arr.push(curr);
+      }
+
+      return arr;
+    }, []);
+
+  const unitQtyRestocked = restockItems
+    .filter(ri => ri.status === StockUpdate.RESTOCK)
+    .reduce((total, curr) => {
+      if (curr.unit.product.variable) {
+        return total + convertBaseUnitQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
+      }
+
+      return total + curr.quantity;
+    }, 0);
+
+  const unitQtyDeducted = restockItems
+    .filter(ri => ri.status === StockUpdate.DEDUCT)
+    .reduce((total, curr) => {
+      if (curr.unit.product.variable) {
+        return total + convertBaseUnitQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
+      }
+
+      return total + curr.quantity;
+    }, 0);
+
+  const restockMutation = useMutation({
+    mutationFn: (restockDto: RestockRequestDto) => createRestock(restockDto),
+    onSuccess: () => {
+      restockItems.forEach(ri => {
+        queryClient.invalidateQueries({
+          queryKey: ['unit-' + ri.unit.id]
+        });
+      });
+      navigate({ to: '/inventory/units' });
+    }
+  });
+  
   function addRestockItem(unitDto: UnitResponseDto) {
     const unit: Unit = convertUnitDtoToUnit(unitDto);
     const restockItem: RestockItem = {
-      id: '',
+      id: uuidv4(),
       unit,
       quantity: 0,
-      stockUpdate: StockUpdate.RESTOCK
+      status: StockUpdate.RESTOCK
     };
     setRestockItems([...restockItems, restockItem]);
+  }
+
+  function updateRestockItem(restockItem: RestockItem) {
+    const newRestockItems = restockItems
+      .map((ri) => ri.id === restockItem.id ? restockItem : ri);
+    setRestockItems(newRestockItems);
+  }
+
+  function submitRestock() {
+    const restock: Restock = {
+      id: '',
+      user: {
+        username: authUser?.name || '',
+        id: authUser?.userId || ''
+      },
+      items: restockItems,
+      createdAt: new Date()
+    };
+
+    const restockDto: RestockRequestDto = convertRestockToRestockDto(restock);
+    restockMutation.mutate(restockDto);
   }
 
   return (
@@ -49,7 +155,7 @@ function RestockPage() {
 
         <div>
           <TypographyH1>
-              Restock
+            Restock
           </TypographyH1>
           <Subtitle>
           Restock Unit of Products here
@@ -68,27 +174,27 @@ function RestockPage() {
           <TypographyH2>Restock Information</TypographyH2>
           <div className='gap-4 grid grid-cols-3 grid-rows-2 pt-4'>
             <RestockHeaderElement label='Product Affected'>
-              5 Products
+              {products.length} Products
             </RestockHeaderElement>
             
             <RestockHeaderElement label='Unit Restocked' color='GREEN'>
-              +8 Units
+              +{unitsRestocked.length} Units
             </RestockHeaderElement>
 
             <RestockHeaderElement label='Total Quantity Restocked' color='GREEN'>
-              +1000
+              +{unitQtyRestocked}
             </RestockHeaderElement>
 
             <RestockHeaderElement label='Units Affected'>
-              10 Units
+              {units.length} Units
             </RestockHeaderElement>
 
             <RestockHeaderElement label='Unit Restocked' color='RED'>
-              -2 Units
+              -{unitsDeducted.length} Units
             </RestockHeaderElement>
 
             <RestockHeaderElement label='Total Quantity Restocked' color='RED'>
-              -8000
+              -{unitQtyDeducted}
             </RestockHeaderElement>
           </div>
         </div>
@@ -116,7 +222,7 @@ function RestockPage() {
               </PopoverContent>
             </Popover>
           </div>
-          <Button>
+          <Button onClick={() => submitRestock()}>
             <Check />
             Restock
           </Button>
@@ -132,7 +238,11 @@ function RestockPage() {
               {
                 restockItems &&
             restockItems.map((r, i) => (
-              <RestockItemElement restockItem={r} key={i} />
+              <RestockItemElement 
+                updateRestockItems={updateRestockItem} 
+                restockItem={r} 
+                key={i} 
+              />
             ))
               }
             </RestockItemList>

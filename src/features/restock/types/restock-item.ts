@@ -5,5 +5,5 @@ export interface RestockItem {
   id: string;
   unit: Unit;
   quantity: number;
-  stockUpdate: StockUpdate;
+  status: StockUpdate;
 }

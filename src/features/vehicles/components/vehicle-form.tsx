@@ -62,8 +62,6 @@ export function VehicleForm({ data = defaultData, handleSubmit, isPopover = fals
     defaultValues: data
   });
   
-  console.log(form.formState.errors, form.getValues());
-  
   async function onSubmit(values: z.infer<typeof formSchema>) {
     values.id = '';
     handleSubmit(values);  

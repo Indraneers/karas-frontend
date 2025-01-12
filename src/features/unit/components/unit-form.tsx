@@ -65,8 +65,6 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
     baseUnit: ''
   });
 
-  console.log(product);
-
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: data

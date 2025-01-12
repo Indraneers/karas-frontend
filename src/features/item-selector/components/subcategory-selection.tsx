@@ -13,7 +13,6 @@ export function SubcategorySelection({ className }: SubcategorySelectionProps) {
   const { category } = useItemSelectionStore();
 
   const { q, setQ, isError, data } = useSubcategorySearch({ categoryId: category?.id || '' });
-  console.log(data);
   return (
     <div className={
       cn([
