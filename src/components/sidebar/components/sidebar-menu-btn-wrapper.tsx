@@ -1,39 +1,29 @@
 import { SidebarMenuButton } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
-import { useLocation } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
-import { LucideIcon } from 'lucide-react';
+import { ChevronRight, LucideIcon } from 'lucide-react';
+import { useSidebarContent } from "../hooks/sidebar-content";
 
-interface SidebarItemProps {
+interface SidebarMenuBtnWrapperProps {
   Icon: LucideIcon;
   children: React.ReactNode;
   url?: string;
   childRoutes?: RegExp[];
+  isCollapsible?: boolean;
 }
 
-export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: SidebarItemProps) {
+export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isCollapsible }: SidebarMenuBtnWrapperProps) {
   const navigate = useNavigate();
-  const location = useLocation();
+  const { isExternalLink, isActive } = useSidebarContent({ url, childRoutes });
 
-  const isSelected = location.pathname === url;
-  let orHasChild = false;
-
-  if (childRoutes) {
-    orHasChild = !!childRoutes.find((regex) => regex.test(location.pathname));
-  }
-
-  function validateText(string: string) {
-    return /(http(s?)):\/\//i.test(string);
-  }
-
-  if (url && validateText(url)) {
+  if (isExternalLink) {
     return (
       <SidebarMenuButton 
 
         className={
           cn([
             'hover:bg-accent hover:text-background transition cursor-pointer',
-            (isSelected || orHasChild) ? 'bg-accent text-background' : ''
+            isActive ? 'bg-accent text-background' : ''
           ])
         }
         asChild
@@ -41,6 +31,10 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
         <a href={url} target="_blank" rel="noreferrer">
           <Icon />
           <span>{children}</span>
+          <ChevronRight className={cn([
+            "hidden group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4",
+            isCollapsible && 'block'
+          ])} />
         </a>
       </SidebarMenuButton>
     );
@@ -53,7 +47,7 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
         className={
           cn([
             'hover:bg-accent hover:text-background transition cursor-pointer',
-            (isSelected || orHasChild) ? 'bg-accent text-background' : ''
+            isActive ? 'bg-accent text-background' : ''
           ])
         }
         asChild
@@ -61,6 +55,10 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
         <a>
           <Icon />
           <span>{children}</span>
+          <ChevronRight className={cn([
+            "hidden group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4",
+            isCollapsible && 'block'
+          ])} />
         </a>
       </SidebarMenuButton>
     );
@@ -70,8 +68,7 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
     <SidebarMenuButton 
       className={
         cn([
-          'hover:bg-accent hover:text-background transition cursor-pointer',
-          (isSelected || orHasChild) ? 'bg-accent text-background' : ''
+          'hover:bg-accent hover:text-background transition cursor-pointer'
         ])
       }
       asChild
@@ -79,6 +76,10 @@ export function SidebarMenuItemWrapper({ Icon, children, url, childRoutes }: Sid
       <a>
         <Icon />
         <span>{children}</span>
+        <ChevronRight className={cn([
+          "hidden group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4",
+          isCollapsible && 'block'
+        ])} />
       </a>
     </SidebarMenuButton>
   );

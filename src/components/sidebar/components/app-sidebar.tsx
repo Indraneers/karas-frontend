@@ -8,20 +8,16 @@ import {
   SidebarGroupLabel,
   SidebarHeader,
   SidebarMenu,
-  SidebarMenuButton,
   SidebarMenuItem,
-  SidebarMenuSub,
-  SidebarMenuSubItem
+  SidebarMenuSub
 } from "@/components/ui/sidebar";
 
 import { sidebarUserList, sidebarAdminList } from "../data/sidebar-nav-list";
-import { SidebarMenuItemWrapper } from "./sidebar-menu-item-wrapper";
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { useNavigate } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { SidebarMenuBtnWrapper } from "./sidebar-menu-btn-wrapper";
+import { SidebarSubmenuItemBtnWrapper } from "./sidebar-submenu-btn";
 
 export function AppSidebar() {
-  const navigate = useNavigate();
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
@@ -34,13 +30,13 @@ export function AppSidebar() {
             <SidebarMenu>
               {sidebarUserList.map((item) => (
                 <SidebarMenuItem key={item.title}>
-                  <SidebarMenuItemWrapper
+                  <SidebarMenuBtnWrapper
                     Icon={item.icon}
                     url={item.url}
                     childRoutes={item.childRoutes}
                   >
                     {item.title}
-                  </SidebarMenuItemWrapper>
+                  </SidebarMenuBtnWrapper>
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
@@ -55,27 +51,27 @@ export function AppSidebar() {
                   return (
                     <Collapsible key={item.title} className="group/collapsible">
                       <SidebarMenuItem>
-                        <CollapsibleTrigger asChild>
-                          <SidebarMenuButton className="p-0">
-                            <div
-                              className="flex items-center hover:bg-accent px-2 rounded-md w-full h-8 hover:text-background transition"
-                            >
-                              <item.icon className="mr-2 w-4 h-4" /> Setting
-                              <ChevronRight className="group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4" />
-                            </div>
-                          </SidebarMenuButton>
+                        <CollapsibleTrigger className="w-full">
+                          <SidebarMenuBtnWrapper
+                            Icon={item.icon}
+                            childRoutes={item.childRoutes}
+                            isCollapsible
+                          >
+                            {item.title}
+                          </SidebarMenuBtnWrapper>
                         </CollapsibleTrigger>
-                        <CollapsibleContent className="mt-1">
+                        <CollapsibleContent className="mt-2">
                           <SidebarMenuSub>
                             {
                               item.children.map(r => (
-                                <SidebarMenuSubItem
-                                  className="flex items-center gap-2 hover:bg-accent px-2 rounded-md h-8 text-sm hover:text-background transition cursor-pointer"
-                                  onClick={() => navigate({ to: r.url })}
+                                <SidebarSubmenuItemBtnWrapper
+                                  Icon={r.icon}
+                                  childRoutes={r.childRoutes}
+                                  url={r.url}
                                   key={r.title}
                                 >
-                                  <r.icon className="w-4 h-4" /> {r.title}
-                                </SidebarMenuSubItem>
+                                  {r.title}
+                                </SidebarSubmenuItemBtnWrapper>
                               ))
                             }
                           </SidebarMenuSub>
@@ -87,13 +83,13 @@ export function AppSidebar() {
                 else {
                   return (
                     <SidebarMenuItem key={item.title}>
-                      <SidebarMenuItemWrapper
+                      <SidebarMenuBtnWrapper
                         Icon={item.icon}
                         url={item.url}
                         childRoutes={item.childRoutes}
                       >
                         {item.title}
-                      </SidebarMenuItemWrapper>
+                      </SidebarMenuBtnWrapper>
                     </SidebarMenuItem>
                   );
                 }
