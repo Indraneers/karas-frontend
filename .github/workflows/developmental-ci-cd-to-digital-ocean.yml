@@ -39,15 +39,15 @@ jobs:
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      # - name: rsync nginx.conf
-      #   uses: burnett01/rsync-deployments@5.2.1
-      #   with:
-      #     switches: -avzr --delete
-      #     path: nginx.conf
-      #     remote_path: karas-frontend
-      #     remote_host: ${{ secrets.SSH_HOST }}
-      #     remote_user: ${{ secrets.SSH_USERNAME }}
-      #     remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: rsync init-letsencrypt.sh
+        uses: burnett01/rsync-deployments@5.2.1
+        with:
+          switches: -avzr --delete
+          path: init-letsencrypt.sh
+          remote_path: karas-frontend
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USERNAME }}
+          remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: connect and deploy
         uses: appleboy/ssh-action@master
