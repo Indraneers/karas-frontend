@@ -9,9 +9,11 @@ import { FormGroup } from "@/components/form-group";
 import { FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { InputTags } from "@/components/input-tags";
+import { toast } from "sonner";
 
 const formSchema = z.object({
-  id: z.string(),
+  id: z.number(),
   logo: z.string(),
   branchNameEn: z.string({ message: 'English branch name is required' }),
   branchNameKh: z.string({ message: 'Khmer branch name is required' }),
@@ -39,6 +41,7 @@ export function AppConfigForm({ data, handleSubmit }: AppConfigFormProps) {
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { file, ...appConfig } = values;
     handleSubmit({ appConfig, file });
+    toast("Invoice config changed!");
   }
 
   useEffect(() => {
@@ -130,6 +133,31 @@ export function AppConfigForm({ data, handleSubmit }: AppConfigFormProps) {
                     onChange(event.target.files && event.target.files[0])
                   }
                 />
+                <FormDescription>
+                  Set the image for the invoice logo
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField 
+            control={form.control}
+            name="phoneNumbers"
+             
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Set Phone Numbers</FormLabel>
+                <InputTags
+                  {...fieldProps}
+                  className="border-foreground w-[500px]"
+                  value={value}
+                  onChange={onChange}
+                  placeholder="Enter phone number"
+                />
+                <FormDescription>
+                  Set phone number for invoice
+                </FormDescription>
+                <FormMessage />
               </FormItem>
             )}
           />

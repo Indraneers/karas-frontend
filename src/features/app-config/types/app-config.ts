@@ -1,5 +1,5 @@
 export interface AppConfig {
-  id: string;
+  id: number;
   branchNameEn: string;
   branchNameKh: string;
   logo: string;

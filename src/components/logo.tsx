@@ -1,7 +1,9 @@
-export function Logo({ className }: { className?: string }) {
+import { getImageUrl } from "@/lib/image";
+
+export function Logo({ img, className }: { img?: string, className?: string }) {
   return (
     <div>
-      <img className={className} src="/logo.png" alt="Logo" />
+      <img className={className} src={img ? getImageUrl(img) : '/logo.png'} alt="Logo" />
     </div>
   );
 }

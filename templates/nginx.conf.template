@@ -1,4 +1,17 @@
 server {
+    listen 80;
+    server_name ${HOSTNAME};
+    location / {
+        return 301 https://$host$request_uri;
+    }    
+
+    location /.well-known/acme-challenge/ {
+      root /var/www/certbot;
+    }
+}
+
+
+server {
   listen 80;
 
   root /usr/share/nginx/html;
@@ -13,6 +26,11 @@ server {
   # Disable buffering
   proxy_buffering off;
   proxy_request_buffering off;
+
+  listen 443 ssl;
+  server_name ${HOSTNAME};
+  ssl_certificate /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/${HOSTNAME}/privkey.pem;
   
   location / {
     try_files $uri $uri/ /index.html;

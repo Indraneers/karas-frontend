@@ -20,7 +20,7 @@ export const setConfig = (appConfig: AppConfig, file: File): Promise<AppConfig> 
 
   return request({
     url: '/config',
-    method: 'POST',
+    method: 'PUT',
     data: formData,
     headers: {
       "Content-Type": 'multipart/form-data'
