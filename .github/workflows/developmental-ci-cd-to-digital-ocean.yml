@@ -61,5 +61,5 @@ jobs:
             cd karas-frontend
             echo "${{ secrets.PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
-            sh init-letsencrypt.sh ${{ secrets.HOSTNAME }}
+            ./init-letsencrypt.sh ${{ secrets.HOSTNAME }}
             docker compose up -d

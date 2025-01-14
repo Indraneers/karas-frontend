@@ -25,8 +25,8 @@ services:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    environment:
-      - HOSTNAME=${HOSTNAME}
+    env_file:
+      - .env
 networks:
   nginx_network:
     external: true
