@@ -8,6 +8,7 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_BACKEND_API_URL
+        - HOSTNAME
     env_file:
       - .env
     ports:
@@ -15,11 +16,11 @@ services:
       - "443:443"
     volumes:
       - ./nginx-logs:/var/log/nginx
-      - ./certbot/www/:/var/www/certbot/:ro
-      - ./templates:/etc/nginx/templates
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
     networks:
       - nginx_network
-  cerbot:
+  certbot:
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
@@ -27,8 +28,6 @@ services:
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
     env_file:
       - .env
-    environment:
-      - HOSTNAME=${HOSTNAME}
 networks:
   nginx_network:
     external: true
