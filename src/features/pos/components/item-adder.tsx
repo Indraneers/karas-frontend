@@ -107,6 +107,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       ])}>
         <ToBaseUnitSwitch 
           className="mr-4"
+          isBaseUnit={isBaseUnit}
           onChange={setIsBaseUnit}
           baseUnit={product.baseUnit} 
         />
