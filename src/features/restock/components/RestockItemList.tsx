@@ -8,7 +8,7 @@ import { UnitQuantityBadge } from "@/features/unit/components/unit-quantity-badg
 import { RestockItemStatusButton } from "./RestockItemStatusBtn";
 import { useState } from "react";
 import { StockUpdate } from "../types/stock-update.enum";
-import { ItemCounter } from "@/features/cart/components/item-counter";
+import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
 
 interface RestockItemElementProps {

@@ -2,7 +2,7 @@ import { FormEvent } from "react";
 import { UnderlineCurrencyInput } from "./underline-currency-input";
 import { UnderlineInput } from "./underline-input";
 import { Unit } from "@/features/unit/types/unit";
-import { convertBaseUnitQuantityToQuantity, convertQuantityToBaseUnitQuantity } from "@/features/unit/util/convert";
+import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface ItemAdderPanelVariableProps {
@@ -29,7 +29,7 @@ export function ItemAdderPanelVariable({
   }
 
   function handleQtyInput(event: FormEvent<HTMLInputElement>) {
-    const qty = convertQuantityToBaseUnitQuantity(unit.toBaseUnit, Number(event.currentTarget.value));
+    const qty = convertQuantityToBaseQuantity(unit.toBaseUnit, Number(event.currentTarget.value));
     setterList[2](qty.toString());
   }
   
@@ -79,7 +79,7 @@ export function ItemAdderPanelVariable({
           &&
           <UnderlineInput
             className="w-20"
-            value={convertBaseUnitQuantityToQuantity(unit.toBaseUnit, Number(getterList[2])) || ''}  
+            value={convertBaseQuantityToQuantity(unit.toBaseUnit, Number(getterList[2])) || ''}  
             onInput={handleQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={!isBaseUnit && refList[2]} 

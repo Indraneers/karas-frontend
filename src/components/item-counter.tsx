@@ -1,7 +1,7 @@
 import { Minus, Plus } from "lucide-react";
-import { Button } from "../../../components/ui/button";
+import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
-import { ItemCartInput } from "./item-cart-input";
+import { ItemCartInput } from "../features/cart/components/item-cart-input";
 import { useState } from "react";
 import { isValidVariableQty } from "@/lib/variable";
 

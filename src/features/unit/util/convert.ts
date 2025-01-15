@@ -11,10 +11,10 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
   if (variable) {
     return {
       name: unit.name,
-      quantity: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.quantity),
+      quantity: convertQuantityToQuantityDto(unit.quantity),
       price: convertStringToCurrency(unit.price),
       productId: unit.productId,
-      toBaseUnit: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.toBaseUnit)
+      toBaseUnit: convertQuantityToQuantityDto(unit.toBaseUnit)
     };
   }
 
@@ -23,7 +23,7 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
     quantity: unit.quantity,
     price: convertStringToCurrency(unit.price),
     productId: unit.productId,
-    toBaseUnit: convertBaseUnitQuantityToBaseUnitQuantityDto(unit.toBaseUnit)
+    toBaseUnit: convertQuantityToQuantityDto(unit.toBaseUnit)
   };
 }
 
@@ -36,14 +36,14 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     return {
       id: unit.id,
       name: unit.name,
-      quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.quantity),
+      quantity: convertQuantityDtoToQuantity(unit.quantity),
       price: unit.price,
       product: unit.product,
       productImg: unit.productImg,
       subcategory: unit.subcategory,
       subcategoryImg: unit.subcategoryImg,
       category: unit.category,
-      toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.toBaseUnit)
+      toBaseUnit: convertQuantityDtoToQuantity(unit.toBaseUnit)
     };
   }
 
@@ -57,7 +57,7 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     subcategory: unit.subcategory,
     subcategoryImg: unit.subcategoryImg,
     category: unit.category,
-    toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.toBaseUnit)
+    toBaseUnit: convertQuantityDtoToQuantity(unit.toBaseUnit)
   };
 }
 
@@ -66,10 +66,10 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     return {
       id: unitDto.id || '',
       name: unitDto.name,
-      quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.quantity),
+      quantity: convertQuantityDtoToQuantity(unitDto.quantity),
       price: convertCurrencyToString(unitDto.price),
       productId: unitDto.product.id,
-      toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
+      toBaseUnit: convertQuantityDtoToQuantity(unitDto.toBaseUnit)
     };
   }
 
@@ -79,22 +79,22 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     quantity: unitDto.quantity,
     price: convertCurrencyToString(unitDto.price),
     productId: unitDto.product.id,
-    toBaseUnit: convertBaseUnitQuantityDtoToBaseUnitQuantity(unitDto.toBaseUnit)
+    toBaseUnit: convertQuantityDtoToQuantity(unitDto.toBaseUnit)
   };
 }
 
-export function convertBaseUnitQuantityToBaseUnitQuantityDto(baseUnit: number): number {
+export function convertQuantityToQuantityDto(baseUnit: number): number {
   return baseUnit * 1000;
 }
 
-export function convertBaseUnitQuantityDtoToBaseUnitQuantity(baseUnitDto: number): number {
+export function convertQuantityDtoToQuantity(baseUnitDto: number): number {
   return baseUnitDto / 1000;
 }
 
-export function convertBaseUnitQuantityToQuantity(toBaseUnit: number, baseUnitQuantity: number): number {
+export function convertBaseQuantityToQuantity(toBaseUnit: number, baseUnitQuantity: number): number {
   return Math.round((baseUnitQuantity / toBaseUnit) * 1000)/1000;
 }
 
-export function convertQuantityToBaseUnitQuantity(toBaseUnit: number, quantity: number): number {
+export function convertQuantityToBaseQuantity(toBaseUnit: number, quantity: number): number {
   return Math.round((quantity * toBaseUnit) * 1000)/1000;
 }

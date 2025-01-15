@@ -2,7 +2,7 @@ import { Item } from "../types/item";
 import { ItemResponseDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
-import { convertBaseUnitQuantityDtoToBaseUnitQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { convertQuantityDtoToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
@@ -30,7 +30,7 @@ export function convertItemDtoToItem(itemDto: ItemResponseDto): Item {
       id: itemDto.id,
       price: itemDto.price,
       discount: itemDto.discount,
-      quantity: convertBaseUnitQuantityDtoToBaseUnitQuantity(itemDto.quantity),
+      quantity: convertQuantityDtoToQuantity(itemDto.quantity),
       unit: convertUnitDtoToUnit(itemDto.unit)
     };
   }

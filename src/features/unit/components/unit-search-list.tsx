@@ -2,9 +2,9 @@ import { cn } from "@/lib/utils";
 import { UnitResponseDto } from "../types/unit.dto";
 import { Box } from "lucide-react";
 import { getImageUrl } from "@/lib/image";
-import { convertBaseUnitQuantityDtoToBaseUnitQuantity } from "../util/convert";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
+import { convertQuantityDtoToQuantity } from "../util/convert";
 
 export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
@@ -20,7 +20,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
           <div className="font-semibold">
             {unit.name}
             {
-              product.variable && ` (${ convertBaseUnitQuantityDtoToBaseUnitQuantity(unit.toBaseUnit) }${ product.baseUnit })`
+              product.variable && ` (${ convertQuantityDtoToQuantity(unit.toBaseUnit) }${ product.baseUnit })`
             }
           </div>
           <div>
@@ -62,6 +62,9 @@ export function UnitSearchList
             <UnitSearchItem unit={u} />
           </div>
         ))}
+        {!units && 
+          <div className="p-4 text-center text-muted-foreground text-sm">Search for a unit...</div>
+        }
       </div>
     </>
   );

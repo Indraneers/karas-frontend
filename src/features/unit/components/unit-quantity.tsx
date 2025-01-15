@@ -1,4 +1,4 @@
-import { convertBaseUnitQuantityToQuantity } from "../util/convert";
+import { convertBaseQuantityToQuantity } from "../util/convert";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
 
 interface UnitQuantityCellProps {
@@ -12,7 +12,7 @@ export function UnitQuantityCell({ product, quantity, toBaseUnit }: UnitQuantity
     <>
       {product.variable && 
       <>
-        {convertBaseUnitQuantityToQuantity(toBaseUnit, quantity)} Qty
+        {convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty
         {' '}({quantity} {product.baseUnit})
       </>
       }

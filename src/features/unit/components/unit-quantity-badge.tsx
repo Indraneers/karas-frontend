@@ -1,5 +1,5 @@
 import { Badge } from "@/components/ui/badge";
-import { convertBaseUnitQuantityDtoToBaseUnitQuantity, convertBaseUnitQuantityToQuantity } from "../util/convert";
+import { convertBaseQuantityToQuantity, convertQuantityDtoToQuantity } from "../util/convert";
 
 export function UnitDtoQuantityBadge
 ({ variable, baseUnit, quantity, toBaseUnit }: { variable: boolean, baseUnit: string, quantity: number, toBaseUnit: number}) {
@@ -8,8 +8,8 @@ export function UnitDtoQuantityBadge
       {
         variable &&
       <>
-        {convertBaseUnitQuantityToQuantity(toBaseUnit, quantity)} Qty
-        {' '}({convertBaseUnitQuantityDtoToBaseUnitQuantity(quantity)} {baseUnit})
+        {convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty
+        {' '}({convertQuantityDtoToQuantity(quantity)} {baseUnit})
       </>
       }
       {
@@ -27,7 +27,7 @@ export function UnitQuantityBadge
       {
         variable &&
       <>
-        {convertBaseUnitQuantityToQuantity(toBaseUnit, quantity)} Qty
+        {convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty
         {' '}({quantity} {baseUnit})
       </>
       }

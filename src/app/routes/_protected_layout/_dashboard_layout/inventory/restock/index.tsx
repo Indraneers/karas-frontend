@@ -24,7 +24,7 @@ import { UnitSearchList } from '@/features/unit/components/unit-search-list';
 import { useUnitSearch } from '@/features/unit/hooks/unit-search';
 import { Unit } from '@/features/unit/types/unit';
 import { UnitResponseDto } from '@/features/unit/types/unit.dto';
-import { convertBaseUnitQuantityToQuantity, convertUnitDtoToUnit } from '@/features/unit/util/convert';
+import { convertBaseQuantityToQuantity, convertUnitDtoToUnit } from '@/features/unit/util/convert';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
@@ -42,7 +42,7 @@ function RestockPage() {
   const authUser = useAuthUser<TokenPayload>();
   const [restockItems, setRestockItems] = useState<RestockItem[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-  const { q, setQ, data } = useUnitSearch();
+  const { q, setQ, data } = useUnitSearch({ isEnabled: true });
   const products: ProductRequestDto[] = restockItems
     .map(ri => ri.unit.product)
     .reduce((arr: ProductRequestDto[], curr) => {
@@ -89,7 +89,7 @@ function RestockPage() {
     .filter(ri => ri.status === StockUpdate.RESTOCK)
     .reduce((total, curr) => {
       if (curr.unit.product.variable) {
-        return total + convertBaseUnitQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
+        return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
       }
 
       return total + curr.quantity;
@@ -99,7 +99,7 @@ function RestockPage() {
     .filter(ri => ri.status === StockUpdate.DEDUCT)
     .reduce((total, curr) => {
       if (curr.unit.product.variable) {
-        return total + convertBaseUnitQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
+        return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
       }
 
       return total + curr.quantity;

@@ -1,7 +1,7 @@
 import { ArrowRight, Check, Delete } from "lucide-react";
 import { NumpadKey } from "./numpad-key";
 import { Unit } from "@/features/unit/types/unit";
-import { convertQuantityToBaseUnitQuantity } from "@/features/unit/util/convert";
+import { convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 import { cn } from "@/lib/utils";
 
 interface NumpadProps {
@@ -70,7 +70,7 @@ export function Numpad({
         }
         else {
           const newQty = String(newInput).slice(0, -1);
-          newInput = String(convertQuantityToBaseUnitQuantity(unit.toBaseUnit, Number(newQty)));
+          newInput = String(convertQuantityToBaseQuantity(unit.toBaseUnit, Number(newQty)));
         }
       }
       else if (key === '.') {
@@ -84,7 +84,7 @@ export function Numpad({
         }
         else {
           const newQty = newInput + key;
-          newInput = String(convertQuantityToBaseUnitQuantity(unit.toBaseUnit, Number(newQty)));
+          newInput = String(convertQuantityToBaseQuantity(unit.toBaseUnit, Number(newQty)));
         }
       }
 

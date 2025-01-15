@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import { UseSearch } from "@/types/use-search";
 import { UnitResponseDto } from "../types/unit.dto";
 
-export function useUnitSearch({ productId }: { productId?: string } = {}): UseSearch<UnitResponseDto> {
+export function useUnitSearch({ productId, isEnabled = false }: { productId?: string, isEnabled?: boolean } = {}): UseSearch<UnitResponseDto> {
   const [q, setQ] = useState<string>('');
   const debouncedQ = useDebounce(q, 500);
   const { isError, isLoading, data } = useQuery({
@@ -17,7 +17,8 @@ export function useUnitSearch({ productId }: { productId?: string } = {}): UseSe
       +
       (debouncedQ ? ('-' + debouncedQ) : '')
     ],
-    queryFn: () => getUnits({ productId, q: debouncedQ })
+    queryFn: () => getUnits({ productId, q: debouncedQ }),
+    enabled: isEnabled ? !!q : true
   });
 
   if (isError) {

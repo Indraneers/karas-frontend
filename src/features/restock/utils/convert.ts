@@ -1,4 +1,4 @@
-import { convertBaseUnitQuantityToBaseUnitQuantityDto } from "@/features/unit/util/convert";
+import { convertQuantityToQuantityDto } from "@/features/unit/util/convert";
 import { Restock } from "../types/restock";
 import { RestockItemRequestDto } from "../types/restock-item.dto";
 import { RestockRequestDto } from "../types/restock.dto"; 
@@ -9,7 +9,7 @@ export function convertRestockToRestockDto(restock: Restock): RestockRequestDto 
     restock.items.map((ri) => {
       if (ri.unit.product.variable) {
         return {
-          quantity: convertBaseUnitQuantityToBaseUnitQuantityDto(ri.quantity),
+          quantity: convertQuantityToQuantityDto(ri.quantity),
           status: ri.status,
           unitId: ri.unit.id
         };

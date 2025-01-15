@@ -1,4 +1,4 @@
-import { ItemCounter } from "@/features/cart/components/item-counter";
+import { ItemCounter } from "@/components/item-counter";
 import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
