@@ -10,13 +10,66 @@ import { useState } from "react";
 import { StockUpdate } from "../types/stock-update.enum";
 import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
+import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
+import { ProductRequestDto } from "@/features/product/types/product.dto";
+import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
+import { Unit } from "@/features/unit/types/unit";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
   updateRestockItems: (ri: RestockItem) => void;
 }
 
+interface RestockQuantityProps { 
+  quantity: string; 
+  changeQuantity: (value: string) => void;
+  unit: Unit;
+}
+
+function RestockBaseQuantity
+({ quantity, changeQuantity, unit } : RestockQuantityProps) {
+  const product = unit.product;
+  return (
+    <ItemCounter 
+      className="w-[150px] h-8" 
+      value={Number(quantity)} 
+      setValue={changeQuantity} 
+      variable={product.variable}
+      baseUnit={product.baseUnit}
+    />
+  );
+}
+
+function RestockCountableQuantity
+({ quantity, changeQuantity, unit  } : RestockQuantityProps) {
+  const countableQuantity = convertBaseQuantityToQuantity(
+    unit.toBaseUnit,
+    Number(quantity)
+  );
+
+  function onChangeCountableQuantity(value: string) {
+    changeQuantity(
+      String(
+        convertQuantityToBaseQuantity(
+          unit.toBaseUnit,
+          Number(value)
+        )
+      )
+    );
+  }
+  
+  return (
+    <ItemCounter 
+      className="w-[150px] h-8" 
+      value={Number(countableQuantity)} 
+      setValue={onChangeCountableQuantity} 
+      variable={false}
+    />
+  );
+}
+
 export function RestockItemElement({ restockItem, updateRestockItems }: RestockItemElementProps) {
+  const [isBaseUnit, setIsBaseUnit] = useState<boolean>(false);
   const [status, setStatus] = useState<StockUpdate>(restockItem.status);
   const [quantity, setQuantity] = useState(String(restockItem.quantity));
   const unit = restockItem.unit;
@@ -93,33 +146,47 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
           </Breadcrumb>
 
           <div className="flex justify-between items-center mt-4">
-            <div className="space-x-4">
+            <div className="flex items-center gap-4">
               <RestockItemStatusButton 
                 onClick={() => changeStatus(StockUpdate.RESTOCK)}
                 selected={status === StockUpdate.RESTOCK}
               >
-            RESTOCK
+                RESTOCK
               </RestockItemStatusButton>
               <RestockItemStatusButton 
                 onClick={() => changeStatus(StockUpdate.DEDUCT)}
                 selected={status === StockUpdate.DEDUCT}
               >
-            DEDUCT
+                DEDUCT
               </RestockItemStatusButton>
               <RestockItemStatusButton 
                 onClick={() => changeStatus(StockUpdate.LOST)}
                 selected={status=== StockUpdate.LOST}
               >
-            LOST
+                LOST
               </RestockItemStatusButton>
-            </div>
-            <ItemCounter 
-              className="w-[150px] h-8" 
-              value={Number(quantity)} 
-              setValue={changeQuantity} 
-              variable={product.variable}
-              baseUnit={product.baseUnit}
-            />
+              <Separator className="ml-4 h-8" orientation="vertical" />
+              <ToBaseUnitSwitch 
+                className="inline-flex ml-2 p-1"
+                isBaseUnit={isBaseUnit}
+                onChange={setIsBaseUnit}
+                baseUnit={unit.product.baseUnit}
+              />
+            </div> 
+            {
+              isBaseUnit ?
+                <RestockBaseQuantity 
+                  quantity={quantity}
+                  changeQuantity={changeQuantity}
+                  unit={unit}
+                />
+                :
+                <RestockCountableQuantity
+                  quantity={quantity}
+                  changeQuantity={changeQuantity}
+                  unit={unit}
+                />
+            }
           </div>
         </div>
       </div>
