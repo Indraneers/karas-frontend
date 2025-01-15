@@ -63,6 +63,4 @@ jobs:
             echo "${{ secrets.PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
             docker compose up -d certbot
-            echo "${{ secrets.SSH_PASSWORD }}" | sudo -S ./init-letsencrypt.sh ${{ secrets.HOSTNAME }}
-            y
             docker compose up -d frontend

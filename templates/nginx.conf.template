@@ -1,36 +1,63 @@
+# server {
+#     listen 80;
+#     server_name ${HOSTNAME};
+#     location / {
+#         return 301 https://$host$request_uri;
+#     }    
+
+#     location /.well-known/acme-challenge/ {
+#       root /var/www/certbot;
+#     }
+
+#     location /api {
+#       resolver 127.0.0.11 valid=30s; # Docker DNS
+#       proxy_pass http://backend:8080/api;
+#       client_max_body_size 20M;
+#     }
+
+#     location /auth {
+#       resolver 127.0.0.11 valid=30s;  # Docker DNS
+#       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+#       proxy_set_header X-Forwarded-Proto $scheme;
+#       proxy_set_header Host $host;
+#       proxy_pass http://keycloak:3000/auth;  # Use HTTP internally
+#     }
+
+#     location /minio/ {
+#         proxy_pass         http://minio:9000/;
+#         proxy_set_header   Host $host;
+#     }
+# }
+
+
+# server {
+#   root /usr/share/nginx/html;
+
+#   index index.html;
+
+#   # Allow special characters in headers
+#   ignore_invalid_headers off;
+#   # Allow any size file to be uploaded.
+#   # Set to a value such as 1000m; to restrict file size to a specific value
+#   client_max_body_size 0;
+#   # Disable buffering
+#   proxy_buffering off;
+#   proxy_request_buffering off;
+
+#   listen 443 ssl;
+#   server_name ${HOSTNAME};
+#   ssl_certificate /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem;
+#   ssl_certificate_key /etc/letsencrypt/live/${HOSTNAME}/privkey.pem;
+  
+#   location / {
+#     try_files $uri $uri/ /index.html;
+#     client_max_body_size 20M;
+#   }
+# }
+
 server {
-    listen 80;
-    server_name ${HOSTNAME};
-    location / {
-        return 301 https://$host$request_uri;
-    }    
+  listen 80;
 
-    location /.well-known/acme-challenge/ {
-      root /var/www/certbot;
-    }
-
-    location /api {
-      resolver 127.0.0.11 valid=30s; # Docker DNS
-      proxy_pass http://backend:8080/api;
-      client_max_body_size 20M;
-    }
-
-    location /auth {
-      resolver 127.0.0.11 valid=30s;  # Docker DNS
-      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-      proxy_set_header X-Forwarded-Proto $scheme;
-      proxy_set_header Host $host;
-      proxy_pass http://keycloak:3000/auth;  # Use HTTP internally
-    }
-
-    location /minio/ {
-        proxy_pass         http://minio:9000/;
-        proxy_set_header   Host $host;
-    }
-}
-
-
-server {
   root /usr/share/nginx/html;
 
   index index.html;
@@ -43,14 +70,28 @@ server {
   # Disable buffering
   proxy_buffering off;
   proxy_request_buffering off;
-
-  listen 443 ssl;
-  server_name ${HOSTNAME};
-  ssl_certificate /etc/letsencrypt/live/${HOSTNAME}/fullchain.pem;
-  ssl_certificate_key /etc/letsencrypt/live/${HOSTNAME}/privkey.pem;
   
   location / {
     try_files $uri $uri/ /index.html;
     client_max_body_size 20M;
   }
+
+  location /api {
+    resolver 127.0.0.11 valid=30s; # Docker DNS
+    proxy_pass http://backend:8080/api;
+    client_max_body_size 20M;
+  }
+
+  location /auth {
+      resolver 127.0.0.11 valid=30s;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_set_header X-Forwarded-Proto $scheme;
+      proxy_set_header Host $host;
+      proxy_pass http://keycloak:3000/auth;
+  }
+
+    location /minio/ {
+        proxy_pass         http://minio:9000/;
+        proxy_set_header   Host $host;
+    }
 }
