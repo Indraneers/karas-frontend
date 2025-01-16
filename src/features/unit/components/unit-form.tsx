@@ -59,7 +59,8 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
     subcategory: {
       id: '',
       name: '',
-      categoryId: ''
+      categoryId: '',
+      color: ''
     },
     unitCount: 0,
     baseUnit: ''

@@ -20,6 +20,7 @@ export function convertSCResponseDtoToSCRequestDto(
   return {
     id: scResponseDto.id,
     name: scResponseDto.name,
-    categoryId: scResponseDto.category.id
+    categoryId: scResponseDto.category.id,
+    color: scResponseDto.color
   };
 }

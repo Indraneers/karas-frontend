@@ -27,7 +27,7 @@ function CreateCategoryPage() {
   return (
     <Section className='pt-4'>
       <SectionHeader>
-        <TypographyH1>Edit Category</TypographyH1>
+        <TypographyH1>Create Category</TypographyH1>
       </SectionHeader>
       <SectionContent>
         <CategoryForm handleSubmit={mutation.mutate} />

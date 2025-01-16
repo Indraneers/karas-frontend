@@ -11,7 +11,6 @@ import { StockUpdate } from "../types/stock-update.enum";
 import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
 import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
-import { ProductRequestDto } from "@/features/product/types/product.dto";
 import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 import { Unit } from "@/features/unit/types/unit";
 

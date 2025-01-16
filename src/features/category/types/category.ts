@@ -3,4 +3,5 @@ export interface Category {
   name: string;
   subcategoryCount: number;
   img?: string;
+  color?: string;
 }

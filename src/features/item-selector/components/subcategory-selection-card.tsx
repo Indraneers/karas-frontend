@@ -3,6 +3,7 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { SubcategoryResponseDto } from "@/features/subcategory/types/subcategory.dto";
 import { getImageUrl } from "@/lib/image";
+import { cn } from "@/lib/utils";
 
 interface SubcategorySelectionCardProps {
   subcategory: SubcategoryResponseDto
@@ -18,18 +19,34 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
 
   return (
     <Card 
-      className="flex flex-col border-primary hover:bg-accent shadow-none w-full hover:text-background transition cursor-pointer aspect-square group"
+      className={cn([
+        "flex flex-col border-primary hover:bg-accent shadow-none w-full hover:text-background transition cursor-pointer aspect-square group",
+        subcategory.color && 'border-none'
+      ])}
+      style={{ backgroundColor: subcategory.color }}
       onClick={handleClick}
     >
       <CardHeader>
         {subcategory.img && subcategory.img.length > 0 && 
-                  <img className="w-8 h-8" src={getImageUrl(subcategory.img)} loading="lazy" />
+            <div
+              className={cn([
+                "w-10 h-10 group-hover:bg-background",
+                subcategory.color ? 'bg-background' : 'bg-accent'
+              ])}
+              style={{ mask: `url(${ getImageUrl(subcategory.img) }) no-repeat center`, maskSize: 'contain' }}
+            />
         }
       </CardHeader>
       <CardContent className="flex-grow" />
       <CardFooter className="flex flex-col items-start">
-        <div className="font-medium text-lg text-md">{subcategory.name}</div>
-        <div className="group-hover:text-background text-foreground/50 text-sm">{subcategory.productCount || 0} products</div>
+        <div className={cn([
+          "font-medium text-lg text-md",
+          subcategory.color && 'text-background'
+        ])}>{subcategory.name}</div>
+        <div className={cn([
+          "group-hover:text-background text-sm text-foreground/50",
+          subcategory.color && 'text-background/80'
+        ])}>{subcategory.productCount || 0} products</div>
       </CardFooter>
     </Card>
   );

@@ -15,6 +15,7 @@ import { SubcategoryRequestDto } from "../types/subcategory.dto";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 import { toast } from "sonner";
 import axios from "axios";
+import { ColorPicker } from "@/components/color-picker";
 
 const formSchema = z.object({
   id: z.string(),
@@ -23,13 +24,15 @@ const formSchema = z.object({
   file: z.any()
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
-    }).optional()
+    }).optional(),
+  color: z.string()
 });
 
 const defaultData: SubcategoryRequestDto = {
   id: '',
   name: '',
-  categoryId: ''
+  categoryId: '',
+  color: ''
 };
 
 interface SubcategoryFormProps {
@@ -100,6 +103,22 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
                   onChange={(event) =>
                     onChange(event.target.files && event.target.files[0])
                   }
+                />
+              </FormItem>
+            )}
+          />
+          <FormField 
+            control={form.control}
+            name="color"
+             
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Set POS Color</FormLabel>
+                <ColorPicker
+                  {...fieldProps}
+                  className="block"
+                  background={value || ''}
+                  setBackground={onChange}
                 />
               </FormItem>
             )}

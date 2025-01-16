@@ -9,6 +9,7 @@ import { z } from 'zod';
 import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
+import { ColorPicker } from "@/components/color-picker";
 
 const formSchema = z.object({
   id: z.string(),
@@ -18,14 +19,16 @@ const formSchema = z.object({
     .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
       message: "Only SVG and PNG files are allowed"
     }).optional(),
-  img: z.string().optional()
+  img: z.string().optional(),
+  color: z.string().optional()
 });
 
 const defaultData: CategoryDto = {
   id: '',
   name: '',
   subcategoryCount: 0,
-  img: ''
+  img: '',
+  color: ''
 };
 
 interface CategoryFormProps {
@@ -90,6 +93,22 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
                   onChange={(event) =>
                     onChange(event.target.files && event.target.files[0])
                   }
+                />
+              </FormItem>
+            )}
+          />
+          <FormField 
+            control={form.control}
+            name="color"
+             
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Set POS Color</FormLabel>
+                <ColorPicker
+                  {...fieldProps}
+                  className="block"
+                  background={value || ''}
+                  setBackground={onChange}
                 />
               </FormItem>
             )}
