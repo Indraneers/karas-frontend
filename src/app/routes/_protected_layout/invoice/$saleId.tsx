@@ -58,10 +58,10 @@ export function InvoicePage() {
   });
 
   useEffect(() => {
-    if (print && saleQuery.isSuccess) {
+    if (print && saleQuery.isSuccess && configQuery.isSuccess) {
       setTimeout(() => reactToPrintFn(), 500);
     }
-  }, [print, reactToPrintFn, saleQuery.isSuccess]);
+  }, [configQuery.isSuccess, print, reactToPrintFn, saleQuery.isSuccess]);
 
   if (saleQuery.isError || configQuery.isError) {
     return 'error';

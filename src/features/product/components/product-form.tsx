@@ -61,7 +61,8 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      handleSubmit({ productDto: values, file: values.file });
+      const { file, ...productDto } = values;
+      handleSubmit({ productDto, file });
       form.reset();
       navigate({ to: '/inventory/products' });
       router.invalidate();

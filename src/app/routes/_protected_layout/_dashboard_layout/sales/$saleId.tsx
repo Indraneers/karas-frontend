@@ -9,6 +9,7 @@ import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { onClickUrl } from '@/lib/link';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
+import { useEffect, useState } from 'react';
 
 interface SaleDetailSearch {
   print: boolean;
@@ -24,14 +25,23 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/sales
 });
 
 function SaleDetailPage() {
+  const [hasRun, setHasRun] = useState(false);
   const { saleId } = Route.useParams();
   const { print } = Route.useSearch();
-  const { isError, isLoading, data } = useQuery({
+  const { isError, isLoading, data, isSuccess } = useQuery({
     queryKey: ['sale-', saleId],
     queryFn: () => getSaleById(saleId)
   });
 
   const goToPrint = onClickUrl('/invoice/' + saleId + '?print=true');
+
+  useEffect(() => {
+    if (!hasRun && print && isSuccess) {
+      goToPrint();
+      setHasRun(true);
+    }
+  }, [goToPrint, hasRun, isSuccess, print, setHasRun]);
+
 
   if (isError) {
     return 'error';
@@ -43,10 +53,6 @@ function SaleDetailPage() {
 
   if (!data) {
     return 'empty';
-  }
-
-  if (print) {
-    goToPrint();
   }
 
   const sale = convertSaleResponseDtoToSale(data);
