@@ -1,5 +1,6 @@
 import { LoadingSpinner } from '@/components/loading-spinner';
 import { Separator } from '@/components/ui/separator';
+import { Skeleton } from '@/components/ui/skeleton';
 import { getSaleById } from '@/features/sale/api/sale';
 import { CustomerInformation } from '@/features/sale/components/customer-information';
 import { SaleDetailAside } from '@/features/sale/components/sale-detail-aside';
@@ -48,28 +49,55 @@ function SaleDetailPage() {
     return 'error';
   }
 
+  if (isLoading || !data) {
+    return (
+      <div className='gap-4 grid grid-cols-3 py-4 h-full'>
+        <SaleDetailAside className='h-full'>
+          <div>
+            <Skeleton className="w-full h-12" />
+            <Skeleton className="mt-2 w-full h-8" />
+            <Skeleton className="mt-4 w-[100px] h-8" />
+            <Skeleton className="mt-4 w-full h-8" />
+          </div>
+          <Separator className='mt-3 mb-2' />
+          <div>
+            <Skeleton className="w-full h-8" />
+            <Skeleton className="mt-2 w-full h-8" />
+            <Skeleton className="mt-4 w-full h-8" />
+          </div>
+          <Separator className='mt-3 mb-2' />
+          <div>
+            <Skeleton className="w-full h-8" />
+            <Skeleton className="mt-2 w-full h-8" />
+            <Skeleton className="mt-4 w-full h-8" />
+            <Skeleton className="mt-2 w-full h-8" />
+          </div>
+        </SaleDetailAside>
+        <div className='col-span-2 h-full'>
+          {
+            isLoading &&
+          <div className='place-content-center grid h-full'>
+            <LoadingSpinner className='w-80 h-80' />
+          </div>
+          }
+        </div>
+      </div>
+    );
+  }
+
   const sale = convertSaleResponseDtoToSale(data);
 
   return (
     <div className='gap-4 grid grid-cols-3 py-4 h-full'>
       <SaleDetailAside className='h-full'>
-        <SaleInformation isLoading={isLoading} sale={sale} />
+        <SaleInformation sale={sale} />
         <Separator className='mt-3 mb-2' />
-        <CustomerInformation isLoading={isLoading} customer={sale ? sale.customer : null} />
+        <CustomerInformation customer={sale.customer} />
         <Separator className='mt-3 mb-2' />
-        <VehicleInformation isLoading={isLoading} vehicle={sale ? sale.vehicle : null} />
+        <VehicleInformation vehicle={ sale.vehicle} />
       </SaleDetailAside>
       <div className='col-span-2 h-full'>
-        {
-          isLoading &&
-          <div className='place-content-center grid h-full'>
-            <LoadingSpinner className='w-80 h-80' />
-          </div>
-        }
-        {
-          !isLoading && sale &&
-          <SaleTable sale={sale} />
-        }
+        <SaleTable sale={sale} />
       </div>
     </div>
   );

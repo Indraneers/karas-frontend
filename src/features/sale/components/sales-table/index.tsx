@@ -6,6 +6,7 @@ import { convertSaleResponseDtoToSale } from "../../utils/sale";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { Sale } from "../../types/sale";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 export function SalesTable({ className } : { className?: string}) {
   const navigate = useNavigate();
@@ -18,19 +19,24 @@ export function SalesTable({ className } : { className?: string}) {
     return 'error';
   }
 
-  if (isLoading) {
-    return 'loading';
-  }
 
-  const sales = data?.map(s => convertSaleResponseDtoToSale(s));
+  const sales = data ? data.map(s => convertSaleResponseDtoToSale(s)) : [];
 
   return (
     <div className={cn(className)}>
-      <DataTablePagination 
-        onRowClick={(data: Sale) => navigate({ to: '/sales/' + data.id })}
-        columns={columns} 
-        data={sales || []} 
-      />
+      {
+        isLoading &&
+        <div className="place-content-center grid">
+          <LoadingSpinner className="w-60 h-60" />
+        </div>
+      }
+      {!isLoading && 
+        <DataTablePagination 
+          onRowClick={(data: Sale) => navigate({ to: '/sales/' + data.id })}
+          columns={columns} 
+          data={sales || []} 
+        />
+      }
     </div>
   );
 }

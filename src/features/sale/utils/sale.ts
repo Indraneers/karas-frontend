@@ -5,8 +5,7 @@ import {  SaleResponseDto } from "../types/sale.dto";
 import { convertQuantityDtoToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
-export function convertSaleResponseDtoToSale(saleResponseDto?: SaleResponseDto): Sale | null {
-  if (!saleResponseDto) return null;
+export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
   return {
     id: saleResponseDto.id,
     dueAt: saleResponseDto.dueAt,
