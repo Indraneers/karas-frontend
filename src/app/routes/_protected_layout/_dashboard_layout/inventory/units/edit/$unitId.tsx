@@ -43,14 +43,6 @@ function UpdateUnitPage() {
     return 'error';
   }
 
-  if (unitQuery.isLoading) {
-    return 'loading';
-  }
-
-  if (!unitQuery.data) {
-    return 'empty';
-  }
-
   return (
     <Section className='pt-4'>
       <SectionHeader>
@@ -60,7 +52,7 @@ function UpdateUnitPage() {
       </SectionHeader>
       <SectionContent>
         {
-          unitQuery.isLoading &&
+          (!unitQuery.data || unitQuery.isLoading) &&
           <div>
             <Skeleton className='w-[375px] h-8' />
             <Skeleton className='mt-8 w-[325px] h-8' />
@@ -71,7 +63,7 @@ function UpdateUnitPage() {
           </div>
         }
         {
-          !unitQuery.isLoading &&
+          !unitQuery.isLoading && unitQuery.data &&
           <UnitForm data={convertUnitDtoToUnitForm(unitQuery.data)} handleSubmit={mutation.mutate} />
         }
       </SectionContent>

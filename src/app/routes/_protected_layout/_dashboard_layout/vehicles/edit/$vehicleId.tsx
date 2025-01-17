@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getVehicleById, updateVehicle } from '@/features/vehicles/api/vehicle';
 import { VehicleForm } from '@/features/vehicles/components/vehicle-form';
@@ -39,14 +40,6 @@ function EditVehiclePage() {
     return 'error';
   }
 
-  if (isLoading) {
-    return 'loading';
-  }
-
-  if (!data) {
-    return 'empty';
-  }
-
   return (
     <Section className='py-4'>
       <SectionHeader>
@@ -55,7 +48,26 @@ function EditVehiclePage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <VehicleForm data={convertVehicleDtoToVehicle(data)} handleSubmit={mutation.mutate} />
+        {
+          (!data || isLoading) &&
+          <div>
+            <div className='gap-8 grid grid-cols-3 h-8'>
+              <Skeleton className='w-[200px]' />
+              <Skeleton className='w-[300px]' />
+            </div>
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[200px] h-8' />
+            <div className='gap-8 grid grid-cols-3 mt-8 h-8'>
+              <Skeleton className='w-[300px]' />
+              <Skeleton className='w-[300px]' />
+            </div>
+            <Skeleton className='mt-8 h-16' />
+          </div>
+        }
+        {
+          !isLoading && data &&
+          <VehicleForm data={convertVehicleDtoToVehicle(data)} handleSubmit={mutation.mutate} />
+        }
       </SectionContent>
     </Section>
   );

@@ -5,7 +5,7 @@ import { getImageUrl } from "@/lib/image";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 import { convertQuantityDtoToQuantity } from "../util/convert";
-import { LoadingSpinner } from "@/components/loading-spinner";
+import { SearchLoading } from "@/components/search-loading";
 
 export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
@@ -64,9 +64,7 @@ export function UnitSearchList
           <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">Empty...</div>
         }
         {isLoading &&
-          <div className="place-content-center grid p-4 h-40">
-            <LoadingSpinner className="w-20 h-20" />
-          </div>
+          <SearchLoading />
         }
         {units && units.map(u => (
           <div onClick={() => onValueChange(u)} key={u.id}>

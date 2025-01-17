@@ -40,10 +40,6 @@ function EditCustomerPage() {
     return 'error';
   }
 
-  if (isLoading) {
-    return 'loading';
-  }
-
   if (!data) {
     return 'empty';
   }
@@ -57,7 +53,7 @@ function EditCustomerPage() {
       </SectionHeader>
       <SectionContent>
         {
-          isLoading &&
+          (!data || isLoading) &&
           <div>
             <Skeleton className='w-[200px] h-8' />
             <Skeleton className='mt-8 w-[200px] h-8' />

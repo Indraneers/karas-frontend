@@ -6,7 +6,7 @@ import { convertSaleResponseDtoToSale } from "../../utils/sale";
 import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { Sale } from "../../types/sale";
-import { LoadingSpinner } from "@/components/loading-spinner";
+import { PageLoading } from "@/components/page-loading";
 
 export function SalesTable({ className } : { className?: string}) {
   const navigate = useNavigate();
@@ -26,9 +26,7 @@ export function SalesTable({ className } : { className?: string}) {
     <div className={cn(className)}>
       {
         isLoading &&
-        <div className="place-content-center grid">
-          <LoadingSpinner className="w-60 h-60" />
-        </div>
+        <PageLoading />
       }
       {!isLoading && 
         <DataTablePagination 

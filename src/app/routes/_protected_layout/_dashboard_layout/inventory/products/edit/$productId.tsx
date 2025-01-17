@@ -43,10 +43,6 @@ function UpdateProductPage() {
     return 'error';
   }
 
-  if (productQuery.isLoading) {
-    return 'loading';
-  }
-
   if (!productQuery.data) {
     return 'empty';
   }
@@ -60,7 +56,20 @@ function UpdateProductPage() {
       </SectionHeader>
       <SectionContent>
         {
-          productQuery.isLoading &&
+          !productQuery.data &&
+          <div>
+            <Skeleton className='w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[200px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <div className='gap-8 grid grid-cols-3 mt-8 h-20'>
+              <Skeleton />
+              <Skeleton />
+            </div>
+          </div>
+        }
+        {
+          (!productQuery.data || productQuery.isLoading) &&
           <div>
             <Skeleton className='w-[300px] h-8' />
             <Skeleton className='mt-8 w-[200px] h-8' />

@@ -39,14 +39,6 @@ function EditSubcategoryPage() {
     return 'error';
   }
 
-  if (isLoading) {
-    return 'loading';
-  }
-
-  if (!data) {
-    return 'empty';
-  }
-
   return (
     <Section className='pt-4'>
       <SectionHeader>
@@ -54,7 +46,7 @@ function EditSubcategoryPage() {
       </SectionHeader>
       <SectionContent>
         {
-          isLoading &&
+          (!data || isLoading) &&
           <div>
             <Skeleton className='w-[800px] h-8' />
             <Skeleton className='mt-8 w-[300px] h-8' />
@@ -63,7 +55,7 @@ function EditSubcategoryPage() {
           </div>
         }
         {
-          !isLoading &&
+          !isLoading && data &&
           <SubcategoryForm data={convertSCResponseDtoToSCRequestDto(data)} handleSubmit={mutation.mutate} />
         }
       </SectionContent>

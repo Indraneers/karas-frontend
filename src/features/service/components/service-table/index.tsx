@@ -3,6 +3,7 @@ import { columns } from "./columns";
 import { useQuery } from "@tanstack/react-query";
 import { getAutoServices } from "../../api/auto-services";
 import { convertServiceDtoToService } from "../../utils/service";
+import { PageLoading } from "@/components/page-loading";
 
 export function ServiceTable({ className } : { className?: string }) {
   const { isError, isLoading, data } = useQuery({
@@ -13,16 +14,18 @@ export function ServiceTable({ className } : { className?: string }) {
   if (isError) {
     return 'error';
   }
-
-  if (isLoading) {
-    return 'loading';
-  }
-
+  
   const services = data?.map(s => convertServiceDtoToService(s));
 
   return (
     <div className={className}>
-      <DataTablePagination data={services || []} columns={columns} />
+      {(isLoading || !data) &&
+        <PageLoading />
+      }
+      {
+        !isLoading && data &&
+        <DataTablePagination data={services || []} columns={columns} />
+      }
     </div>
   );
 }
