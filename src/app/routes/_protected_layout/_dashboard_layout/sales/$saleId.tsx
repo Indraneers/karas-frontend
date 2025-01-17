@@ -1,3 +1,4 @@
+import { LoadingSpinner } from '@/components/loading-spinner';
 import { Separator } from '@/components/ui/separator';
 import { getSaleById } from '@/features/sale/api/sale';
 import { CustomerInformation } from '@/features/sale/components/customer-information';
@@ -47,27 +48,28 @@ function SaleDetailPage() {
     return 'error';
   }
 
-  if (isLoading) {
-    return 'loading';
-  }
-
-  if (!data) {
-    return 'empty';
-  }
-
   const sale = convertSaleResponseDtoToSale(data);
 
   return (
     <div className='gap-4 grid grid-cols-3 py-4 h-full'>
       <SaleDetailAside className='h-full'>
-        <SaleInformation sale={sale} />
+        <SaleInformation isLoading={isLoading} sale={sale} />
         <Separator className='mt-3 mb-2' />
-        <CustomerInformation customer={sale.customer} />
+        <CustomerInformation isLoading={isLoading} customer={sale ? sale.customer : null} />
         <Separator className='mt-3 mb-2' />
-        <VehicleInformation vehicle={sale.vehicle} />
+        <VehicleInformation isLoading={isLoading} vehicle={sale ? sale.vehicle : null} />
       </SaleDetailAside>
       <div className='col-span-2 h-full'>
-        <SaleTable sale={sale} />
+        {
+          isLoading &&
+          <div className='place-content-center grid h-full'>
+            <LoadingSpinner className='w-80 h-80' />
+          </div>
+        }
+        {
+          !isLoading && sale &&
+          <SaleTable sale={sale} />
+        }
       </div>
     </div>
   );

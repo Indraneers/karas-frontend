@@ -20,7 +20,7 @@ export function SubcategorySearch({ value, className, onChange = console.log } :
       className={className}
       icon={Search} 
       iconProps={{ behavior: 'prepend' }}  
-      placeholder="Search Category" 
+      placeholder="Search subcategory" 
     />
   );
 }

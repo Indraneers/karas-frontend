@@ -7,13 +7,26 @@ import { SaleDetailElement } from "./sale-detail-element";
 import { format } from 'date-fns';
 import { EditButton } from "@/components/edit-button";
 import { PrintButton } from "@/components/print-button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface SaleInformationProps {
-  sale: Sale;
+  sale: Sale | null;
   className?: string;
+  isLoading?: boolean;
 }
 
-export function SaleInformation({ sale, className }: SaleInformationProps) {
+export function SaleInformation({ sale, className, isLoading = false }: SaleInformationProps) {
+  if (isLoading || !sale) {
+    return (
+      <div>
+        <Skeleton className="w-full h-12" />
+        <Skeleton className="mt-2 w-full h-8" />
+        <Skeleton className="mt-4 w-[100px] h-8" />
+        <Skeleton className="mt-4 w-full h-8" />
+      </div>
+    );
+  }
+
   return (
     <div className={cn([
       className

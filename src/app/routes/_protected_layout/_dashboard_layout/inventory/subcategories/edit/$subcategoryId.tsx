@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getSubcategoryById, updateSubcategory } from '@/features/subcategory/api/subcategory';
 import { SubcategoryForm } from '@/features/subcategory/components/subcategory-form';
@@ -52,7 +53,19 @@ function EditSubcategoryPage() {
         <TypographyH1>Edit Subcategory</TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <SubcategoryForm data={convertSCResponseDtoToSCRequestDto(data)} handleSubmit={mutation.mutate} />
+        {
+          isLoading &&
+          <div>
+            <Skeleton className='w-[800px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[250px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+          </div>
+        }
+        {
+          !isLoading &&
+          <SubcategoryForm data={convertSCResponseDtoToSCRequestDto(data)} handleSubmit={mutation.mutate} />
+        }
       </SectionContent>
     </Section>
   );

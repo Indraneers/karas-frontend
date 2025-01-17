@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getUnitById, updateUnit } from '@/features/unit/api/unit';
 import { UnitForm } from '@/features/unit/components/unit-form';
@@ -58,7 +59,21 @@ function UpdateUnitPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <UnitForm data={convertUnitDtoToUnitForm(unitQuery.data)} handleSubmit={mutation.mutate} />
+        {
+          unitQuery.isLoading &&
+          <div>
+            <Skeleton className='w-[375px] h-8' />
+            <Skeleton className='mt-8 w-[325px] h-8' />
+            <div className='gap-8 grid grid-cols-3 mt-8 h-8'>
+              <Skeleton className='w-[100px]' />
+              <Skeleton className='w-full' />
+            </div>
+          </div>
+        }
+        {
+          !unitQuery.isLoading &&
+          <UnitForm data={convertUnitDtoToUnitForm(unitQuery.data)} handleSubmit={mutation.mutate} />
+        }
       </SectionContent>
     </Section>
   );

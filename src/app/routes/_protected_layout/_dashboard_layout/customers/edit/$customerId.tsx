@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCustomerById, updateCustomer } from '@/features/customer/api/customer';
 import { CustomerForm } from '@/features/customer/components/customer-form';
@@ -55,7 +56,19 @@ function EditCustomerPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <CustomerForm data={convertCustomerDtoToCustomer(data)} handleSubmit={mutation.mutate} />
+        {
+          isLoading &&
+          <div>
+            <Skeleton className='w-[200px] h-8' />
+            <Skeleton className='mt-8 w-[200px] h-8' />
+            <Skeleton className='mt-8 w-[500px] h-8' />
+            <Skeleton className='mt-8 w-full h-16' />
+          </div>
+        }
+        {
+          !isLoading &&
+          <CustomerForm data={convertCustomerDtoToCustomer(data)} handleSubmit={mutation.mutate} />
+        }
       </SectionContent>
     </Section>
   );

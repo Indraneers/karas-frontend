@@ -4,6 +4,8 @@ import { ProductSelectionCard } from "./product-selection-card";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ProductSearch } from "@/features/product/components/product-search";
 import { useProductSearch } from "@/features/product/hooks/product-search";
+import { ItemSkeletonList } from "./item-skeleton-list";
+import { ItemEmpty } from "./item-empty";
 
 interface ProductSelectionProps {
   className?: string;
@@ -12,7 +14,7 @@ interface ProductSelectionProps {
 export function ProductSelection({ className }: ProductSelectionProps) {
   const { subcategory } = useItemSelectionStore();
 
-  const { q, setQ, isError, data } = useProductSearch({ subcategoryId: subcategory?.id });
+  const { q, setQ, isLoading, isError, data } = useProductSearch({ subcategoryId: subcategory?.id });
 
   return (
     <div className={
@@ -23,14 +25,22 @@ export function ProductSelection({ className }: ProductSelectionProps) {
     }>
       <ProductSearch value={q} onChange={setQ} />
       { isError && "error" }
-      { !data && "empty" }
+      { data?.length === 0 && 
+        <ItemEmpty />
+      }
       {
         data
         &&
         <ItemCardList className="mt-2">
-          {data?.map((p) => (
-            <ProductSelectionCard product={p} key={p.id} />
-          ))}
+          {
+            isLoading && 
+            <ItemSkeletonList />
+          }
+          {
+            data?.map((p) => (
+              <ProductSelectionCard product={p} key={p.id} />
+            ))
+          }
         </ItemCardList>
       }
     </div>

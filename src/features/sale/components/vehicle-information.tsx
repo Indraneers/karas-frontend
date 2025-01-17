@@ -2,8 +2,19 @@ import { SaleDetailElement } from "./sale-detail-element";
 import { cn } from "@/lib/utils";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export function VehicleInformation({ vehicle, className } : { vehicle: VehicleDto, className?: string }) {
+export function VehicleInformation({ vehicle, className, isLoading } : { vehicle: VehicleDto | null, className?: string, isLoading: boolean }) {
+  if (isLoading || !vehicle) {
+    return (
+      <div>
+        <Skeleton className="w-full h-8" />
+        <Skeleton className="mt-2 w-full h-8" />
+        <Skeleton className="mt-4 w-full h-8" />
+        <Skeleton className="mt-2 w-full h-8" />
+      </div>
+    );
+  }
   return (
     <div className={cn([
       className

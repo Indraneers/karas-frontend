@@ -5,6 +5,7 @@ import { getImageUrl } from "@/lib/image";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 import { convertQuantityDtoToQuantity } from "../util/convert";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
@@ -45,11 +46,12 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
 interface UnitSearchListProps {
   className?: string;
   units?: UnitResponseDto[];
+  isLoading?: boolean;
   onValueChange: (unit: UnitResponseDto) => void
 }
 
 export function UnitSearchList
-({ className, units, onValueChange }: UnitSearchListProps) {
+({ className, units, isLoading = false, onValueChange }: UnitSearchListProps) {
   return (
     <>
       <div className="mb-1 font-semibold text-muted-foreground text-xs">Search Units</div>
@@ -57,13 +59,22 @@ export function UnitSearchList
         'space-y-2 font-body',
         className
       ])}>
+        {
+          units?.length === 0 &&
+          <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">Empty...</div>
+        }
+        {isLoading &&
+          <div className="place-content-center grid p-4 h-40">
+            <LoadingSpinner className="w-20 h-20" />
+          </div>
+        }
         {units && units.map(u => (
           <div onClick={() => onValueChange(u)} key={u.id}>
             <UnitSearchItem unit={u} />
           </div>
         ))}
         {!units && 
-          <div className="p-4 text-center text-muted-foreground text-sm">Search for a unit...</div>
+          <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">Search for a unit...</div>
         }
       </div>
     </>

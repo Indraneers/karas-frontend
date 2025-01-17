@@ -11,6 +11,7 @@ import { SearchGroup } from "./search-group";
 import { Separator } from "@/components/ui/separator";
 import { getCustomers } from "@/features/customer/api/customer";
 import { CustomerSearchItem } from "./customer-search-item";
+import { LoadingSpinner } from "@/components/loading-spinner";
 
 interface VehicleCustomerSearchProps {
   className?: string;
@@ -67,15 +68,18 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
         <div className="relative mt-1 h-80">
           <div className="absolute inset-0 flex flex-col gap-1 h-full max-h-full overflow-scroll">
             <div className="pb-2">
+              {
+                (customerQuery.isLoading || vehicleQuery.isLoading) &&  
+                  <div className="place-content-center grid py-10 h-60">
+                    <LoadingSpinner className="w-20 h-20" />
+                  </div>
+              }
               <SearchGroup title="Customer" isOpen={(q !== '' && customerQuery.data !== undefined && customerQuery.data.length > 0)}>
                 {
                   customerQuery.isError && "Error"
                 }
                 {
                   (!customerQuery.data || q === '') && <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Empty...</div>
-                }
-                {
-                  customerQuery.isLoading &&  <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">Loading...</div>
                 }
                 {
                   q !== '' &&

@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getAutoServiceById, updateAutoService } from '@/features/service/api/auto-services';
 import { ServiceForm } from '@/features/service/components/service-form';
@@ -55,7 +56,15 @@ export function EditServicePage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        { data &&
+        {
+          isLoading &&
+          <div>
+            <Skeleton className='w-[375px] h-8' />
+            <Skeleton className='mt-8 w-[100px] h-8' />
+            <Skeleton className='mt-8 w-[375px] h-20' />
+          </div>
+        }
+        { !isLoading && data &&
         <ServiceForm data={convertServiceDtoToServiceForm(data)} handleSubmit={mutation.mutate} />
         }
       </SectionContent>

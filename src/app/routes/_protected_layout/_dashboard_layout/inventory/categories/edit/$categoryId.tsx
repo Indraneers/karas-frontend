@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCategoryById, updateCategory } from '@/features/category/api/category';
 import { CategoryForm } from '@/features/category/components/category-form';
@@ -53,7 +54,18 @@ function UpdateCategoryPage() {
         <TypographyH1>Edit Category</TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <CategoryForm data={data} handleSubmit={mutation.mutate} />
+        {
+          isLoading &&
+          <div>
+            <Skeleton className='w-[500px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[200px] h-8' />
+          </div>
+        }
+        {
+          !isLoading &&
+          <CategoryForm data={data} handleSubmit={mutation.mutate} />
+        }
       </SectionContent>
     </Section>
   );

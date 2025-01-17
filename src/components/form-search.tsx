@@ -5,6 +5,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { Check, ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { UseSearch } from "@/types/use-search";
+import { LoadingSpinner } from "./loading-spinner";
 
 interface FormSearchProps<T, UseId> {
   value?: UseId extends true ? string : T;
@@ -97,6 +98,12 @@ export function FormSearch<T extends Entity, UseId extends boolean = false>({
               {
                 (autoQuery ||  q !== '') && data?.length === 0 && !isLoading &&
                 <CommandEmpty>No {entityName} found.</CommandEmpty>
+              }
+              {
+                isLoading &&
+                <div className="place-content-center grid py-8">
+                  <LoadingSpinner className="w-20 h-20" />
+                </div>
               }
               { (autoQuery ||  q !== '') &&
               <CommandGroup className="capitalize" heading={entityName}>

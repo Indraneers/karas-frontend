@@ -1,6 +1,7 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProductById, updateProduct } from '@/features/product/api/product';
 import { ProductForm } from '@/features/product/components/product-form';
@@ -58,7 +59,23 @@ function UpdateProductPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <ProductForm data={convertProductResponseDtoToProductRequestDto(productQuery.data)} handleSubmit={mutation.mutate} />
+        {
+          productQuery.isLoading &&
+          <div>
+            <Skeleton className='w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[200px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <Skeleton className='mt-8 w-[300px] h-8' />
+            <div className='gap-8 grid grid-cols-3 mt-8 h-20'>
+              <Skeleton />
+              <Skeleton />
+            </div>
+          </div>
+        }
+        {
+          !productQuery.isLoading &&
+          <ProductForm data={convertProductResponseDtoToProductRequestDto(productQuery.data)} handleSubmit={mutation.mutate} />
+        }
       </SectionContent>
     </Section>
   );

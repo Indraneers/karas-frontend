@@ -27,8 +27,8 @@ function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className='flex flex-col'>
-        <Header>
+      <SidebarInset className='z-10 flex flex-col bg-background'>
+        <Header className='z-10 bg-background'>
           <SidebarTrigger />
           <div className='flex justify-end items-center gap-4 w-full h-12'>
             <UserProfile />

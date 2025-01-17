@@ -16,6 +16,7 @@ import { usePosStore } from '../store/pos';
 import { useRouter } from '@tanstack/react-router';
 import { getAutoServices } from '@/features/service/api/auto-services';
 import { SubcategorySelection } from '@/features/item-selector/components/subcategory-selection';
+import { LoadingSpinner } from '@/components/loading-spinner';
 
 interface PosFormProps {
   saleId?: string;
@@ -65,8 +66,10 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
     return "error";
   }
 
-  if (saleQuery.isLoading || serviceQuery.isLoading || (saleId && !isInit)) {
-    return "loading";
+  if ((saleId && !isInit)) {
+    <div className='place-content-center grid'>
+      <LoadingSpinner className='w-[200px] h-[200px]' />
+    </div>;
   }
   
 

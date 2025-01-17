@@ -5,6 +5,8 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { UnitSearch } from "@/features/unit/components/unit-search";
 import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
 import { useUnitSearch } from "@/features/unit/hooks/unit-search";
+import { ItemSkeletonList } from "./item-skeleton-list";
+import { ItemEmpty } from "./item-empty";
 
 interface UnitSelectionProps {
   className?: string;
@@ -13,7 +15,7 @@ interface UnitSelectionProps {
 export function UnitSelection({ className }: UnitSelectionProps) {
   const { product } = useItemSelectionStore();
 
-  const { q, setQ, data, isError } = useUnitSearch({ productId: product?.id });
+  const { q, setQ, data, isLoading, isError } = useUnitSearch({ productId: product?.id });
 
   return (
     <div className={
@@ -24,11 +26,17 @@ export function UnitSelection({ className }: UnitSelectionProps) {
     }>
       <UnitSearch value={q} onChange={setQ} />
       { isError && 'error' }
-      { !data && 'empty'}
+      { data?.length === 0 && 
+        <ItemEmpty />
+      }
       {
         data
         &&
         <ItemCardList className="mt-2">
+          {
+            isLoading && 
+            <ItemSkeletonList />
+          }
           {data?.map((u) => (
             <UnitSelectionCard unit={convertUnitDtoToUnit(u)} key={u.id} />
           ))}

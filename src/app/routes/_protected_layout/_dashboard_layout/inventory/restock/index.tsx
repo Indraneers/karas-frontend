@@ -42,7 +42,7 @@ function RestockPage() {
   const authUser = useAuthUser<TokenPayload>();
   const [restockItems, setRestockItems] = useState<RestockItem[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-  const { q, setQ, data } = useUnitSearch({ isEnabled: true });
+  const { q, isLoading, setQ, data } = useUnitSearch({ isEnabled: true });
   const products: ProductRequestDto[] = restockItems
     .map(ri => ri.unit.product)
     .reduce((arr: ProductRequestDto[], curr) => {
@@ -218,7 +218,7 @@ function RestockPage() {
                 className='p-2' 
                 style={{ width: 'var(--radix-popover-trigger-width)' }}
               >
-                <UnitSearchList onValueChange={addRestockItem} units={data} />
+                <UnitSearchList isLoading={isLoading} onValueChange={addRestockItem} units={data} />
               </PopoverContent>
             </Popover>
           </div>

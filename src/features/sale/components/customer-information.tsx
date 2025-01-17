@@ -2,8 +2,18 @@ import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { SaleDetailElement } from "./sale-detail-element";
 import { cn } from "@/lib/utils";
 import { TypographyH2 } from "@/components/ui/typography/h2";
+import { Skeleton } from "@/components/ui/skeleton";
 
-export function CustomerInformation({ customer, className } : { customer: CustomerDto, className?: string }) {
+export function CustomerInformation({ customer, className, isLoading = false } : { customer: CustomerDto | null, className?: string, isLoading?: boolean }) {
+  if (isLoading || !customer) {
+    return (
+      <div>
+        <Skeleton className="w-full h-8" />
+        <Skeleton className="mt-2 w-full h-8" />
+        <Skeleton className="mt-4 w-full h-8" />
+      </div>
+    );
+  }
   return (
     <div className={cn([
       className
