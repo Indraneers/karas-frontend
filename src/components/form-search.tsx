@@ -95,18 +95,18 @@ export function FormSearch<T extends Entity, UseId extends boolean = false>({
               placeholder={placeholder}
             />
             <CommandList>
-              {
-                (autoQuery ||  q !== '') && data?.length === 0 && !isLoading &&
+              { (autoQuery ||  q !== '') &&
+              <CommandGroup className="capitalize" heading={entityName}>
+                {
+                  (autoQuery ||  q !== '') && data?.length === 0 && !isLoading &&
                 <CommandEmpty>No {entityName} found.</CommandEmpty>
-              }
-              {
-                isLoading &&
+                }
+                {
+                  isLoading &&
                 <div className="place-content-center grid py-8">
                   <LoadingSpinner className="w-20 h-20" />
                 </div>
-              }
-              { (autoQuery ||  q !== '') &&
-              <CommandGroup className="capitalize" heading={entityName}>
+                }
                 {data?.map((e) => (
                   <CommandItem
                     key={e.id}

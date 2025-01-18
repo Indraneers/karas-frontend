@@ -14,6 +14,7 @@ import { UnitRequestDto } from "../types/unit.dto";
 import { FormSearch } from "@/components/form-search";
 import { useProductSearch } from "@/features/product/hooks/product-search";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
+import { ProductDetailedSearch } from "@/features/product/components/product-detailed-search";
 
 export interface UnitForm {
   id: string;
@@ -111,14 +112,12 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
             render={({ field }) => (
               <FormItem className="mt-4">
                 <FormLabel>Select Product</FormLabel>
-                <FormSearch
+                <ProductDetailedSearch
                   value={field.value}
                   onChange={field.onChange}
                   onEntityChange={setProduct}
-                  useSearch={useProductSearch}
                   placeholder='Search for products'
                   entityName='product'
-                  useId
                 />
                 <FormDescription>
                   Select the product that this unit belongs to
