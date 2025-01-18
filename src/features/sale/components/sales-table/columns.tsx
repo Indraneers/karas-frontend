@@ -11,11 +11,6 @@ import { Currency } from "@/components/currency";
 
 export const columns: ColumnDef<Sale>[] = [
   {
-    accessorKey: 'id',
-    header: 'Invoice ID',
-    cell:({ row }) => (<div className="font-medium text-primary hover:underline">{row.original.id}</div>)
-  },
-  {
     id: 'select',
     header: ({ table }) => (
       <Checkbox
@@ -36,6 +31,11 @@ export const columns: ColumnDef<Sale>[] = [
     ),
     enableSorting: false,
     enableHiding: false
+  },
+  {
+    accessorKey: 'id',
+    header: 'Invoice ID',
+    cell:({ row }) => (<div className="font-medium text-primary hover:underline">{row.original.id}</div>)
   },
   {
     accessorKey: 'customer.name',

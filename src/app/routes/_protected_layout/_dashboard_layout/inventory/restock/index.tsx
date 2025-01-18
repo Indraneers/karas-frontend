@@ -75,7 +75,7 @@ function RestockPage() {
     }, []);
 
   const unitsDeducted = restockItems
-    .filter(ri => ri.status === StockUpdate.DEDUCT)
+    .filter(ri => (ri.status === StockUpdate.DEDUCT || ri.status === StockUpdate.LOST))
     .map(ri => ri.unit)
     .reduce((arr: Unit[], curr) => {
       if (!arr.find(p => curr.id === p.id)) {
@@ -96,7 +96,7 @@ function RestockPage() {
     }, 0);
 
   const unitQtyDeducted = restockItems
-    .filter(ri => ri.status === StockUpdate.DEDUCT)
+    .filter(ri => (ri.status === StockUpdate.DEDUCT || ri.status === StockUpdate.LOST))
     .reduce((total, curr) => {
       if (curr.unit.product.variable) {
         return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
@@ -189,11 +189,11 @@ function RestockPage() {
               {units.length} Units
             </RestockHeaderElement>
 
-            <RestockHeaderElement label='Unit Restocked' color='RED'>
+            <RestockHeaderElement label='Unit Deducted/Lost' color='RED'>
               -{unitsDeducted.length} Units
             </RestockHeaderElement>
 
-            <RestockHeaderElement label='Total Quantity Restocked' color='RED'>
+            <RestockHeaderElement label='Total Quantity Deducted/Lost' color='RED'>
               -{unitQtyDeducted}
             </RestockHeaderElement>
           </div>
