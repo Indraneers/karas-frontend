@@ -133,7 +133,7 @@ export const usePosStore = create<PosStateWithFunctions>((set) => ({
       return state;
     }
     
-    newState.maintenance.services = newState.maintenance.services.map((s) => s.service.id === sId ? { ...s, checked: false } : s);
+    newState.maintenance.services = newState.maintenance.services.filter((s) => s.service.id !== sId);
     serviceSelectorItem.checked = false;
 
     return newState;

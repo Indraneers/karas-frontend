@@ -3,7 +3,7 @@ import { CustomerDto } from "../types/customer.dto";
 
 export function convertCustomerDtoToCustomer(customerDto: CustomerDto): Customer {
   return {
-    id: customerDto.id,
+    id: customerDto.id || '',
     name: customerDto.name,
     address: customerDto.address,
     contact: customerDto.contact,
@@ -13,7 +13,7 @@ export function convertCustomerDtoToCustomer(customerDto: CustomerDto): Customer
 
 export function convertCustomerToCustomerDto(customer: Customer): CustomerDto {
   return {
-    id: customer.id,
+    id: customer.id || '',
     name: customer.name,
     address: customer.address,
     contact: customer.contact,
