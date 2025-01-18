@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/custo
 });
 
 export function CustomerPage() {
-  const { q, setQ, data, isLoading } = useCustomerSearch({ enabled: true });
+  const { q, setQ, data, isLoading } = useCustomerSearch();
   return (
     <Section className='pt-4'>
       <SectionHeader>

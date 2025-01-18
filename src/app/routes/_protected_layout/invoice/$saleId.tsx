@@ -119,6 +119,19 @@ export function InvoicePage() {
           </div>
         </div>
         <InvoiceTable className='mt-10 page-break' sale={convertSaleResponseDtoToSale(saleQuery.data)} />
+        <div className='justify-items-stretch gap-8 grid grid-cols-5 mt-[20vh] px-8 text-center'>
+          <div className='pt-2 border-t border-t-foreground font-medium'>
+            Salesperson
+          </div>
+          <div className='pt-2 border-t border-t-foreground font-medium'>
+            Serviceman
+          </div>
+          <div></div>
+          <div></div>
+          <div className='pt-2 border-t border-t-foreground font-medium'>
+            Customer
+          </div>
+        </div>
       </div>
     </div>
   );
