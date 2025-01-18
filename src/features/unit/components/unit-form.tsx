@@ -11,8 +11,6 @@ import { useEffect, useState } from "react";
 import { convertUnitFormToUnitDto } from "../util/convert";
 import { cn } from "@/lib/utils";
 import { UnitRequestDto } from "../types/unit.dto";
-import { FormSearch } from "@/components/form-search";
-import { useProductSearch } from "@/features/product/hooks/product-search";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { ProductDetailedSearch } from "@/features/product/components/product-detailed-search";
 
