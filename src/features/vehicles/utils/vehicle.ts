@@ -3,6 +3,7 @@ import { Vehicle } from "../dto/vehicle";
 import { VehicleDto } from "../dto/vehicle.dto";
 
 export function convertVehicleDtoToVehicle(vehicleDto: VehicleDto): Vehicle {
+  console.log(vehicleDto, vehicleDto.customer);
   return {
     id: vehicleDto.id || '',
     customer: convertCustomerDtoToCustomer(vehicleDto.customer),

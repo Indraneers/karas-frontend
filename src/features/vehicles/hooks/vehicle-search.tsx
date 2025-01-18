@@ -10,7 +10,7 @@ export function useVehicleSearch({ enabled = false } : { enabled?: boolean }): U
   const debouncedQ = useDebounce(q, 500);
   
   const { isLoading, isError, data } = useQuery({
-    queryKey: ['customers', debouncedQ],
+    queryKey: ['vehicles', debouncedQ],
     queryFn: () => getVehicles({ q: debouncedQ }),
     enabled: (q !== '') || enabled
   });

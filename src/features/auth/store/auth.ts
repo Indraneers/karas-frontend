@@ -4,12 +4,13 @@ import { create } from 'zustand';
 import { getRefreshToken, requestWithRefreshToken } from '../utils/auth';
 
 const refresh = createRefresh({
-  interval: 5,
+  interval: 4,
   refreshApiCallback: async (param) => {
     try {
       const response = await requestWithRefreshToken(param.refreshToken);
       
       if (response.type === 'success') {
+        console.log(response.refresh_expires_in/60, response.expires_in/60);
         return {
           isSuccess: true,
           newAuthToken: response.access_token,

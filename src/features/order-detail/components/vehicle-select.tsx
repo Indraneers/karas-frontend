@@ -17,8 +17,6 @@ export function VehicleSelect({ className }: VehicleSelectProps) {
     enabled: !!customer.id
   });
 
-  console.log(data, customer.id);
-
   return (
     <Select 
       value={vehicle.id} 

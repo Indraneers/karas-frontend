@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/vehic
 
 function VehiclePage() {
   const { q, setQ, data, isLoading } = useVehicleSearch({ enabled: true });
-  console.log(data);
+  console.log("HEY", data);
   return (
     <Section className='pt-4'>
       <SectionHeader>
@@ -30,7 +30,7 @@ function VehiclePage() {
       </SectionHeader>
       <SectionContent>
         <div className='flex justify-between gap-8'>
-          <VehicleSearch
+          <VehicleSearch  
             className='w-[400px]'
             value={q}
             onChange={setQ}
@@ -44,7 +44,7 @@ function VehiclePage() {
         {
           !isLoading && data &&
           <VehicleTable data={data} className='mt-4' />
-        }
+        } 
       </SectionContent>
     </Section>
   );
