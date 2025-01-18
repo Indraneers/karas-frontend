@@ -12,10 +12,12 @@ export function VehicleSelect({ className }: VehicleSelectProps) {
   const { vehicle, setVehicleAndCustomer, customer } = usePosStore();
 
   const { data } = useQuery({
-    queryKey: ['vehicles-customer-', customer.id || ''],
-    queryFn: () => getVehiclesByCustomerId(customer.id || ''),
+    queryKey: ['vehicles-customer-' + customer.id || ''],
+    queryFn: async () => await getVehiclesByCustomerId(customer.id || ''),
     enabled: !!customer.id
   });
+
+  console.log(data, customer.id);
 
   return (
     <Select 

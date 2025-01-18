@@ -12,6 +12,7 @@ import { VehicleForm } from "@/features/vehicles/components/vehicle-form";
 import { usePosStore } from "@/features/pos/store/pos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createVehicle, updateVehicle } from "@/features/vehicles/api/vehicle";
+import { toast } from "sonner";
 
 interface VehicleInformationProps {
   className?: string;
@@ -24,16 +25,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
   
   const createMutation = useMutation({
     mutationFn: (vehicleDto: VehicleDto) => createVehicle(vehicleDto),
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['vehicles']
-      });
-    }
-  });
-
-  const updateMutation = useMutation({
-    mutationFn: (vehicleDto: VehicleDto) => updateVehicle(vehicle?.id || '', vehicleDto),
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({
         queryKey: ['vehicles']
       });
@@ -41,10 +33,34 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         queryKey: ['vehicle-' + vehicle?.id]
       });
       queryClient.invalidateQueries({
-        queryKey: ['vehicles-customer-', customer.id || '']
+        queryKey: ['vehicles-customer-' + customer.id || '']
       });
+      setVehicle(data);
+    },
+    onError: (error) => {
+      toast(error.message);
     }
   });
+
+  const updateMutation = useMutation({
+    mutationFn: (vehicleDto: VehicleDto) => updateVehicle(vehicle?.id || '', vehicleDto),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({
+        queryKey: ['vehicles']
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['vehicle-' + vehicle?.id]
+      });
+      queryClient.invalidateQueries({
+        queryKey: ['vehicles-customer-' + customer.id || '']
+      });
+      setVehicle(data);
+    },
+    onError: (error) => {
+      toast(error.message);
+    }
+  });
+
 
   if (!vehicle) {
     return 'empty...';
@@ -72,8 +88,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           >
             <VehicleForm 
               handleSubmit={async (vehicleDto: VehicleDto) => {
-                const vehicle = await createMutation.mutateAsync(vehicleDto);
-                setVehicle(vehicle);
+                createMutation.mutate(vehicleDto);
               }}
               isPopover
             />
@@ -86,11 +101,10 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
               </Button>
             }
           >
-            <VehicleForm 
+            <VehicleForm
               data={vehicle}
               handleSubmit={async (vehicleDto: VehicleDto) => {
-                const vehicle = await updateMutation.mutateAsync(vehicleDto);
-                setVehicle(vehicle);
+                updateMutation.mutate(vehicleDto);
               }}
               isPopover
             />
