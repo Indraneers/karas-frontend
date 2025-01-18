@@ -16,7 +16,6 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/vehic
 
 function VehiclePage() {
   const { q, setQ, data, isLoading } = useVehicleSearch({ enabled: true });
-  console.log("HEY", data);
   return (
     <Section className='pt-4'>
       <SectionHeader>
