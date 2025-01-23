@@ -1,5 +1,5 @@
 name: Build and deploy frontend to Digital Ocean
-run-name: ${{ github.actor }} is deploying to development server 🚀
+run-name: ${{ github.actor }} is deploying to main server 🚀
 on:
   push:
     branches:
