@@ -42,7 +42,7 @@ function RestockBaseQuantity
 function RestockCountableQuantity
 ({ quantity, changeQuantity, unit  } : RestockQuantityProps) {
   const countableQuantity = convertBaseQuantityToQuantity(
-    unit.toBaseUnit,
+    unit.toBaseUnit || 1,
     Number(quantity)
   );
 
@@ -164,9 +164,15 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
               >
                 LOST
               </RestockItemStatusButton>
-              <Separator className="ml-4 h-8" orientation="vertical" />
+              <Separator className={cn([
+                "ml-4 h-8 hidden",
+                unit.product.variable && 'block'
+              ])} orientation="vertical" />
               <ToBaseUnitSwitch 
-                className="inline-flex ml-2 p-1"
+                className={cn([
+                  "ml-2 p-1 hidden",
+                  unit.product.variable && 'inline-flex'
+                ])}
                 isBaseUnit={isBaseUnit}
                 onChange={setIsBaseUnit}
                 baseUnit={unit.product.baseUnit}
