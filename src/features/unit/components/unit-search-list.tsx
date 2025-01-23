@@ -14,7 +14,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
 
   return (
     <div className="items-center gap-2 grid grid-cols-[auto,1fr] hover:bg-accent p-1 rounded-md cursor-pointer group">
-      <div className="group-hover:bg-background border-2 border-accent p-2 rounded h-full aspect-square self-stretch">
+      <div className="group-hover:bg-background border-2 border-accent p-2 rounded h-10 aspect-square self-stretch">
         { !unit.subcategoryImg ?
           <Box className="w-full h-full text-accent" />
           :
@@ -35,7 +35,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               product.variable && ` (${ convertQuantityDtoToQuantity(unit.toBaseUnit) }${ product.baseUnit })`
             }
           </div>
-          <div>
+          <div className="flex-shrink-0">
             <UnitDtoQuantityBadge 
               variable={product.variable}
               baseUnit={product.baseUnit}
