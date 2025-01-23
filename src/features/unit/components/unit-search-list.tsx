@@ -7,6 +7,7 @@ import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 import { convertQuantityDtoToQuantity } from "../util/convert";
 import { SearchLoading } from "@/components/search-loading";
 import { FilterIcon } from "@/components/filter-icon";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
@@ -63,7 +64,7 @@ interface UnitSearchListProps {
 export function UnitSearchList
 ({ className, units, isLoading = false, onValueChange }: UnitSearchListProps) {
   return (
-    <>
+    <ScrollArea className="h-60">
       <div className="mb-1 font-semibold text-muted-foreground text-xs">Search Units</div>
       <div className={cn([
         'space-y-2 font-body',
@@ -85,6 +86,6 @@ export function UnitSearchList
           <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">Search for a unit...</div>
         }
       </div>
-    </>
+    </ScrollArea>
   );
 }
