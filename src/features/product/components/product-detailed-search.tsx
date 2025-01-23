@@ -20,7 +20,7 @@ interface ProductDetailedSearchProps {
 
 export function ProductDetailedSearchItem({ product } : { product: Product}) {
   return (
-    <div className="hover:bg-accent p-1 rounded-sm font-medium text-center text-sm hover:text-background transition-all cursor-pointer">
+    <div className="hover:bg-accent p-1 rounded-sm font-medium text-left text-sm hover:text-background transition-all cursor-pointer">
       {product.name} ({product.identifier})
     </div>
   );
@@ -68,7 +68,7 @@ export function ProductDetailedSearch({
             role="combobox"
             aria-expanded={open}
             className={cn([
-              "justify-between w-[300px]"
+              "justify-between w-[500px]"
             ])}
           >
             {value
@@ -77,7 +77,7 @@ export function ProductDetailedSearch({
             <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-[300px]">
+        <PopoverContent className="p-0 w-[500px]">
           <ProductSearch 
             className="shadow-none border-none rounded-none rounded-t-md ring-0 focus-within:ring-0 h-10 outline-none"
             value={q}
