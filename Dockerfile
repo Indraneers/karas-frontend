@@ -28,8 +28,8 @@ FROM nginx:1.21.0-alpine
 # Copy the main nginx configuration (nginx.conf)
 COPY conf.d/nginx.conf /etc/nginx/nginx.conf
 
-# Copy the site-specific configuration (site.conf)
-COPY conf.d/site.conf /etc/nginx/conf.d/
+# Copy all templates file to the template folder
+COPY conf.d/*.template /etc/nginx/templates/
 
 # Copy Minio configuration
 COPY conf.d/minio-nginx.conf /etc/nginx/conf.d/
