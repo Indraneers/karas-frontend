@@ -38,6 +38,8 @@ export default tseslint.config(
       'comma-dangle': ['error'],
       'object-curly-spacing': ['error', 'always'],
       "react/prop-types": 0,
+      'brace-style': ['error', 'stroustrup'],
+      'template-curly-spacing': ['error', 'always'],
     },
   },
 )
