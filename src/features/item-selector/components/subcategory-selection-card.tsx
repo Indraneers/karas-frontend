@@ -41,7 +41,7 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
       <CardContent className="flex-grow" />
       <CardFooter className="flex flex-col items-start">
         <div className={cn([
-          "font-medium text-lg text-md",
+          "font-medium text-lg",
           subcategory.color && 'text-background'
         ])}>{subcategory.name}</div>
         <div className={cn([

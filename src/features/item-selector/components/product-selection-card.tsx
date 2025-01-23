@@ -34,7 +34,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
         product.img
       ])}>
         <div className={cn([
-          "font-bold text-2xl",
+          "font-bold text-lg",
           product.img && 'text-background'
         ])}>{product.name}</div>
         <div className={cn([
