@@ -4,6 +4,7 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { getImageUrl } from "@/lib/image";
 import { cn } from "@/lib/utils";
+import { FilterIcon } from "@/components/filter-icon";
 
 interface CategorySelectionCardProps {
   category: CategoryDto;
@@ -28,12 +29,12 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
     >
       <CardHeader>
         { category.img && category.img.length > 0 && 
-          <div
+          <FilterIcon
             className={cn([
-              "w-10 h-10 group-hover:bg-background",
+              'group-hover:bg-accent',
               category.color ? 'bg-background' : 'bg-accent'
             ])}
-            style={{ mask: `url(${ getImageUrl(category.img) }) no-repeat center`, maskSize: 'contain' }}
+            src={getImageUrl(category.img)}
           />
         }
       </CardHeader>

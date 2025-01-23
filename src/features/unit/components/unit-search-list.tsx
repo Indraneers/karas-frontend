@@ -6,6 +6,7 @@ import { ProductTypeBadge } from "@/features/product/components/product-type-bad
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 import { convertQuantityDtoToQuantity } from "../util/convert";
 import { SearchLoading } from "@/components/search-loading";
+import { FilterIcon } from "@/components/filter-icon";
 
 export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
@@ -13,8 +14,17 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   return (
     <div className="items-center gap-2 grid grid-cols-[auto,1fr] hover:bg-accent p-1 rounded-md cursor-pointer group">
       <div className="group-hover:bg-background border-2 border-accent p-2 rounded h-full aspect-square self-stretch">
-        { (!unit.subcategoryImg) && <Box className="w-full h-full text-primary" />}
-        { (unit.subcategoryImg) && <img className="w-full h-full" src={getImageUrl(unit.subcategoryImg)} />}
+        { !unit.subcategoryImg ?
+          <Box className="w-full h-full text-accent" />
+          :
+          <FilterIcon
+            className={cn([
+              'w-full h-full',
+              'bg-accent'
+            ])}
+            src={getImageUrl(unit.subcategoryImg)}
+          />
+        }
       </div>
       <div className="group-hover:text-background">
         <div className="flex justify-between items-center">

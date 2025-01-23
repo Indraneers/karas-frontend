@@ -4,6 +4,7 @@ import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { SubcategoryResponseDto } from "@/features/subcategory/types/subcategory.dto";
 import { getImageUrl } from "@/lib/image";
 import { cn } from "@/lib/utils";
+import { FilterIcon } from "@/components/filter-icon";
 
 interface SubcategorySelectionCardProps {
   subcategory: SubcategoryResponseDto
@@ -28,13 +29,13 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
     >
       <CardHeader>
         {subcategory.img && subcategory.img.length > 0 && 
-            <div
-              className={cn([
-                "w-10 h-10 group-hover:bg-background",
-                subcategory.color ? 'bg-background' : 'bg-accent'
-              ])}
-              style={{ mask: `url(${ getImageUrl(subcategory.img) }) no-repeat center`, maskSize: 'contain' }}
-            />
+          <FilterIcon
+            className={cn([
+              'group-hover:bg-accent',
+              subcategory.color ? 'bg-background' : 'bg-accent'
+            ])}
+            src={getImageUrl(subcategory.img)}
+          />
         }
       </CardHeader>
       <CardContent className="flex-grow" />
