@@ -35,7 +35,7 @@ jobs:
           switches: -avzr --delete
           path: docker-compose.yml
           remote_path: karas-frontend
-          remote_host: ${{ secrets.SSH_HOST }}
+          remote_host: ${{ secrets.SSH_PROD_HOST }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -45,7 +45,7 @@ jobs:
           switches: -avzr --delete
           path: init-letsencrypt.sh
           remote_path: karas-frontend
-          remote_host: ${{ secrets.SSH_HOST }}
+          remote_host: ${{ secrets.SSH_PROD_HOST }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
