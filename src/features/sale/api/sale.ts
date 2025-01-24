@@ -27,6 +27,12 @@ export const updateSale = async (saleRequestDto: SaleRequestDto): Promise<SaleRe
     data: saleRequestDto
   });
 
+export const paySale = async (id: string): Promise<SaleResponseDto> =>
+  request({
+    url: '/sales/pay/' + id,
+    method: 'PUT' 
+  });
+    
 export const deleteSale = async(id: string): Promise<SaleResponseDto> =>
   request({
     url: '/sales/' + id,
