@@ -31,9 +31,6 @@ COPY conf.d/nginx.conf /etc/nginx/nginx.conf
 # Copy all templates file to the template folder
 COPY conf.d/*.template /etc/nginx/templates/
 
-# Copy Minio configuration
-COPY conf.d/minio-nginx.conf /etc/nginx/conf.d/
-
 # Copy the React app build files to the container
 COPY --from=build /app/dist /usr/share/nginx/html
 
