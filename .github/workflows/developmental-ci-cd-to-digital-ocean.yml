@@ -35,7 +35,7 @@ jobs:
           switches: -avzr --delete
           path: docker-compose.yml
           remote_path: karas-frontend
-          remote_host: ${{ secrets.SSH_HOST }}
+          remote_host: ${{ secrets.SSH_DEV_HOST }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
@@ -45,14 +45,14 @@ jobs:
           switches: -avzr --delete
           path: init-letsencrypt.sh
           remote_path: karas-frontend
-          remote_host: ${{ secrets.SSH_HOST }}
+          remote_host: ${{ secrets.SSH_DEV_HOST }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
       - name: connect and deploy
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_HOST }}
+          host: ${{ secrets.SSH_DEV_HOST }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
