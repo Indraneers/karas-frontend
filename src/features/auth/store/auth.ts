@@ -1,18 +1,18 @@
 import createRefresh from 'react-auth-kit/createRefresh';
 import createStore from 'react-auth-kit/createStore';
 import { create } from 'zustand';
-import { getRefreshToken, requestWithRefreshToken } from '../utils/auth';
+import { getAccessToken, requestWithRefreshToken } from '../utils/auth';
 
 const refresh = createRefresh({
-  interval: 4,
+  interval: 5,
   refreshApiCallback: async (param) => {
     try {
       const response = await requestWithRefreshToken(param.refreshToken);
       
       if (response.type === 'success') {
-        console.log(response.refresh_expires_in/60, response.expires_in/60);
         return {
           isSuccess: true,
+          newAuthTokenType: 'Bearer',
           newAuthToken: response.access_token,
           newRefreshToken: response.refresh_token,
           newAuthTokenExpireIn: response.refresh_expires_in/60,
@@ -52,6 +52,6 @@ interface AuthStoreState {
 }
 
 export const useAuthStore = create<AuthStoreState>((set) => ({
-  auth: !!getRefreshToken(),
+  auth: !!getAccessToken(),
   setAuth: (isAuth: boolean) => set(() => ({ auth: isAuth }))
 }));
