@@ -13,7 +13,7 @@ export function ItemCardList({ children, className }: ItemCardListProps) {
         className
       ])
     }>
-      <div className="absolute inset-0 gap-2 grid grid-cols-4 h-full">
+      <div className="absolute inset-0 gap-2 grid grid-cols-4 auto-rows-max h-full">
         {children}
       </div>
     </div>
