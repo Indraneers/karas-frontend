@@ -20,7 +20,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card 
-      className="relative border-primary grid hover:bg-accent py-2 w-full hover:text-background transition cursor-pointer overflow-hidden aspect-square group"
+      className="group relative grid hover:bg-accent py-2 border-primary w-full aspect-square overflow-hidden hover:text-background transition cursor-pointer"
       onClick={handleClick}
     >
       <div className="absolute inset-0">
@@ -34,14 +34,14 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
         product.img
       ])}>
         <div className={cn([
-          "font-bold text-lg",
+          "font-bold text-sm",
           product.img && 'text-background'
         ])}>{product.name}</div>
         <div className={cn([
           "group-hover:text-background flex flex-col items-start gap-1 font-medium text-background mt-2"
         ])}>
           <Badge className={cn([
-            'hidden rounded-full bg-amber-500 hover:bg-amber-600 text-xs',
+            'hidden rounded-full bg-amber-500 hover:bg-amber-600 text-[10px]',
             product.identifier && 'inline-block'
           ])}>
             {product.identifier}
