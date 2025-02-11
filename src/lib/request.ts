@@ -1,3 +1,4 @@
+import { getUser } from '@/features/auth/utils/get-user';
 import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export const client = (() => {
@@ -11,7 +12,8 @@ export const client = (() => {
   // Attach token to every request
   instance.interceptors.request.use(
     (config) => {
-      const token = localStorage.getItem('karas-auth'); // Get the token from localStorage
+      const user = getUser();
+      const token = user?.access_token;
       if (token) {
         // Attach token to the Authorization header
         config.headers['Authorization'] = `Bearer ${ token }`;

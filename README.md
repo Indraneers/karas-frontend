@@ -33,11 +33,17 @@ npm install
 Use the following env template or the one found `.env.example`.
 ```
 # frontend port
-PORT=
+PORT=5173
 
 # backend api url
 VITE_BACKEND_API_URL=
 VITE_KEYCLOAK_URL=
+VITE_MINIO_URL=
+VITE_BUCKET_NAME=
+VITE_CLIENT_ID=
+VITE_AUTHORITY=
+
+VITE_SHOW_DEV_TOOLS=
 ```
 
 ### Running the app locally

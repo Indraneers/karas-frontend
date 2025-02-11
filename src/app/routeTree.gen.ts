@@ -13,7 +13,6 @@ import { createFileRoute } from '@tanstack/react-router'
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as LoginImport } from './routes/login'
 import { Route as ProtectedlayoutImport } from './routes/_protected_layout'
 import { Route as ProtectedlayoutDashboardlayoutImport } from './routes/_protected_layout/_dashboard_layout'
 import { Route as ProtectedlayoutDashboardlayoutIndexImport } from './routes/_protected_layout/_dashboard_layout/index'
@@ -56,11 +55,6 @@ const ProtectedlayoutDashboardlayoutInventoryImport = createFileRoute(
 )()
 
 // Create/Update Routes
-
-const LoginRoute = LoginImport.update({
-  path: '/login',
-  getParentRoute: () => rootRoute,
-} as any)
 
 const ProtectedlayoutRoute = ProtectedlayoutImport.update({
   id: '/_protected_layout',
@@ -294,13 +288,6 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: ''
       preLoaderRoute: typeof ProtectedlayoutImport
-      parentRoute: typeof rootRoute
-    }
-    '/login': {
-      id: '/login'
-      path: '/login'
-      fullPath: '/login'
-      preLoaderRoute: typeof LoginImport
       parentRoute: typeof rootRoute
     }
     '/_protected_layout/_dashboard_layout': {
@@ -591,7 +578,6 @@ export const routeTree = rootRoute.addChildren({
       }),
     ProtectedlayoutInvoiceSaleIdRoute,
   }),
-  LoginRoute,
 })
 
 /* prettier-ignore-end */
@@ -602,8 +588,7 @@ export const routeTree = rootRoute.addChildren({
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_protected_layout",
-        "/login"
+        "/_protected_layout"
       ]
     },
     "/_protected_layout": {
@@ -612,9 +597,6 @@ export const routeTree = rootRoute.addChildren({
         "/_protected_layout/_dashboard_layout",
         "/_protected_layout/invoice/$saleId"
       ]
-    },
-    "/login": {
-      "filePath": "login.tsx"
     },
     "/_protected_layout/_dashboard_layout": {
       "filePath": "_protected_layout/_dashboard_layout.tsx",

@@ -14,8 +14,7 @@ import { getSubtotal } from "@/features/sale/utils/sale";
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useState } from "react";
 import { DateTimePicker } from "@/components/ui/datetime-picker";
-import useAuthUser from "react-auth-kit/hooks/useAuthUser";
-import { TokenPayload } from "@/features/auth/types/auth";
+import { useAuth } from "react-oidc-context";
 
 interface PosActionsProps {
   className?: string;
@@ -29,7 +28,8 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
   const { services } = maintenance;
   const { setSelector } = useItemSelectionStore();
   const navigate = useNavigate();
-  const authUser = useAuthUser<TokenPayload>();
+  const auth = useAuth();
+  const user = auth.user?.profile;
 
   const saleMutation = useMutation({
     mutationFn: (saleRequestDto: SaleRequestDto) => {
@@ -56,7 +56,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         isInit: false
       },
       status,
-      authUser?.userId || ''
+      user?.sub || ''
     );
 
     if (!sale.customerId || !sale.vehicleId) {
@@ -100,7 +100,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       ])}>
         <Button 
           onClick={() => handlePOSAction(StatusEnum.PAID)}
-          className="bg-green-500 hover:bg-green-400 rounded-l-xl rounded-r-none font-semibold"
+          className="bg-green-500 hover:bg-green-400 rounded-r-none rounded-l-xl font-semibold"
         >
           <span>
             <ShoppingCart />
@@ -118,7 +118,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         </Button>
         <Button 
           onClick={() => resetPos()}
-          className="bg-primary rounded-l-none rounded-r-xl font-semibold"
+          className="bg-primary rounded-r-xl rounded-l-none font-semibold"
         >
           <span>
             <Trash />

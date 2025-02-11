@@ -20,7 +20,7 @@ interface ProductDetailedSearchProps {
 
 export function ProductDetailedSearchItem({ product } : { product: Product}) {
   return (
-    <div className="hover:bg-accent p-1 rounded-sm font-medium text-left text-sm hover:text-background transition-all cursor-pointer">
+    <div className="hover:bg-accent p-1 rounded-sm font-medium hover:text-background text-sm text-left transition-all cursor-pointer">
       {product.name} ({product.identifier})
     </div>
   );
@@ -58,7 +58,6 @@ export function ProductDetailedSearch({
     }
   }, [entity, value, data, onEntityChange]);
 
-  console.log(data);
   return (
     <div>
       <Popover open={open} onOpenChange={setOpen}>
@@ -79,7 +78,7 @@ export function ProductDetailedSearch({
         </PopoverTrigger>
         <PopoverContent className="p-0 w-[500px]">
           <ProductSearch 
-            className="shadow-none border-none rounded-none rounded-t-md ring-0 focus-within:ring-0 h-10 outline-none"
+            className="shadow-none border-none rounded-none rounded-t-md outline-none ring-0 focus-within:ring-0 h-10"
             value={q}
             onChange={setQ}
           />
@@ -90,7 +89,7 @@ export function ProductDetailedSearch({
             ])}>
               {
                 data?.length === 0 &&
-              <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">
+              <div className="place-content-center grid p-4 h-40 text-muted-foreground text-sm text-center">
                 Empty...
               </div>
               }
