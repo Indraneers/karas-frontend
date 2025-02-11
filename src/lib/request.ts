@@ -13,9 +13,7 @@ export const client = (() => {
   instance.interceptors.request.use(
     (config) => {
       const user = getUser();
-      console.log(user?.access_token);
       const token = user?.access_token;
-      console.log(user);
       if (token) {
         // Attach token to the Authorization header
         config.headers['Authorization'] = `Bearer ${ token }`;
