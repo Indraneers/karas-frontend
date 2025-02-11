@@ -12,7 +12,7 @@ export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
     <div className='font-body'>
       <Outlet />
-      <TanStackRouterDevtools />
+      {import.meta.env.VITE_SHOW_DEV_TOOLS === 'true' && <TanStackRouterDevtools />}
     </div>
   )
 });
