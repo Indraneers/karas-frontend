@@ -1,28 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { useLocation, useNavigate } from "@tanstack/react-router";
 import { LogOut } from "lucide-react";
-import useSignOut from 'react-auth-kit/hooks/useSignOut';
-import { useAuthStore } from "../store/auth";
-
+import { useAuth } from "react-oidc-context";
 export function LogoutBtn() {
-  const { setAuth } = useAuthStore();
-  const signOut = useSignOut();
-  const navigate = useNavigate();
-  const location = useLocation();
-
+  const auth = useAuth();
   return (
     <Button 
       variant="ghost" 
       size="icon"
       onClick={() => {
-        signOut();
-        setAuth(false);
-        navigate({
-          to: '/login',
-          search: {
-            redirect: location.href
-          }
-        });
+        void auth.signoutRedirect();
       }}
     >
       <LogOut />

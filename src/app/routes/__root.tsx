@@ -1,12 +1,12 @@
 import { createRootRouteWithContext, Outlet } from '@tanstack/react-router';
 import { TanStackRouterDevtools } from '@tanstack/router-devtools';
+import { AuthContextProps } from 'react-oidc-context';
 
 
 interface RouterContext {
   // The ReturnType of your useAuth hook or the value of your AuthContext
-  auth: boolean;
+  auth: AuthContextProps;
 }
-
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (

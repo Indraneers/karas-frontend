@@ -1,24 +1,20 @@
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { AvatarImage } from "@radix-ui/react-avatar";
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
-import { TokenPayload } from "../types/auth";
+import { useAuth } from "react-oidc-context";
 
 export function UserProfile() {
-  const authUser = useAuthUser<TokenPayload>();
-
-  if (!authUser) {
-    return; 
-  }
+  const auth = useAuth();
+  const user = auth.user?.profile;
 
   return (
     <div className="flex gap-2 p-2">
       <Avatar className="rounded-lg w-8 h-8">
         <AvatarImage src="/default-avatar.jpg" alt="evan" />
-        <AvatarFallback className="rounded-md">{authUser.name}</AvatarFallback>
+        <AvatarFallback className="rounded-md">{user?.name}</AvatarFallback>
       </Avatar>
-      <div className="flex-1 grid text-left text-sm leading-tight">
-        <span className="font-semibold truncate">{authUser.name}</span>
-        <span className="text-xs truncate">{authUser.email}</span>
+      <div className="flex-1 grid text-sm text-left leading-tight">
+        <span className="font-semibold truncate">{user?.name}</span>
+        <span className="text-xs truncate">{user?.email}</span>
       </div>
     </div>
   );

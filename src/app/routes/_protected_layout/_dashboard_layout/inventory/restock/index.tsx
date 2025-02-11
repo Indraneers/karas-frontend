@@ -9,7 +9,6 @@ import { Separator } from '@/components/ui/separator';
 import { Textarea } from '@/components/ui/textarea';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { TypographyH2 } from '@/components/ui/typography/h2';
-import { TokenPayload } from '@/features/auth/types/auth';
 import { ProductRequestDto } from '@/features/product/types/product.dto';
 import { createRestock } from '@/features/restock/api/restock';
 import { RestockHeaderElement } from '@/features/restock/components/RestockHeaderElement';
@@ -29,7 +28,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
 import { useState } from 'react';
-import useAuthUser from 'react-auth-kit/hooks/useAuthUser';
+import { useAuth } from 'react-oidc-context';
 import { v4 as uuidv4 } from 'uuid';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/restock/')({
@@ -37,9 +36,9 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function RestockPage() {
+  const auth = useAuth();
   const navigate = useNavigate();
   const queryClient = useQueryClient();
-  const authUser = useAuthUser<TokenPayload>();
   const [restockItems, setRestockItems] = useState<RestockItem[]>([]);
   const [open, setOpen] = useState<boolean>(false);
   const { q, isLoading, setQ, data } = useUnitSearch({ isEnabled: true });
@@ -135,11 +134,12 @@ function RestockPage() {
   }
 
   function submitRestock() {
+    const user = auth.user?.profile;
     const restock: Restock = {
       id: '',
       user: {
-        username: authUser?.name || '',
-        id: authUser?.userId || ''
+        username: user?.name || '',
+        id: user?.sub || ''
       },
       items: restockItems,
       createdAt: new Date()
@@ -231,7 +231,7 @@ function RestockPage() {
           <div className='relative h-full'>
             <RestockItemList className='absolute inset-0 pr-4'>
               {!restockItems && 
-            <div className='place-content-center grid w-full h-full text-center text-muted-foreground'>
+            <div className='place-content-center grid w-full h-full text-muted-foreground text-center'>
               Add a unit to get started
             </div>
               }

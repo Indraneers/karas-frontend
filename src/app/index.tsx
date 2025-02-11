@@ -1,16 +1,19 @@
-import { RouterProvider, createRouter } from '@tanstack/react-router';
+import { createRouter, RouterProvider } from '@tanstack/react-router';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { AuthProvider, hasAuthParams, useAuth } from "react-oidc-context";
 
 // Import the generated route tree
 import { routeTree } from './routeTree.gen';
 import { Toaster } from '@/components/ui/sonner';
+import { onSigninCallback, userManager } from '@/features/auth/config/oidc-config';
+import { useEffect, useState } from 'react';
 
-import AuthProvider from 'react-auth-kit';
-import { store, useAuthStore } from '@/features/auth/store/auth';
-import { getRefreshToken, requestWithRefreshToken } from '@/features/auth/utils/auth';
-import { jwtDecode } from 'jwt-decode';
-import { TokenPayload } from '@/features/auth/types/auth';
-import useSignIn from 'react-auth-kit/hooks/useSignIn';
+// Register the router instance for type safety
+declare module '@tanstack/react-router' {
+  interface RegisterRouter {
+    router: typeof router;
+  }
+}
 
 const router = createRouter({ 
   routeTree, 
@@ -21,47 +24,16 @@ const router = createRouter({
 
 const queryClient = new QueryClient();
 
-// Register the router instance for type safety
-declare module '@tanstack/react-router' {
-  interface RegisterRouter {
-    router: typeof router;
-  }
-}
-
 function AuthorizedRouter({ children }: { children: React.ReactNode}) {
-  const { auth, setAuth } = useAuthStore();
-  const signIn = useSignIn();
+  const auth = useAuth();
+  const [hasTriedSignin, setHasTriedSignin] = useState(false);
 
-  const refreshToken = getRefreshToken();
-
-  if (!auth && refreshToken) {
-    requestWithRefreshToken(refreshToken)
-      .then((response) => {
-        if (response.type === 'success') {
-          const decodedToken = jwtDecode<TokenPayload>(response.access_token);
-              
-          const signInSuccess = signIn({
-            auth: {
-              token: response.access_token,
-              type: 'Bearer'
-            },
-            refresh: response.refresh_token,
-            userState: {
-              name: decodedToken.name,
-              email: decodedToken.email,
-              userId: decodedToken.sub
-            }
-          });
-          
-          if (signInSuccess) {
-            setAuth(true);
-          }
-        }
-        else if (response.type === 'failed') {
-          setAuth(false);
-        }
-      });
-  }
+  useEffect(() => {
+    if (!(hasAuthParams() || auth.isAuthenticated || auth.activeNavigator || auth.isLoading || hasTriedSignin)) {
+      void auth.signinRedirect();
+      setHasTriedSignin(true);
+    }
+  }, [auth, hasTriedSignin]);
 
   return (
     <>
@@ -74,7 +46,7 @@ function AuthorizedRouter({ children }: { children: React.ReactNode}) {
 export function App() {
   return (
     <QueryClientProvider client={queryClient}>
-      <AuthProvider store={store}>
+      <AuthProvider userManager={userManager} onSigninCallback={onSigninCallback}>
         <AuthorizedRouter>
           <Toaster richColors />
         </AuthorizedRouter>
