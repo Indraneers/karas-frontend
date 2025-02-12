@@ -25,7 +25,7 @@ export const itemColumns: ColumnDef<Item>[] = [
     header: 'Item/Service Name',
     cell: ({ row }) => (
       <div className="flex items-center w-[300px]">
-        {row.original.unit.product.name + row.original.unit.product.identifier ? ` (${ row.original.unit.product.identifier })` : ''}
+        {row.original.unit.product.name + (row.original.unit.product.identifier ? ` (${ row.original.unit.product.identifier })` : '')}
         <div className={cn([
           'hidden',
           row.original.unit.product.variable && 'flex items-center'
