@@ -34,6 +34,13 @@ export const itemColumns: ColumnDef<Item>[] = [
           1 
           { row.original.unit.product.baseUnit }
         </div>
+        <div className={cn([
+          'hidden',
+          (!row.original.unit.product.variable) && 'flex items-center'
+        ])}>
+          <Dot />
+          { row.original.unit.name }
+        </div>
       </div>
     )
   },
