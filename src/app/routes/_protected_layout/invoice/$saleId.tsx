@@ -93,8 +93,8 @@ export function InvoicePage() {
         <Separator className='bg-foreground' />
         <VehicleInfo vehicle={saleQuery.data.vehicle} className='my-2' />
         <Separator className='bg-foreground' />
-        <div className='flex justify-between mt-2'>
-          <div className='flex items-center gap-2'>
+        <div className='flex gap-4 mt-2'>
+          <div className='flex items-center gap-4'>
             <InvoiceStatus statusEnum={saleQuery.data.status} />
             <InvoiceDetailElement className={cn([
               'hidden',
