@@ -7,6 +7,7 @@ import { routeTree } from './routeTree.gen';
 import { Toaster } from '@/components/ui/sonner';
 import { onSigninCallback, userManager } from '@/features/auth/config/oidc-config';
 import { useEffect, useState } from 'react';
+import { LoadingPage } from '@/components/loading-page';
 
 // Register the router instance for type safety
 declare module '@tanstack/react-router' {
@@ -34,6 +35,12 @@ function AuthorizedRouter({ children }: { children: React.ReactNode}) {
       setHasTriedSignin(true);
     }
   }, [auth, hasTriedSignin]);
+
+  if (!auth.isAuthenticated) {
+    return (
+      <LoadingPage />
+    );
+  }
 
   return (
     <>
