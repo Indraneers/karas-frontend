@@ -1,7 +1,7 @@
 import { SaleResponseDto } from "../types/sale.dto";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Button } from "@/components/ui/button";
-import { BadgeDollarSign, Edit, Ellipsis, Printer, Trash, Trash2 } from "lucide-react";
+import { BadgeDollarSign, Edit, Ellipsis, Printer, Trash2 } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { paySale } from "../api/sale";
