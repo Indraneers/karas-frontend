@@ -22,8 +22,8 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
 
         className={
           cn([
-            'hover:bg-accent hover:text-background transition cursor-pointer',
-            isActive ? 'bg-accent text-background' : ''
+            'hover:text-accent transition cursor-pointer',
+            isActive ? 'text-accent' : ''
           ])
         }
         asChild
@@ -46,8 +46,8 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
         onClick={() => navigate({ to: url })}
         className={
           cn([
-            'hover:bg-accent hover:text-background transition cursor-pointer',
-            isActive ? 'bg-accent text-background' : ''
+            'hover:text-accent transition cursor-pointer',
+            isActive ? 'text-accent' : ''
           ])
         }
         asChild
@@ -68,7 +68,7 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
     <SidebarMenuButton 
       className={
         cn([
-          'hover:bg-accent hover:text-background transition cursor-pointer'
+          'hover:text-accent transition cursor-pointer'
         ])
       }
       asChild

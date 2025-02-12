@@ -25,7 +25,7 @@ export function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Workspace</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary">Workspace</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {sidebarUserList.map((item) => (
@@ -43,7 +43,7 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
         <SidebarGroup>
-          <SidebarGroupLabel>Admin Section</SidebarGroupLabel>
+          <SidebarGroupLabel className="text-primary">Admin Section</SidebarGroupLabel>
           <SidebarContent>
             <SidebarMenu>
               {sidebarAdminList.map((item) => {
