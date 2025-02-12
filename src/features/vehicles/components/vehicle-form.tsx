@@ -12,6 +12,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { FormSearch } from "@/components/form-search";
 import { useCustomerSearch } from "@/features/customer/hooks/customer-search";
+import { CustomerDto } from "@/features/customer/types/customer.dto";
 
 const formSchema = z.object({
   id: z.string(),
@@ -51,11 +52,14 @@ interface VehicleFormProps {
   handleSubmit: (vehicleDto: VehicleDto) => void;
   data?: VehicleDto | undefined;
   isPopover?: boolean;
+  defaultCustomer?: CustomerDto;
 }
 
-export function VehicleForm({ data = defaultData, handleSubmit, isPopover = false }: VehicleFormProps) {
+export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit, isPopover = false }: VehicleFormProps) {
   const router = useRouter();
   const navigate = useNavigate();
+
+  console.log();
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -71,10 +75,14 @@ export function VehicleForm({ data = defaultData, handleSubmit, isPopover = fals
       router.invalidate();
     }
   }
-  
+
   useEffect(() => {
+    if (defaultCustomer) {
+      data.customer = defaultCustomer;
+    }
+
     form.reset(data);
-  }, [data, form]);
+  }, [data, defaultCustomer, form]);
 
   if (isPopover) {
     return (
