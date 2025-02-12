@@ -83,7 +83,7 @@ export function ProductDetailedSearch({
             value={q}
             onChange={setQ}
           />
-          <ScrollArea className="p-2 border-t h-50">
+          <ScrollArea className="p-2 border-t h-60">
             <div className="mb-1 font-semibold text-muted-foreground text-xs">Products</div>
             <div className={cn([
               'space-y-2 font-body'
