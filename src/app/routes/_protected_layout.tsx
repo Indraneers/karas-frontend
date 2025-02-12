@@ -1,12 +1,7 @@
 import { createFileRoute, Outlet } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_protected_layout')({
-  component: () => <ProtectedLayout />,
-  beforeLoad: async ({ context }) => {
-    if (!context.auth.isAuthenticated) {
-      return;
-    }
-  }
+  component: () => <ProtectedLayout />
 });
 
 export function ProtectedLayout() {
