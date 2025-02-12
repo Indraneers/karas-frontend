@@ -1,8 +1,11 @@
-import { DeleteButton } from "@/components/delete-button";
 import { SaleResponseDto } from "../types/sale.dto";
-import { EditButton } from "@/components/edit-button";
-import { PrintButton } from "@/components/print-button";
-import { SetPaidButton } from "./set-paid-button";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { BadgeDollarSign, Edit, Ellipsis, Printer, Trash, Trash2 } from "lucide-react";
+import { useNavigate } from "@tanstack/react-router";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { paySale } from "../api/sale";
+import { onClickUrl } from "@/lib/link";
 
 interface SaleActionsProps {
   id: string,
@@ -10,16 +13,54 @@ interface SaleActionsProps {
 }
 
 export function SaleActions({ id, handleDelete }: SaleActionsProps) {
+  const queryClient = useQueryClient();
+  const payMutation = useMutation({
+    mutationFn: async (id: string) => paySale(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] })
+  });
+  const deleteMutatation = useMutation({
+    mutationFn: async (id: string) => handleDelete(id),
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] })
+  });
+
+  const navigate = useNavigate();
+
   return (
-    <div className="flex gap-4">
-      <SetPaidButton id={id} />
-      <PrintButton to={'/invoice/' + id + '?print=true'} />
-      <EditButton to={`/sales/edit/` + id} />
-      <DeleteButton
-        id={id} 
-        type="sales"
-        handleDelete={handleDelete}
-      />
-    </div>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button size='icon' variant='ghost'><Ellipsis/></Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent className="w-40">
+        <DropdownMenuLabel>Sale Actions</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem onClick={(e) => {
+            e.stopPropagation();
+            payMutation.mutate(id);
+          }}>
+            <BadgeDollarSign /> Set Paid
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={(e) => {
+            e.stopPropagation();
+            (onClickUrl('/invoice/' + id + '?print=true'))();
+          }}>
+            <Printer /> Print
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={(e) => {
+            e.stopPropagation();
+            navigate({ to: '/sales/edit/' + id });
+          }}>
+            <Edit /> Edit
+          </DropdownMenuItem>
+          <DropdownMenuItem onClick={(e) => {
+            e.stopPropagation();
+            deleteMutatation.mutate(id);
+          }}>
+            <Trash2 />
+            Delete
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
   );
 }

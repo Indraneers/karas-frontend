@@ -98,10 +98,10 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
             unit.productImg ?
               <img 
                 src={getImageUrl(unit.productImg)} 
-                className="block rounded-3xl h-full max-h-full aspect-square object-cover" 
+                className="block rounded-3xl h-full max-h-full object-cover aspect-square" 
               />
               :
-              <div className="place-content-center border-4 border-accent grid rounded-3xl h-full text-accent">
+              <div className="place-content-center grid border-4 border-accent rounded-3xl h-full text-accent">
                 <Box className="w-12 h-12" />
               </div>
           }
@@ -113,7 +113,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
               {unit.name}
               <Dot />
               {product.name}
-              {' (' + product.identifier + ')'}
+              {product.identifier ? (' (' + product.identifier + ')') : ''}
             </div>
 
             <div className="flex gap-2">
