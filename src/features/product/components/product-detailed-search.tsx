@@ -8,6 +8,7 @@ import { useProductSearch } from "../hooks/product-search";
 import { SearchLoading } from "@/components/search-loading";
 import { ProductSearch } from "./product-search";
 import { Product } from "../types/product";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ProductDetailedSearchProps {
   value?: string;
@@ -82,7 +83,7 @@ export function ProductDetailedSearch({
             value={q}
             onChange={setQ}
           />
-          <div className="p-2 border-t">
+          <ScrollArea className="p-2 border-t h-50">
             <div className="mb-1 font-semibold text-muted-foreground text-xs">Products</div>
             <div className={cn([
               'space-y-2 font-body'
@@ -105,7 +106,7 @@ export function ProductDetailedSearch({
                 </div>
               ))}
             </div>
-          </div>
+          </ScrollArea>
         </PopoverContent>
       </Popover>
     </div>

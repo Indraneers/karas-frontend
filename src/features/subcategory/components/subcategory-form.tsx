@@ -92,7 +92,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
             control={form.control}
             name="file"
             render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-6">
+              <FormItem className="mt-4">
                 <FormLabel>Set POS Icon</FormLabel>
                 <Input 
                   {...fieldProps}
@@ -112,7 +112,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
             name="color"
              
             render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-6">
+              <FormItem className="mt-4">
                 <FormLabel>Set POS Color</FormLabel>
                 <ColorPicker
                   {...fieldProps}
@@ -128,7 +128,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
             control={form.control}
             name="categoryId"
             render={({ field }) => (  
-              <FormItem className="mt-6">
+              <FormItem className="mt-4">
                 <FormLabel>Select Category</FormLabel>
                 <FormSearch
                   autoQuery

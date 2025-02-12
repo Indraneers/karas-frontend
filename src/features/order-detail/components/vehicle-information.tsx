@@ -87,6 +87,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
             }
           >
             <VehicleForm 
+              defaultCustomer={customer.id ? customer : undefined}
               handleSubmit={async (vehicleDto: VehicleDto) => {
                 createMutation.mutate(vehicleDto);
               }}

@@ -82,7 +82,7 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
             name="file"
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-6">
+              <FormItem className="mt-4">
                 <FormLabel>Set POS Icon</FormLabel>
                 <Input 
                   {...fieldProps}
@@ -102,7 +102,7 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
             name="color"
              
             render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-6">
+              <FormItem className="mt-4">
                 <FormLabel>Set POS Color</FormLabel>
                 <ColorPicker
                   {...fieldProps}

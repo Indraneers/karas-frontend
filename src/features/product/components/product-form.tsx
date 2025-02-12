@@ -102,7 +102,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
             control={form.control}
             name="identifier"
             render={({ field }) => (
-              <FormItem>
+              <FormItem className="mt-4">
                 <FormLabel>Product Identifier</FormLabel>
                 <FormControl>
                   <Input className="w-[200px]" placeholder="Ex: API SP SAE 5W-30" {...field} />

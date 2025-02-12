@@ -51,7 +51,7 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
           ])}
         >
           <IconInput
-            className="border-0 shadow-none border-b rounded-none focus-within:ring-muted-foreground focus-within:ring-0 h-10 text"
+            className="shadow-none border-0 border-b rounded-none focus-within:ring-muted-foreground focus-within:ring-0 h-10 text"
             value={value}
             onFocus={() => setOpen(true)}
             onBlur={() => setOpen(false)}
@@ -62,10 +62,11 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
         </div>
       </PopoverAnchor>
       <PopoverContent
-        className="p-0 rounded-xl w-[400px]"
+        className="p-0 rounded-md w-[400px]"
         onOpenAutoFocus={(e) => e.preventDefault()}
       >
-        <div className="px-2 py-2 font-medium text-muted-foreground text-sm">Search Result</div>
+        <div className="px-2 py-2 font-medium text-muted-foreground text-xs">Search Result</div>
+        <Separator orientation="horizontal" />
         <div className="relative mt-1 h-80">
           <div className="absolute inset-0 flex flex-col gap-1 h-full max-h-full">
             <ScrollArea>
@@ -112,14 +113,14 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
                   }
                   {
                     q !== '' &&
-              vehicleQuery.data &&
-              vehicleQuery.data.map((v, index) => (
-                <VehicleSearchItem 
-                  key={v.id || index}
-                  setQ={setQ}
-                  vehicle={v}
-                />
-              ))
+                    vehicleQuery.data &&
+                    vehicleQuery.data.map((v, index) => (
+                      <VehicleSearchItem 
+                        key={v.id || index}
+                        setQ={setQ}
+                        vehicle={v}
+                      />
+                    ))
                   }
                 </SearchGroup>
               </div>

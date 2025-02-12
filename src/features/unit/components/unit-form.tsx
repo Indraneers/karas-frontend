@@ -29,7 +29,7 @@ const formSchema = z.object({
   price: z.string(),
   productId: z.string({ message: 'Product is required' }).min(1, 'Product is required'),
   quantity: z.number(),
-  toBaseUnit: z.number().int()
+  toBaseUnit: z.number()
 });
 
 const defaultData: UnitForm = {

@@ -20,14 +20,14 @@ export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes 
       <SidebarMenuSubButton
         className={
           cn([
-            'hover:bg-accent hover:text-background transition cursor-pointer',
-            isActive ? 'bg-accent !text-background' : ''
+            'hover:text-accent transition cursor-pointer',
+            isActive ? 'text-accent' : ''
           ])
         }
         asChild
       >
         <a href={url} target="_blank" rel="noreferrer">
-          <Icon className={isActive ? 'text-background' : 'text-foreground'} />
+          <Icon className={isActive ? 'text-accent' : 'text-foreground'} />
           <span>{children}</span>
         </a>
       </SidebarMenuSubButton>
@@ -40,14 +40,14 @@ export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes 
         onClick={() => navigate({ to: url })}
         className={
           cn([
-            'hover:bg-accent hover:text-background transition cursor-pointer',
-            isActive ? 'bg-accent text-background' : ''
+            'hover:text-accent transition cursor-pointer',
+            isActive ? 'text-accent' : ''
           ])
         }
         asChild
       >
         <a>
-          <Icon className={isActive ? '!text-background' : 'text-foreground'} />
+          <Icon className={isActive ? '!text-accent' : 'text-foreground'} />
           <span>{children}</span>
         </a>
       </SidebarMenuSubButton>
@@ -58,14 +58,14 @@ export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes 
     <SidebarMenuSubButton
       className={
         cn([
-          'hover:bg-accent hover:text-background transition cursor-pointer',
-          isActive ? 'bg-accent text-background' : ''
+          'hover:text-accent transition cursor-pointer',
+          isActive ? 'text-accent' : ''
         ])
       }
       asChild
     >
       <a>
-        <Icon className={isActive ? '!text-background' : 'text-foreground'} />
+        <Icon className={isActive ? '!text-accent' : 'text-foreground'} />
         <span>{children}</span>
       </a>
     </SidebarMenuSubButton>
