@@ -41,7 +41,7 @@ export function InventoryLayout() {
   const navigate = useNavigate();
   return (
     <div className='flex flex-col'>
-      <div className='flex justify-center w-full'>
+      <div className='flex w-full'>
         <Tabs className='pt-4' value={location.pathname}>
           <TabsList>
             {
@@ -59,7 +59,7 @@ export function InventoryLayout() {
           </TabsList>
         </Tabs>
       </div>
-      <Section className='flex-grow grid grid-rows-[auto,1fr] h-full'>
+      <Section className='flex-grow grid grid-rows-[auto,1fr] mt-4 h-full'>
         <Outlet />
       </Section>
     </div>
