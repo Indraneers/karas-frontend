@@ -77,7 +77,7 @@ export function InvoicePage() {
 
   return (
     <div className='flex justify-center items-center w-full'>
-      <div className='p-4 border font-body a4-page' ref={contentRef}>
+      <div className='p-4 font-body a4-page' ref={contentRef}>
         <div className='flex justify-between items-center'>
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
           <InvoiceNumber id={saleQuery.data.id || ''} />
