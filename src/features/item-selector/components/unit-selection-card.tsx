@@ -32,9 +32,17 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full">
-          <Card className="flex flex-col border-primary hover:bg-accent w-full hover:text-background transition cursor-pointer aspect-square group">
+          <Card className="group flex flex-col hover:bg-accent border-primary w-full aspect-square hover:text-background transition cursor-pointer">
             <CardHeader className="space-y-0 text-left">
-              <div className="font-medium text-xl">{unit.name}</div>
+              <div className="font-medium text-xl">
+                {unit.name}
+                {
+                  unit.product.variable &&
+                  <span>
+                    {' '}({unit.toBaseUnit}{unit.product.baseUnit})
+                  </span>
+                }
+              </div>
               <div className="group-hover:text-background text-foreground/50">
                 <Currency amount={unit.price} />
                 {

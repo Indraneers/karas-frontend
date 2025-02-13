@@ -77,7 +77,7 @@ export function InvoicePage() {
 
   return (
     <div className='flex justify-center items-center w-full'>
-      <div className='p-4 font-body a4-page' ref={contentRef}>
+      <div className='p-8 font-body a4-page' ref={contentRef}>
         <div className='flex justify-between items-center'>
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
           <InvoiceNumber id={saleQuery.data.id || ''} />
@@ -118,20 +118,7 @@ export function InvoicePage() {
             </InvoiceDetailElement>
           </div>
         </div>
-        <InvoiceTable className='mt-10 page-break' sale={convertSaleResponseDtoToSale(saleQuery.data)} />
-        <div className='justify-items-stretch gap-8 grid grid-cols-5 mt-[20vh] px-8 text-center'>
-          <div className='pt-2 border-t border-t-foreground font-medium'>
-            Salesperson
-          </div>
-          <div className='pt-2 border-t border-t-foreground font-medium'>
-            Serviceman
-          </div>
-          <div></div>
-          <div></div>
-          <div className='pt-2 border-t border-t-foreground font-medium'>
-            Customer
-          </div>
-        </div>
+        <InvoiceTable className='mt-8 page-break' sale={convertSaleResponseDtoToSale(saleQuery.data)} />
       </div>
     </div>
   );

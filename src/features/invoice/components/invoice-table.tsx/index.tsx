@@ -14,6 +14,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableFooter,
   TableHead,
   TableHeader,
   TableRow
@@ -51,9 +52,11 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
     ])}>
       <div className="rounded-md w-full">
         <Table className="w-full">
-          <TableHeader className="w-full">
+          <TableHeader className="bg-transparent w-full">
+            <TableRow className='border-none'><TableCell colSpan={6}></TableCell></TableRow>
+            <TableRow className="border-none"><TableCell colSpan={6}></TableCell></TableRow>
             {itemTable.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow className="bg-muted text-[9px]" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
@@ -77,7 +80,7 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="px-4 py-0 text-[9px]" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -99,7 +102,7 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
+                    <TableCell className="px-4 py-0 text-[9px]" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -125,6 +128,25 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
               </TableCell>
             </TableRow>
           </TableBody>
+          <TableFooter className='bg-transparent hover:bg-transparent'>
+            <TableRow className='bg-transparent hover:bg-transparent'>
+              <TableCell colSpan={6}>
+                <div className='justify-items-stretch gap-8 grid grid-cols-5 mt-[10vh] mb-[5vh] px-8 text-center'>
+                  <div className='pt-2 border-t border-t-foreground font-medium'>
+                    Salesperson
+                  </div>
+                  <div className='pt-2 border-t border-t-foreground font-medium'>
+                    Serviceman
+                  </div>
+                  <div></div>
+                  <div></div>
+                  <div className='pt-2 border-t border-t-foreground font-medium'>
+                    Customer
+                  </div>
+                </div>
+              </TableCell>
+            </TableRow>
+          </TableFooter>
         </Table>
       </div>
     </div>
