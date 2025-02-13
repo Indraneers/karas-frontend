@@ -8,7 +8,7 @@ import { Dot } from "lucide-react";
 export const itemColumns: ColumnDef<Item>[] = [
   {
     id: 'no',
-    header: 'N.O',
+    header: () => <div>ល.រ<br></br>N.O</div>,
     cell: ({ row }) => row.index + 1
   },
   // {
@@ -22,7 +22,7 @@ export const itemColumns: ColumnDef<Item>[] = [
   // },
   {
     id: 'name',
-    header: 'Item/Service Name',
+    header: () => <div>មុខទំនិញ<br></br>Item/Service</div>,
     cell: ({ row }) => (
       <div className="flex items-center w-[300px]">
         {row.original.unit.product.name + (row.original.unit.product.identifier ? ` (${ row.original.unit.product.identifier })` : '')}
@@ -46,7 +46,7 @@ export const itemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'price',
-    header: 'Price ($)',
+    header: () => <div>ថ្លៃឯកតា ($)<br></br>Price ($)</div>,
     cell: ({ row }) => (
       <div className="text-green-600">
         <Currency amount={row.original.price} />
@@ -55,7 +55,7 @@ export const itemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'discount',
-    header: 'Discount ($)',
+    header: () => <div>បញ្ចុះតម្លៃ ($)<br></br>Discount ($)</div>,
     cell: ({ row }) => (
       <div className="text-primary">
         <Currency amount={row.original.discount} />
@@ -64,12 +64,12 @@ export const itemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Qty',
-    cell: ({ row }) => <div className="text-center">{row.getValue('quantity')}</div>
+    header: () => <div>បរិមាណ<br></br>Qty</div>,
+    cell: ({ row }) => <div>{row.getValue('quantity')}</div>
   },
   {
     accessorKey: 'Total',
-    header: 'Total ($)',
+    header: () => <div>ថ្លៃទំនិញ ($)<br></br>Total ($)</div>,
     cell: ({ row }) => (
       <div className="font-medium text-green-700">
         <Currency amount={
