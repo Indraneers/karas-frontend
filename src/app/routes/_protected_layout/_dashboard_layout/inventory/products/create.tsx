@@ -27,7 +27,7 @@ function CreateProductPage() {
     <Section className='pt-4'>
       <SectionHeader>
         <TypographyH1>
-        Update New Product
+        Create New Product
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
