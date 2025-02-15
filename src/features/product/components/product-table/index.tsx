@@ -6,13 +6,14 @@ import { Product } from "@/features/product/types/product";
 
 interface ProductTablePage {
   className?: string;
-  products: Product[]
+  products: Product[];
+  isLoading?: boolean;
 }
 
-export function ProductTable({ className, products }: ProductTablePage) {
+export function ProductTable({ isLoading, className, products }: ProductTablePage) {
   return (
     <div className={cn(className)}>
-      <DataTablePagination columns={columns} data={products} />
+      <DataTablePagination isLoading={isLoading} columns={columns} data={products} />
     </div>
   );
 }

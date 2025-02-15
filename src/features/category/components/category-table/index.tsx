@@ -5,13 +5,14 @@ import { Category } from "@/features/category/types/category";
 
 interface CategoryTablePage {
   className?: string;
-  categories: Category[]
+  categories: Category[];
+  isLoading?: boolean;
 }
 
-export function CategoryTable({ className, categories }: CategoryTablePage) {
+export function CategoryTable({ isLoading, className, categories }: CategoryTablePage) {
   return (
     <div className={cn(className)}>
-      <DataTablePagination columns={columns} data={categories} />
+      <DataTablePagination isLoading={isLoading} columns={columns} data={categories} />
     </div>
   );
 }
