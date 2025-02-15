@@ -11,11 +11,7 @@ export function useUnitSearch({ productId, isEnabled = false }: { productId?: st
   const debouncedQ = useDebounce(q, 500);
   const { isError, isLoading, data } = useQuery({
     queryKey: [
-      'units'
-      +
-      (productId ? ('-' + productId) : '')
-      +
-      (debouncedQ ? ('-' + debouncedQ) : '')
+      'units', debouncedQ, productId
     ],
     queryFn: () => getUnits({ productId, q: debouncedQ }),
     enabled: isEnabled ? !!q : true

@@ -26,8 +26,7 @@ export function CategorySelection({ className }: CategorySelectionProps) {
           <ItemEmpty />
         }
         { 
-          data 
-          &&
+          isLoading || (data && data.length > 0) &&
           <ItemCardList className="mt-2">
             {
               isLoading &&

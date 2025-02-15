@@ -8,13 +8,14 @@ import { convertQuantityDtoToQuantity } from "../util/convert";
 import { SearchLoading } from "@/components/search-loading";
 import { FilterIcon } from "@/components/filter-icon";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { ProductIdentifier } from "@/features/product/components/product-identifier";
 
 export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
 
   return (
-    <div className="items-center gap-2 grid grid-cols-[auto,1fr] hover:bg-accent p-1 rounded-md cursor-pointer group">
-      <div className="group-hover:bg-background border-2 border-accent p-2 rounded h-10 aspect-square self-stretch">
+    <div className="group items-center gap-2 grid grid-cols-[auto,1fr] hover:bg-accent p-1 rounded-md cursor-pointer">
+      <div className="group-hover:bg-background self-stretch p-2 border-2 border-accent rounded h-10 aspect-square">
         { !unit.subcategoryImg ?
           <Box className="w-full h-full text-accent" />
           :
@@ -43,12 +44,12 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               toBaseUnit={unit.toBaseUnit}
             />
             <ProductTypeBadge 
-              className='ml-2 font-semibold !text-xs text-background'
+              className='ml-2 font-semibold text-background !text-xs'
               variable={product.variable}
             />
           </div>
         </div>
-        <div className="mt-1 text-xs">{unit.product.name} ({unit.product.identifier})</div>
+        <div className="mt-1 text-xs">{unit.product.name} <ProductIdentifier identifier={unit.product.identifier} /></div>
       </div>
     </div>
   );
@@ -72,7 +73,7 @@ export function UnitSearchList
       ])}>
         {
           units?.length === 0 &&
-          <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">Empty...</div>
+          <div className="place-content-center grid p-4 h-40 text-muted-foreground text-sm text-center">Empty...</div>
         }
         {isLoading &&
           <SearchLoading />
@@ -83,7 +84,7 @@ export function UnitSearchList
           </div>
         ))}
         {!units && 
-          <div className="place-content-center grid p-4 h-40 text-center text-muted-foreground text-sm">Search for a unit...</div>
+          <div className="place-content-center grid p-4 h-40 text-muted-foreground text-sm text-center">Search for a unit...</div>
         }
       </div>
     </ScrollArea>

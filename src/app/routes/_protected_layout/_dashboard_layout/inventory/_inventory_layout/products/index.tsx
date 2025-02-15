@@ -30,7 +30,7 @@ function ProductPage() {
           <ProductSearch 
             className='w-[400px]'
             value={q}
-            onChange={(setQ)}
+            onChange={setQ}
           />
           <div className='flex flex-row-reverse gap-4'>
             <NewProductButton />

@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
 import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 import { Unit } from "@/features/unit/types/unit";
+import { ProductIdentifier } from "@/features/product/components/product-identifier";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
@@ -113,7 +114,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
               {unit.name}
               <Dot />
               {product.name}
-              {product.identifier ? (' (' + product.identifier + ')') : ''}
+              <ProductIdentifier identifier={product.identifier} />
             </div>
 
             <div className="flex gap-2">

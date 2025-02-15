@@ -11,12 +11,7 @@ export function useProductSearch
   const debouncedQ = useDebounce(q, 500);
   
   const { isError, isLoading, data } = useQuery({
-    queryKey: ['products'
-      + 
-      (debouncedQ ? ('-' + debouncedQ) : '')
-      + 
-      (subcategoryId ? ('-' + subcategoryId) : '')
-    ],
+    queryKey: ['products', debouncedQ, subcategoryId],
     queryFn: () => getProducts({ subcategoryId: subcategoryId, q: debouncedQ })
   });
 
