@@ -29,8 +29,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
         <ItemEmpty />
       }
       {
-        data
-        &&
+        isLoading || (data && data.length > 0) &&
         <ItemCardList className="mt-2">
           {
             isLoading && 
