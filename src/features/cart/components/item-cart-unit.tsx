@@ -5,7 +5,7 @@ import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
 import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 import { Item } from "@/features/sale/types/item";
-import { cn } from "@/lib/utils";
+import { ProductIdentifier } from "@/features/product/components/product-identifier";
 
 export function ItemCartUnit({ item }: { item: Item }) {
   const { updateItem, removeItem } = usePosStore();
@@ -17,12 +17,6 @@ export function ItemCartUnit({ item }: { item: Item }) {
   const product = item.unit.product;
   
   const totalCost = calculateTotalCost(price, discount, qty);
-  <div className={cn([
-    'hidden text-xs font-normal text-muted-foreground',
-    product.identifier && 'block'
-  ])}>
-    {product.identifier}
-  </div>;
   return (
     <ItemCartItem 
       product={item.unit.product}
@@ -36,17 +30,12 @@ export function ItemCartUnit({ item }: { item: Item }) {
             <div className="font-medium text-[14px]">
               {product.name}
             </div>
-            <div className="font-medium text-sm self-start">
+            <div className="self-start font-medium text-sm">
               {item.unit.name || ''}
             </div>
           </div>
           <div className="flex justify-between items-center">
-            <div className={cn([
-              'hidden text-xs font-normal text-muted-foreground',
-              product.identifier && 'block'
-            ])}>
-              {product.identifier}
-            </div>
+            <ProductIdentifier className="text-xs" identifier={product.identifier} />
           </div>
           {/* Price, discount and quantity */}
           <div className="flex justify-between items-center gap-8 mt-2">

@@ -4,6 +4,7 @@ import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { Item } from "@/features/sale/types/item";
 import { cn } from "@/lib/utils";
 import { Dot } from "lucide-react";
+import { ProductIdentifier } from "@/features/product/components/product-identifier";
 
 export const itemColumns: ColumnDef<Item>[] = [
   {
@@ -25,21 +26,25 @@ export const itemColumns: ColumnDef<Item>[] = [
     header: () => <div>មុខទំនិញ<br></br>Item/Service</div>,
     cell: ({ row }) => (
       <div className="flex items-center w-[300px]">
-        {row.original.unit.product.name + (row.original.unit.product.identifier ? ` (${ row.original.unit.product.identifier })` : '')}
-        <div className={cn([
-          'hidden',
-          row.original.unit.product.variable && 'flex items-center'
-        ])}>
-          <Dot />
-          1 
-          { row.original.unit.product.baseUnit }
-        </div>
-        <div className={cn([
-          'hidden',
-          (!row.original.unit.product.variable) && 'flex items-center'
-        ])}>
-          <Dot />
-          { row.original.unit.name }
+        <div className="flex items-center">
+          <div>
+            {row.original.unit.product.name} <ProductIdentifier identifier={row.original.unit.product.identifier} />
+          </div>
+          <div className={cn([
+            'hidden',
+            row.original.unit.product.variable && 'inline-flex items-center'
+          ])}>
+            <Dot />
+              1 
+            { row.original.unit.product.baseUnit }
+          </div>
+          <div className={cn([
+            'hidden',
+            (!row.original.unit.product.variable) && 'inline-flex items-center'
+          ])}>
+            <Dot />
+            { row.original.unit.name }
+          </div>
         </div>
       </div>
     )
