@@ -11,7 +11,7 @@ import { createFileRoute } from '@tanstack/react-router';
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/categories/')({
   component: () => <CategoryPage />
 });
-
+  
 function CategoryPage() {
   const { q, setQ,  data } = useCategorySearch();
   return (
