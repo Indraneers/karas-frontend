@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
   
 function CategoryPage() {
-  const { q, setQ,  data } = useCategorySearch();
+  const { q, setQ,  data, isLoading } = useCategorySearch();
   return (
     <>
       <SectionHeader className='mt-2'>
@@ -37,7 +37,7 @@ function CategoryPage() {
           </div>
         </div>
         <div className='relative flex-grow mt-4'>
-          <CategoryTable categories={data || []} className='absolute inset-0 h-full' />
+          <CategoryTable isLoading={isLoading} categories={data || []} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>

@@ -5,15 +5,17 @@ import { Subcategory } from "../../types/subcategory";
 
 interface SubcategoryTableProps {
   className?: string;
-  subcategories: Subcategory[]
+  subcategories: Subcategory[];
+  isLoading?: boolean;
 }
 
-export function SubcategoryTable({ className, subcategories }: SubcategoryTableProps) {
+export function SubcategoryTable({ isLoading, className, subcategories }: SubcategoryTableProps) {
   return (
     <div className={cn([
       className
     ])}>
       <DataTablePagination 
+        isLoading={isLoading}
         columns={columns}
         data={subcategories}
       />

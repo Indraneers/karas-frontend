@@ -15,7 +15,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function UnitPage() {
-  const { q, setQ, data } = useUnitSearch();
+  const { q, setQ, data, isLoading } = useUnitSearch();
 
   return (
     <>
@@ -40,7 +40,7 @@ function UnitPage() {
           </div>
         </div>
         <div className='relative flex-grow mt-4 h-full'>
-          <UnitTable units={data?.map((u) => convertUnitDtoToUnit(u)) || []} className='absolute inset-0 h-full' />
+          <UnitTable isLoading={isLoading} units={data?.map((u) => convertUnitDtoToUnit(u)) || []} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>

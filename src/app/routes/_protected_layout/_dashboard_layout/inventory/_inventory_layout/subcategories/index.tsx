@@ -14,7 +14,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 export function SubcategoryPage() {
-  const { q, setQ, data } = useSubcategorySearch();
+  const { q, setQ, data, isLoading } = useSubcategorySearch();
 
   const subcategories = data?.map((sc) => convertSCDtoToSC(sc)) || [];
   return (
@@ -40,7 +40,7 @@ export function SubcategoryPage() {
           </div>
         </div>
         <div className='relative flex-grow mt-4'>
-          <SubcategoryTable subcategories={subcategories} className='absolute inset-0 h-full' />
+          <SubcategoryTable isLoading={isLoading} subcategories={subcategories} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>

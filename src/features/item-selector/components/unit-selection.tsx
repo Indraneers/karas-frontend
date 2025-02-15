@@ -30,7 +30,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
         <ItemEmpty />
       }
       {
-        isLoading || (data && data.length > 0) &&
+        (isLoading || (data && data.length > 0)) &&
         <ItemCardList className="mt-2">
           {
             isLoading && 

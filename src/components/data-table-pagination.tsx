@@ -19,21 +19,43 @@ import {
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useMemo } from "react";
+import { Skeleton } from "./ui/skeleton";
  
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
   data: TData[];
   onRowClick?: (data: TData) => void;
+  isLoading?: boolean;
 }
  
 export function DataTablePagination<TData, TValue>({
   columns,
   data,
-  onRowClick
+  onRowClick,
+  isLoading
 }: DataTableProps<TData, TValue>) {
+
+  const tableData = useMemo(
+    () => (isLoading ? Array(10).fill({}) : data),
+    [isLoading, data]
+  ); 
+
+  const tableColumns = useMemo(
+    () =>
+      isLoading
+        ? columns.map((column) => ({
+          ...column,
+          cell: () => <Skeleton className="h-4" />
+        }))
+        : columns,
+    [isLoading, columns]
+  );
+
+  
   const table = useReactTable({
-    data,
-    columns,
+    columns: tableColumns as ColumnDef<TData, TValue>[], 
+    data: tableData as TData[],
     getCoreRowModel: getCoreRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     defaultColumn: {
@@ -70,6 +92,9 @@ export function DataTablePagination<TData, TValue>({
             ))}
           </TableHeader>
           <TableBody>
+            {
+              isLoading
+            }
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow

@@ -5,13 +5,14 @@ import { Unit } from "../../types/unit";
 
 interface UnitTablePage {
   className?: string;
-  units: Unit[]
+  units: Unit[];
+  isLoading?: boolean;
 }
 
-export function UnitTable({ className, units }: UnitTablePage) {
+export function UnitTable({ isLoading, className, units }: UnitTablePage) {
   return (
     <div className={cn([className])}>
-      <DataTablePagination columns={columns} data={units} />
+      <DataTablePagination isLoading={isLoading} columns={columns} data={units} />
     </div>
   );
 }

@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function ProductPage() {
-  const { q, setQ, data } = useProductSearch();
+  const { q, setQ, data, isLoading } = useProductSearch();
   return (
     <>
       <SectionHeader className='mt-2'>
@@ -37,7 +37,7 @@ function ProductPage() {
           </div>
         </div>
         <div className='relative flex-grow mt-4 h-full'>
-          <ProductTable products={data || []} className='absolute inset-0 h-full' />
+          <ProductTable isLoading={isLoading} products={data || []} className='absolute inset-0 h-full' />
         </div>
       </SectionContent>
     </>
