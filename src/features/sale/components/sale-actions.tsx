@@ -26,9 +26,11 @@ export function SaleActions({ id, handleDelete }: SaleActionsProps) {
   const navigate = useNavigate();
 
   return (
-    <DropdownMenu>
+    <DropdownMenu >
       <DropdownMenuTrigger asChild>
-        <Button size='icon' variant='ghost'><Ellipsis/></Button>
+        <Button className="hover:bg-transparent focus-visible:ring-0 w-4 h-4 hover:text-primary" size='icon' variant='ghost'>
+          <Ellipsis />
+        </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-40">
         <DropdownMenuLabel>Sale Actions</DropdownMenuLabel>
