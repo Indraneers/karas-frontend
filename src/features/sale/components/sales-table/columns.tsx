@@ -35,7 +35,7 @@ export const columns: ColumnDef<Sale>[] = [
   {
     accessorKey: 'id',
     header: 'Invoice ID',
-    cell:({ row }) => (<div className="font-medium text-primary hover:underline">{row.original.id}</div>)
+    cell:({ row }) => <div className="font-medium text-primary hover:underline">{row.original.id}</div>
   },
   {
     accessorKey: 'customer.name',
