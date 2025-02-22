@@ -15,51 +15,55 @@ jobs:
       - name: Login
         run: |
           echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
       - name: Build and Publish
         run: |
           touch .env
           echo "${{ secrets.PROD_ENV_FILE }}" > .env
           docker compose -f docker-compose.yml build --no-cache
           docker compose -f docker-compose.yml push
+
   deployment:
     needs: build-and-publish
     name: deploy image
     runs-on: ubuntu-latest
-
+    strategy:
+      matrix:
+        env: [v1, v2] # Add more environments here if needed
     steps:
       - uses: actions/checkout@v3
 
-      - name: rsync docker compose config
+      - name: rsync docker compose config to prod ${{ matrix.env }}
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --delete
           path: docker-compose.yml
           remote_path: karas-frontend
-          remote_host: ${{ secrets.SSH_PROD_HOST }}
+          remote_host: ${{ secrets[format('SSH_PROD_{0}_HOST', matrix.env)] }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: rsync init-letsencrypt.sh
+      - name: rsync init-letsencrypt.sh to prod ${{ matrix.env }}
         uses: burnett01/rsync-deployments@5.2.1
         with:
           switches: -avzr --delete
           path: init-letsencrypt.sh
           remote_path: karas-frontend
-          remote_host: ${{ secrets.SSH_PROD_HOST }}
+          remote_host: ${{ secrets[format('SSH_PROD_{0}_HOST', matrix.env)] }}
           remote_user: ${{ secrets.SSH_USERNAME }}
           remote_key: ${{ secrets.SSH_PRIVATE_KEY }}
 
-      - name: connect and deploy
+      - name: connect and deploy to prod ${{ matrix.env }}
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ secrets.SSH_PROD_HOST }}
+          host: ${{ secrets[format('SSH_PROD_{0}_HOST', matrix.env)] }}
           username: ${{ secrets.SSH_USERNAME }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker system prune -a --volumes
             docker network create nginx_network
             cd karas-frontend
-            echo "${{ secrets.PROD_ENV_FILE }}" > .env
+            echo "${{ secrets[format('PROD_{0}_ENV_FILE', matrix.env)] }}" > .env
             echo "${{ secrets.PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
             docker compose up -d certbot

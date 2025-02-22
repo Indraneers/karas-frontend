@@ -6,11 +6,17 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        - VITE_BACKEND_API_URL
-        - HOSTNAME
-    env_file:
-      - .env
+    environment:
+      - PORT=5173
+      - VITE_BACKEND_API_URL=${VITE_BACKEND_API_URL}
+      - VITE_KEYCLOAK_URL=${VITE_KEYCLOAK_URL}
+      - VITE_MINIO_URL=${VITE_MINIO_URL}
+      - VITE_BUCKET_NAME=${VITE_BUCKET_NAME}
+      - VITE_CLIENT_ID=${VITE_CLIENT_ID}
+      - VITE_AUTHORITY=${VITE_AUTHORITY}
+      - VITE_SHOW_DEV_TOOLS=${VITE_SHOW_DEV_TOOLS}
+      - HOSTNAME=${HOSTNAME}
+      - MINIO_HOSTNAME=${MINIO_HOSTNAME}
     ports:
       - "80:80"
       - "443:443"
@@ -19,14 +25,13 @@ services:
       - ./certbot/conf/:/etc/letsencrypt/:rw
     networks:
       - nginx_network
+
   certbot:
     image: certbot/certbot:latest
     volumes:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    env_file:
-      - .env
 networks:
   nginx_network:
     external: true
