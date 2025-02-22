@@ -8,15 +8,15 @@ services:
       dockerfile: Dockerfile
     environment:
       - PORT=5173
-      - VITE_BACKEND_API_URL=${{ secrets.VITE_BACKEND_API_URL }}
-      - VITE_KEYCLOAK_URL=${{ secrets.VITE_KEYCLOAK_URL }}
-      - VITE_MINIO_URL=${{ secrets.VITE_MINIO_URL }}
-      - VITE_BUCKET_NAME=${{ secrets.VITE_BUCKET_NAME }}
-      - VITE_CLIENT_ID=${{ secrets.VITE_CLIENT_ID }}
-      - VITE_AUTHORITY=${{ secrets.VITE_AUTHORITY }}
-      - VITE_SHOW_DEV_TOOLS=${{ secrets.VITE_SHOW_DEV_TOOLS }}
-      - HOSTNAME=${{ secrets.HOSTNAME }}
-      - MINIO_HOSTNAME=${{ secrets.MINIO_HOSTNAME }}
+      - VITE_BACKEND_API_URL=${VITE_BACKEND_API_URL}
+      - VITE_KEYCLOAK_URL=${VITE_KEYCLOAK_URL}
+      - VITE_MINIO_URL=${VITE_MINIO_URL}
+      - VITE_BUCKET_NAME=${VITE_BUCKET_NAME}
+      - VITE_CLIENT_ID=${VITE_CLIENT_ID}
+      - VITE_AUTHORITY=${VITE_AUTHORITY}
+      - VITE_SHOW_DEV_TOOLS=${VITE_SHOW_DEV_TOOLS}
+      - HOSTNAME=${HOSTNAME}
+      - MINIO_HOSTNAME=${MINIO_HOSTNAME}
     ports:
       - "80:80"
       - "443:443"
