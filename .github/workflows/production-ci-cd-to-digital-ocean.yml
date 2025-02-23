@@ -65,4 +65,4 @@ jobs:
             echo "${{ secrets.PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
             docker compose up -d certbot
-            docker compose up -d frontend
+            docker compose --env-file .env up -d frontend
