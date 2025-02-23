@@ -12,14 +12,37 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - name: Login
+      - name: Login to GitHub Container Registry
         run: |
           echo ${{ secrets.PAT }} | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-      - name: Build and Publish
+      - name: Build and Publish v1
         run: |
-          docker compose -f docker-compose.yml build --no-cache
-          docker compose -f docker-compose.yml push
+          # Load environment variables from PROD_V1_ENV_FILE
+          echo "${{ secrets.PROD_V1_ENV_FILE }}" > .env.v1
+
+          # Build the Docker image with build-time variables
+          docker compose -f docker-compose.yml build --no-cache --env-file .env.v1
+
+          # Tag the image as v1
+          docker tag ghcr.io/chheangg/karas-frontend:latest ghcr.io/chheangg/karas-frontend:v1
+
+          # Push the v1 image to the container registry
+          docker push ghcr.io/chheangg/karas-frontend:v1
+
+      - name: Build and Publish v2
+        run: |
+          # Load environment variables from PROD_V2_ENV_FILE
+          echo "${{ secrets.PROD_V2_ENV_FILE }}" > .env.v2
+
+          # Build the Docker image with build-time variables
+          docker compose -f docker-compose.yml build --no-cache --env-file .env.v2
+
+          # Tag the image as v2
+          docker tag ghcr.io/chheangg/karas-frontend:latest ghcr.io/chheangg/karas-frontend:v2
+
+          # Push the v2 image to the container registry
+          docker push ghcr.io/chheangg/karas-frontend:v2
 
   deployment:
     needs: build-and-publish
@@ -59,9 +82,15 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             docker system prune -a --volumes
-            docker network create nginx_network
+            docker network create nginx_network || true
             cd karas-frontend
+
+            # Create .env file dynamically for the specific environment
             echo "${{ secrets[format('PROD_{0}_ENV_FILE', matrix.env)] }}" > .env
+
+            # Set IMAGE_TAG based on the environment (v1 or v2)
+            export IMAGE_TAG=${{ matrix.env }}
+
             echo "${{ secrets.PAT }}" | docker login ghcr.io --username "${{ github.repository_owner }}" --password-stdin
             docker compose pull
             docker compose up -d certbot

@@ -11,6 +11,7 @@ export const userManager = new UserManager({
 });
 
 export const onSigninCallback = () => {
+  console.log(import.meta.env);
   // Parse the current URL
   const url = new URL(window.location.href);
 
