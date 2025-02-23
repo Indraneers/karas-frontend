@@ -18,14 +18,30 @@ jobs:
 
       - name: Build and Publish v1
         run: |
-          docker compose -f docker-compose.yml build --no-cache
+          # Load environment variables from PROD_V1_ENV_FILE
+          echo "${{ secrets.PROD_V1_ENV_FILE }}" > .env.v1
+
+          # Build the Docker image with build-time variables
+          docker compose -f docker-compose.yml build --no-cache --env-file .env.v1
+
+          # Tag the image as v1
           docker tag ghcr.io/chheangg/karas-frontend:latest ghcr.io/chheangg/karas-frontend:v1
+
+          # Push the v1 image to the container registry
           docker push ghcr.io/chheangg/karas-frontend:v1
 
       - name: Build and Publish v2
         run: |
-          docker compose -f docker-compose.yml build --no-cache
+          # Load environment variables from PROD_V2_ENV_FILE
+          echo "${{ secrets.PROD_V2_ENV_FILE }}" > .env.v2
+
+          # Build the Docker image with build-time variables
+          docker compose -f docker-compose.yml build --no-cache --env-file .env.v2
+
+          # Tag the image as v2
           docker tag ghcr.io/chheangg/karas-frontend:latest ghcr.io/chheangg/karas-frontend:v2
+
+          # Push the v2 image to the container registry
           docker push ghcr.io/chheangg/karas-frontend:v2
 
   deployment:
