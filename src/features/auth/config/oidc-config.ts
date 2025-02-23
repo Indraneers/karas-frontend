@@ -10,8 +10,9 @@ export const userManager = new UserManager({
   monitorSession: true // this allows cross tab login/logout detection
 });
 
+console.log("HEY", import.meta.env);
+
 export const onSigninCallback = () => {
-  console.log(import.meta.env);
   // Parse the current URL
   const url = new URL(window.location.href);
 
