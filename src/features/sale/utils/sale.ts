@@ -16,10 +16,13 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
     vehicle: saleResponseDto.vehicle,
     customer: saleResponseDto.customer,
     items: saleResponseDto.items.map((i) => convertItemDtoToItem(i)),
-    maintenance: {
-      ...saleResponseDto.maintenance,
-      createdAt: new Date(saleResponseDto.maintenance.createdAt)
-    }
+    maintenance: saleResponseDto.maintenance ?
+      {
+        ...saleResponseDto.maintenance,
+        createdAt: new Date(saleResponseDto.maintenance.createdAt)
+      }
+      :
+      undefined
   };
 }
 

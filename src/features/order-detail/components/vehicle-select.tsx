@@ -1,6 +1,6 @@
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { usePosStore } from "@/features/pos/store/pos";
-import { getVehiclesByCustomerId } from "@/features/vehicles/api/vehicle";
+import { getVehiclesByCustomerId } from "@/features/vehicle/api/vehicle";
 import { cn } from "@/lib/utils";
 import { useQuery } from "@tanstack/react-query";
 

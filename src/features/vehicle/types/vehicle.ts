@@ -1,5 +1,13 @@
 import { Customer } from "@/features/customer/types/customer";
 
+export enum VehicleType {
+  MOTORBIKE = 'MOTORBIKE',
+  TUK_TUK = 'TUK_TUK',
+  PASSENGER_CAR = 'PASSENGER_CAR',
+  COMMERCIAL_VEHICLE = 'COMMERCIAL_VEHICLE',
+  OTHER = 'OTHER'
+}
+
 export interface Vehicle {
   id?: string;
   customer: Customer;
@@ -9,4 +17,5 @@ export interface Vehicle {
   note: string;
   plateNumber: string;
   makeAndModel: string;
+  vehicleType: VehicleType;
 }

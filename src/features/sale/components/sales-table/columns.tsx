@@ -76,7 +76,7 @@ export const columns: ColumnDef<Sale>[] = [
           <Currency amount={
             getSubtotal({ 
               items, 
-              maintenanceServices: row.original.maintenance.services
+              maintenanceServices: row.original.maintenance ? row.original.maintenance.services : []
             })
           } />
         </div>
@@ -101,7 +101,7 @@ export const columns: ColumnDef<Sale>[] = [
       // const services = items.filter((i) => i.type === 'service');
       const total = getTotal({ 
         items, 
-        maintenanceServices: row.original.maintenance.services,
+        maintenanceServices: row.original.maintenance ? row.original.maintenance.services : [],
         discount: row.original.discount 
       });
 

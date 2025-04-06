@@ -1,17 +1,15 @@
 import { request } from "@/lib/request";
-import { VehicleDto } from "../dto/vehicle.dto";
+import { VehicleDto } from "../types/vehicle.dto";
+import { APIQuery } from "@/types/query";
+import { Page } from "@/types/page";
+import { Vehicle } from "../types/vehicle";
 
-interface VehicleQuery {
-  q?: string
-}
-
-export const getVehicles = (query?: VehicleQuery): Promise<VehicleDto[]> =>
+export const getVehicles = (q : APIQuery): Promise<Page<Vehicle>> => 
   request({
     url: '/vehicles',
     method: 'GET',
-    params: query
+    params: q
   });
-
 export const getVehicleById = (id: string): Promise<VehicleDto> =>
   request({
     url: '/vehicles/' + id,
@@ -20,11 +18,8 @@ export const getVehicleById = (id: string): Promise<VehicleDto> =>
 
 export const getVehiclesByCustomerId = (customerId: string): Promise<VehicleDto[]> =>
   request({
-    url: '/vehicles',
-    method: 'GET',
-    params: {
-      customerId
-    }
+    url: `/customers/${ customerId }/vehicles`,
+    method: 'GET'
   });
 
 export const createVehicle = (vehicleDto: VehicleDto): Promise<VehicleDto> =>
@@ -34,12 +29,14 @@ export const createVehicle = (vehicleDto: VehicleDto): Promise<VehicleDto> =>
     data: vehicleDto
   });
 
-export const updateVehicle = (id: string, vehicleDto: VehicleDto): Promise<VehicleDto> =>
-  request({
+export const updateVehicle = (id: string, vehicleDto: VehicleDto): Promise<VehicleDto> => {
+  console.log("CALLED", vehicleDto);
+  return request({
     url: '/vehicles/' + id,
     method: 'PUT',
     data: vehicleDto
   });
+};
 
 export const deleteVehicle = (id: string): Promise<VehicleDto> =>
   request({

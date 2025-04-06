@@ -1,5 +1,5 @@
 import { create } from 'zustand';
-import { VehicleDto } from '@/features/vehicles/dto/vehicle.dto';
+import { VehicleDto } from '@/features/vehicle/types/vehicle.dto';
 import { CustomerDto } from '@/features/customer/types/customer.dto';
 import { ServiceSelectorItem } from '@/features/service-selector/types/service-selector-item';
 // import { getCheckedServiceItem } from '@/features/service-selector/utils/service-selector';

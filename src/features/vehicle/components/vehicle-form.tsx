@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { VehicleDto } from "../dto/vehicle.dto";
+import { VehicleDto } from "../types/vehicle.dto";
 import { useRouter } from "@tanstack/react-router";
 import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
@@ -10,9 +10,9 @@ import { FormGroup } from "@/components/form-group";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
-import { FormSearch } from "@/components/form-search";
-import { useCustomerSearch } from "@/features/customer/hooks/customer-search";
+import { FormSearchPaginated } from "@/components/form-search-paginated";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
+import { getCustomers } from "@/features/customer/api/customer";
 
 const formSchema = z.object({
   id: z.string(),
@@ -58,8 +58,6 @@ interface VehicleFormProps {
 export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit, isPopover = false }: VehicleFormProps) {
   const router = useRouter();
   const navigate = useNavigate();
-
-  console.log();
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -68,7 +66,7 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
     values.id = '';
-    handleSubmit(values);  
+    await handleSubmit(values);
     form.reset();
     if (!isPopover) {
       navigate({ to: '/vehicles', replace: true });
@@ -79,9 +77,8 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
   useEffect(() => {
     if (defaultCustomer) {
       data.customer = defaultCustomer;
+      form.reset(data);
     }
-
-    form.reset(data);
   }, [data, defaultCustomer, form]);
 
   if (isPopover) {
@@ -133,10 +130,10 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem className="mt-4">
                   <FormLabel>Customer</FormLabel>
                   <FormControl>
-                    <FormSearch
+                    <FormSearchPaginated
                       value={field.value}
                       onChange={field.onChange}
-                      useSearch={useCustomerSearch}
+                      getEntity={getCustomers}
                       placeholder='Search for customers'
                       entityName='customer'
                     />
@@ -180,7 +177,7 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                       <Input placeholder="Ex: 2HGFG21588H705472" {...field} />
                     </FormControl>
                     <FormDescription>
-                  Set Vin Number
+                      Set Vin Number
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -280,10 +277,10 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
               <FormItem className="mt-4">
                 <FormLabel>Customer</FormLabel>
                 <FormControl>
-                  <FormSearch
+                  <FormSearchPaginated
                     value={field.value}
                     onChange={field.onChange}
-                    useSearch={useCustomerSearch}
+                    getEntity={getCustomers}
                     placeholder='Search for customers'
                     entityName='customer'
                   />

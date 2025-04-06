@@ -1,20 +1,22 @@
 import { cn } from "@/lib/utils";
 import { Car, Dot } from "lucide-react";
-import { VehicleDto } from "../../vehicles/dto/vehicle.dto";
+import { VehicleDto } from "../../vehicle/types/vehicle.dto";
 import { usePosStore } from "@/features/pos/store/pos";
 
 interface VehicleSearchItemProps {
   className?: string;
   vehicle: VehicleDto;
-  setQ: (text: string) => void
+  setQ: (text: string) => void;
+  setOpen: (o: boolean) => void;
 }
 
-export function VehicleSearchItem({ className, vehicle, setQ }: VehicleSearchItemProps) {
+export function VehicleSearchItem({ className, vehicle, setQ, setOpen }: VehicleSearchItemProps) {
   const { setVehicleAndCustomer } = usePosStore();
 
   function handleClick() {
     setVehicleAndCustomer(vehicle) ;
     setQ('');
+    setOpen(false);
   }
 
   return (
@@ -26,15 +28,15 @@ export function VehicleSearchItem({ className, vehicle, setQ }: VehicleSearchIte
       ])}
     >
       <div className="place-content-center grid bg-blue-50 p-1 border border-foreground group-hover:border-accent border-blue-400 rounded h-9 aspect-square transition-all">  
-        <Car className="group-hover:text-accent text-blue-400 text-foreground" strokeWidth={1} />
+        <Car className="text-blue-400 text-foreground group-hover:text-accent" strokeWidth={1} />
       </div>
       <div className="flex flex-grow">
         <div className="flex flex-col flex-grow">
           <div className="font-medium text-sm">
             {vehicle.makeAndModel}
           </div>
-          <div className="group-hover:text-background flex justify-between items-center text-xs">
-            <div className="group-hover:text-background flex items-center text-foreground/50">
+          <div className="flex justify-between items-center group-hover:text-background text-xs">
+            <div className="flex items-center text-foreground/50 group-hover:text-background">
               <div>
                 {vehicle.plateNumber}
               </div>

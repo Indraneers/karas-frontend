@@ -1,17 +1,17 @@
 import { Textarea } from "@/components/ui/textarea";
 import { TypographyH3 } from "@/components/ui/typography/h3";
 import { SaleDetailElement } from "@/features/sale/components/sale-detail-element";
-import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 import { cn } from "@/lib/utils";
 import { VehicleSelect } from "./vehicle-select";
 import { Separator } from "@/components/ui/separator";
 import { PopoverButton } from "./popover-button";
 import { Button } from "@/components/ui/button";
 import { Edit, RotateCcw, SquarePlus } from "lucide-react";
-import { VehicleForm } from "@/features/vehicles/components/vehicle-form";
+import { VehicleForm } from "@/features/vehicle/components/vehicle-form";
 import { usePosStore } from "@/features/pos/store/pos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createVehicle, updateVehicle } from "@/features/vehicles/api/vehicle";
+import { createVehicle, updateVehicle } from "@/features/vehicle/api/vehicle";
 import { toast } from "sonner";
 
 interface VehicleInformationProps {
@@ -87,7 +87,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
             }
           >
             <VehicleForm 
-              defaultCustomer={customer.id ? customer : undefined}
+              defaultCustomer={customer}
               handleSubmit={async (vehicleDto: VehicleDto) => {
                 createMutation.mutate(vehicleDto);
               }}
@@ -104,6 +104,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           >
             <VehicleForm
               data={vehicle}
+              defaultCustomer={customer}
               handleSubmit={async (vehicleDto: VehicleDto) => {
                 updateMutation.mutate(vehicleDto);
               }}

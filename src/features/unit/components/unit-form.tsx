@@ -19,7 +19,7 @@ export interface UnitForm {
   name: string;
   quantity: number;
   price: string;
-  productId: string;
+  productId: string;r
   toBaseUnit: number;
 }
 

@@ -1,5 +1,5 @@
 import { ColumnDef } from "@tanstack/react-table";
-import { Vehicle } from "../../dto/vehicle";
+import { Vehicle } from "../../types/vehicle";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
 import { CustomLink } from "@/components/link";

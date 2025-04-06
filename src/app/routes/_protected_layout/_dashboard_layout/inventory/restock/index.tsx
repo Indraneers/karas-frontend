@@ -18,12 +18,13 @@ import { RestockItem } from '@/features/restock/types/restock-item';
 import { RestockRequestDto } from '@/features/restock/types/restock.dto';
 import { StockUpdate } from '@/features/restock/types/stock-update.enum';
 import { convertRestockToRestockDto } from '@/features/restock/utils/convert';
+import { getUnits } from '@/features/unit/api/unit';
 import { UnitSearch } from '@/features/unit/components/unit-search';
 import { UnitSearchList } from '@/features/unit/components/unit-search-list';
-import { useUnitSearch } from '@/features/unit/hooks/unit-search';
 import { Unit } from '@/features/unit/types/unit';
 import { UnitResponseDto } from '@/features/unit/types/unit.dto';
 import { convertBaseQuantityToQuantity, convertUnitDtoToUnit } from '@/features/unit/util/convert';
+import { useInfiniteSearch } from '@/hooks/use-infinite-search';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { Check } from 'lucide-react';
@@ -41,7 +42,12 @@ function RestockPage() {
   const queryClient = useQueryClient();
   const [restockItems, setRestockItems] = useState<RestockItem[]>([]);
   const [open, setOpen] = useState<boolean>(false);
-  const { q, isLoading, setQ, data } = useUnitSearch({ isEnabled: true });
+
+  const { q, setQ, isLoading, data, totalElements, fetchNextPage, hasNextPage } = useInfiniteSearch({
+    getEntity: getUnits,
+    key: 'units'
+  });
+
   const products: ProductRequestDto[] = restockItems
     .map(ri => ri.unit.product)
     .reduce((arr: ProductRequestDto[], curr) => {
@@ -202,12 +208,11 @@ function RestockPage() {
       </SectionHeader>
       <SectionContent className='flex flex-col flex-grow pt-8'>
         <div className='flex gap-8'>
-          <div className='relative'>
+          <div className='relative' onBlur={(e) => !e.relatedTarget && setOpen(false)}>
             <Popover open={open}>
               <PopoverAnchor>
                 <UnitSearch 
                   onFocus={() => setOpen(true)}
-                  onBlur={() => setOpen(false)}
                   className='w-[500px]' 
                   value={q} 
                   onChange={setQ}
@@ -218,7 +223,14 @@ function RestockPage() {
                 className='p-2' 
                 style={{ width: 'var(--radix-popover-trigger-width)' }}
               >
-                <UnitSearchList isLoading={isLoading} onValueChange={addRestockItem} units={data} />
+                <UnitSearchList 
+                  isLoading={isLoading} 
+                  onValueChange={addRestockItem} 
+                  data={data} 
+                  totalElements={totalElements}
+                  fetchNextPage={fetchNextPage}
+                  hasNextPage={hasNextPage || false}
+                />
               </PopoverContent>
             </Popover>
           </div>

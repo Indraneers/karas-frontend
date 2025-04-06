@@ -40,6 +40,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const product = item.unit.product;
   const isVariable = product.variable;
 
+  const [currentElementIndex, setCurrentElementIndex] = useState(0);  
   const [isBaseUnit, setIsBaseUnit] = useState(true);
 
   const priceInput = useRef<HTMLInputElement>(null);
@@ -66,8 +67,6 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
     discountInput,
     qtyInput
   };
-
-  const [currentElementIndex, setCurrentElementIndex] = useState(0);
 
   const totalCost = calculateTotalCost(
     convertStringToCurrency(price), 

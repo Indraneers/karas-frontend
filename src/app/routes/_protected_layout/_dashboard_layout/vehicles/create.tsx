@@ -2,9 +2,9 @@ import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
 import { TypographyH1 } from '@/components/ui/typography/h1';
-import { createVehicle } from '@/features/vehicles/api/vehicle';
-import { VehicleForm } from '@/features/vehicles/components/vehicle-form';
-import { VehicleDto } from '@/features/vehicles/dto/vehicle.dto';
+import { createVehicle } from '@/features/vehicle/api/vehicle';
+import { VehicleForm } from '@/features/vehicle/components/vehicle-form';
+import { VehicleDto } from '@/features/vehicle/types/vehicle.dto';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 

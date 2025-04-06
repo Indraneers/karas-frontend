@@ -1,5 +1,5 @@
 import { CustomerDto } from "@/features/customer/types/customer.dto";
-import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 import { UserDto } from "@/features/user/types/user.dto";
 import { Item } from "./item";
 import { Maintenance } from "@/features/maintenance/types/maintenance";
@@ -18,5 +18,5 @@ export interface Sale {
   vehicle: VehicleDto;
   items: Item[];
   status: StatusEnum;
-  maintenance: Maintenance;
+  maintenance?: Maintenance;
 }

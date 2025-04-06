@@ -1,12 +1,13 @@
 import { request } from "@/lib/request";
 import { UnitRequestDto, UnitResponseDto } from "../types/unit.dto";
+import { APIQuery } from "@/types/query";
+import { Page } from "@/types/page";
 
-interface UnitQuery {
-  q?: string;
+interface UnitQuery extends APIQuery {
   productId?: string;
 }
 
-export const getUnits = async (query?: UnitQuery): Promise<UnitResponseDto[]>  =>
+export const getUnits = async (query?: UnitQuery): Promise<Page<UnitResponseDto>>  =>
   request({
     url: '/units',
     method: 'GET',

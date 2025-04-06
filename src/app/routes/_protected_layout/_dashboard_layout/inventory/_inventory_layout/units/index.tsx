@@ -7,16 +7,16 @@ import { SectionHeader } from '@/components/section-header';
 import { SectionContent } from '@/components/section-content';
 import { UnitSearch } from '@/features/unit/components/unit-search';
 import { Subtitle } from '@/components/subtitle';
-import { useUnitSearch } from '@/features/unit/hooks/unit-search';
 import { convertUnitDtoToUnit } from '@/features/unit/util/convert';
+import { getUnits } from '@/features/unit/api/unit';
+import { useSearchPagination } from '@/hooks/use-search-pagination';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/')({
   component: () => <UnitPage />
 });
 
 function UnitPage() {
-  const { q, setQ, data, isLoading } = useUnitSearch();
-
+  const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({ getEntity: getUnits, key: 'units' });
   return (
     <>
       <SectionHeader className='mt-2'>
@@ -40,7 +40,12 @@ function UnitPage() {
           </div>
         </div>
         <div className='relative flex-grow mt-4 h-full'>
-          <UnitTable isLoading={isLoading} units={data?.map((u) => convertUnitDtoToUnit(u)) || []} className='absolute inset-0 h-full' />
+          <UnitTable 
+            isLoading={isLoading} 
+            units={data?.content.map((u) => convertUnitDtoToUnit(u)) || []}  
+            className='absolute inset-0 h-full' 
+            paginationDetail={paginationDetail}
+          />
         </div>
       </SectionContent>
     </>

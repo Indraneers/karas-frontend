@@ -1,4 +1,5 @@
 import { CustomerDto } from "@/features/customer/types/customer.dto";
+import { VehicleType } from "./vehicle";
 
 export interface VehicleDto {
   id?: string;
@@ -9,4 +10,5 @@ export interface VehicleDto {
   note: string;
   plateNumber: string;
   makeAndModel: string;
+  vehicleType: VehicleType;
 }

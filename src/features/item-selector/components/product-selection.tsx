@@ -3,9 +3,11 @@ import { ItemCardList } from "./item-card-list";
 import { ProductSelectionCard } from "./product-selection-card";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ProductSearch } from "@/features/product/components/product-search";
-import { useProductSearch } from "@/features/product/hooks/product-search";
 import { ItemSkeletonList } from "./item-skeleton-list";
 import { ItemEmpty } from "./item-empty";
+import { useInfiniteSearch } from "@/hooks/use-infinite-search";
+import { getProducts } from "@/features/product/api/product";
+import React, { useCallback } from "react";
 
 interface ProductSelectionProps {
   className?: string;
@@ -14,7 +16,23 @@ interface ProductSelectionProps {
 export function ProductSelection({ className }: ProductSelectionProps) {
   const { subcategory } = useItemSelectionStore();
 
-  const { q, setQ, isLoading, isError, data } = useProductSearch({ subcategoryId: subcategory?.id });
+  const { q, setQ, data, isLoading, isError, totalElements, hasNextPage, fetchNextPage } = useInfiniteSearch({
+    getEntity: getProducts,
+    key: 'products',
+    query: { subcategoryId: subcategory?.id }
+  });
+
+  const onScrollEvent = useCallback((event: React.UIEvent<HTMLDivElement>) => {
+    const { scrollHeight, clientHeight, scrollTop } = event.currentTarget;
+    const threshold = 50;
+      
+    if (scrollHeight - clientHeight <= scrollTop + threshold) {
+      console.log(hasNextPage, fetchNextPage);
+      if (hasNextPage && fetchNextPage) {
+        fetchNextPage();
+      }
+    }
+  }, [fetchNextPage, hasNextPage]);
 
   return (
     <div className={
@@ -25,19 +43,25 @@ export function ProductSelection({ className }: ProductSelectionProps) {
     }>
       <ProductSearch value={q} onChange={setQ} />
       { isError && "error" }
-      { data?.length === 0 && 
+      { totalElements === 0 && 
         <ItemEmpty />
       }
       {
-        (isLoading || (data && data.length > 0)) &&
-        <ItemCardList className="mt-2">
+        (isLoading || (data && data.pages && totalElements > 0)) &&
+        <ItemCardList onScroll={onScrollEvent} className="mt-2">
           {
             isLoading && 
             <ItemSkeletonList />
           }
           {
-            data?.map((p) => (
-              <ProductSelectionCard product={p} key={p.id} />
+            data?.pages.map((p, i) => (
+              <React.Fragment key={i}>
+                {
+                  p.content.map((product) => (
+                    <ProductSelectionCard product={product} key={product.id} />
+                  ))
+                }
+              </React.Fragment>
             ))
           }
         </ItemCardList>

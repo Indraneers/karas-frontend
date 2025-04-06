@@ -1,6 +1,6 @@
 import { DeleteButton } from "@/components/delete-button";
 import { EditButton } from "@/components/edit-button";
-import { VehicleDto } from "../dto/vehicle.dto";
+import { VehicleDto } from "../types/vehicle.dto";
 
 interface VehicleActionsProps {
   id: string;

@@ -1,7 +1,7 @@
 import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { InvoiceDetailElement } from "./invoice-detail-element";
-import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 
 export function VehicleInfo({ vehicle, className }: { vehicle: VehicleDto, className?: string }) {
   return (
