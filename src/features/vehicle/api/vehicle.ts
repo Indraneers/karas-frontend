@@ -2,9 +2,8 @@ import { request } from "@/lib/request";
 import { VehicleDto } from "../types/vehicle.dto";
 import { APIQuery } from "@/types/query";
 import { Page } from "@/types/page";
-import { Vehicle } from "../types/vehicle";
 
-export const getVehicles = (q : APIQuery): Promise<Page<Vehicle>> => 
+export const getVehicles = (q : APIQuery): Promise<Page<VehicleDto>> => 
   request({
     url: '/vehicles',
     method: 'GET',

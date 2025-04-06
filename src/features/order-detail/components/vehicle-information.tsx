@@ -13,6 +13,9 @@ import { usePosStore } from "@/features/pos/store/pos";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createVehicle, updateVehicle } from "@/features/vehicle/api/vehicle";
 import { toast } from "sonner";
+import { vehicleTypeList } from "@/features/vehicle/utils/vehicle";
+import { VehicleIcon } from "@/features/vehicle/components/vehicle-icon";
+import { VehicleType } from "@/features/vehicle/types/vehicle";
 
 interface VehicleInformationProps {
   className?: string;
@@ -65,6 +68,8 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
   if (!vehicle) {
     return 'empty...';
   }
+
+  const vehicleObj = vehicleTypeList.find(t => t.value === vehicle.vehicleType) || vehicleTypeList[0];
   
   return (
     <div className={cn([
@@ -116,9 +121,22 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           </Button>
         </div>
       </div>
-      <SaleDetailElement className="mt-4" label="Make and Model">
-        <span className="font-medium">{vehicle.makeAndModel}</span>
-      </SaleDetailElement>
+      <div  className="flex gap-6 mt-4">
+        <SaleDetailElement label="Make and Model">
+          <span className="font-medium">{vehicle.makeAndModel}</span>
+        </SaleDetailElement>
+        <div className="flex items-center gap-2">
+          {vehicle.vehicleType !== VehicleType.EMPTY && vehicle.vehicleType ? 
+            <VehicleIcon className="w-8 h-8" iconClassName="h-6 w-6" icon={vehicleObj.icon} /> 
+            : 
+            ''}
+          <SaleDetailElement className="" label="Vehicle Type">
+            <span className="flex items-center gap-2 m- font-medium">
+              {vehicle.vehicleType ? vehicleObj.content : VehicleType.EMPTY}
+            </span>
+          </SaleDetailElement>
+        </div>
+      </div>
       <SaleDetailElement className="mt-2" label="Plate Number">
         <span className="font-medium">{vehicle.plateNumber}</span>
       </SaleDetailElement>

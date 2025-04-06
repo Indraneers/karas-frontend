@@ -13,6 +13,11 @@ import { Button } from "@/components/ui/button";
 import { FormSearchPaginated } from "@/components/form-search-paginated";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { getCustomers } from "@/features/customer/api/customer";
+import { VehicleType } from "../types/vehicle";
+import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import { SelectValue } from "@radix-ui/react-select";
+import { vehicleTypeList } from "../utils/vehicle";
+import { VehicleIcon } from "./vehicle-icon";
 
 const formSchema = z.object({
   id: z.string(),
@@ -28,7 +33,8 @@ const formSchema = z.object({
   mileage: z.coerce.number().int(),
   vinNo: z.string(),
   engineNo: z.string(),
-  note: z.string().max(75)
+  note: z.string().max(75),
+  vehicleType: z.nativeEnum(VehicleType)
 });
 
 const defaultData: VehicleDto = {
@@ -45,7 +51,8 @@ const defaultData: VehicleDto = {
   mileage: 0,
   vinNo: '',
   engineNo: '',
-  note: ''
+  note: '',
+  vehicleType: VehicleType.PASSENGER_CAR
 };
 
 interface VehicleFormProps {
@@ -296,22 +303,53 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
         </FormGroup>  
         <FormGroup title="Vehicle Detail">
 
-          <FormField
-            control={form.control}
-            name="mileage"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Mileage</FormLabel>
-                <FormControl>
-                  <Input type="number" className="w-[200px]" placeholder="Ex: 60000 miles" {...field} />
-                </FormControl>
-                <FormDescription>
+          <div className='grid grid-cols-3 mt-4'>
+            <FormField
+              control={form.control}
+              name="vehicleType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>VeicleType</FormLabel>
+                  <FormControl>
+                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                      <SelectTrigger className="w-[300px]">
+                        <SelectValue placeholder="Select vehicle type" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {vehicleTypeList.map(t => (
+                          <SelectItem key={t.content} value={t.value}>
+                            <div className="flex items-center gap-2">
+                              <VehicleIcon icon={t.icon} /> {t.content}
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormDescription>
+                    Set Vehicle Type
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="mileage"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Mileage</FormLabel>
+                  <FormControl>
+                    <Input type="number" className="w-[200px]" placeholder="Ex: 60000 miles" {...field} />
+                  </FormControl>
+                  <FormDescription>
                   Set Mileage
-                </FormDescription>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
 
           <div className="grid grid-cols-3 mt-4">
             <FormField

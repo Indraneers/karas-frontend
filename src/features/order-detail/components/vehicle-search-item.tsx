@@ -1,7 +1,9 @@
 import { cn } from "@/lib/utils";
-import { Car, Dot } from "lucide-react";
+import { Dot } from "lucide-react";
 import { VehicleDto } from "../../vehicle/types/vehicle.dto";
 import { usePosStore } from "@/features/pos/store/pos";
+import { VehicleIcon } from "@/features/vehicle/components/vehicle-icon";
+import { vehicleTypeList } from "@/features/vehicle/utils/vehicle";
 
 interface VehicleSearchItemProps {
   className?: string;
@@ -19,6 +21,8 @@ export function VehicleSearchItem({ className, vehicle, setQ, setOpen }: Vehicle
     setOpen(false);
   }
 
+  const vehicleIcon = vehicleTypeList.find(v => v.value === vehicle.vehicleType)?.icon || vehicleTypeList[0].icon;
+
   return (
     <div 
       onClick={handleClick}
@@ -27,9 +31,7 @@ export function VehicleSearchItem({ className, vehicle, setQ, setOpen }: Vehicle
         className
       ])}
     >
-      <div className="place-content-center grid bg-blue-50 p-1 border border-foreground group-hover:border-accent border-blue-400 rounded h-9 aspect-square transition-all">  
-        <Car className="text-blue-400 text-foreground group-hover:text-accent" strokeWidth={1} />
-      </div>
+      <VehicleIcon className="w-8 h-8" iconClassName="w-6 h-6" icon={vehicleIcon} />
       <div className="flex flex-grow">
         <div className="flex flex-col flex-grow">
           <div className="font-medium text-sm">

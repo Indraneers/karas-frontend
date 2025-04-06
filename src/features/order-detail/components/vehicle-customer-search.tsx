@@ -39,6 +39,8 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
   const isCustomerDataNotEmpty =
     customerQuery.totalElements !== 0;
 
+  console.log(customerQuery);
+
   const isVehicleDataNotEmpty = 
     vehicleQuery.totalElements !== 0;
 
@@ -114,7 +116,7 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
                   />
                   <SearchGroup
                     title="Vehicles"
-                    isOpen={(vehicleQuery.q !== '' && isVehicleDataNotEmpty)}
+                    isOpen={vehicleQuery.q !== '' && isVehicleDataNotEmpty}
                     placeholder='vehicle'
                     fetchNextPage={vehicleQuery.fetchNextPage}
                     hasNextPage={vehicleQuery.hasNextPage}
@@ -146,9 +148,15 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
       
                   </SearchGroup>
                   {
-                    !isCustomerDataNotEmpty
-                    &&
-                    !isVehicleDataNotEmpty
+                    
+                    (
+                      (!isCustomerDataNotEmpty
+                      &&
+                      !isVehicleDataNotEmpty
+                      )
+                      ||
+                      (vehicleQuery.q === '')
+                    )
                     &&
                     !vehicleQuery.isLoading
                     &&

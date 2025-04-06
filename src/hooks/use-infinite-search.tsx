@@ -1,6 +1,6 @@
 import { FetchNextPageOptions, InfiniteData, InfiniteQueryObserverResult, useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchPaginatedState } from "@/types/use-search";
 import { Page } from "@/types/page";
 
@@ -36,19 +36,23 @@ export function useInfiniteSearch<T>({ getEntity, key, enabled = true, query }: 
     getNextPageParam: (lastPage) => {
       const { totalPages, number } = lastPage;
       const nextPage = (number + 1) < totalPages ? number + 1 : undefined;
-
-      if (lastPage.totalElements && lastPage.totalElements !== totalElements) {
-        setTotalElements(lastPage.totalElements);
-      }
-
-      if (lastPage.totalPages && lastPage.totalPages !== totalPages) {
-        setTotalPages(lastPage.totalPages);
-      }
-
       return nextPage;
     },
     enabled: enabled || (debouncedQ !== '' || q !== undefined) // More robust enabled condition
   });
+
+  useEffect(() => {
+    if (data && data.pages) {
+      const lastPage = data?.pages[data.pages.length - 1];
+      if (lastPage.totalElements !== totalElements) {
+        setTotalElements(lastPage.totalElements);
+      }
+  
+      if (lastPage.totalPages !== totalPages) {
+        setTotalPages(lastPage.totalPages);
+      }
+    }
+  }, [data, totalElements, totalPages]);
 
   return {
     isError,

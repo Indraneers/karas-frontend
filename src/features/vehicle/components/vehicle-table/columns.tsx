@@ -5,6 +5,8 @@ import { Badge } from "@/components/ui/badge";
 import { CustomLink } from "@/components/link";
 import { VehicleActions } from "../vehicle-actions";
 import { deleteVehicle } from "../../api/vehicle";
+import { vehicleTypeList } from "../../utils/vehicle";
+import { VehicleIcon } from "../vehicle-icon";
 
 export const columns: ColumnDef<Vehicle>[] = [
   {
@@ -38,6 +40,18 @@ export const columns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: 'makeAndModel',
     header: 'Make & Model'
+  },
+  {
+    accessorKey: 'vehicleType',
+    header: 'Vehicle Type',
+    cell: ({ row }) => {
+      const vehicleType = vehicleTypeList.find(t => t.value === row.original.vehicleType) || vehicleTypeList[0];
+      return (
+        <div className="flex items-center gap-2">
+          <VehicleIcon icon={vehicleType.icon} /> {vehicleType.content}
+        </div>
+      );
+    }
   },
   {
     accessorKey: 'mileage',

@@ -9,6 +9,7 @@ import { Sale } from '@/features/sale/types/sale';
 import { Item } from '@/features/sale/types/item';
 import { Maintenance } from '@/features/maintenance/types/maintenance';
 import { MaintenanceService } from '@/features/maintenance/types/maintenance-service';
+import { VehicleType } from '@/features/vehicle/types/vehicle';
 
 const defaultVehicle: VehicleDto = {
   engineNo: '-',
@@ -17,6 +18,7 @@ const defaultVehicle: VehicleDto = {
   mileage: 0,
   note: '',
   plateNumber: '-',
+  vehicleType: VehicleType.EMPTY,
   customer: {
     id: '',
     name: '',

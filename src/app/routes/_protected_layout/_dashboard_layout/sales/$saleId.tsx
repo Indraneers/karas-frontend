@@ -94,7 +94,7 @@ function SaleDetailPage() {
         <Separator className='mt-3 mb-2' />
         <CustomerInformation customer={sale.customer} />
         <Separator className='mt-3 mb-2' />
-        <VehicleInformation vehicle={ sale.vehicle} />
+        <VehicleInformation vehicle={sale.vehicle} />
       </SaleDetailAside>
       <div className='col-span-2 h-full'>
         <SaleTable sale={sale} />

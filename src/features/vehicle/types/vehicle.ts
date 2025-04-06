@@ -5,7 +5,8 @@ export enum VehicleType {
   TUK_TUK = 'TUK_TUK',
   PASSENGER_CAR = 'PASSENGER_CAR',
   COMMERCIAL_VEHICLE = 'COMMERCIAL_VEHICLE',
-  OTHER = 'OTHER'
+  OTHER = 'OTHER',
+  EMPTY = '-'
 }
 
 export interface Vehicle {

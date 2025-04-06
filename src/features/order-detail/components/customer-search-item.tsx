@@ -23,12 +23,17 @@ export function CustomerSearchItem({ className, customer, setQ, setOpen }: Custo
     <div
       onClick={handleClick}
       className={cn([
-        "hover:bg-accent group gap-2 hover:text-background grid grid-cols-[auto,1fr] p-1 rounded-md cursor-pointer",
+        "hover:bg-accent group gap-2 hover:text-background items-center grid grid-cols-[auto,1fr] p-1 rounded-md cursor-pointer",
         className
       ])}
     >
-      <div className="place-content-center grid bg-blue-50 p-1 border border-foreground group-hover:border-accent border-blue-400 rounded h-9 aspect-square transition-all">
-        <User className="text-blue-400 text-foreground group-hover:text-accent" strokeWidth={1} />
+      <div className={cn([
+        "bg-primary p-1 rounded-sm h-8 w-8",
+        className
+      ])}>
+        <User className={cn([
+          "w-6 h-6 text-white"
+        ])} />
       </div>
       <div className="flex flex-col">
         <div className="font-medium text-sm">
