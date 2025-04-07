@@ -1,6 +1,11 @@
+/**
+ * raw quantity: the quantity, whose errors is in the thousands, returned from the backend
+ * base quantity: the smallest denomination of quantity for that unit
+ * quantity: the quantity of the unit, taking the base quantity / conversion factor
+ */
 import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
-import { convertCurrencyToString, convertStringToCurrency } from "@/lib/currency";
+import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
 import { Unit } from "../types/unit";
 
 export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): UnitRequestDto {
@@ -11,19 +16,19 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
   if (variable) {
     return {
       name: unit.name,
-      quantity: convertQuantityToQuantityDto(unit.quantity),
-      price: convertStringToCurrency(unit.price),
+      quantity: convertBaseQuantityToRawQuantity(unit.quantity),
+      price: convertCurrencyStringToRawCurrency(unit.price),
       productId: unit.productId,
-      toBaseUnit: convertQuantityToQuantityDto(unit.toBaseUnit)
+      toBaseUnit: convertBaseQuantityToRawQuantity(unit.toBaseUnit)
     };
   }
 
   return {
     name: unit.name,
     quantity: unit.quantity,
-    price: convertStringToCurrency(unit.price),
+    price: convertCurrencyStringToRawCurrency(unit.price),
     productId: unit.productId,
-    toBaseUnit: convertQuantityToQuantityDto(unit.toBaseUnit)
+    toBaseUnit: convertBaseQuantityToRawQuantity(unit.toBaseUnit)
   };
 }
 
@@ -36,14 +41,14 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     return {
       id: unit.id,
       name: unit.name,
-      quantity: convertQuantityDtoToQuantity(unit.quantity),
+      quantity: convertRawQuantityToBaseQuantity(unit.quantity),
       price: unit.price,
       product: unit.product,
       productImg: unit.productImg,
       subcategory: unit.subcategory,
       subcategoryImg: unit.subcategoryImg,
       category: unit.category,
-      toBaseUnit: convertQuantityDtoToQuantity(unit.toBaseUnit)
+      toBaseUnit: convertRawQuantityToBaseQuantity(unit.toBaseUnit)
     };
   }
 
@@ -57,7 +62,7 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     subcategory: unit.subcategory,
     subcategoryImg: unit.subcategoryImg,
     category: unit.category,
-    toBaseUnit: convertQuantityDtoToQuantity(unit.toBaseUnit)
+    toBaseUnit: convertRawQuantityToBaseQuantity(unit.toBaseUnit)
   };
 }
 
@@ -66,10 +71,10 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     return {
       id: unitDto.id || '',
       name: unitDto.name,
-      quantity: convertQuantityDtoToQuantity(unitDto.quantity),
-      price: convertCurrencyToString(unitDto.price),
+      quantity: convertRawQuantityToBaseQuantity(unitDto.quantity),
+      price: convertRawCurrencyToCurrencyString(unitDto.price),
       productId: unitDto.product.id,
-      toBaseUnit: convertQuantityDtoToQuantity(unitDto.toBaseUnit)
+      toBaseUnit: convertRawQuantityToBaseQuantity(unitDto.toBaseUnit)
     };
   }
 
@@ -77,17 +82,17 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     id: unitDto.id || '',
     name: unitDto.name,
     quantity: unitDto.quantity,
-    price: convertCurrencyToString(unitDto.price),
+    price: convertRawCurrencyToCurrencyString(unitDto.price),
     productId: unitDto.product.id,
-    toBaseUnit: convertQuantityDtoToQuantity(unitDto.toBaseUnit)
+    toBaseUnit: convertRawQuantityToBaseQuantity(unitDto.toBaseUnit)
   };
 }
 
-export function convertQuantityToQuantityDto(baseUnit: number): number {
+export function convertBaseQuantityToRawQuantity(baseUnit: number): number {
   return baseUnit * 1000;
 }
 
-export function convertQuantityDtoToQuantity(baseUnitDto: number): number {
+export function convertRawQuantityToBaseQuantity(baseUnitDto: number): number {
   return baseUnitDto / 1000;
 }
 

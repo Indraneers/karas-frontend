@@ -1,4 +1,4 @@
-import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
+import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
 import { ServiceForm } from "../components/service-form";
 import { Service } from "../types/service";
 import { ServiceDto } from "../types/service.dto";
@@ -13,7 +13,7 @@ export function convertServiceDtoToServiceForm(serviceDto: ServiceDto): ServiceF
   return {
     id: serviceDto.id,
     name: serviceDto.name,
-    price: convertCurrencyToInputString(serviceDto.price),
+    price: convertRawCurrencyToCurrencyString(serviceDto.price),
     active: serviceDto.active
   };
 }
@@ -22,7 +22,7 @@ export function convertServiceFormToServiceDto(serviceForm: ServiceForm): Servic
   return {
     id: serviceForm.id || '',
     name: serviceForm.name,
-    price: convertStringToCurrency(serviceForm.price),
+    price: convertCurrencyStringToRawCurrency(serviceForm.price),
     active: serviceForm.active
   };
 }

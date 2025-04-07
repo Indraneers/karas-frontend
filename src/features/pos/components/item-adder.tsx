@@ -3,7 +3,6 @@ import { usePosStore } from "../store/pos";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
 import { Currency } from "@/components/currency";
-import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 import { Item } from "@/features/sale/types/item";
 import { UnderlineCurrencyInput } from "./underline-currency-input";
 import { UnderlineInput } from "./underline-input";
@@ -14,6 +13,7 @@ import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch
 import { cn } from "@/lib/utils";
 import { FormEvent } from "react";
 import { ArrowRight, Check, Delete } from "lucide-react";
+import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
 
 interface ItemAdderProps {
   item: Item;
@@ -47,7 +47,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const discountInput = useRef<HTMLInputElement>(null);
   const qtyInput = useRef<HTMLInputElement>(null);
 
-  const [price, setPrice] = useState<string>(convertCurrencyToInputString(item.price));
+  const [price, setPrice] = useState<string>(convertRawCurrencyToCurrencyString(item.price));
   const [discount, setDiscount] = useState<string>('');
   const [qty, setQty] = useState<string>('');
 
@@ -69,8 +69,8 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   };
 
   const totalCost = calculateTotalCost(
-    convertStringToCurrency(price), 
-    convertStringToCurrency(discount), 
+    convertCurrencyStringToRawCurrency(price), 
+    convertCurrencyStringToRawCurrency(discount), 
     Number(qty)
   );
 
@@ -78,9 +78,9 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   function handleSubmit() {
     const itemResult: Item = {
       ...item,
-      price: convertStringToCurrency(price),
+      price: convertCurrencyStringToRawCurrency(price),
       quantity: Number(qty) || 0,
-      discount: convertStringToCurrency(discount),
+      discount: convertCurrencyStringToRawCurrency(discount),
       // temporary solution for id
       id: uuidv4()
     };

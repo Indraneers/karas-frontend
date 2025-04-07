@@ -3,7 +3,7 @@ import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
 import { convertDateToLocaleDate } from "@/lib/date";
-import { convertQuantityToQuantityDto } from "@/features/unit/util/convert";
+import { convertBaseQuantityToRawQuantity } from "@/features/unit/util/convert";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
@@ -13,7 +13,7 @@ export function convertPosStoreToSaleRequestDto
       discount: i.discount,
       quantity: 
         i.unit.product.variable ?
-          convertQuantityToQuantityDto(i.quantity)
+          convertBaseQuantityToRawQuantity(i.quantity)
           :
           i.quantity,
       unitId: i.unit.id
@@ -32,6 +32,7 @@ export function convertPosStoreToSaleRequestDto
   //     }));
 
   return {
+    id: '',
     dueAt: convertDateToLocaleDate(posState.dueAt),
     createdAt: convertDateToLocaleDate(new Date()),
     discount: posState.discount,

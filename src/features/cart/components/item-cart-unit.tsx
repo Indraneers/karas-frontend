@@ -3,7 +3,6 @@ import { ItemCartCurrencyInput } from "./item-cart-currency-input";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
 import { ItemCartItem } from "./item-cart-item";
-import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 import { Item } from "@/features/sale/types/item";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 
@@ -43,14 +42,14 @@ export function ItemCartUnit({ item }: { item: Item }) {
               <ItemCartCurrencyInput 
                 className="w-14"
                 prefix="$"
-                defaultValue={convertCurrencyToInputString(price)}
-                onValueChange={(value) => updateItem(item.id, { ...item, price: convertStringToCurrency(value || '') })}
+                defaultValue={price}
+                onValueChange={(value) => updateItem(item.id, { ...item, price: value })}
               />
               <ItemCartCurrencyInput 
                 className="w-14"
                 prefix="-$"
-                defaultValue={convertCurrencyToInputString(discount)}
-                onValueChange={(value) => updateItem(item.id, { ...item, discount: convertStringToCurrency(value || '') })}
+                defaultValue={discount}
+                onValueChange={(value) => updateItem(item.id, { ...item, discount: value })}
               />
             </div>
             <ItemCounter

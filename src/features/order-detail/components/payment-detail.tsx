@@ -7,7 +7,6 @@ import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { getSubtotal } from "@/features/sale/utils/sale";
 // import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
 import { Currency } from "@/components/currency";
-import { convertCurrencyToInputString, convertStringToCurrency } from "@/lib/currency";
 import { cn } from "@/lib/utils";
 
 export function PaymentDetail({ children, className } : { children: React.ReactNode, className?: string }) {
@@ -33,11 +32,9 @@ export function PaymentDetail({ children, className } : { children: React.ReactN
           </PaymentDetailElement>
           <PaymentDetailElement className="mt-1" label="Discount">
             <PrefixedCurrencyInput 
-              defaultValue={convertCurrencyToInputString(discount)}
+              defaultValue={discount}
               onValueChange={(value) => {
-                if (value?.at(-1) !== '.') {
-                  setDiscount(convertStringToCurrency(value || ''));
-                } 
+                setDiscount(value);
               }}
             />
           </PaymentDetailElement>

@@ -33,7 +33,10 @@ export function ItemServiceDataTable({
   serviceColumns,
   sale
 }: ItemServiceDataTableProps) {
-  const { items, maintenance: { services } } = sale;
+  const { items, maintenance } = sale;
+  
+  const services: MaintenanceService[] = maintenance?.services || [];
+
   // const serviceItems = data.filter((i) => i.type === 'service');
   const subTotal = getSubtotal({ items, maintenanceServices: services });
 

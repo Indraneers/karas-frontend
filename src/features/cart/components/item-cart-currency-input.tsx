@@ -1,15 +1,14 @@
 import * as React from "react";
 
 import { cn } from "@/lib/utils";
-import CurrencyInput, { CurrencyInputProps } from "react-currency-input-field";
+import CurrencyInput from "react-currency-input-field";
 import { toastError } from "@/lib/toast";
+import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
+import { GenericCurrencyInputProps } from "@/features/currency/types/generic-currency-input-props";
 
-interface ItemCartCurrencyInputProps extends CurrencyInputProps {
-  prefix?: string;
-}
-
-const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, ItemCartCurrencyInputProps>(
-  ({ className, onValueChange, type, prefix, ...props }, ref) => {
+const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, GenericCurrencyInputProps>(
+  ({ className, defaultValue, onValueChange, type, prefix, ...props }, ref) => {
+    const sanitizedDefaultValue = convertRawCurrencyToCurrencyString(defaultValue || 0);
     return (
       <div className={cn([
         "flex items-center bg-gray-200/75 px-1 rounded-sm",
@@ -30,11 +29,12 @@ const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, ItemCartCurrenc
               return;
             }
                     
-            if (onValueChange) {
-              onValueChange(value);
+            if (onValueChange && value) {
+              onValueChange(convertCurrencyStringToRawCurrency(value));
             }
           }}
           {...props}
+          defaultValue={sanitizedDefaultValue}
         />
       </div>
     );

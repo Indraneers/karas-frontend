@@ -4,7 +4,7 @@ import { Box } from "lucide-react";
 import { getImageUrl } from "@/lib/image";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
-import { convertQuantityDtoToQuantity } from "../util/convert";
+import { convertRawQuantityToBaseQuantity } from "../util/convert";
 import { SearchLoading } from "@/components/search-loading";
 import { FilterIcon } from "@/components/filter-icon";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -37,7 +37,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
           <div className="font-semibold">
             {unit.name}
             {
-              product.variable && ` (${ convertQuantityDtoToQuantity(unit.toBaseUnit) }${ product.baseUnit })`
+              product.variable && ` (${ convertRawQuantityToBaseQuantity(unit.toBaseUnit) }${ product.baseUnit })`
             }
           </div>
           <div className="flex-shrink-0">

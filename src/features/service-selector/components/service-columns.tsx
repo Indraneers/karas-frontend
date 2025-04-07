@@ -2,8 +2,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { usePosStore } from "@/features/pos/store/pos";
 import { ServiceSelectorItem } from "../types/service-selector-item";
-import { convertCurrencyToInputString } from "@/lib/currency";
 import { useEffect } from "react";
+import { Currency } from "@/components/currency";
 
 export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
   {
@@ -71,6 +71,6 @@ export const ServiceColumns: ColumnDef<ServiceSelectorItem>[] = [
     accessorKey: 'price',
     header: 'Original Price',
     size: 100,
-    cell: ({ row }) => <div className="text-muted-foreground">$ {convertCurrencyToInputString(row.original.price)}</div>
+    cell: ({ row }) => <div className="text-muted-foreground"><Currency amount={row.original.service.price} /></div>
   }
 ];
