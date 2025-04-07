@@ -9,7 +9,6 @@ import { UnderlineInput } from "./underline-input";
 import { Unit } from "@/features/unit/types/unit";
 import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
-import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
 import { cn } from "@/lib/utils";
 import { FormEvent } from "react";
 import { ArrowRight, Check, Delete } from "lucide-react";
@@ -591,6 +590,27 @@ export function NumpadKey({ children, className, onClick }: NumpadKeyProps) {
         className
       ])}>
       {children}
+    </div>
+  );
+}
+
+import { Switch } from "@/components/ui/switch";
+
+interface ToBaseUnitSwitchProps {
+  isBaseUnit: boolean;
+  className?: string;
+  onChange?: (state: boolean) => void;
+  baseUnit: string;
+}
+
+export function ToBaseUnitSwitch({ isBaseUnit, baseUnit, onChange, className }: ToBaseUnitSwitchProps) {
+  return (
+    <div className={cn([
+      "flex items-center gap-2 bg-background p-2 rounded-md",
+      className
+    ])}>
+      <Switch checked={isBaseUnit} onCheckedChange={onChange} />
+    To {baseUnit}
     </div>
   );
 }

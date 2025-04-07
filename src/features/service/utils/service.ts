@@ -1,4 +1,3 @@
-import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
 import { ServiceForm } from "../components/service-form";
 import { Service } from "../types/service";
 import { ServiceDto } from "../types/service.dto";
@@ -13,7 +12,7 @@ export function convertServiceDtoToServiceForm(serviceDto: ServiceDto): ServiceF
   return {
     id: serviceDto.id,
     name: serviceDto.name,
-    price: convertRawCurrencyToCurrencyString(serviceDto.price),
+    price: serviceDto.price,
     active: serviceDto.active
   };
 }
@@ -22,7 +21,7 @@ export function convertServiceFormToServiceDto(serviceForm: ServiceForm): Servic
   return {
     id: serviceForm.id || '',
     name: serviceForm.name,
-    price: convertCurrencyStringToRawCurrency(serviceForm.price),
+    price: serviceForm.price,
     active: serviceForm.active
   };
 }

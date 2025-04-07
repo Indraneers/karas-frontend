@@ -1,11 +1,9 @@
 import { cn } from "@/lib/utils";
-import { ItemCardList } from "./item-card-list";
-import { UnitSelectionCard } from "./unit-selection-card";
+
 import { useItemSelectionStore } from "../store/item-selection";
 import { UnitSearch } from "@/features/unit/components/unit-search";
 import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
-import { ItemSkeletonList } from "./item-skeleton-list";
-import { ItemEmpty } from "./item-empty";
+import { ItemEmpty, ItemCardList, ItemSkeletonList } from "./item-selector";
 import { getUnits } from "@/features/unit/api/unit";
 import React, { useCallback } from "react";
 import { useInfiniteSearch } from "@/hooks/use-infinite-search";
@@ -67,6 +65,75 @@ export function UnitSelection({ className }: UnitSelectionProps) {
           ))}
         </ItemCardList>
       }
+    </div>
+  );
+}
+
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
+import { ItemAdder } from "../../pos/components/item-adder";
+import { useState } from "react";
+import { Unit } from "@/features/unit/types/unit";
+import { Currency } from "@/components/currency";
+import { Item } from "@/features/sale/types/item";
+
+interface UnitSelectionCardProps {
+  unit: Unit
+}
+
+export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
+  const [open, setOpen] = useState(false);
+
+  if (!unit.id) {
+    return 'error: no id';
+  }
+
+  const item: Item = {
+    id: '',
+    quantity: 1,
+    price: unit.price,
+    discount: 0,
+    unit: {
+      ...unit,
+      id: unit.id
+    }
+  };
+
+  return (
+    <div className="w-full aspect-square">
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogTrigger className="w-full">
+          <Card className="group flex flex-col hover:bg-accent border-primary w-full aspect-square hover:text-background transition cursor-pointer">
+            <CardHeader className="space-y-0 text-left">
+              <div className="font-medium text-xl">
+                {unit.name}
+                {
+                  unit.product.variable &&
+                  <span>
+                    {' '}({unit.toBaseUnit}{unit.product.baseUnit})
+                  </span>
+                }
+              </div>
+              <div className="text-foreground/50 group-hover:text-background">
+                <Currency amount={unit.price} />
+                {
+                  unit.product.variable &&
+                <span>
+                  {' '} / {unit.product.baseUnit}
+                </span>
+                }
+              </div>
+            </CardHeader>
+            <CardContent className="flex-grow" />
+            <CardFooter className="flex flex-col items-start text-xs">
+              <div className="text-foreground/50 group-hover:text-background">{unit.quantity || 0} units left</div>
+            </CardFooter>
+          </Card>
+        </DialogTrigger>
+        <DialogContentWrapper className="bg-transparent shadow-none border-none">
+          <ItemAdder item={item} setOpen={setOpen} />
+        </DialogContentWrapper>
+      </Dialog>
     </div>
   );
 }

@@ -1,13 +1,9 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-
 import { Unit } from "@/features/unit/types/unit";
-import { ProductCell } from "../product-cell";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
-import { ToBaseUnitCell } from "../to-base-unit-cell";
-import { UnitQuantityCell } from "../unit-quantity";
-import { PriceCell } from "../price-cell";
+import { ProductCell, ToBaseUnitCell, PriceCell, UnitQuantityCell } from "../unit-table";
 
 export const columns: ColumnDef<Unit>[] = [
   {

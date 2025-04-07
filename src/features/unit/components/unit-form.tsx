@@ -18,7 +18,7 @@ export interface UnitForm {
   id: string;
   name: string;
   quantity: number;
-  price: string;
+  price: number;
   productId: string;
   toBaseUnit: number;
 }
@@ -26,7 +26,7 @@ export interface UnitForm {
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  price: z.string(),
+  price: z.number(),
   productId: z.string({ message: 'Product is required' }).min(1, 'Product is required'),
   quantity: z.number(),
   toBaseUnit: z.number()
@@ -35,7 +35,7 @@ const formSchema = z.object({
 const defaultData: UnitForm = {
   id: '',
   name: '',
-  price: '',
+  price: 0,
   quantity: 0,
   productId: '',
   toBaseUnit: 0

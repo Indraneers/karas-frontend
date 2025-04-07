@@ -10,10 +10,10 @@ import { useState } from "react";
 import { StockUpdate } from "../types/stock-update.enum";
 import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
-import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
 import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 import { Unit } from "@/features/unit/types/unit";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
+import { ToBaseUnitSwitch } from "@/features/pos/components/item-adder";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
@@ -169,7 +169,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
                 "ml-4 h-8 hidden",
                 unit.product.variable && 'block'
               ])} orientation="vertical" />
-              <ToBaseUnitSwitch 
+              <ToBaseUnitSwitch
                 className={cn([
                   "ml-2 p-1 hidden",
                   unit.product.variable && 'inline-flex'

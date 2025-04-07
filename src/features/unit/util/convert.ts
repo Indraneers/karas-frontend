@@ -5,7 +5,6 @@
  */
 import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
-import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
 import { Unit } from "../types/unit";
 
 export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): UnitRequestDto {
@@ -17,7 +16,7 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
     return {
       name: unit.name,
       quantity: convertBaseQuantityToRawQuantity(unit.quantity),
-      price: convertCurrencyStringToRawCurrency(unit.price),
+      price: unit.price,
       productId: unit.productId,
       toBaseUnit: convertBaseQuantityToRawQuantity(unit.toBaseUnit)
     };
@@ -26,7 +25,7 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
   return {
     name: unit.name,
     quantity: unit.quantity,
-    price: convertCurrencyStringToRawCurrency(unit.price),
+    price: unit.price,
     productId: unit.productId,
     toBaseUnit: convertBaseQuantityToRawQuantity(unit.toBaseUnit)
   };
@@ -72,7 +71,7 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
       id: unitDto.id || '',
       name: unitDto.name,
       quantity: convertRawQuantityToBaseQuantity(unitDto.quantity),
-      price: convertRawCurrencyToCurrencyString(unitDto.price),
+      price: unitDto.price,
       productId: unitDto.product.id,
       toBaseUnit: convertRawQuantityToBaseQuantity(unitDto.toBaseUnit)
     };
@@ -82,7 +81,7 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     id: unitDto.id || '',
     name: unitDto.name,
     quantity: unitDto.quantity,
-    price: convertRawCurrencyToCurrencyString(unitDto.price),
+    price: unitDto.price,
     productId: unitDto.product.id,
     toBaseUnit: convertRawQuantityToBaseQuantity(unitDto.toBaseUnit)
   };

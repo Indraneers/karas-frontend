@@ -15,21 +15,21 @@ import { Button } from "@/components/ui/button";
 export interface ServiceForm {
   id?: string;
   name: string;
-  price: string;
+  price: number;
   active: boolean;
 }
 
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(75),
-  price: z.string(),
+  price: z.number(),
   active: z.boolean()
 });
 
 const defaultData: ServiceForm = {
   id: '',
   name: '',
-  price: '',
+  price: 0,
   active: true
 };
 

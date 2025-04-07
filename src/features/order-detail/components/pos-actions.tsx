@@ -1,10 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Pause, ShoppingCart, Trash } from "lucide-react";
-import { usePosStore } from "../store/pos";
+import { usePosStore } from "../../pos/store/pos";
 import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto";
 import { StatusEnum } from "@/features/sale/types/sale";
-import { convertPosStoreToSaleRequestDto } from "../utils/pos";
+import { convertPosStoreToSaleRequestDto } from "../../pos/utils/pos";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { useItemSelectionStore } from "@/features/item-selector/store/item-selection";
