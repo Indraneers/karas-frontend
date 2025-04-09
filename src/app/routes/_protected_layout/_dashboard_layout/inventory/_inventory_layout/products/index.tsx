@@ -20,7 +20,7 @@ function ProductPage() {
   });
   return (
     <>
-      <SectionHeader className='mt-2'>
+      <SectionHeader>
         <TypographyH1>
         Product
         </TypographyH1>

@@ -1,6 +1,5 @@
 import { Dispatch, MouseEventHandler, SetStateAction, useEffect, useRef, useState } from "react";
 import { usePosStore } from "../store/pos";
-import { calculateTotalCost } from "@/features/sale/utils/sale";
 import { v4 as uuidv4 } from 'uuid';
 import { Currency } from "@/components/currency";
 import { Item } from "@/features/sale/types/item";
@@ -37,6 +36,7 @@ interface ItemAdderPanelRefsInterface {
 
 export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const product = item.unit.product;
+  const unit = item.unit;
   const isVariable = product.variable;
 
   const [currentElementIndex, setCurrentElementIndex] = useState(0);  
@@ -78,7 +78,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
     const itemResult: Item = {
       ...item,
       price: convertCurrencyStringToRawCurrency(price),
-      quantity: Number(qty) || 0,
+      quantity: convertQuantityToBaseQuantity(unit.toBaseUnit, Number(qty)),
       discount: convertCurrencyStringToRawCurrency(discount),
       // temporary solution for id
       id: uuidv4()
@@ -595,6 +595,7 @@ export function NumpadKey({ children, className, onClick }: NumpadKeyProps) {
 }
 
 import { Switch } from "@/components/ui/switch";
+import { calculateTotalCost } from "@/features/sale/utils/sale";
 
 interface ToBaseUnitSwitchProps {
   isBaseUnit: boolean;

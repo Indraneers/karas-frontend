@@ -2,7 +2,7 @@ import { Item } from "../types/item";
 import { ItemResponseDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
-import { convertRawQuantityToBaseQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { convertBaseQuantityToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
@@ -33,7 +33,7 @@ export function convertItemDtoToItem(itemDto: ItemResponseDto): Item {
       id: itemDto.id,
       price: itemDto.price,
       discount: itemDto.discount,
-      quantity: convertRawQuantityToBaseQuantity(itemDto.quantity),
+      quantity: itemDto.quantity,
       unit: convertUnitDtoToUnit(itemDto.unit)
     };
   }
@@ -47,13 +47,30 @@ export function convertItemDtoToItem(itemDto: ItemResponseDto): Item {
   };
 }
 
+export function calculateUnitItemTotalCost(price: number, discount: number, qty: number, toBaseUnit: number) {
+  return calculateTotalCost(
+    price,
+    discount,
+    convertBaseQuantityToQuantity(toBaseUnit, qty)
+  );
+}
+
+export function calculateServiceItemTotalCost(price: number, discount: number) {
+  return calculateTotalCost(
+    price,
+    discount,
+    1
+  );
+}
+
 export function calculateTotalCost(price: number, discount: number, qty: number) {
   return (price - discount) * qty;
 }
 
 export function getUnitsTotal(items: Item[]): number {
   return items.reduce((prev, curr) => {
-    const itemTotal = calculateTotalCost(curr.price, curr.discount, curr.quantity);
+    const unit = curr.unit;
+    const itemTotal = calculateUnitItemTotalCost(curr.price, curr.discount, curr.quantity, unit.toBaseUnit);
     return prev + itemTotal;
   }, 0);
 }
@@ -67,6 +84,7 @@ export function getServicesTotal(services: MaintenanceService[]): number {
 
 // TODO: add maintenances
 export function getSubtotal({ items, maintenanceServices }: { items: Item[], maintenanceServices: MaintenanceService[] }) {
+  console.log(items, getUnitsTotal(items));
   return getUnitsTotal(items) + getServicesTotal(maintenanceServices);
 }
 

@@ -40,28 +40,26 @@ export function InventoryLayout() {
   const location = useLocation();
   const navigate = useNavigate();
   return (
-    <div className='flex flex-col'>
-      <div className='flex w-full'>
-        <Tabs className='pt-4' value={location.pathname}>
-          <TabsList>
-            {
-              data.map((d) => (
-                <TabsTrigger 
-                  onClick={() => navigate({ to: d.url })}
-                  value={d.url} 
-                  key={d.url}
-                >
-                  <d.icon size={16} />
-                  <span className='ml-2'>{d.title}</span>
-                </TabsTrigger>
-              ))
-            }
-          </TabsList>
-        </Tabs>
-      </div>
-      <Section className='flex-grow grid grid-rows-[auto,1fr] mt-4 h-full'>
+    <Section className='flex flex-col h-full'>
+      <Tabs value={location.pathname}>
+        <TabsList>
+          {
+            data.map((d) => (
+              <TabsTrigger 
+                onClick={() => navigate({ to: d.url })}
+                value={d.url} 
+                key={d.url}
+              >
+                <d.icon size={16} />
+                <span className='ml-2'>{d.title}</span>
+              </TabsTrigger>
+            ))
+          }
+        </TabsList>
+      </Tabs>
+      <div className='flex flex-col flex-grow mt-4 h-full'>
         <Outlet />
-      </Section>
-    </div>
+      </div>
+    </Section>
   );
 }

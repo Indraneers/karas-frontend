@@ -1,5 +1,5 @@
 import { createFileRoute } from '@tanstack/react-router';
-import { UnitTable } from '@/features/unit/components/unit-table';
+import { UnitTable } from '@/features/unit/components/unit-table/index';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewUnitButton } from '@/features/unit/components/new-unit-button';
 import { RestockButton } from '@/features/unit/components/restock-button';
@@ -19,7 +19,7 @@ function UnitPage() {
   const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({ getEntity: getUnits, key: 'units' });
   return (
     <>
-      <SectionHeader className='mt-2'>
+      <SectionHeader>
         <TypographyH1>
           Unit and Stock
         </TypographyH1>

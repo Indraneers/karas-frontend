@@ -10,8 +10,6 @@ import { useState } from "react";
 import { StockUpdate } from "../types/stock-update.enum";
 import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
-import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
-import { Unit } from "@/features/unit/types/unit";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { ToBaseUnitSwitch } from "@/features/pos/components/item-adder";
 
@@ -20,58 +18,10 @@ interface RestockItemElementProps {
   updateRestockItems: (ri: RestockItem) => void;
 }
 
-interface RestockQuantityProps { 
-  quantity: string; 
-  changeQuantity: (value: string) => void;
-  unit: Unit;
-}
-
-function RestockBaseQuantity
-({ quantity, changeQuantity, unit } : RestockQuantityProps) {
-  const product = unit.product;
-  return (
-    <ItemCounter 
-      className="w-[150px] h-8" 
-      value={Number(quantity)} 
-      setValue={changeQuantity} 
-      variable={product.variable}
-      baseUnit={product.baseUnit}
-    />
-  );
-}
-
-function RestockCountableQuantity
-({ quantity, changeQuantity, unit  } : RestockQuantityProps) {
-  const countableQuantity = convertBaseQuantityToQuantity(
-    unit.toBaseUnit || 1,
-    Number(quantity)
-  );
-
-  function onChangeCountableQuantity(value: string) {
-    changeQuantity(
-      String(
-        convertQuantityToBaseQuantity(
-          unit.toBaseUnit,
-          Number(value)
-        )
-      )
-    );
-  }
-  
-  return (
-    <ItemCounter 
-      className="w-[150px] h-8" 
-      value={Number(countableQuantity)} 
-      setValue={onChangeCountableQuantity} 
-      variable={false}
-    />
-  );
-}
-
 export function RestockItemElement({ restockItem, updateRestockItems }: RestockItemElementProps) {
   const [isBaseUnit, setIsBaseUnit] = useState<boolean>(false);
   const [status, setStatus] = useState<StockUpdate>(restockItem.status);
-  const [quantity, setQuantity] = useState(String(restockItem.quantity));
+  const [quantity, setQuantity] = useState<number>(restockItem.quantity);
   const unit = restockItem.unit;
   const product = restockItem.unit.product;
 
@@ -83,11 +33,11 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
     });
   }
 
-  function changeQuantity(quantityString: string) {
-    setQuantity(quantityString);
+  function changeQuantity(quantity: number) {
+    setQuantity(quantity);
     updateRestockItems({
       ...restockItem,
-      quantity: Number(quantityString)
+      quantity: quantity
     });
   }
   
@@ -111,9 +61,11 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
           <div className="flex justify-between">
 
             <div className="flex font-medium text-lg">
-              {unit.name}
-              <Dot />
-              {product.name}
+              <span className="flex mr-4">
+                {unit.name}
+                <Dot />
+                {product.name + ' '}
+              </span>
               <ProductIdentifier identifier={product.identifier} />
             </div>
 
@@ -179,20 +131,14 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
                 baseUnit={unit.product.baseUnit}
               />
             </div> 
-            {
-              isBaseUnit ?
-                <RestockBaseQuantity 
-                  quantity={quantity}
-                  changeQuantity={changeQuantity}
-                  unit={unit}
-                />
-                :
-                <RestockCountableQuantity
-                  quantity={quantity}
-                  changeQuantity={changeQuantity}
-                  unit={unit}
-                />
-            }
+            <ItemCounter 
+              className="w-[150px] h-8" 
+              value={quantity}
+              variable={false}
+              setValue={changeQuantity} 
+              baseUnit={product.baseUnit}
+              toBaseUnit={unit.toBaseUnit}
+            />
           </div>
         </div>
       </div>

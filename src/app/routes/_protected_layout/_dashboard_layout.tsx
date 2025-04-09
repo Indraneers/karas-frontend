@@ -24,7 +24,7 @@ function DashboardLayout() {
             <LogoutBtn />
           </div>
         </Header>      
-        <MainContent>
+        <MainContent className='py-8 h-full overflow-y-scroll'>
           <Outlet />
         </MainContent>
       </SidebarInset>

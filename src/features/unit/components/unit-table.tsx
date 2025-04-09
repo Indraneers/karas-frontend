@@ -45,7 +45,7 @@ export function PriceCell({ product, price }: PriceCellProps) {
   );
 }
 
-import { convertBaseQuantityToQuantity } from "../util/convert";
+import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity } from "../util/convert";
 
 interface UnitQuantityCellProps {
   product: ProductRequestDto;
@@ -59,12 +59,12 @@ export function UnitQuantityCell({ product, quantity, toBaseUnit }: UnitQuantity
       {product.variable && 
       <>
         {convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty
-        {' '}({quantity} {product.baseUnit})
+        {' '}({convertBaseQuantityToDisplayQuantity(quantity)} {product.baseUnit})
       </>
       }
       {
         !product.variable &&
-        <>{quantity} Qty</>
+        <>{convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty</>
       }
     </>
   );
@@ -80,37 +80,16 @@ interface ToBaseUnitCellProps {
 export function ToBaseUnitCell({ product, toBaseUnit }: ToBaseUnitCellProps) {
   return (
     <>
-      {product.variable && 
-      <div className="flex items-center">
-        {toBaseUnit}
-        <span><Dot /></span> 
-        <Badge className="border-primary text-primary" variant='outline'>1{product.baseUnit}</Badge>
-      </div>
+      {product.baseUnit
+        && 
+        <div className="flex items-center">
+          {convertBaseQuantityToDisplayQuantity(toBaseUnit)}
+          <span><Dot /></span> 
+          <Badge className="border-primary text-primary" variant='outline'>1{product.baseUnit}</Badge>
+        </div>
       }
       {
-        !product.variable && "N/A"
-      }
-    </>
-  );
-}
-
-import { Product } from "@/features/product/types/product";
-
-interface BaseUnitQuantityCellProps {
-  product: Product
-  quantity: number;
-}
-
-export function BaseUnitQuantityCell({ product, quantity }: BaseUnitQuantityCellProps) {
-  return (
-    <>
-      {product.variable && 
-      <Badge variant='outline'>
-        {quantity}{product.baseUnit}
-      </Badge>
-      }
-      {
-        !product.variable && "N/A"
+        !product.baseUnit && "N/A"
       }
     </>
   );

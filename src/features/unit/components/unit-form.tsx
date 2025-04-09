@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { useEffect, useState } from "react";
-import { convertUnitFormToUnitDto } from "../util/convert";
+import { convertBaseQuantityToDisplayQuantity, convertQuantityToBaseQuantity, convertUnitFormToUnitDto } from "../util/convert";
 import { cn } from "@/lib/utils";
 import { UnitRequestDto } from "../types/unit.dto";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
@@ -38,7 +38,7 @@ const defaultData: UnitForm = {
   price: 0,
   quantity: 0,
   productId: '',
-  toBaseUnit: 0
+  toBaseUnit: 1000
 };
 
 interface UnitFormProps {
@@ -72,7 +72,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const unitDto = convertUnitFormToUnitDto(values, product.variable);
-    handleSubmit(unitDto);  
+    handleSubmit(unitDto);
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
     router.invalidate();
@@ -168,22 +168,26 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
               <FormField
                 control={form.control}
                 name="toBaseUnit"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>To Base Unit ({product.baseUnit})</FormLabel>
-                    <FormControl>
-                      <Input
-                        type="number" 
-                        {...field} 
-                        onChange={event => field.onChange(+event.target.value)}
-                      />
-                    </FormControl>
-                    <FormDescription>
-                      Set the conversion to base unit
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                render={({ field }) => {
+                  console.log(field.value, convertBaseQuantityToDisplayQuantity(field.value));
+                  return (
+                    <FormItem className="w-full">
+                      <FormLabel>To Base Unit ({product.baseUnit})</FormLabel>
+                      <FormControl>
+                        <Input
+                          {...field} 
+                          type="number" 
+                          value={convertBaseQuantityToDisplayQuantity(field.value)}
+                          onChange={event => field.onChange(convertQuantityToBaseQuantity(1000, +event.target.value))}
+                        />
+                      </FormControl>
+                      <FormDescription>
+                        Set the conversion to base unit
+                      </FormDescription>
+                      <FormMessage />
+                    </FormItem>
+                  );
+                }}
               />
             </div>
           </div>

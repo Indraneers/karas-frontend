@@ -65,7 +65,7 @@ export function ItemCartItem
 }
 
 import { ItemCounter } from "@/components/item-counter";
-import { calculateTotalCost } from "@/features/sale/utils/sale";
+import { calculateTotalCost, calculateUnitItemTotalCost } from "@/features/sale/utils/sale";
 import { usePosStore } from "../../pos/store/pos";
 import { Item } from "@/features/sale/types/item";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
@@ -78,8 +78,9 @@ export function ItemCartUnit({ item }: { item: Item }) {
   const qty = item.quantity;
 
   const product = item.unit.product;
-  
-  const totalCost = calculateTotalCost(price, discount, qty);
+  const unit = item.unit;
+
+  const totalCost = calculateUnitItemTotalCost(price, discount, qty, unit.toBaseUnit);
   return (
     <ItemCartItem 
       product={item.unit.product}
@@ -121,10 +122,11 @@ export function ItemCartUnit({ item }: { item: Item }) {
               variable={product.variable}
               baseUnit={product.baseUnit}
               value={qty}
-              setValue={(value) => updateItem(item.id, { ...item, quantity: Number(value) })}
+              toBaseUnit={unit.toBaseUnit}
+              setValue={(value) => updateItem(item.id, { ...item, quantity: value })}
             />
           </div>
-        </div>
+        </div>  
       </div>
     </ItemCartItem>
   );

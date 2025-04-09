@@ -25,7 +25,7 @@ function CreateUnitPage() {
   });
 
   return (
-    <Section className='pt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>Create New Unit</TypographyH1>
       </SectionHeader>

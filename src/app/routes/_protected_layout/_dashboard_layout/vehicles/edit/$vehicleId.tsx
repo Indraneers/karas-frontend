@@ -43,7 +43,7 @@ function EditVehiclePage() {
   }
 
   return (
-    <Section className='py-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>
           Update Vehicle

@@ -4,6 +4,7 @@ import { Unit } from "@/features/unit/types/unit";
 import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
 import { ProductCell, ToBaseUnitCell, PriceCell, UnitQuantityCell } from "../unit-table";
+import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -34,10 +35,17 @@ export const columns: ColumnDef<Unit>[] = [
     cell: ({ row }) => <div className="font-medium">{row.getValue('name')}</div>
   },
   {
-    accessorKey: 'productId',
+    accessorKey: 'product',
     header: 'Product',
     cell: ({ row }) => (
       <ProductCell product={row.original.product} />
+    )
+  },
+  {
+    accessorKey: 'product.variable',
+    header: 'Type',
+    cell: ({ row }) => (
+      <ProductTypeBadge variable={row.original.product.variable} />
     )
   },
   {

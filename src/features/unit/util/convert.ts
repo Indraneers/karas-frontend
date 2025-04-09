@@ -7,6 +7,8 @@ import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
 import { Unit } from "../types/unit";
 
+const UNIVERSAL_BASE_UNIT_QTY = 1000;
+
 export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): UnitRequestDto {
   if (!unit.productId) {
     throw new Error("TODO: ERROR");
@@ -15,10 +17,10 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
   if (variable) {
     return {
       name: unit.name,
-      quantity: convertBaseQuantityToRawQuantity(unit.quantity),
+      quantity: unit.quantity,
       price: unit.price,
       productId: unit.productId,
-      toBaseUnit: convertBaseQuantityToRawQuantity(unit.toBaseUnit)
+      toBaseUnit: unit.toBaseUnit
     };
   }
 
@@ -27,7 +29,7 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
     quantity: unit.quantity,
     price: unit.price,
     productId: unit.productId,
-    toBaseUnit: convertBaseQuantityToRawQuantity(unit.toBaseUnit)
+    toBaseUnit: unit.toBaseUnit
   };
 }
 
@@ -40,14 +42,14 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     return {
       id: unit.id,
       name: unit.name,
-      quantity: convertRawQuantityToBaseQuantity(unit.quantity),
+      quantity: unit.quantity,
       price: unit.price,
       product: unit.product,
       productImg: unit.productImg,
       subcategory: unit.subcategory,
       subcategoryImg: unit.subcategoryImg,
       category: unit.category,
-      toBaseUnit: convertRawQuantityToBaseQuantity(unit.toBaseUnit)
+      toBaseUnit: unit.toBaseUnit
     };
   }
 
@@ -61,7 +63,7 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     subcategory: unit.subcategory,
     subcategoryImg: unit.subcategoryImg,
     category: unit.category,
-    toBaseUnit: convertRawQuantityToBaseQuantity(unit.toBaseUnit)
+    toBaseUnit: unit.toBaseUnit
   };
 }
 
@@ -70,10 +72,10 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     return {
       id: unitDto.id || '',
       name: unitDto.name,
-      quantity: convertRawQuantityToBaseQuantity(unitDto.quantity),
+      quantity: unitDto.quantity,
       price: unitDto.price,
       productId: unitDto.product.id,
-      toBaseUnit: convertRawQuantityToBaseQuantity(unitDto.toBaseUnit)
+      toBaseUnit: unitDto.toBaseUnit
     };
   }
 
@@ -83,7 +85,7 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     quantity: unitDto.quantity,
     price: unitDto.price,
     productId: unitDto.product.id,
-    toBaseUnit: convertRawQuantityToBaseQuantity(unitDto.toBaseUnit)
+    toBaseUnit: unitDto.toBaseUnit
   };
 }
 
@@ -96,9 +98,13 @@ export function convertRawQuantityToBaseQuantity(baseUnitDto: number): number {
 }
 
 export function convertBaseQuantityToQuantity(toBaseUnit: number, baseUnitQuantity: number): number {
-  return Math.round((baseUnitQuantity / toBaseUnit) * 1000)/1000;
+  return Math.trunc((baseUnitQuantity / toBaseUnit) * 1000) / 1000;
 }
 
 export function convertQuantityToBaseQuantity(toBaseUnit: number, quantity: number): number {
-  return Math.round((quantity * toBaseUnit) * 1000)/1000;
+  return Math.trunc(quantity * toBaseUnit);
+}
+
+export function convertBaseQuantityToDisplayQuantity(quantity: number): number {
+  return Math.round(quantity / UNIVERSAL_BASE_UNIT_QTY * 1000) / 1000;
 }

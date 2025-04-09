@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 import { useItemSelectionStore } from "../store/item-selection";
 import { UnitSearch } from "@/features/unit/components/unit-search";
-import { convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 import { ItemEmpty, ItemCardList, ItemSkeletonList } from "./item-selector";
 import { getUnits } from "@/features/unit/api/unit";
 import React, { useCallback } from "react";
@@ -110,7 +110,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
                 {
                   unit.product.variable &&
                   <span>
-                    {' '}({unit.toBaseUnit}{unit.product.baseUnit})
+                    {' '}({convertBaseQuantityToDisplayQuantity(unit.toBaseUnit)}{unit.product.baseUnit})
                   </span>
                 }
               </div>
@@ -126,7 +126,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
             </CardHeader>
             <CardContent className="flex-grow" />
             <CardFooter className="flex flex-col items-start text-xs">
-              <div className="text-foreground/50 group-hover:text-background">{unit.quantity || 0} units left</div>
+              <div className="text-foreground/50 group-hover:text-background">{convertBaseQuantityToQuantity(unit.toBaseUnit, unit.quantity) || 0} units left</div>
             </CardFooter>
           </Card>
         </DialogTrigger>

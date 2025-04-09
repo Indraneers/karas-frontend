@@ -16,7 +16,7 @@ function CategoryPage() {
   const { q, setQ,  data, isLoading } = useCategorySearch();
   return (
     <>
-      <SectionHeader className='mt-2'>
+      <SectionHeader>
         <TypographyH1>
         Category
         </TypographyH1>

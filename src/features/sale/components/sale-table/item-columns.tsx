@@ -1,11 +1,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Currency } from "@/components/currency";
-import { calculateTotalCost } from "../../utils/sale";
+import { calculateUnitItemTotalCost } from "../../utils/sale";
 import { Item } from "../../types/item";
 import { cn } from "@/lib/utils";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { Dot } from "lucide-react";
+import { convertBaseQuantityToQuantity } from "@/features/unit/util/convert";
 
 export const itemColumns: ColumnDef<Item>[] = [
   {
@@ -83,7 +84,8 @@ export const itemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantity'
+    header: 'Quantity',
+    cell: ({ row }) => convertBaseQuantityToQuantity(row.original.unit.toBaseUnit, row.original.quantity)
   },
   {
     accessorKey: 'Total',
@@ -91,10 +93,11 @@ export const itemColumns: ColumnDef<Item>[] = [
     cell: ({ row }) => (
       <div className="font-medium text-green-700">
         <Currency amount={
-          calculateTotalCost(
+          calculateUnitItemTotalCost(
             row.original.price,
             row.original.discount,
-            row.original.quantity
+            row.original.quantity,
+            row.original.unit.toBaseUnit
           )
         } />
       </div>

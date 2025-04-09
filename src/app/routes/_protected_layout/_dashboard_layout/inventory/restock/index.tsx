@@ -3,6 +3,7 @@ import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
 import { Subtitle } from '@/components/subtitle';
 import { Button } from '@/components/ui/button';
+import { Card } from '@/components/ui/card';
 import { Label } from '@/components/ui/label';
 import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover';
 import { Separator } from '@/components/ui/separator';
@@ -93,21 +94,13 @@ function RestockPage() {
   const unitQtyRestocked = restockItems
     .filter(ri => ri.status === StockUpdate.RESTOCK)
     .reduce((total, curr) => {
-      if (curr.unit.product.variable) {
-        return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
-      }
-
-      return total + curr.quantity;
+      return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
     }, 0);
 
   const unitQtyDeducted = restockItems
     .filter(ri => (ri.status === StockUpdate.DEDUCT || ri.status === StockUpdate.LOST))
     .reduce((total, curr) => {
-      if (curr.unit.product.variable) {
-        return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
-      }
-
-      return total + curr.quantity;
+      return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
     }, 0);
 
   const restockMutation = useMutation({
@@ -124,12 +117,14 @@ function RestockPage() {
   
   function addRestockItem(unitDto: UnitResponseDto) {
     const unit: Unit = convertUnitDtoToUnit(unitDto);
+    
     const restockItem: RestockItem = {
       id: uuidv4(),
       unit,
       quantity: 0,
       status: StockUpdate.RESTOCK
     };
+
     setRestockItems([...restockItems, restockItem]);
   }
 
@@ -156,55 +151,55 @@ function RestockPage() {
   }
 
   return (
-    <Section className='flex flex-col pt-4 h-full'>
-      <SectionHeader className='gap-8 grid grid-cols-[auto,auto,1fr]'>
-
-        <div>
-          <TypographyH1>
+    <Section className='flex flex-col h-full'>
+      <SectionHeader>
+        <Card className="gap-8 grid grid-cols-[auto,auto,1fr] shadow-none p-8">
+          <div>
+            <TypographyH1>
             Restock
-          </TypographyH1>
-          <Subtitle>
+            </TypographyH1>
+            <Subtitle>
           Restock Unit of Products here
-          </Subtitle>
-          <div className='mt-4'>
-            <Label>
+            </Subtitle>
+            <div className='mt-4'>
+              <Label>
                 Note
-            </Label>
-            <Textarea className='w-[300px]' rows={3} />
+              </Label>
+              <Textarea className='w-[300px]' rows={3} />
+            </div>
           </div>
-        </div>
 
-        <Separator orientation='vertical' />
+          <Separator orientation='vertical' />
 
-        <div>
-          <TypographyH2>Restock Information</TypographyH2>
-          <div className='gap-4 grid grid-cols-3 grid-rows-2 pt-4'>
-            <RestockHeaderElement label='Product Affected'>
-              {products.length} Products
-            </RestockHeaderElement>
+          <div>
+            <TypographyH2>Restock Information</TypographyH2>
+            <div className='gap-4 grid grid-cols-3 grid-rows-2 pt-4'>
+              <RestockHeaderElement label='Product Affected'>
+                {products.length} Products
+              </RestockHeaderElement>
             
-            <RestockHeaderElement label='Unit Restocked' color='GREEN'>
+              <RestockHeaderElement label='Unit Restocked' color='GREEN'>
               +{unitsRestocked.length} Units
-            </RestockHeaderElement>
+              </RestockHeaderElement>
 
-            <RestockHeaderElement label='Total Quantity Restocked' color='GREEN'>
+              <RestockHeaderElement label='Total Quantity Restocked' color='GREEN'>
               +{unitQtyRestocked}
-            </RestockHeaderElement>
+              </RestockHeaderElement>
 
-            <RestockHeaderElement label='Units Affected'>
-              {units.length} Units
-            </RestockHeaderElement>
+              <RestockHeaderElement label='Units Affected'>
+                {units.length} Units
+              </RestockHeaderElement>
 
-            <RestockHeaderElement label='Unit Deducted/Lost' color='RED'>
+              <RestockHeaderElement label='Unit Deducted/Lost' color='RED'>
               -{unitsDeducted.length} Units
-            </RestockHeaderElement>
+              </RestockHeaderElement>
 
-            <RestockHeaderElement label='Total Quantity Deducted/Lost' color='RED'>
+              <RestockHeaderElement label='Total Quantity Deducted/Lost' color='RED'>
               -{unitQtyDeducted}
-            </RestockHeaderElement>
+              </RestockHeaderElement>
+            </div>
           </div>
-        </div>
-
+        </Card>
       </SectionHeader>
       <SectionContent className='flex flex-col flex-grow pt-8'>
         <div className='flex gap-8'>

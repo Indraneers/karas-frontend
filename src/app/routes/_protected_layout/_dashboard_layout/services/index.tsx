@@ -13,7 +13,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/servi
 
 export function ServicePage() {
   return (
-    <Section className='mt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>
           Services

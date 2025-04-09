@@ -18,7 +18,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/custo
 export function CustomerPage() {
   const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({ getEntity: getCustomers, key: 'customers' });
   return (
-    <Section className='pt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>
           Customers
