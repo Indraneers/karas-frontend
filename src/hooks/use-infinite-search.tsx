@@ -29,7 +29,7 @@ export function useInfiniteSearch<T>({ getEntity, key, enabled = true, query }: 
     hasNextPage,
     fetchNextPage
   } = useInfiniteQuery({
-    queryKey: [key, debouncedQ, q], // Include query in the key
+    queryKey: [key, debouncedQ], // Include query in the key
     queryFn: ({ pageParam = 0 }) => getEntity({ q: debouncedQ, page: pageParam, ...query }),
     initialPageParam: 0,
     // fetch from backend

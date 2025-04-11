@@ -12,6 +12,7 @@ import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { ToBaseUnitSwitch } from "@/features/pos/components/item-adder";
+import { Card } from "@/components/ui/card";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
@@ -43,16 +44,16 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
   
   return (
     <>    
-      <div className="gap-4 grid grid-cols-[auto,1fr] py-4">
-        <div className="brightness-[90%] rounded-3xl h-[100px] aspect-square">
+      <Card className="gap-4 grid grid-cols-[auto,1fr] p-4">
+        <div className="brightness-[90%] rounded-xl h-[100px] aspect-square">
           {
             unit.productImg ?
               <img 
                 src={getImageUrl(unit.productImg)} 
-                className="block rounded-3xl h-full max-h-full object-cover aspect-square" 
+                className="block rounded-xl h-full max-h-full object-cover aspect-square" 
               />
               :
-              <div className="place-content-center grid border-4 border-accent rounded-3xl h-full text-accent">
+              <div className="place-content-center grid border-4 border-accent rounded-xl h-full text-accent">
                 <Box className="w-12 h-12" />
               </div>
           }
@@ -141,8 +142,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
             />
           </div>
         </div>
-      </div>
-      <Separator className="bg-foreground" />
+      </Card>
     </>
   );
 }
@@ -150,7 +150,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
 export function RestockItemList({ className, children } : { className?: string, children: React.ReactNode }) {
   return (
     <div className={cn([
-      'overflow-y-scroll',
+      'overflow-y-scroll space-y-4',
       className
     ])}>
       {children}
