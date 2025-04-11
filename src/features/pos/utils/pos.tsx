@@ -3,7 +3,6 @@ import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
 import { convertDateToLocaleDate } from "@/lib/date";
-import { convertBaseQuantityToRawQuantity } from "@/features/unit/util/convert";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
@@ -11,11 +10,7 @@ export function convertPosStoreToSaleRequestDto
     posState.items.map((i) => ({
       price: i.price,
       discount: i.discount,
-      quantity: 
-        i.unit.product.variable ?
-          convertBaseQuantityToRawQuantity(i.quantity)
-          :
-          i.quantity,
+      quantity: i.quantity,
       unitId: i.unit.id
     }));
 

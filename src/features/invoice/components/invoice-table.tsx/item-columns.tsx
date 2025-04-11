@@ -2,8 +2,6 @@ import { ColumnDef } from "@tanstack/react-table";
 import { Currency } from "@/components/currency";
 import { calculateUnitItemTotalCost } from "@/features/sale/utils/sale";
 import { Item } from "@/features/sale/types/item";
-import { cn } from "@/lib/utils";
-import { Dot } from "lucide-react";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { convertBaseQuantityToQuantity } from "@/features/unit/util/convert";
 
@@ -26,27 +24,12 @@ export const itemColumns: ColumnDef<Item>[] = [
     id: 'name',
     header: () => <div>មុខទំនិញ<br></br>Item/Service</div>,
     cell: ({ row }) => (
-      <div className="flex items-center w-[300px]">
-        <div className="flex items-center">
-          <div>
+      <div>
+        <span className="inline-flex flex-nowrap gap-1">
+          <span>
             {row.original.unit.product.name} <ProductIdentifier identifier={row.original.unit.product.identifier} />
-          </div>
-          <div className={cn([
-            'hidden',
-            row.original.unit.product.variable && 'inline-flex items-center'
-          ])}>
-            <Dot />
-              1 
-            { row.original.unit.product.baseUnit }
-          </div>
-          <div className={cn([
-            'hidden',
-            (!row.original.unit.product.variable) && 'inline-flex items-center'
-          ])}>
-            <Dot />
-            { row.original.unit.name }
-          </div>
-        </div>
+          </span>
+        </span>
       </div>
     )
   },

@@ -28,7 +28,10 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
     items: collateUnitItem(sale.items)
   };
 
-  const { items, maintenance: { services } } = invoiceSale;
+  const { items, maintenance } = invoiceSale;
+
+
+  const services = maintenance?.services || [];
   // const serviceItems = data.filter((i) => i.type === 'service');
   const subTotal = getSubtotal({ items, maintenanceServices: services });
   
@@ -56,10 +59,10 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
             <TableRow className='border-none'><TableCell colSpan={6}></TableCell></TableRow>
             <TableRow className="border-none"><TableCell colSpan={6}></TableCell></TableRow>
             {itemTable.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="bg-muted text-[9px]" key={headerGroup.id}>
+              <TableRow className="text-xs" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
-                    <TableHead key={header.id}>
+                    <TableHead className='text-foreground' key={header.id}>
                       {header.isPlaceholder
                         ? null
                         : flexRender(
@@ -80,7 +83,7 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-4 py-0 text-[9px]" key={cell.id}>
+                    <TableCell className="px-4 py-2 text-xs" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
@@ -102,7 +105,7 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
-                    <TableCell className="px-4 py-0 text-[9px]" key={cell.id}>
+                    <TableCell className="px-4 py-2 text-[9px]" key={cell.id}>
                       {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
                   ))}
