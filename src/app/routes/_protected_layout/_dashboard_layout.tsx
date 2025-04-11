@@ -15,19 +15,21 @@ function DashboardLayout() {
   return (
     <SidebarProvider>
       <AppSidebar />
-      <SidebarInset className='z-20 flex flex-col bg-background'>
-        <Header className='z-20 bg-background'>
-          <SidebarTrigger />
-          <div className='flex justify-end items-center gap-4 w-full h-12'>
-            <UserProfile />
-            <Separator className='h-8' orientation='vertical' />
-            <LogoutBtn />
-          </div>
-        </Header>      
-        <MainContent className='py-8 h-full overflow-y-scroll'>
-          <Outlet />
-        </MainContent>
-      </SidebarInset>
+      <div className='w-full h-screen'>
+        <SidebarInset className='z-20 flex flex-col bg-background'>
+          <Header className='z-20 bg-background'>
+            <SidebarTrigger />
+            <div className='flex justify-end items-center gap-4 w-full h-12'>
+              <UserProfile />
+              <Separator className='h-8' orientation='vertical' />
+              <LogoutBtn />
+            </div>
+          </Header>      
+          <MainContent className='py-8 overflow-y-scroll'>
+            <Outlet />
+          </MainContent>
+        </SidebarInset>
+      </div>
     </SidebarProvider>
   );
 }

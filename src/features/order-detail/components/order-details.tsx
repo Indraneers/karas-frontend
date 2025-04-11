@@ -22,8 +22,8 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
           Order Details
         </TypographyH2>
       </SectionHeader>
-      <SectionContent className="flex mt-0 w-full">
-        <Tabs className="flex flex-col p-0 w-full" defaultValue="order-info">
+      <SectionContent className="mt-0 w-full">
+        <Tabs className="p-0 w-full overflow-y-hidden" defaultValue="order-info">
           <BorderedTabsList className="w-full">
             <BorderedTabsTrigger value='order-info'>
               Order Info

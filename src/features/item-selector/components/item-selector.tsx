@@ -147,6 +147,7 @@ export function ItemSelectorBreadCrumb() {
 }
 
 import { Skeleton } from "@/components/ui/skeleton";
+import React from "react";
 
 export function ItemSkeletonList() {
   return (
@@ -167,25 +168,29 @@ interface ItemCardListProps {
   children?: React.ReactNode;
   className?: string;
   onScroll?: React.UIEventHandler<HTMLDivElement> | undefined;
+  ref?: React.RefObject<HTMLDivElement>;
 }
 
-export function ItemCardList({ children, className, onScroll }: ItemCardListProps) {
-  return (
-    <div 
-      className={
-        cn([
-          "relative h-full overflow-y-scroll",
+export const ItemCardList = React.forwardRef<HTMLDivElement, ItemCardListProps>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "relative h-full overflow-y-auto", // Changed to overflow-y-auto
           className
-        ])
-      }
-      onScroll={onScroll}
-    >
-      <div className="absolute inset-0 gap-2 grid grid-cols-4 auto-rows-max h-full">
-        {children}
+        )}
+        {...props}
+      >
+        <div className="absolute inset-0 gap-2 grid grid-cols-4 auto-rows-max">
+          {children}
+        </div>
       </div>
-    </div>
-  );
-}
+    );
+  }
+);
+
+ItemCardList.displayName = "ItemCardList";
 
 export function ItemEmpty() {
   return (

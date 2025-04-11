@@ -41,9 +41,7 @@ export function useSearchPagination<T>({ key, getEntity, enabled, query } : Sear
   }, [data, pagination]);
 
   const onPaginationChange = setPagination;
-
-  console.log(data, pagination);
-
+  
   return {
     onPaginationChange,
     pageCount,

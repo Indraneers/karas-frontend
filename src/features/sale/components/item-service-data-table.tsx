@@ -60,7 +60,9 @@ export function ItemServiceDataTable({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead 
+                    className="font-semibold text-foreground"
+                    key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -77,6 +79,7 @@ export function ItemServiceDataTable({
           {
             itemTable.getRowModel().rows.map((row) => (
               <TableRow
+                className='hover:bg-accent/10 cursor-pointer'
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

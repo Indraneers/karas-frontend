@@ -5,7 +5,7 @@ import { UnitSearch } from "@/features/unit/components/unit-search";
 import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
 import { ItemEmpty, ItemCardList, ItemSkeletonList } from "./item-selector";
 import { getUnits } from "@/features/unit/api/unit";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { useInfiniteSearch } from "@/hooks/use-infinite-search";
 
 interface UnitSelectionProps {
@@ -13,6 +13,7 @@ interface UnitSelectionProps {
 }
 
 export function UnitSelection({ className }: UnitSelectionProps) {
+  const [initialLoad, setInitialLoad] = useState(false);
   const { product } = useItemSelectionStore();
   const { q, setQ, data, isLoading, isError, totalElements, hasNextPage, fetchNextPage } = useInfiniteSearch({ 
     getEntity: getUnits, 
@@ -34,6 +35,13 @@ export function UnitSelection({ className }: UnitSelectionProps) {
       }
     }
   }, [fetchNextPage, hasNextPage]);
+
+  useEffect(() => {
+    if (!initialLoad && hasNextPage && fetchNextPage) {
+      setInitialLoad(true);
+      fetchNextPage();
+    }
+  }, [initialLoad, hasNextPage, fetchNextPage]);
 
   return (
     <div className={

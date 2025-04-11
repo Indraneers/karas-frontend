@@ -19,7 +19,7 @@ import {
 import { Button } from "./ui/button";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { PaginationDetail } from "@/types/pagination";
 
@@ -29,6 +29,8 @@ interface DataTablePaginationProps<TData, TValue> {
   onRowClick?: (data: TData) => void;
   isLoading?: boolean;
   paginationDetail: PaginationDetail;
+  rowSelection: Record<string, boolean>;
+  onRowSelectionChange: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
 }
 
 export function DataTablePagination<TData, TValue>({
@@ -36,7 +38,9 @@ export function DataTablePagination<TData, TValue>({
   data,
   onRowClick,
   isLoading,
-  paginationDetail
+  paginationDetail,
+  rowSelection,
+  onRowSelectionChange
 }: DataTablePaginationProps<TData, TValue>) {
   const tableData = useMemo(
     () => (isLoading ? Array(10).fill({}) : data),
@@ -54,8 +58,6 @@ export function DataTablePagination<TData, TValue>({
     [isLoading, columns]
   );
 
-  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
-
   const table = useReactTable({
     columns: tableColumns as ColumnDef<TData, TValue>[],
     data: tableData as TData[],
@@ -66,7 +68,7 @@ export function DataTablePagination<TData, TValue>({
       pagination: paginationDetail.pagination,
       rowSelection
     },
-    onRowSelectionChange: setRowSelection, // Update our state when selection changes
+    onRowSelectionChange, // Update our state when selection changes
     onPaginationChange: paginationDetail.onPaginationChange,
     defaultColumn: {
       minSize: 0,
@@ -85,13 +87,14 @@ export function DataTablePagination<TData, TValue>({
   return (
     <div className="grid grid-rows-[1fr,auto]">
       <div className="border rounded-md">
-        <Table>
-          <TableHeader className="bg-foreground/5">
+        <Table className="overflow-hidden">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
+                      className="font-semibold text-foreground"
                       colSpan={header.colSpan}
                       style={{
                         width: header.getSize() !== 0 ? header.getSize() : undefined
@@ -114,7 +117,7 @@ export function DataTablePagination<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className={cn([onRowClick && 'cursor-pointer'])}
+                  className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
                   onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}
@@ -221,12 +224,13 @@ export function DataTableAutoPagination<TData, TValue>({
     <div className="grid grid-rows-[1fr,auto]">
       <div className="border rounded-md">
         <Table>
-          <TableHeader className="bg-foreground/5">
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
+                      className="font-semibold text-foreground"
                       colSpan={header.colSpan}
                       style={{
                         width: header.getSize() !== 0 ? header.getSize() : undefined
@@ -249,7 +253,7 @@ export function DataTableAutoPagination<TData, TValue>({
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <TableRow
-                  className={cn([onRowClick && 'cursor-pointer'])}
+                  className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
                   onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                   key={row.id}
                   data-state={row.getIsSelected() && "selected"}

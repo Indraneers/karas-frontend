@@ -7,6 +7,7 @@ import { useNavigate } from "@tanstack/react-router";
 import { Sale } from "../../types/sale";
 import { PageLoading } from "@/components/page-loading";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
+import { useState } from "react";
 
 export function SalesTable({ className } : { className?: string}) {
   const navigate = useNavigate();
@@ -18,6 +19,8 @@ export function SalesTable({ className } : { className?: string}) {
 
   const sales = data ? data.content.map(s => convertSaleResponseDtoToSale(s)) : [];
 
+  const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+
   return (
     <div className={cn(className)}>
       {
@@ -26,6 +29,8 @@ export function SalesTable({ className } : { className?: string}) {
       }
       {!isLoading && 
         <DataTablePagination 
+          rowSelection={rowSelection}
+          onRowSelectionChange={setRowSelection}
           onRowClick={(data: Sale) => navigate({ to: '/sales/' + data.id })}
           columns={columns} 
           data={sales}

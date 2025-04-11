@@ -5,14 +5,15 @@ import { Separator } from "@/components/ui/separator";
 export function OrderInformationTab() {
   const { vehicle, customer } = usePosStore();
   return (
-    <div>
+    <div className="grid grid-rows[auto,1fr] h-[calc(100vh-16rem)]">
       <VehicleCustomerSearch />
-      <div className="px-4">
-        <CustomerInformation className="mt-4" customer={customer} />
+      <ScrollArea className="p-4">
+        <CustomerInformation customer={customer} />
         <Separator className="mt-4" />
         <VehicleInformation className="mt-4" vehicle={vehicle} />
-      </div>
+      </ScrollArea>
     </div>
+
   );
 }
 
@@ -139,6 +140,7 @@ import { toast } from "sonner";
 import { vehicleTypeList } from "@/features/vehicle/utils/vehicle";
 import { VehicleIcon } from "@/features/vehicle/components/vehicle-icon";
 import { VehicleType } from "@/features/vehicle/types/vehicle";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface VehicleInformationProps {
   className?: string;

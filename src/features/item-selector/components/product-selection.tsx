@@ -3,13 +3,14 @@ import { ProductSearch } from "@/features/product/components/product-search";
 import { ItemCardList, ItemEmpty, ItemSkeletonList } from "./item-selector";
 import { useInfiniteSearch } from "@/hooks/use-infinite-search";
 import { getProducts } from "@/features/product/api/product";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 interface ProductSelectionProps {
   className?: string;
 }
 
 export function ProductSelection({ className }: ProductSelectionProps) {
+  const [initialLoad, setInitialLoad] = useState(false);
   const { subcategory } = useItemSelectionStore();
 
   const { q, setQ, data, isLoading, isError, totalElements, hasNextPage, fetchNextPage } = useInfiniteSearch({
@@ -29,6 +30,13 @@ export function ProductSelection({ className }: ProductSelectionProps) {
       }
     }
   }, [fetchNextPage, hasNextPage]);
+
+  useEffect(() => {
+    if (!initialLoad && hasNextPage && fetchNextPage) {
+      setInitialLoad(true);
+      fetchNextPage();
+    }
+  }, [initialLoad, hasNextPage, fetchNextPage]);
 
   return (
     <div className={
