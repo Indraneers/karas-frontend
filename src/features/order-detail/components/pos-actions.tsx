@@ -105,7 +105,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
           <span>
             <ShoppingCart />
           </span>
-        Pay
+          Pay
         </Button>
         <Button
           onClick={() => setOpenHoldDialog(true)}
@@ -114,7 +114,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
           <span>
             <Pause />
           </span>
-        Hold
+          Hold
         </Button>
         <Button 
           onClick={() => resetPos()}

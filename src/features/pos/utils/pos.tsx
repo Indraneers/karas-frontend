@@ -3,6 +3,7 @@ import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
 import { convertDateToLocaleDate } from "@/lib/date";
+import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
@@ -26,6 +27,15 @@ export function convertPosStoreToSaleRequestDto
   //       serviceId: s.service.id
   //     }));
 
+  const maintenance: MaintenanceDto | undefined = 
+  posState.maintenance.services.length > 0 ?
+    {
+      ...posState.maintenance,
+      createdAt: convertDateToLocaleDate(posState.maintenance.createdAt)
+    }
+    :
+    undefined;
+
   return {
     id: '',
     dueAt: convertDateToLocaleDate(posState.dueAt),
@@ -33,10 +43,7 @@ export function convertPosStoreToSaleRequestDto
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
-    maintenance: {
-      ...posState.maintenance,
-      createdAt: convertDateToLocaleDate(posState.maintenance.createdAt)
-    },
+    maintenance,
     status,
     userId,
     items
