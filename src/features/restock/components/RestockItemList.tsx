@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { RestockItem } from "../types/restock-item";
-import { Box, Dot } from "lucide-react";
+import { Box, Dot, X } from "lucide-react";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { getImageUrl } from "@/lib/image";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -13,13 +13,15 @@ import { Separator } from "@/components/ui/separator";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { ToBaseUnitSwitch } from "@/features/pos/components/item-adder";
 import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
-  updateRestockItems: (ri: RestockItem) => void;
+  updateRestockItem: (ri: RestockItem) => void;
+  removeRestockItem: (ri: RestockItem) => void;
 }
 
-export function RestockItemElement({ restockItem, updateRestockItems }: RestockItemElementProps) {
+export function RestockItemElement({ restockItem, updateRestockItem, removeRestockItem }: RestockItemElementProps) {
   const [isBaseUnit, setIsBaseUnit] = useState<boolean>(false);
   const [status, setStatus] = useState<StockUpdate>(restockItem.status);
   const [quantity, setQuantity] = useState<number>(restockItem.quantity);
@@ -28,7 +30,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
 
   function changeStatus(newStatus: StockUpdate) {
     setStatus(newStatus);
-    updateRestockItems({
+    updateRestockItem({
       ...restockItem,
       status: newStatus
     });
@@ -36,7 +38,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
 
   function changeQuantity(quantity: number) {
     setQuantity(quantity);
-    updateRestockItems({
+    updateRestockItem({
       ...restockItem,
       quantity: quantity
     });
@@ -44,7 +46,13 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
   
   return (
     <>    
-      <Card className="gap-4 grid grid-cols-[auto,1fr] p-4">
+      <Card className="relative gap-4 grid grid-cols-[auto,1fr] mt-4 p-4">
+        <Button 
+          className="top-[-0.75rem] right-[-0.75rem] absolute w-6 h-6" size='icon'
+          onClick={() => removeRestockItem(restockItem)}
+        >
+          <X />
+        </Button>
         <div className="brightness-[90%] rounded-xl h-[100px] aspect-square">
           {
             unit.productImg ?

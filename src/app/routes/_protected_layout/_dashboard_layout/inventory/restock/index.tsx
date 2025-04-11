@@ -134,6 +134,10 @@ function RestockPage() {
     setRestockItems(newRestockItems);
   }
 
+  function removeRestockItem(restockItem: RestockItem) {
+    setRestockItems(restockItems.filter(r => r.id !== restockItem.id));
+  }
+
   function submitRestock() {
     const user = auth.user?.profile;
     const restock: Restock = {
@@ -156,10 +160,10 @@ function RestockPage() {
         <Card className="gap-8 grid grid-cols-[auto,auto,1fr] shadow-none p-8">
           <div>
             <TypographyH1>
-            Restock
+              Restock
             </TypographyH1>
             <Subtitle>
-          Restock Unit of Products here
+              Restock Unit of Products here
             </Subtitle>
             <div className='mt-4'>
               <Label>
@@ -219,6 +223,7 @@ function RestockPage() {
                 style={{ width: 'var(--radix-popover-trigger-width)' }}
               >
                 <UnitSearchList 
+                  setOpen={setOpen}
                   isLoading={isLoading} 
                   onValueChange={addRestockItem} 
                   data={data} 
@@ -246,7 +251,8 @@ function RestockPage() {
                 restockItems &&
             restockItems.map((r, i) => (
               <RestockItemElement 
-                updateRestockItems={updateRestockItem} 
+                updateRestockItem={updateRestockItem} 
+                removeRestockItem={removeRestockItem}
                 restockItem={r} 
                 key={i} 
               />

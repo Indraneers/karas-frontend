@@ -67,10 +67,20 @@ interface UnitSearchListProps {
   onValueChange: (unit: UnitResponseDto) => void;
   fetchNextPage: ((options?: FetchNextPageOptions) => Promise<InfiniteQueryObserverResult<InfiniteData<Page<UnitResponseDto>, unknown>, Error>>) | undefined;
   hasNextPage: boolean;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function UnitSearchList
-({ className, data, isLoading = false, onValueChange, totalElements, fetchNextPage, hasNextPage = false }: UnitSearchListProps) {
+({ 
+  className, 
+  data, 
+  setOpen, 
+  isLoading = false,
+  onValueChange, 
+  totalElements, 
+  fetchNextPage, 
+  hasNextPage = false 
+}: UnitSearchListProps) {
   return (
     <ScrollArea className="h-60">
       <div className="mb-1 font-semibold text-muted-foreground text-xs">Search Units</div>
@@ -90,7 +100,10 @@ export function UnitSearchList
           data.pages.map((p, i) => (
             <React.Fragment key={i}>
               {p.content.map(u => (
-                <div onClick={() => onValueChange(u)} key={u.id}>
+                <div onClick={() => {
+                  onValueChange(u);
+                  setOpen(false);
+                }} key={u.id}>
                   <UnitSearchItem unit={u} />
                 </div>
               ))}
