@@ -44,7 +44,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
   });
 
   async function handlePOSAction(status: StatusEnum) {
-    const sale: SaleRequestDto = convertPosStoreToSaleRequestDto(
+    const sale: SaleRequestDto = convertPosStoreToSaleRequestDto( 
       {
         items,
         maintenance,

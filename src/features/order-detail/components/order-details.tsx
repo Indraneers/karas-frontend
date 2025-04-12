@@ -8,6 +8,7 @@ import { BorderedTabsList, BorderedTabsTrigger } from "@/components/bordered-tab
 import { TabsContent } from "@radix-ui/react-tabs";
 import { OrderInformationTab } from "./order-information-tab";
 import { PaymentTab } from "./payment-tab";
+import { MaintenanceTab } from "./maintenance-tab";
 
 interface OrderDetailsProps {
   saleId?: string;
@@ -23,17 +24,27 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
         </TypographyH2>
       </SectionHeader>
       <SectionContent className="mt-0 w-full">
-        <Tabs className="p-0 w-full overflow-y-hidden" defaultValue="order-info">
+        <Tabs className="inset-0 flex flex-col p-0 w-full h-full overflow-y-hidden" defaultValue="order-info">
           <BorderedTabsList className="w-full">
             <BorderedTabsTrigger value='order-info'>
               Order Info
+            </BorderedTabsTrigger>
+            <BorderedTabsTrigger value='maintenance'>
+              Maintenance
             </BorderedTabsTrigger>
             <BorderedTabsTrigger value='payment'>
               Payment
             </BorderedTabsTrigger>
           </BorderedTabsList>
-          <TabsContent className="flex-grow h-full" value='order-info'>
-            <OrderInformationTab />
+          <TabsContent className="relative flex-grow h-full" value='order-info'>
+            <div className="absolute inset-0">
+              <OrderInformationTab />
+            </div>
+          </TabsContent>
+          <TabsContent className="relative flex-grow" value="maintenance">
+            <div className="absolute inset-0">
+              <MaintenanceTab />
+            </div>
           </TabsContent>
           <TabsContent className="flex-grow h-full" value="payment">
             <PaymentTab saleId={saleId} handlePayment={handlePayment} />

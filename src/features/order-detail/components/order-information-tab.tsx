@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 export function OrderInformationTab() {
   const { vehicle, customer } = usePosStore();
   return (
-    <div className="grid grid-rows[auto,1fr] h-[calc(100vh-16rem)]">
+    <div className="grid grid-rows[auto,1fr] h-full">
       <VehicleCustomerSearch />
       <ScrollArea className="p-4">
         <CustomerInformation customer={customer} />
@@ -275,7 +275,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         {vehicle.engineNo}
       </SaleDetailElement>
       <SaleDetailElement className="mt-2" label="Vehicle Note">
-        <Textarea rows={1} className="mt-2">
+        <Textarea rows={1} className="mt-2 w-[340px]">
           {vehicle.note}
         </Textarea>
       </SaleDetailElement>

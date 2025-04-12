@@ -12,7 +12,6 @@ import { getSaleById } from '@/features/sale/api/sale';
 import { useEffect } from 'react';
 import { usePosStore } from '../store/pos';
 import { useRouter } from '@tanstack/react-router';
-import { getAutoServices } from '@/features/service/api/auto-services';
 import { SubcategorySelection } from '@/features/item-selector/components/subcategory-selection';
 import { LoadingSpinner } from '@/components/loading-spinner';
 
@@ -24,34 +23,17 @@ interface PosFormProps {
 export function PosForm({ saleId, handlePayment }: PosFormProps) {
   const router = useRouter();
   const { selector } = useItemSelectionStore();
-  const { setPosState, resetPos, isInit, setServiceSelectorItems } = usePosStore();
+  const { setPosState, resetPos, isInit } = usePosStore();
 
   router.subscribe('onBeforeLoad', () => {
     resetPos();
   });
 
-  const serviceQuery = useQuery({
-    queryKey: ['auto-services'],
-    queryFn: () => getAutoServices()
-  });
-
   const saleQuery = useQuery({
     queryKey: ['sale-', saleId],
     queryFn: () => getSaleById(saleId as string),
-    enabled: (!!saleId) && serviceQuery.isSuccess
+    enabled: !!saleId
   });
-
-  useEffect(() => {
-    if (serviceQuery.data) {
-      setServiceSelectorItems(serviceQuery.data.map((d) => ({ 
-        service: d, 
-        price: d.price,
-        discount: 0,
-        quantity: 1,
-        checked: false
-      })));
-    }
-  }, [serviceQuery.data, setServiceSelectorItems]);
 
   useEffect(() => {
     if (saleId) {
@@ -60,7 +42,7 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
   }, [saleId, saleQuery.data, setPosState]);
 
 
-  if (saleQuery.isError || serviceQuery.isError) {
+  if (saleQuery.isError) {
     return "error";
   }
 
