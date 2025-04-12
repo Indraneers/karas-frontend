@@ -17,7 +17,7 @@ export function MaintenanceTab() {
   });
 
   useEffect(() => {
-    if (serviceQuery.data && !serviceSelectorItems) {
+    if (serviceQuery.data && serviceSelectorItems.length === 0) {
       setServiceSelectorItems(serviceQuery.data.map((d) => ({ 
         service: d, 
         price: d.price,
@@ -55,13 +55,11 @@ function ServiceItemList({ service } : { service: ServiceSelectorItem }) {
     }
   }
 
-  console.log(service);
-  
   return (
     <div 
       className={cn([
         "flex items-center outline-offset-1 gap-2 bg-accent first:mt-2 mt-3 mb-1 ml-2 mr-4 p-4 border-md rounded-md font-medium text-primary-foreground text-sm cursor-pointer",
-        isSelected && 'ring-2 ring-primary'
+        isSelected && 'ring-2 ring-primary ring-offset-2'
       ])}
       onClick={handleOnClick}
     >
