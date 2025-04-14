@@ -155,23 +155,53 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
   
           </FormGroup>  
           <FormGroup title="Vehicle Detail">
-  
-            <FormField
-              control={form.control}
-              name="mileage"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Mileage</FormLabel>
-                  <FormControl>
-                    <Input type="number" placeholder="Ex: 60000 miles" {...field} />
-                  </FormControl>
-                  <FormDescription>
+            <div className="gap-4 grid grid-cols-2">
+              <FormField
+                control={form.control}
+                name="vehicleType"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>VeicleType</FormLabel>
+                    <FormControl>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <SelectTrigger className="w-[300px]">
+                          <SelectValue placeholder="Select vehicle type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          {vehicleTypeList.map(t => (
+                            <SelectItem key={t.content} value={t.value}>
+                              <div className="flex items-center gap-2">
+                                <VehicleIcon icon={t.icon} /> {t.content}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormDescription>
+                    Set Vehicle Type
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="mileage"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Mileage</FormLabel>
+                    <FormControl>
+                      <Input type="number" placeholder="Ex: 60000 miles" {...field} />
+                    </FormControl>
+                    <FormDescription>
                     Set Mileage
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
   
             <div className="gap-4 grid grid-cols-2 mt-4">
               <FormField
