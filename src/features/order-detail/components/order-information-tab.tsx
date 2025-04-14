@@ -5,7 +5,7 @@ import { Separator } from "@/components/ui/separator";
 export function OrderInformationTab() {
   const { vehicle, customer } = usePosStore();
   return (
-    <div className="grid grid-rows[auto,1fr] h-full">
+    <div className="grid grid-rows-[auto,1fr] h-full">
       <VehicleCustomerSearch />
       <ScrollArea className="p-4">
         <CustomerInformation customer={customer} />
@@ -71,12 +71,12 @@ function CustomerInformation({ customer, className } : CustomerInformationProps)
       </TypographyH3>
       <div className="gap-2 grid grid-cols-[2fr,auto,1fr] mt-2">
         <div>
-          <div className="flex items-center gap-2">
+          <div className="items-start gap-2 grid grid-cols-[1fr,auto]">
             <div className="min-h-6 font-medium text-md">
               {customer.name}
             </div>
             <Badge variant="outline" className={cn([
-              "border-primary px-1 py-0 rounded-full h-4 font-normal text-[10px] text-primary",
+              "border-primary px-1 py-0 mt-1 rounded-full h-4 font-normal text-[10px] text-primary",
               'hidden',
               customer.contact && 'flex'
             ])}>
