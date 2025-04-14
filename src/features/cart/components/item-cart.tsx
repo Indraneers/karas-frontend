@@ -80,7 +80,7 @@ export function ItemCartUnit({ item }: { item: Item }) {
   const product = item.unit.product;
   const unit = item.unit;
 
-  const totalCost = calculateUnitItemTotalCost(price, discount, qty, unit.toBaseUnit);
+  const totalCost = calculateUnitItemTotalCost(price, discount, item);
   return (
     <ItemCartItem 
       product={item.unit.product}
@@ -122,7 +122,7 @@ export function ItemCartUnit({ item }: { item: Item }) {
               variable={product.variable}
               baseUnit={product.baseUnit}
               value={qty}
-              toBaseUnit={unit.toBaseUnit}
+              toBaseUnit={product.variable ? 1000 : unit.toBaseUnit}
               setValue={(value) => updateItem(item.id, { ...item, quantity: value })}
             />
           </div>

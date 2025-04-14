@@ -2,7 +2,7 @@ import { Item } from "../types/item";
 import { ItemResponseDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
-import { convertBaseQuantityToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { convertUnitDtoToUnit, getQuantity } from "@/features/unit/util/convert";
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
@@ -47,11 +47,11 @@ export function convertItemDtoToItem(itemDto: ItemResponseDto): Item {
   };
 }
 
-export function calculateUnitItemTotalCost(price: number, discount: number, qty: number, toBaseUnit: number) {
+export function calculateUnitItemTotalCost(price: number, discount: number, item: Item) {
   return calculateTotalCost(
     price,
     discount,
-    convertBaseQuantityToQuantity(toBaseUnit, qty)
+    getQuantity(item)
   );
 }
 
@@ -69,8 +69,7 @@ export function calculateTotalCost(price: number, discount: number, qty: number)
 
 export function getUnitsTotal(items: Item[]): number {
   return items.reduce((prev, curr) => {
-    const unit = curr.unit;
-    const itemTotal = calculateUnitItemTotalCost(curr.price, curr.discount, curr.quantity, unit.toBaseUnit);
+    const itemTotal = calculateUnitItemTotalCost(curr.price, curr.discount, curr);
     return prev + itemTotal;
   }, 0);
 }

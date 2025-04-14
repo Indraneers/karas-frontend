@@ -6,7 +6,7 @@ import { Item } from "../../types/item";
 import { cn } from "@/lib/utils";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { Dot } from "lucide-react";
-import { convertBaseQuantityToQuantity } from "@/features/unit/util/convert";
+import { getQuantity } from "@/features/unit/util/convert";
 
 export const itemColumns: ColumnDef<Item>[] = [
   {
@@ -85,7 +85,7 @@ export const itemColumns: ColumnDef<Item>[] = [
   {
     accessorKey: 'quantity',
     header: 'Quantity',
-    cell: ({ row }) => convertBaseQuantityToQuantity(row.original.unit.toBaseUnit, row.original.quantity)
+    cell: ({ row }) => getQuantity(row.original)
   },
   {
     accessorKey: 'Total',
@@ -96,8 +96,7 @@ export const itemColumns: ColumnDef<Item>[] = [
           calculateUnitItemTotalCost(
             row.original.price,
             row.original.discount,
-            row.original.quantity,
-            row.original.unit.toBaseUnit
+            row.original
           )
         } />
       </div>

@@ -67,8 +67,7 @@ export const itemColumns: ColumnDef<Item>[] = [
           calculateUnitItemTotalCost(
             row.original.price,
             row.original.discount,
-            row.original.quantity,
-            row.original.unit.toBaseUnit
+            row.original
           )
         } />
       </div>

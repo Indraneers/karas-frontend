@@ -73,12 +73,15 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
     Number(qty)
   );
 
-
   function handleSubmit() {
+    const isVariable = unit.product.variable;
     const itemResult: Item = {
       ...item,
       price: convertCurrencyStringToRawCurrency(price),
-      quantity: convertQuantityToBaseQuantity(unit.toBaseUnit, Number(qty)),
+      quantity: isVariable ?
+        convertQuantityToBaseQuantity(1000, Number(qty))
+        : 
+        convertQuantityToBaseQuantity(unit.toBaseUnit, Number(qty)),
       discount: convertCurrencyStringToRawCurrency(discount),
       // temporary solution for id
       id: uuidv4()
