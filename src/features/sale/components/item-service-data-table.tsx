@@ -61,7 +61,7 @@ export function ItemServiceDataTable({
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead 
-                    className="font-semibold text-foreground"
+                    className="bg-background font-semibold text-foreground"
                     key={header.id}>
                     {header.isPlaceholder
                       ? null
