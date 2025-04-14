@@ -9,6 +9,7 @@ import { TabsContent } from "@radix-ui/react-tabs";
 import { OrderInformationTab } from "./order-information-tab";
 import { PaymentTab } from "./payment-tab";
 import { MaintenanceTab } from "./maintenance-tab";
+import { Badge } from "@/components/ui/badge";
 
 interface OrderDetailsProps {
   saleId?: string;
@@ -18,10 +19,13 @@ interface OrderDetailsProps {
 export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   return (
     <Section className="flex flex-col border rounded-2xl h-full">
-      <SectionHeader className="p-3">
+      <SectionHeader className="relative p-3">
         <TypographyH2 className="flex items-center gap-2">
           Order Details
         </TypographyH2>
+        {
+          saleId && <Badge className="top-0 right-0 absolute m-4">{saleId}</Badge>
+        }
       </SectionHeader>
       <SectionContent className="mt-0 w-full">
         <Tabs className="inset-0 flex flex-col p-0 w-full h-full overflow-y-hidden" defaultValue="order-info">

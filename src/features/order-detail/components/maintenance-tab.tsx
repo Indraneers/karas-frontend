@@ -13,11 +13,15 @@ export function MaintenanceTab() {
 
   const serviceQuery = useQuery({
     queryKey: ['auto-services'],
-    queryFn: () => getAutoServices()
+    queryFn: () => getAutoServices(),
+    staleTime: Infinity,  // Never considered stale
+    refetchOnWindowFocus: false,  // No refetch on window focus
+    refetchOnMount: false,        // No refetch on mount
+    refetchOnReconnect: false     // No refetch on network reconnect
   });
 
   useEffect(() => {
-    if (serviceQuery.data && serviceSelectorItems.length === 0) {
+    if (serviceQuery.data) {
       setServiceSelectorItems(serviceQuery.data.map((d) => ({ 
         service: d, 
         price: d.price,
@@ -26,7 +30,8 @@ export function MaintenanceTab() {
         checked: false
       })));
     }
-  }, [serviceQuery.data, serviceSelectorItems, setServiceSelectorItems]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [serviceQuery.data]);
 
   return (
     <div className="grid grid-rows-[auto,1fr] py-4 h-full">
