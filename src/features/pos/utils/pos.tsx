@@ -3,7 +3,7 @@ import { StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
 import { convertDateToLocaleDate } from "@/lib/date";
-import { convertQuantityToQuantityDto } from "@/features/unit/util/convert";
+import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 
 export function convertPosStoreToSaleRequestDto
 (posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
@@ -11,11 +11,7 @@ export function convertPosStoreToSaleRequestDto
     posState.items.map((i) => ({
       price: i.price,
       discount: i.discount,
-      quantity: 
-        i.unit.product.variable ?
-          convertQuantityToQuantityDto(i.quantity)
-          :
-          i.quantity,
+      quantity: i.quantity,
       unitId: i.unit.id
     }));
 
@@ -31,16 +27,23 @@ export function convertPosStoreToSaleRequestDto
   //       serviceId: s.service.id
   //     }));
 
+  const maintenance: MaintenanceDto | undefined = 
+  posState.maintenance.services.length > 0 ?
+    {
+      ...posState.maintenance,
+      createdAt: convertDateToLocaleDate(posState.maintenance.createdAt)
+    }
+    :
+    undefined;
+
   return {
+    id: '',
     dueAt: convertDateToLocaleDate(posState.dueAt),
     createdAt: convertDateToLocaleDate(new Date()),
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
-    maintenance: {
-      ...posState.maintenance,
-      createdAt: convertDateToLocaleDate(posState.maintenance.createdAt)
-    },
+    maintenance,
     status,
     userId,
     items

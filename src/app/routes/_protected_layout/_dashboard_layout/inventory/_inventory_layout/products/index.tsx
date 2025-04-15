@@ -2,10 +2,11 @@ import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
 import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
+import { getProducts } from '@/features/product/api/product';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
 import { ProductSearch } from '@/features/product/components/product-search';
 import { ProductTable } from '@/features/product/components/product-table';
-import { useProductSearch } from '@/features/product/hooks/product-search';
+import { useSearchPagination } from '@/hooks/use-search-pagination';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/')({
@@ -13,10 +14,13 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function ProductPage() {
-  const { q, setQ, data, isLoading } = useProductSearch();
+  const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({
+    getEntity: getProducts,
+    key: 'products'
+  });
   return (
     <>
-      <SectionHeader className='mt-2'>
+      <SectionHeader>
         <TypographyH1>
         Product
         </TypographyH1>
@@ -37,7 +41,12 @@ function ProductPage() {
           </div>
         </div>
         <div className='relative flex-grow mt-4 h-full'>
-          <ProductTable isLoading={isLoading} products={data || []} className='absolute inset-0 h-full' />
+          <ProductTable 
+            className='absolute inset-0 h-full'
+            isLoading={isLoading} 
+            products={data?.content || []} 
+            paginationDetail={paginationDetail}
+          />
         </div>
       </SectionContent>
     </>

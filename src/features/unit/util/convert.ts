@@ -1,7 +1,14 @@
+/**
+ * raw quantity: the quantity, whose errors is in the thousands, returned from the backend
+ * base quantity: the smallest denomination of quantity for that unit
+ * quantity: the quantity of the unit, taking the base quantity / conversion factor
+ */
 import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
-import { convertCurrencyToString, convertStringToCurrency } from "@/lib/currency";
 import { Unit } from "../types/unit";
+import { Item } from "@/features/sale/types/item";
+
+const UNIVERSAL_BASE_UNIT_QTY = 1000;
 
 export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): UnitRequestDto {
   if (!unit.productId) {
@@ -11,19 +18,19 @@ export function convertUnitFormToUnitDto(unit: UnitForm, variable: boolean): Uni
   if (variable) {
     return {
       name: unit.name,
-      quantity: convertQuantityToQuantityDto(unit.quantity),
-      price: convertStringToCurrency(unit.price),
+      quantity: unit.quantity,
+      price: unit.price,
       productId: unit.productId,
-      toBaseUnit: convertQuantityToQuantityDto(unit.toBaseUnit)
+      toBaseUnit: unit.toBaseUnit
     };
   }
 
   return {
     name: unit.name,
     quantity: unit.quantity,
-    price: convertStringToCurrency(unit.price),
+    price: unit.price,
     productId: unit.productId,
-    toBaseUnit: convertQuantityToQuantityDto(unit.toBaseUnit)
+    toBaseUnit: unit.toBaseUnit
   };
 }
 
@@ -36,14 +43,14 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     return {
       id: unit.id,
       name: unit.name,
-      quantity: convertQuantityDtoToQuantity(unit.quantity),
+      quantity: unit.quantity,
       price: unit.price,
       product: unit.product,
       productImg: unit.productImg,
       subcategory: unit.subcategory,
       subcategoryImg: unit.subcategoryImg,
       category: unit.category,
-      toBaseUnit: convertQuantityDtoToQuantity(unit.toBaseUnit)
+      toBaseUnit: unit.toBaseUnit
     };
   }
 
@@ -57,7 +64,7 @@ export function convertUnitDtoToUnit(unit: UnitResponseDto): Unit {
     subcategory: unit.subcategory,
     subcategoryImg: unit.subcategoryImg,
     category: unit.category,
-    toBaseUnit: convertQuantityDtoToQuantity(unit.toBaseUnit)
+    toBaseUnit: unit.toBaseUnit
   };
 }
 
@@ -66,10 +73,10 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     return {
       id: unitDto.id || '',
       name: unitDto.name,
-      quantity: convertQuantityDtoToQuantity(unitDto.quantity),
-      price: convertCurrencyToString(unitDto.price),
+      quantity: unitDto.quantity,
+      price: unitDto.price,
       productId: unitDto.product.id,
-      toBaseUnit: convertQuantityDtoToQuantity(unitDto.toBaseUnit)
+      toBaseUnit: unitDto.toBaseUnit
     };
   }
 
@@ -77,24 +84,38 @@ export function convertUnitDtoToUnitForm(unitDto: UnitResponseDto): UnitForm {
     id: unitDto.id || '',
     name: unitDto.name,
     quantity: unitDto.quantity,
-    price: convertCurrencyToString(unitDto.price),
+    price: unitDto.price,
     productId: unitDto.product.id,
-    toBaseUnit: convertQuantityDtoToQuantity(unitDto.toBaseUnit)
+    toBaseUnit: unitDto.toBaseUnit
   };
 }
 
-export function convertQuantityToQuantityDto(baseUnit: number): number {
+export function convertBaseQuantityToRawQuantity(baseUnit: number): number {
   return baseUnit * 1000;
 }
 
-export function convertQuantityDtoToQuantity(baseUnitDto: number): number {
+export function convertRawQuantityToBaseQuantity(baseUnitDto: number): number {
   return baseUnitDto / 1000;
 }
 
 export function convertBaseQuantityToQuantity(toBaseUnit: number, baseUnitQuantity: number): number {
-  return Math.round((baseUnitQuantity / toBaseUnit) * 1000)/1000;
+  return Math.trunc((baseUnitQuantity / toBaseUnit) * 1000) / 1000;
 }
 
 export function convertQuantityToBaseQuantity(toBaseUnit: number, quantity: number): number {
-  return Math.round((quantity * toBaseUnit) * 1000)/1000;
+  return Math.trunc(quantity * toBaseUnit);
+}
+
+export function getQuantity(item: Item): number {
+  const unit = item.unit;
+  const product = unit.product;
+  if (product.variable) {
+    return convertBaseQuantityToDisplayQuantity(item.quantity);
+  }
+
+  return convertBaseQuantityToQuantity(unit.toBaseUnit, item.quantity);
+}
+
+export function convertBaseQuantityToDisplayQuantity(quantity: number): number {
+  return Math.round(quantity / UNIVERSAL_BASE_UNIT_QTY * 1000) / 1000;
 }

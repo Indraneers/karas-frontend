@@ -1,7 +1,7 @@
 import { SaleDetailElement } from "./sale-detail-element";
 import { cn } from "@/lib/utils";
 import { TypographyH2 } from "@/components/ui/typography/h2";
-import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 
 export function VehicleInformation({ vehicle, className } : { vehicle: VehicleDto, className?: string }) {
   return (

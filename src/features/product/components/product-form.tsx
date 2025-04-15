@@ -9,11 +9,11 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
-import { FormSearch } from "@/components/form-search";
 import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 import { toast } from "sonner";
 import axios from "axios";
+import { FormSearch } from "@/components/form-search";
 
 const formSchema = z.object({
   id: z.string(),
@@ -120,7 +120,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
             render={({ field }) => (
               <FormItem className="mt-4">
                 <FormLabel>Select Subcategory</FormLabel>
-                <FormSearch 
+                <FormSearch
                   autoQuery
                   value={field.value}
                   onChange={field.onChange}

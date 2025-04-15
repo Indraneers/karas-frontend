@@ -33,7 +33,10 @@ export function ItemServiceDataTable({
   serviceColumns,
   sale
 }: ItemServiceDataTableProps) {
-  const { items, maintenance: { services } } = sale;
+  const { items, maintenance } = sale;
+  
+  const services: MaintenanceService[] = maintenance?.services || [];
+
   // const serviceItems = data.filter((i) => i.type === 'service');
   const subTotal = getSubtotal({ items, maintenanceServices: services });
 
@@ -57,7 +60,9 @@ export function ItemServiceDataTable({
             <TableRow key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
-                  <TableHead key={header.id}>
+                  <TableHead 
+                    className="bg-background font-semibold text-foreground"
+                    key={header.id}>
                     {header.isPlaceholder
                       ? null
                       : flexRender(
@@ -74,6 +79,7 @@ export function ItemServiceDataTable({
           {
             itemTable.getRowModel().rows.map((row) => (
               <TableRow
+                className='hover:bg-accent/10 cursor-pointer'
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
               >

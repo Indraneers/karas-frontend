@@ -1,6 +1,6 @@
 import { cn } from "@/lib/utils";
 import { RestockItem } from "../types/restock-item";
-import { Box, Dot } from "lucide-react";
+import { Box, Dot, X } from "lucide-react";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { getImageUrl } from "@/lib/image";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
@@ -10,99 +10,58 @@ import { useState } from "react";
 import { StockUpdate } from "../types/stock-update.enum";
 import { ItemCounter } from "@/components/item-counter";
 import { Separator } from "@/components/ui/separator";
-import { ToBaseUnitSwitch } from "@/features/unit/components/to-base-unit-switch";
-import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
-import { Unit } from "@/features/unit/types/unit";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
+import { ToBaseUnitSwitch } from "@/features/pos/components/item-adder";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
-  updateRestockItems: (ri: RestockItem) => void;
+  updateRestockItem: (ri: RestockItem) => void;
+  removeRestockItem: (ri: RestockItem) => void;
 }
 
-interface RestockQuantityProps { 
-  quantity: string; 
-  changeQuantity: (value: string) => void;
-  unit: Unit;
-}
-
-function RestockBaseQuantity
-({ quantity, changeQuantity, unit } : RestockQuantityProps) {
-  const product = unit.product;
-  return (
-    <ItemCounter 
-      className="w-[150px] h-8" 
-      value={Number(quantity)} 
-      setValue={changeQuantity} 
-      variable={product.variable}
-      baseUnit={product.baseUnit}
-    />
-  );
-}
-
-function RestockCountableQuantity
-({ quantity, changeQuantity, unit  } : RestockQuantityProps) {
-  const countableQuantity = convertBaseQuantityToQuantity(
-    unit.toBaseUnit || 1,
-    Number(quantity)
-  );
-
-  function onChangeCountableQuantity(value: string) {
-    changeQuantity(
-      String(
-        convertQuantityToBaseQuantity(
-          unit.toBaseUnit,
-          Number(value)
-        )
-      )
-    );
-  }
-  
-  return (
-    <ItemCounter 
-      className="w-[150px] h-8" 
-      value={Number(countableQuantity)} 
-      setValue={onChangeCountableQuantity} 
-      variable={false}
-    />
-  );
-}
-
-export function RestockItemElement({ restockItem, updateRestockItems }: RestockItemElementProps) {
+export function RestockItemElement({ restockItem, updateRestockItem, removeRestockItem }: RestockItemElementProps) {
   const [isBaseUnit, setIsBaseUnit] = useState<boolean>(false);
   const [status, setStatus] = useState<StockUpdate>(restockItem.status);
-  const [quantity, setQuantity] = useState(String(restockItem.quantity));
+  const [quantity, setQuantity] = useState<number>(restockItem.quantity);
   const unit = restockItem.unit;
   const product = restockItem.unit.product;
 
   function changeStatus(newStatus: StockUpdate) {
     setStatus(newStatus);
-    updateRestockItems({
+    updateRestockItem({
       ...restockItem,
       status: newStatus
     });
   }
 
-  function changeQuantity(quantityString: string) {
-    setQuantity(quantityString);
-    updateRestockItems({
+  function changeQuantity(quantity: number) {
+    setQuantity(quantity);
+    updateRestockItem({
       ...restockItem,
-      quantity: Number(quantityString)
+      quantity: quantity
     });
   }
   
   return (
     <>    
-      <div className="gap-4 grid grid-cols-[auto,1fr] py-4">
-        <div className="brightness-[90%] rounded-3xl h-[100px] aspect-square">
+      <Card className="relative gap-4 grid grid-cols-[auto,1fr] mt-4 p-4">
+        <Button 
+          className="top-[-0.75rem] right-[-0.75rem] absolute w-6 h-6" size='icon'
+          onClick={() => removeRestockItem(restockItem)}
+        >
+          <X />
+        </Button>
+        <div className="brightness-[90%] rounded-xl h-[100px] aspect-square">
           {
             unit.productImg ?
               <img 
                 src={getImageUrl(unit.productImg)} 
-                className="block rounded-3xl h-full max-h-full object-cover aspect-square" 
+                className="block rounded-xl h-full max-h-full object-cover aspect-square" 
               />
               :
-              <div className="place-content-center grid border-4 border-accent rounded-3xl h-full text-accent">
+              <div className="place-content-center grid border-4 border-accent rounded-xl h-full text-accent">
                 <Box className="w-12 h-12" />
               </div>
           }
@@ -111,9 +70,11 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
           <div className="flex justify-between">
 
             <div className="flex font-medium text-lg">
-              {unit.name}
-              <Dot />
-              {product.name}
+              <span className="flex mr-4">
+                {unit.name}
+                <Dot />
+                {product.name + ' '}
+              </span>
               <ProductIdentifier identifier={product.identifier} />
             </div>
 
@@ -169,7 +130,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
                 "ml-4 h-8 hidden",
                 unit.product.variable && 'block'
               ])} orientation="vertical" />
-              <ToBaseUnitSwitch 
+              <ToBaseUnitSwitch
                 className={cn([
                   "ml-2 p-1 hidden",
                   unit.product.variable && 'inline-flex'
@@ -179,24 +140,17 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
                 baseUnit={unit.product.baseUnit}
               />
             </div> 
-            {
-              isBaseUnit ?
-                <RestockBaseQuantity 
-                  quantity={quantity}
-                  changeQuantity={changeQuantity}
-                  unit={unit}
-                />
-                :
-                <RestockCountableQuantity
-                  quantity={quantity}
-                  changeQuantity={changeQuantity}
-                  unit={unit}
-                />
-            }
+            <ItemCounter 
+              className="w-[150px] h-8" 
+              value={quantity}
+              variable={false}
+              setValue={changeQuantity} 
+              baseUnit={product.baseUnit}
+              toBaseUnit={unit.toBaseUnit}
+            />
           </div>
         </div>
-      </div>
-      <Separator className="bg-foreground" />
+      </Card>
     </>
   );
 }
@@ -204,7 +158,7 @@ export function RestockItemElement({ restockItem, updateRestockItems }: RestockI
 export function RestockItemList({ className, children } : { className?: string, children: React.ReactNode }) {
   return (
     <div className={cn([
-      'overflow-y-scroll',
+      'overflow-y-scroll space-y-4',
       className
     ])}>
       {children}

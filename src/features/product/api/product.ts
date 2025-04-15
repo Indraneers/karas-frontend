@@ -1,12 +1,13 @@
 import { request } from "@/lib/request";
 import { ProductRequestDto, ProductResponseDto } from "../types/product.dto";
+import { APIQuery } from "@/types/query";
+import { Page } from "@/types/page";
 
-interface ProductQuery {
-  q?: string;
+interface ProductQuery extends APIQuery {
   subcategoryId?: string;
 }
 
-export const getProducts = async (query?: ProductQuery): Promise<ProductResponseDto[]>  =>
+export const getProducts = async (query?: ProductQuery): Promise<Page<ProductResponseDto>>  =>
   request({
     url: '/products',
     method: 'GET',

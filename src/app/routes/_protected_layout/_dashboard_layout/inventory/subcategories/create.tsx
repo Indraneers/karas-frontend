@@ -24,7 +24,7 @@ function CreateSubcategoryPage() {
   });
 
   return (
-    <Section className='pt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>Create Subcategory</TypographyH1>
       </SectionHeader>

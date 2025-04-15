@@ -1,5 +1,5 @@
 import { cn } from "@/lib/utils";
-import { DataTablePagination } from "@/components/data-table-pagination";
+import { DataTableAutoPagination } from "@/components/data-table-pagination";
 import { columns } from "./columns";
 import { Subcategory } from "../../types/subcategory";
 
@@ -14,7 +14,7 @@ export function SubcategoryTable({ isLoading, className, subcategories }: Subcat
     <div className={cn([
       className
     ])}>
-      <DataTablePagination 
+      <DataTableAutoPagination
         isLoading={isLoading}
         columns={columns}
         data={subcategories}

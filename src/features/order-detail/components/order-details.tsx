@@ -8,6 +8,8 @@ import { BorderedTabsList, BorderedTabsTrigger } from "@/components/bordered-tab
 import { TabsContent } from "@radix-ui/react-tabs";
 import { OrderInformationTab } from "./order-information-tab";
 import { PaymentTab } from "./payment-tab";
+import { MaintenanceTab } from "./maintenance-tab";
+import { Badge } from "@/components/ui/badge";
 
 interface OrderDetailsProps {
   saleId?: string;
@@ -17,23 +19,36 @@ interface OrderDetailsProps {
 export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   return (
     <Section className="flex flex-col border rounded-2xl h-full">
-      <SectionHeader className="p-3">
+      <SectionHeader className="relative p-3">
         <TypographyH2 className="flex items-center gap-2">
           Order Details
         </TypographyH2>
+        {
+          saleId && <Badge className="top-0 right-0 absolute m-4">{saleId}</Badge>
+        }
       </SectionHeader>
-      <SectionContent className="flex mt-0 w-full">
-        <Tabs className="flex flex-col p-0 w-full" defaultValue="order-info">
+      <SectionContent className="mt-0 w-full">
+        <Tabs className="inset-0 flex flex-col p-0 w-full h-full overflow-y-hidden" defaultValue="order-info">
           <BorderedTabsList className="w-full">
             <BorderedTabsTrigger value='order-info'>
               Order Info
+            </BorderedTabsTrigger>
+            <BorderedTabsTrigger value='maintenance'>
+              Maintenance
             </BorderedTabsTrigger>
             <BorderedTabsTrigger value='payment'>
               Payment
             </BorderedTabsTrigger>
           </BorderedTabsList>
-          <TabsContent className="flex-grow h-full" value='order-info'>
-            <OrderInformationTab />
+          <TabsContent className="relative flex-grow h-full" value='order-info'>
+            <div className="absolute inset-0">
+              <OrderInformationTab />
+            </div>
+          </TabsContent>
+          <TabsContent className="relative flex-grow" value="maintenance">
+            <div className="absolute inset-0">
+              <MaintenanceTab />
+            </div>
           </TabsContent>
           <TabsContent className="flex-grow h-full" value="payment">
             <PaymentTab saleId={saleId} handlePayment={handlePayment} />

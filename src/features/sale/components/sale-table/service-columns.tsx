@@ -1,7 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@/components/ui/badge";
 import { Currency } from "@/components/currency";
-import { calculateTotalCost } from "../../utils/sale";
+import { calculateServiceItemTotalCost } from "../../utils/sale";
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
 export const serviceColumns: ColumnDef<MaintenanceService>[] = [
@@ -70,10 +70,9 @@ export const serviceColumns: ColumnDef<MaintenanceService>[] = [
     cell: ({ row }) => (
       <div className="font-medium text-green-700">
         <Currency amount={
-          calculateTotalCost(
+          calculateServiceItemTotalCost(
             row.original.price,
-            row.original.discount,
-            1
+            row.original.discount
           )
         } />
       </div>

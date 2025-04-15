@@ -1,7 +1,7 @@
 import { create } from 'zustand';
-import { VehicleDto } from '@/features/vehicles/dto/vehicle.dto';
+import { VehicleDto } from '@/features/vehicle/types/vehicle.dto';
 import { CustomerDto } from '@/features/customer/types/customer.dto';
-import { ServiceSelectorItem } from '@/features/service-selector/types/service-selector-item';
+import { ServiceSelectorItem } from '@/features/service/types/service-selector-item';
 // import { getCheckedServiceItem } from '@/features/service-selector/utils/service-selector';
 import { SaleResponseDto } from '@/features/sale/types/sale.dto';
 import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
@@ -9,6 +9,7 @@ import { Sale } from '@/features/sale/types/sale';
 import { Item } from '@/features/sale/types/item';
 import { Maintenance } from '@/features/maintenance/types/maintenance';
 import { MaintenanceService } from '@/features/maintenance/types/maintenance-service';
+import { VehicleType } from '@/features/vehicle/types/vehicle';
 
 const defaultVehicle: VehicleDto = {
   engineNo: '-',
@@ -17,6 +18,7 @@ const defaultVehicle: VehicleDto = {
   mileage: 0,
   note: '',
   plateNumber: '-',
+  vehicleType: VehicleType.EMPTY,
   customer: {
     id: '',
     name: '',

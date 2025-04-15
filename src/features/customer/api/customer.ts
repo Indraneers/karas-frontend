@@ -1,11 +1,9 @@
 import { request } from "@/lib/request";
 import { CustomerDto } from "../types/customer.dto";
+import { Page } from "@/types/page";
+import { APIQuery } from "@/types/query";
 
-interface CustomerQuery {
-  q?: string
-}
-
-export const getCustomers = (query?: CustomerQuery): Promise<CustomerDto[]> => 
+export const getCustomers = (query?: APIQuery): Promise<Page<CustomerDto>> => 
   request({
     url: '/customers',
     method: 'GET',

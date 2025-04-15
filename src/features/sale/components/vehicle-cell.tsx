@@ -1,4 +1,4 @@
-import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 
 export function VehicleCell({ vehicle } : { vehicle: VehicleDto }) {
   return (

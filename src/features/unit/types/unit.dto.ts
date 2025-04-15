@@ -4,7 +4,7 @@ export interface UnitRequestDto {
   id?: string;
   name: string;
   quantity: number;
-  toBaseUnit: number;
+  toBaseUnit: number | 1000;
   price: number;
   productId: string;
 }

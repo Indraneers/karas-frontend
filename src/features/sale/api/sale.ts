@@ -1,10 +1,15 @@
 import { request } from "@/lib/request";
 import { SaleRequestDto, SaleResponseDto } from "../types/sale.dto";
+import { Page } from "@/types/page";
+import { APIQuery } from "@/types/query";
 
-export const getSales = async(): Promise<SaleResponseDto[]> =>
+export const getSales = async({ page } : APIQuery): Promise<Page<SaleResponseDto>> =>
   request({
     url: '/sales',
-    method: 'GET'
+    method: 'GET',
+    params: {
+      page
+    }
   });
 
 export const getSaleById = async(id: string): Promise<SaleResponseDto> =>

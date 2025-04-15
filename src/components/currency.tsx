@@ -1,6 +1,6 @@
-import { convertCurrencyToString } from "@/lib/currency";
+import { convertRawCurrencyToDisplayCurrency } from "@/features/currency/utils/currency";
 
 // assume we want xxxx to xx.xx
 export function Currency({ amount } : { amount: number }) {
-  return <>$ {convertCurrencyToString(amount)}</>;
+  return <>$ {convertRawCurrencyToDisplayCurrency(amount)}</>;
 }

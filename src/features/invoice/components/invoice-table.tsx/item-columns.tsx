@@ -1,10 +1,9 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Currency } from "@/components/currency";
-import { calculateTotalCost } from "@/features/sale/utils/sale";
+import { calculateUnitItemTotalCost } from "@/features/sale/utils/sale";
 import { Item } from "@/features/sale/types/item";
-import { cn } from "@/lib/utils";
-import { Dot } from "lucide-react";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
+import { convertBaseQuantityToQuantity } from "@/features/unit/util/convert";
 
 export const itemColumns: ColumnDef<Item>[] = [
   {
@@ -25,27 +24,12 @@ export const itemColumns: ColumnDef<Item>[] = [
     id: 'name',
     header: () => <div>មុខទំនិញ<br></br>Item/Service</div>,
     cell: ({ row }) => (
-      <div className="flex items-center w-[300px]">
-        <div className="flex items-center">
-          <div>
+      <div>
+        <span className="inline-flex flex-nowrap gap-1">
+          <span>
             {row.original.unit.product.name} <ProductIdentifier identifier={row.original.unit.product.identifier} />
-          </div>
-          <div className={cn([
-            'hidden',
-            row.original.unit.product.variable && 'inline-flex items-center'
-          ])}>
-            <Dot />
-              1 
-            { row.original.unit.product.baseUnit }
-          </div>
-          <div className={cn([
-            'hidden',
-            (!row.original.unit.product.variable) && 'inline-flex items-center'
-          ])}>
-            <Dot />
-            { row.original.unit.name }
-          </div>
-        </div>
+          </span>
+        </span>
       </div>
     )
   },
@@ -70,7 +54,9 @@ export const itemColumns: ColumnDef<Item>[] = [
   {
     accessorKey: 'quantity',
     header: () => <div>បរិមាណ<br></br>Qty</div>,
-    cell: ({ row }) => <div>{row.getValue('quantity')}</div>
+    cell: ({ row }) => (
+      <div>{convertBaseQuantityToQuantity(row?.original.unit.toBaseUnit, row.original.quantity)}</div>
+    )
   },
   {
     accessorKey: 'Total',
@@ -78,10 +64,10 @@ export const itemColumns: ColumnDef<Item>[] = [
     cell: ({ row }) => (
       <div className="font-medium text-green-700">
         <Currency amount={
-          calculateTotalCost(
+          calculateUnitItemTotalCost(
             row.original.price,
             row.original.discount,
-            row.original.quantity
+            row.original
           )
         } />
       </div>

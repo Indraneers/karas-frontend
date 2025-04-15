@@ -45,7 +45,7 @@ function UpdateCategoryPage() {
   }
 
   return (
-    <Section className='pt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>Edit Category</TypographyH1>
       </SectionHeader>

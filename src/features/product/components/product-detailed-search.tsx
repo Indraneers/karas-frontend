@@ -4,11 +4,14 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 import { ChevronsUpDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProductResponseDto } from "../types/product.dto";
-import { useProductSearch } from "../hooks/product-search";
 import { SearchLoading } from "@/components/search-loading";
 import { ProductSearch } from "./product-search";
 import { Product } from "../types/product";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { useInfiniteSearch } from "@/hooks/use-infinite-search";
+import { getProducts } from "../api/product";
+import React from "react";
+import { SearchNext } from "@/features/order-detail/components/search-group";
 
 interface ProductDetailedSearchProps {
   value?: string;
@@ -36,7 +39,10 @@ export function ProductDetailedSearch({
   const [open, setOpen] = useState(false);
   const [entity, setEntity] = useState<ProductResponseDto>();
 
-  const { q, setQ, isLoading, data } = useProductSearch();
+  const { q, setQ, isLoading, data, totalElements, fetchNextPage, hasNextPage } = useInfiniteSearch({
+    getEntity: getProducts,
+    key: 'products'
+  });
 
   function onClickEntity(entityDto: ProductResponseDto) {
     setEntity(entityDto);
@@ -50,7 +56,7 @@ export function ProductDetailedSearch({
 
   useEffect(() => {
     if (!entity && value) {
-      const entityDto = data?.find((p => p.id === value));
+      const entityDto = data?.pages.flatMap(p => p.content).find((p => p.id === value));
 
       setEntity(entityDto);
       if (onEntityChange && entityDto) {
@@ -89,7 +95,7 @@ export function ProductDetailedSearch({
               'space-y-2 font-body'
             ])}>
               {
-                data?.length === 0 &&
+                totalElements === 0 &&
               <div className="place-content-center grid p-4 h-40 text-muted-foreground text-sm text-center">
                 Empty...
               </div>
@@ -97,14 +103,23 @@ export function ProductDetailedSearch({
               {isLoading && !data &&
               <SearchLoading />
               }
-              {data && data.map(p => (
-                <div onClick={() => {
-                  onClickEntity(p);
-                  setOpen(false);
-                }} key={p.id}>
-                  <ProductDetailedSearchItem product={p} />
-                </div>
+              {data && totalElements > 0 && data.pages.map((page, index) => (
+                <React.Fragment key={index}>
+                  {
+                    page.content.map(p => (
+                      <div onClick={() => {
+                        onClickEntity(p);
+                        setOpen(false);
+                      }} key={p.id}>
+                        <ProductDetailedSearchItem product={p} />
+                      </div>
+                    ))
+                  }
+                </React.Fragment>
               ))}
+              {
+                hasNextPage && <SearchNext fetchNextPage={fetchNextPage} placeholder="Products" />
+              }
             </div>
           </ScrollArea>
         </PopoverContent>

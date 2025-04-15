@@ -2,11 +2,11 @@ import { StatusEnum } from "./sale";
 import { ItemRequestDto, ItemResponseDto } from "./item.dto";
 import { UserDto } from "@/features/user/types/user.dto";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
-import { VehicleDto } from "@/features/vehicles/dto/vehicle.dto";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 
 export interface SaleRequestDto {
-  id?: string;
+  id: string;
   dueAt: string;
   createdAt: string;
   discount: number;
@@ -15,11 +15,11 @@ export interface SaleRequestDto {
   vehicleId: string;
   items: ItemRequestDto[];
   status: StatusEnum
-  maintenance: MaintenanceDto;
+  maintenance?: MaintenanceDto;
 }
 
 export interface SaleResponseDto {
-  id?: string;
+  id: string;
   dueAt: string;
   createdAt: string;
   discount: number;
@@ -28,5 +28,5 @@ export interface SaleResponseDto {
   vehicle: VehicleDto;
   items: ItemResponseDto[];
   status: StatusEnum;
-  maintenance: MaintenanceDto;
+  maintenance?: MaintenanceDto;
 }

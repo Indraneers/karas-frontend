@@ -1,14 +1,13 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Service } from "../../types/service";
 import { Checkbox } from '@/components/ui/checkbox';
-import { convertCurrencyToString } from "@/lib/currency";
 import { ServiceActions } from "../service-actions";
 import { deleteAutoService } from "../../api/auto-services";
+import { Currency } from "@/components/currency";
 
 export const columns: ColumnDef<Service>[] = [
   {
     id: 'select',
-    size: 50,
     header: ({ table }) => (
       <Checkbox
         checked={
@@ -31,17 +30,19 @@ export const columns: ColumnDef<Service>[] = [
   },
   {
     accessorKey: 'name',
-    header: 'Service Name'
+    header: 'Service Name',
+    size: 100
   },
   {
     accessorKey: 'price',
     header: 'Price',
-    cell: ({ row }) => `$ ${ convertCurrencyToString(row.original.price) }`
+    cell: ({ row }) => <Currency amount={row.original.price} />,
+    size: 500
   },
   {
     id: 'actions',
     header: 'Actions',
-    size: 100,
+    size: 10,
     cell: ({ row }) => <ServiceActions id={row.original.id} handleDelete={deleteAutoService} />
   }
 ];

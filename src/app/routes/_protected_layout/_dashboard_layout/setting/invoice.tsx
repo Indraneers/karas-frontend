@@ -43,7 +43,7 @@ export function InvoiceSettingPage() {
   }
 
   return (
-    <Section className='pt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>
           Invoice Setting

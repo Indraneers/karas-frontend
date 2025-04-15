@@ -4,23 +4,25 @@ import { cn } from "@/lib/utils";
 import { ItemCartInput } from "../features/cart/components/item-cart-input";
 import { useState } from "react";
 import { isValidVariableQty } from "@/lib/variable";
+import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
 
 interface CounterProps {
   className?: string;
   variable?: boolean;
   baseUnit?: string;
   value: number;
-  setValue: (v: string) => void;
+  toBaseUnit: number;
+  setValue: (v: number) => void;
 }
 
-export function ItemCounter({ variable = false, baseUnit, className, value, setValue }: CounterProps) {
-  const [quantity, setQuantity] = useState<string>(String(value));
+export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className, value, setValue }: CounterProps) {
+  const [quantity, setQuantity] = useState<string>(String(convertBaseQuantityToQuantity(toBaseUnit, value)));
 
   function handleInput(event: React.FormEvent<HTMLInputElement>) {
     const { value } = event.currentTarget;
     if (isValidVariableQty(value)) {
       setQuantity(value);
-      setValue(value);
+      setValue(convertQuantityToBaseQuantity(toBaseUnit, Number(value)));
     }
   }
 
@@ -28,7 +30,7 @@ export function ItemCounter({ variable = false, baseUnit, className, value, setV
     const formattedValue = String(value);
     if (isValidVariableQty(formattedValue)) {
       setQuantity(formattedValue);
-      setValue(formattedValue);
+      setValue(convertQuantityToBaseQuantity(toBaseUnit, Number(formattedValue)));
     }
   }
 

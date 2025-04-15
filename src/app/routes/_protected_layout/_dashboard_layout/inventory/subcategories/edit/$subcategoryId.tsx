@@ -40,7 +40,7 @@ function EditSubcategoryPage() {
   }
 
   return (
-    <Section className='pt-4'>
+    <Section>
       <SectionHeader>
         <TypographyH1>Edit Subcategory</TypographyH1>
       </SectionHeader>

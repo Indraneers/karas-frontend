@@ -8,8 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { useEffect, useState } from "react";
-import { convertUnitFormToUnitDto } from "../util/convert";
-import { cn } from "@/lib/utils";
+import { convertBaseQuantityToDisplayQuantity, convertQuantityToBaseQuantity, convertUnitFormToUnitDto } from "../util/convert";
 import { UnitRequestDto } from "../types/unit.dto";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { ProductDetailedSearch } from "@/features/product/components/product-detailed-search";
@@ -18,7 +17,7 @@ export interface UnitForm {
   id: string;
   name: string;
   quantity: number;
-  price: string;
+  price: number;
   productId: string;
   toBaseUnit: number;
 }
@@ -26,7 +25,7 @@ export interface UnitForm {
 const formSchema = z.object({
   id: z.string(),
   name: z.string({ message: 'Name is required' }).min(2).max(50),
-  price: z.string(),
+  price: z.number(),
   productId: z.string({ message: 'Product is required' }).min(1, 'Product is required'),
   quantity: z.number(),
   toBaseUnit: z.number()
@@ -35,10 +34,10 @@ const formSchema = z.object({
 const defaultData: UnitForm = {
   id: '',
   name: '',
-  price: '',
+  price: 0,
   quantity: 0,
   productId: '',
-  toBaseUnit: 0
+  toBaseUnit: 1000
 };
 
 interface UnitFormProps {
@@ -72,7 +71,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const unitDto = convertUnitFormToUnitDto(values, product.variable);
-    handleSubmit(unitDto);  
+    handleSubmit(unitDto);
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
     router.invalidate();
@@ -159,33 +158,30 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
                 </FormItem>
               )}
             />
-            <div
-              className={cn([
-                'hidden',
-                product.variable && 'block'
-              ])}
-            >
-              <FormField
-                control={form.control}
-                name="toBaseUnit"
-                render={({ field }) => (
+
+            <FormField
+              control={form.control}
+              name="toBaseUnit"
+              render={({ field }) => {
+                return (
                   <FormItem className="w-full">
-                    <FormLabel>To Base Unit ({product.baseUnit})</FormLabel>
+                    <FormLabel>To Base Unit { product.baseUnit && `(${ product.baseUnit })` }</FormLabel>
                     <FormControl>
                       <Input
-                        type="number" 
                         {...field} 
-                        onChange={event => field.onChange(+event.target.value)}
+                        type="number" 
+                        value={convertBaseQuantityToDisplayQuantity(field.value)}
+                        onChange={event => field.onChange(convertQuantityToBaseQuantity(1000, +event.target.value))}
                       />
                     </FormControl>
                     <FormDescription>
-                      Set the conversion to base unit
+                        Set the conversion to base unit
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
-                )}
-              />
-            </div>
+                );
+              }}
+            />
           </div>
         </FormGroup>
         <Button
