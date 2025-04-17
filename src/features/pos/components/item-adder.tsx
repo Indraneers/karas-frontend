@@ -274,7 +274,7 @@ export function ItemAdderPanelVariable({
           &&
           <UnderlineInput
             className="w-20"
-            value={convertBaseQuantityToQuantity(unit.toBaseUnit, Number(states.qty)) || ''}  
+            defaultValue={convertBaseQuantityToQuantity(unit.toBaseUnit, Number(states.qty)) || ''}  
             onInput={handleQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={!isBaseUnit && refs.qtyInput} 
@@ -286,7 +286,7 @@ export function ItemAdderPanelVariable({
           &&
           <UnderlineInput
             className="w-20"
-            value={states.qty}  
+            defaultValue={states.qty}  
             onInput={handleBaseUnitQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={isBaseUnit && refs.qtyInput} 
@@ -350,7 +350,7 @@ export function ItemAdderPanelCountable({
         <span>Qty</span>
         <UnderlineInput
           className="w-full"
-          value={states.qty}  
+          defaultValue={states.qty}  
           onInput={handleQtyInput}
           onFocus={() => setCurrentElementIndex(2)} 
           ref={refs.qtyInput} 
