@@ -278,7 +278,7 @@ export function ItemAdderPanelVariable({
             onInput={handleQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={!isBaseUnit && refs.qtyInput} 
-            type="number" 
+            type="text" 
           />
         }
         {
@@ -290,7 +290,7 @@ export function ItemAdderPanelVariable({
             onInput={handleBaseUnitQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={isBaseUnit && refs.qtyInput} 
-            type="number"
+            type="text"
           />
         }
         {isBaseUnit && product.baseUnit}
