@@ -24,7 +24,7 @@ import { UnitSearch } from '@/features/unit/components/unit-search';
 import { UnitSearchList } from '@/features/unit/components/unit-search-list';
 import { Unit } from '@/features/unit/types/unit';
 import { UnitResponseDto } from '@/features/unit/types/unit.dto';
-import { convertBaseQuantityToQuantity, convertUnitDtoToUnit } from '@/features/unit/util/convert';
+import { convertUnitDtoToUnit, getQuantity } from '@/features/unit/util/convert';
 import { useInfiniteSearch } from '@/hooks/use-infinite-search';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
@@ -94,13 +94,13 @@ function RestockPage() {
   const unitQtyRestocked = restockItems
     .filter(ri => ri.status === StockUpdate.RESTOCK)
     .reduce((total, curr) => {
-      return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
+      return total + getQuantity(curr);
     }, 0);
 
   const unitQtyDeducted = restockItems
     .filter(ri => (ri.status === StockUpdate.DEDUCT || ri.status === StockUpdate.LOST))
     .reduce((total, curr) => {
-      return total + convertBaseQuantityToQuantity(curr.unit.toBaseUnit, curr.quantity);
+      return total + getQuantity(curr);
     }, 0);
 
   const restockMutation = useMutation({

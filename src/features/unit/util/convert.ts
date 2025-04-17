@@ -7,6 +7,7 @@ import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
 import { Unit } from "../types/unit";
 import { Item } from "@/features/sale/types/item";
+import { RestockItem } from "@/features/restock/types/restock-item";
 
 const UNIVERSAL_BASE_UNIT_QTY = 1000;
 
@@ -106,7 +107,7 @@ export function convertQuantityToBaseQuantity(toBaseUnit: number, quantity: numb
   return Math.trunc(quantity * toBaseUnit);
 }
 
-export function getQuantity(item: Item): number {
+export function getQuantity(item: Item | RestockItem): number {
   const unit = item.unit;
   const product = unit.product;
   if (product.variable) {
