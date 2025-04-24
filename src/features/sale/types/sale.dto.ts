@@ -1,4 +1,4 @@
-import { StatusEnum } from "./sale";
+import { PaymentType, StatusEnum } from "./sale";
 import { ItemRequestDto, ItemResponseDto } from "./item.dto";
 import { UserDto } from "@/features/user/types/user.dto";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
@@ -14,7 +14,8 @@ export interface SaleRequestDto {
   customerId: string;
   vehicleId: string;
   items: ItemRequestDto[];
-  status: StatusEnum
+  status: StatusEnum;
+  paymentType: PaymentType;
   maintenance?: MaintenanceDto;
 }
 
@@ -28,5 +29,6 @@ export interface SaleResponseDto {
   vehicle: VehicleDto;
   items: ItemResponseDto[];
   status: StatusEnum;
+  paymentType: PaymentType;
   maintenance?: MaintenanceDto;
 }

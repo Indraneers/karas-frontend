@@ -1,9 +1,9 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { Pause, ShoppingCart, Trash } from "lucide-react";
+import { Banknote, Landmark, Pause, ShoppingCart, Trash } from "lucide-react";
 import { usePosStore } from "../../pos/store/pos";
 import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto";
-import { StatusEnum } from "@/features/sale/types/sale";
+import { PaymentType, StatusEnum } from "@/features/sale/types/sale";
 import { convertPosStoreToSaleRequestDto } from "../../pos/utils/pos";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
@@ -23,7 +23,8 @@ interface PosActionsProps {
 }
 
 export function POSActions({ saleId, className, handlePayment } : PosActionsProps) {
-  const [openHoldDialog, setOpenHoldDialog] = useState(false);
+  const [status, setStatus] = useState(StatusEnum.PAID);
+  const [openDialog, setOpenDialog] = useState(false);
   const { dueAt, setDueAt, items, maintenance, discount, customer, vehicle, resetPos } = usePosStore();
   const { services } = maintenance;
   const { setSelector } = useItemSelectionStore();
@@ -43,7 +44,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
     }
   });
 
-  async function handlePOSAction(status: StatusEnum) {
+  async function handlePOSAction(status: StatusEnum, paymentType: PaymentType) {
     const sale: SaleRequestDto = convertPosStoreToSaleRequestDto( 
       {
         items,
@@ -56,6 +57,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         isInit: false
       },
       status,
+      paymentType,
       user?.sub || ''
     );
 
@@ -99,7 +101,10 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
         className
       ])}>
         <Button 
-          onClick={() => handlePOSAction(StatusEnum.PAID)}
+          onClick={() =>{
+            setOpenDialog(true);
+            setStatus(StatusEnum.PAID);
+          }}
           className="bg-green-500 hover:bg-green-400 rounded-r-none rounded-l-xl font-semibold"
         >
           <span>
@@ -108,7 +113,10 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
           Pay
         </Button>
         <Button
-          onClick={() => setOpenHoldDialog(true)}
+          onClick={() => {
+            setOpenDialog(true);
+            setStatus(StatusEnum.HOLD);
+          }}
           className="bg-amber-500 hover:bg-amber-400 rounded-none font-semibold"
         >
           <span>
@@ -123,17 +131,20 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
           <span>
             <Trash />
           </span>
-        Reset
+          Reset
         </Button>
       </div>
-      <Dialog open={openHoldDialog} onOpenChange={setOpenHoldDialog}>
+      <Dialog open={openDialog} onOpenChange={setOpenDialog}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>
-              Set Due Date for Payment
+              Payment
             </DialogTitle>
           </DialogHeader>
-          <div className="w-full">
+          <div className={cn([
+            "w-full hidden",
+            status === StatusEnum.HOLD && 'block'
+          ])}>
             <label className="text-muted-foreground text-xs">
                 Due Date
             </label>
@@ -148,10 +159,16 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
             />
           </div> 
           <DialogFooter>
-            <Button onClick={() => handlePOSAction(StatusEnum.HOLD)} className="w-full">
-              <ShoppingCart />
-              Submit Sale
-            </Button>
+            <div className="flex justify-center space-x-4 w-full">
+              <Button onClick={() => handlePOSAction(status, PaymentType.BANK)} className="bg-blue-500 hover:bg-blue-600 w-full h-12">
+                <Landmark className="!w-6 !h-6" strokeWidth={2} />
+                  PAY BY BANK
+              </Button>
+              <Button onClick={() => handlePOSAction(status, PaymentType.CASH)} className="bg-emerald-500 hover:bg-emerald-600 w-full h-12">
+                <Banknote className="!w-6 !h-6"  strokeWidth={2} />
+                  PAY BY CASH
+              </Button>
+            </div>
           </DialogFooter>
         </DialogContent>
       </Dialog>

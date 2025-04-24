@@ -11,6 +11,7 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
     dueAt: saleResponseDto.dueAt,
     createdAt: saleResponseDto.createdAt,
     status: saleResponseDto.status,
+    paymentType: saleResponseDto.paymentType,
     discount: saleResponseDto.discount,
     user: saleResponseDto.user,
     vehicle: saleResponseDto.vehicle,

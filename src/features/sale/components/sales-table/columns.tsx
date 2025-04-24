@@ -8,6 +8,7 @@ import { StatusBadge } from "../status-badge";
 import { SaleActions } from "../sale-actions";
 import { deleteSale } from "../../api/sale";
 import { Currency } from "@/components/currency";
+import { PaymentTypeBadge } from "../payment-type-badge";
 
 export const columns: ColumnDef<Sale>[] = [
   {
@@ -53,6 +54,13 @@ export const columns: ColumnDef<Sale>[] = [
       <CustomLink to={'/vehicles/' + row.original.vehicle.id}>
         {row.original.vehicle.makeAndModel} <span className="font-medium">({row.original.vehicle.plateNumber})</span>
       </CustomLink>
+    )
+  },
+  {
+    accessorKey: 'paymentType',
+    header: 'Payment Type',
+    cell: ({ row }) => (
+      <PaymentTypeBadge paymentType={row.original.paymentType} />
     )
   },
   {

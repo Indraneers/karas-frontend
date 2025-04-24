@@ -9,8 +9,6 @@ import { Clock } from 'lucide-react';
 import * as React from 'react';
 import { useImperativeHandle, useRef } from 'react';
 
-export type CalendarProps = React.ComponentProps<typeof DayPicker>
-
 import {
   Select,
   SelectContent,
@@ -18,7 +16,7 @@ import {
   SelectTrigger,
   SelectValue
 } from '@/components/ui/select';
-import { DayPicker } from 'react-day-picker';
+import { DayPicker, DayPickerProps } from 'react-day-picker';
 
 // ---------- utils start ----------
 /**
@@ -235,7 +233,7 @@ function Calendar({
   showOutsideDays = true,
   yearRange = 50,
   ...props
-}: CalendarProps & { yearRange?: number }) {
+}: DayPickerProps & { yearRange?: number }) {
   const MONTHS = React.useMemo(() => {
     let locale: Pick<Locale, 'options' | 'localize' | 'formatLong'> = enUS;
     const { options, localize, formatLong } = props.locale || {};
@@ -278,8 +276,8 @@ function Calendar({
       showOutsideDays={showOutsideDays}
       className={cn('p-3', className)}
       classNames={{
-        months: 'flex flex-col sm:flex-row space-y-4  sm:space-y-0 justify-center',
-        month: 'flex flex-col items-center space-y-4',
+        months: 'flex flex-col sm:flex-row space-y-1 sm:space-y-0 justify-center',
+        month: 'flex flex-col items-center',
         month_caption: 'flex justify-center pt-1 relative items-center',
         caption_label: 'text-sm font-medium',
         nav: 'space-x-1 flex items-center ',
@@ -293,14 +291,14 @@ function Calendar({
           'h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100 absolute right-5 top-5',
           disableRightNavigation() && 'pointer-events-none'
         ),
-        month_grid: 'w-full border-collapse space-y-1',
-        weekdays: cn('flex', props.showWeekNumber && 'justify-end'),
-        weekday: 'text-muted-foreground rounded-md w-9 font-normal text-[0.8rem]',
+        month_grid: 'w-full border-collapse',
+        weekdays: cn('flex mt-4', props.showWeekNumber && 'justify-end'),
+        weekday: 'text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]',
         week: 'flex w-full mt-2',
-        day: 'h-9 w-9 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 rounded-1',
+        day: 'h-8 w-8 text-center text-sm p-0 relative [&:has([aria-selected].day-range-end)]:rounded-r-md [&:has([aria-selected].day-outside)]:bg-accent/50 [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20 rounded-1',
         day_button: cn(
           buttonVariants({ variant: 'ghost' }),
-          'h-9 w-9 p-0 font-normal aria-selected:opacity-100 rounded-l-md rounded-r-md'
+          'h-8 w-8 p-0 font-normal aria-selected:opacity-100 rounded-l-md rounded-r-md'
         ),
         range_end: 'day-range-end',
         selected:
@@ -331,7 +329,7 @@ function Calendar({
                   props.onMonthChange?.(newDate);
                 }}
               >
-                <SelectTrigger className="gap-1 focus:bg-accent p-0 border-none w-fit focus:text-accent-foreground">
+                <SelectTrigger className="gap-1 focus:bg-accent p-2 w-fit focus:text-accent-foreground">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -350,7 +348,7 @@ function Calendar({
                   props.onMonthChange?.(newDate);
                 }}
               >
-                <SelectTrigger className="gap-1 focus:bg-accent p-0 border-none w-fit focus:text-accent-foreground">
+                <SelectTrigger className="gap-1 focus:bg-accent p-2 w-fit focus:text-accent-foreground">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -516,7 +514,7 @@ const TimePickerInput = React.forwardRef<HTMLInputElement, TimePickerInputProps>
         id={id || picker}
         name={name || picker}
         className={cn(
-          'w-[48px] text-center font-mono text-base tabular-nums caret-transparent focus:bg-accent focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none',
+          'focus:bg-accent focus:text-accent-foreground w-[48px] text-center font-mono text-base tabular-nums caret-transparent [&::-webkit-inner-spin-button]:appearance-none',
           className
         )}
         value={value || calculatedValue}
@@ -644,6 +642,7 @@ type Granularity = 'day' | 'hour' | 'minute' | 'second';
 type DateTimePickerProps = {
   value?: Date;
   onChange?: (date: Date | undefined) => void;
+  onMonthChange?: (date: Date | undefined) => void;
   disabled?: boolean;
   /** showing `AM/PM` or not. */
   hourCycle?: 12 | 24;
@@ -670,7 +669,7 @@ type DateTimePickerProps = {
    * Show the default month and time when popup the calendar. Default is the current Date().
    **/
   defaultPopupValue?: Date;
-} & Pick<CalendarProps, 'locale' | 'weekStartsOn' | 'showWeekNumber' | 'showOutsideDays'>;
+} & Pick<DayPickerProps, 'locale' | 'weekStartsOn' | 'showWeekNumber' | 'showOutsideDays'>;
 
 type DateTimePickerRef = {
   value?: Date;
@@ -683,6 +682,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
       defaultPopupValue = new Date(new Date().setHours(0, 0, 0, 0)),
       value,
       onChange,
+      onMonthChange,
       hourCycle = 24,
       yearRange = 50,
       disabled = false,
@@ -697,17 +697,27 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
     const [month, setMonth] = React.useState<Date>(value ?? defaultPopupValue);
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [displayDate, setDisplayDate] = React.useState<Date | undefined>(value ?? undefined);
+    onMonthChange ||= onChange;
+
+    /**
+     * Makes sure display date updates when value change on
+     * parent component
+     */
+    React.useEffect(() => {
+      setDisplayDate(value);
+    }, [value]);
+
     /**
      * carry over the current time when a user clicks a new day
      * instead of resetting to 00:00
      */
-    const handleSelect = (newDay: Date | undefined) => {
+    const handleMonthChange = (newDay: Date | undefined) => {
       if (!newDay) {
         return;
       }
       if (!defaultPopupValue) {
         newDay.setHours(month?.getHours() ?? 0, month?.getMinutes() ?? 0, month?.getSeconds() ?? 0);
-        onChange?.(newDay);
+        onMonthChange?.(newDay);
         setMonth(newDay);
         return;
       }
@@ -719,7 +729,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
         month?.getMinutes() ?? 0,
         month?.getSeconds() ?? 0
       );
-      onChange?.(newDateFull);
+      onMonthChange?.(newDateFull);
       setMonth(newDateFull);
     };
 
@@ -802,7 +812,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
                 onSelect(newDate);
               }
             }}
-            onMonthChange={handleSelect}
+            onMonthChange={handleMonthChange}
             yearRange={yearRange}
             locale={locale}
             {...props}
