@@ -8,6 +8,11 @@ export enum StatusEnum {
   PAID = 'PAID',
   HOLD = 'HOLD'
 }
+
+export enum PaymentType {
+  BANK = 'BANK',
+  CASH = 'CASH'
+}
 export interface Sale {
   id?: string;
   dueAt: string;
@@ -18,5 +23,6 @@ export interface Sale {
   vehicle: VehicleDto;
   items: Item[];
   status: StatusEnum;
+  paymentType: PaymentType;
   maintenance?: Maintenance;
 }
