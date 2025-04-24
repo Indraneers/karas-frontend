@@ -1,12 +1,12 @@
 import { SaleRequestDto } from "@/features/sale/types/sale.dto";
-import { StatusEnum } from "@/features/sale/types/sale";
+import { PaymentType, StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
 import { convertDateToLocaleDate } from "@/lib/date";
 import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 
 export function convertPosStoreToSaleRequestDto
-(posState: PosState, status: StatusEnum, userId: string): SaleRequestDto {
+(posState: PosState, status: StatusEnum, paymentType: PaymentType, userId: string): SaleRequestDto {
   const items: ItemRequestDto[] = 
     posState.items.map((i) => ({
       price: i.price,
@@ -46,6 +46,7 @@ export function convertPosStoreToSaleRequestDto
     maintenance,
     status,
     userId,
-    items
+    items,
+    paymentType
   };
 }

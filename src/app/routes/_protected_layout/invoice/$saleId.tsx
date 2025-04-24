@@ -4,11 +4,10 @@ import { CompanyLogoName } from '@/features/invoice/components/company-logo-name
 import { CustomerInfo } from '@/features/invoice/components/customer-info';
 import { InvoiceDetailElement } from '@/features/invoice/components/invoice-detail-element';
 import { InvoiceNumber } from '@/features/invoice/components/invoice-number';
-import { InvoiceStatus } from '@/features/invoice/components/invoice-status';
 import { InvoiceTable } from '@/features/invoice/components/invoice-table.tsx';
 import { VehicleInfo } from '@/features/invoice/components/vehicle-info';
 import { getSaleById } from '@/features/sale/api/sale';
-import { StatusEnum } from '@/features/sale/types/sale';
+import { PaymentType, StatusEnum } from '@/features/sale/types/sale';
 import { convertSaleResponseDtoToSale } from '@/features/sale/utils/sale';
 import { cn } from '@/lib/utils';
 import { useQueries } from '@tanstack/react-query';
@@ -95,7 +94,10 @@ export function InvoicePage() {
         <Separator className='bg-foreground' />
         <div className='flex gap-4 mt-2'>
           <div className='flex items-center gap-4'>
-            <InvoiceStatus statusEnum={saleQuery.data.status} />
+            <div className='space-x-4'>
+              <InvoiceStatusBadge statusEnum={saleQuery.data.status} />
+              <InvoicePaymentTypeBadge paymentType={saleQuery.data.paymentType} />
+            </div>
             <InvoiceDetailElement className={cn([
               'hidden',
               saleQuery.data.status === StatusEnum.HOLD && 'block'
@@ -121,5 +123,33 @@ export function InvoicePage() {
         <InvoiceTable className='mt-8 page-break' sale={convertSaleResponseDtoToSale(saleQuery.data)} />
       </div>
     </div>
+  );
+}
+
+import { Badge } from "@/components/ui/badge";
+
+export function InvoiceStatusBadge({ statusEnum }: { statusEnum: StatusEnum }) {
+  return (
+    <>
+      {statusEnum === StatusEnum.PAID && 
+      <Badge className="bg-emerald-500 shadow-none font-bold text-xl">PAID</Badge>
+      }
+      {statusEnum === StatusEnum.HOLD && 
+      <Badge className="bg-amber-500 shadow-none font-bold text-xl">HOLD</Badge>
+      }
+    </>
+  );
+}
+
+export function InvoicePaymentTypeBadge({ paymentType } : { paymentType: PaymentType }) {
+  return (
+    <>
+      {paymentType === PaymentType.BANK && 
+      <Badge className="bg-blue-500 shadow-none font-bold text-xl">By ABA</Badge>
+      }
+      {paymentType === PaymentType.CASH && 
+      <Badge className="bg-green-500 shadow-none font-bold text-xl">By Cash</Badge>
+      }
+    </>
   );
 }

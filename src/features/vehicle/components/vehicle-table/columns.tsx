@@ -42,7 +42,7 @@ export const columns: ColumnDef<Vehicle>[] = [
     header: 'Make & Model'
   },
   {
-    accessorKey: 'vehicleType',
+    accessorKey: 'Vehicle Type',
     header: 'Vehicle Type',
     cell: ({ row }) => {
       const vehicleType = vehicleTypeList.find(t => t.value === row.original.vehicleType) || vehicleTypeList[0];
