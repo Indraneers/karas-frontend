@@ -145,7 +145,7 @@ export function InvoicePaymentTypeBadge({ paymentType } : { paymentType: Payment
   return (
     <>
       {paymentType === PaymentType.BANK && 
-      <Badge className="bg-blue-500 shadow-none font-bold text-xl">By ABA</Badge>
+      <Badge className="bg-blue-500 shadow-none font-bold text-xl">By Bank</Badge>
       }
       {paymentType === PaymentType.CASH && 
       <Badge className="bg-green-500 shadow-none font-bold text-xl">By Cash</Badge>
