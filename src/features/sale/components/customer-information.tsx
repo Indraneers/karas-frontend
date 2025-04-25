@@ -1,7 +1,7 @@
 import { CustomerDto } from "@/features/customer/types/customer.dto";
-import { SaleDetailElement } from "./sale-detail-element";
 import { cn } from "@/lib/utils";
 import { TypographyH2 } from "@/components/ui/typography/h2";
+import { InfoField } from "@/components/info-field";
 
 export function CustomerInformation({ customer, className } : { customer: CustomerDto, className?: string }) {
   return (
@@ -12,16 +12,16 @@ export function CustomerInformation({ customer, className } : { customer: Custom
           Customer Detail
       </TypographyH2>
       <div className="flex justify-between mt-2">
-        <SaleDetailElement label="Name">
+        <InfoField label="Name">
           <span className="font-medium">{customer.name}</span>
-        </SaleDetailElement>
-        <SaleDetailElement label="Phone Number">
+        </InfoField>
+        <InfoField label="Phone Number">
           {customer.contact}
-        </SaleDetailElement>
+        </InfoField>
       </div>
-      <SaleDetailElement className="mt-2" label="Address">
+      <InfoField className="mt-2" label="Address">
         {customer.address}
-      </SaleDetailElement>
+      </InfoField>
     </div>
   );
 }

@@ -1,11 +1,11 @@
 import { cn } from "@/lib/utils";
 
-interface SaleDetailElementProps {
+interface InfoFieldProps {
   className?: string;
   label: string;
   children?: React.ReactNode;
 }
-export function SaleDetailElement({ className, label, children } : SaleDetailElementProps) {
+export function InfoField({ className, label, children } : InfoFieldProps) {
   return (
     <div className={cn([
       className

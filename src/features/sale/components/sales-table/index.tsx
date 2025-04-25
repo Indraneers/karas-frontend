@@ -8,14 +8,21 @@ import { Sale } from "../../types/sale";
 import { PageLoading } from "@/components/page-loading";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
 import { useState } from "react";
+import { Page } from "@/types/page";
+import { APIQuery } from "@/types/query";
+import { SaleResponseDto } from "../../types/sale.dto";
 
-export function SalesTable({ className } : { className?: string}) {
+export function SalesTable({ className, key = 'sales',getSalesFn = getSales } : { 
+  className?: string, 
+  key?: string,
+  getSalesFn?: (q: APIQuery) => Promise<Page<SaleResponseDto>>
+}) {
   const navigate = useNavigate();
   const { isLoading, data, ...paginationDetail } = 
-  useSearchPagination({ 
-    key: 'sales', 
-    getEntity: getSales 
-  });
+    useSearchPagination({ 
+      key, 
+      getEntity: getSalesFn
+    });
 
   const sales = data ? data.content.map(s => convertSaleResponseDtoToSale(s)) : [];
 

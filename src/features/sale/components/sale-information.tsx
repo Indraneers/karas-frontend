@@ -3,7 +3,7 @@ import { Sale } from "../types/sale";
 import { StatusBadge } from "./status-badge";
 import { TypographyH1 } from "@/components/ui/typography/h1";
 import { CustomLink } from "@/components/link";
-import { SaleDetailElement } from "./sale-detail-element";
+import { InfoField } from "../../../components/info-field";
 import { format } from 'date-fns';
 import { EditButton } from "@/components/edit-button";
 import { PrintButton } from "@/components/print-button";
@@ -30,18 +30,18 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
           <PrintButton className="w-8 h-8" to={'/invoice/' + sale.id + '?print=true'} />
         </div>
       </div>
-      <SaleDetailElement className="mt-2" label="Initiated By">
+      <InfoField className="mt-2" label="Initiated By">
         <CustomLink to={'/users' + sale.user.id}>
           {sale.user.username}
         </CustomLink>
-      </SaleDetailElement>
+      </InfoField>
       <div className="flex justify-between gap-2 mt-2">
-        <SaleDetailElement label="Created At">
+        <InfoField label="Created At">
           {format(sale.createdAt, 'do MMM yyyy, hh:mm aa')}
-        </SaleDetailElement>
-        <SaleDetailElement label="Due At">
+        </InfoField>
+        <InfoField label="Due At">
           {format(sale.dueAt, 'do MMM yyyy, hh:mm aa')}
-        </SaleDetailElement>
+        </InfoField>
       </div>
     </div>
   );
