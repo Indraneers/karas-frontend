@@ -12,14 +12,15 @@ import { Page } from "@/types/page";
 import { APIQuery } from "@/types/query";
 import { SaleResponseDto } from "../../types/sale.dto";
 
-export function SalesTable({ className, getSalesFn = getSales } : { 
+export function SalesTable({ className, key = 'sales',getSalesFn = getSales } : { 
   className?: string, 
+  key?: string,
   getSalesFn?: (q: APIQuery) => Promise<Page<SaleResponseDto>>
 }) {
   const navigate = useNavigate();
   const { isLoading, data, ...paginationDetail } = 
     useSearchPagination({ 
-      key: 'sales', 
+      key, 
       getEntity: getSalesFn
     });
 

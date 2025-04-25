@@ -86,7 +86,7 @@ function CustomerDetailPage() {
             </InfoField>
           </CardContent>
         </Card>
-        <Card className='mt-2 px-1'>
+        <Card className='mt-4 px-1'>
           <CardHeader>
             <TypographyH2>
               Vehicles
@@ -106,7 +106,7 @@ function CustomerDetailPage() {
         </Card>
       </div>
       <div className='col-span-3'>
-        <SalesTable getSalesFn={getCustomerSalesThroughCustomerId(customerId)} />
+        <SalesTable key='sales-customer' getSalesFn={getCustomerSalesThroughCustomerId(customerId)} />
       </div>
     </div>
   );
