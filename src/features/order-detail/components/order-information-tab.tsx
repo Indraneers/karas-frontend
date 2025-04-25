@@ -131,7 +131,7 @@ function CustomerInformation({ customer, className } : CustomerInformationProps)
 }
 
 import { Textarea } from "@/components/ui/textarea";
-import { SaleDetailElement } from "@/features/sale/components/sale-detail-element";
+import { InfoField } from "@/components/info-field";
 import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 import { VehicleSelect } from "./vehicle-select";
 import { VehicleForm } from "@/features/vehicle/components/vehicle-form";
@@ -204,9 +204,9 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           Vehicle Information
       </TypographyH3>
       <div className="items-center gap-4 grid grid-cols-[2fr,auto,1fr] mt-3">
-        <SaleDetailElement className="w-full" label="Vehicle">
+        <InfoField className="w-full" label="Vehicle">
           <VehicleSelect className="mt-2" />
-        </SaleDetailElement>
+        </InfoField>
         <Separator orientation="vertical" />
         <div className="flex gap-2">
           <PopoverButton 
@@ -247,38 +247,38 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         </div>
       </div>
       <div  className="flex gap-6 mt-4">
-        <SaleDetailElement label="Make and Model">
+        <InfoField label="Make and Model">
           <span className="font-medium">{vehicle.makeAndModel}</span>
-        </SaleDetailElement>
+        </InfoField>
         <div className="flex items-center gap-2">
           {vehicle.vehicleType !== VehicleType.EMPTY && vehicle.vehicleType ? 
             <VehicleIcon className="w-8 h-8" iconClassName="h-6 w-6" icon={vehicleObj.icon} /> 
             : 
             ''}
-          <SaleDetailElement className="" label="Vehicle Type">
+          <InfoField className="" label="Vehicle Type">
             <span className="flex items-center gap-2 m- font-medium">
               {vehicle.vehicleType ? vehicleObj.content : VehicleType.EMPTY}
             </span>
-          </SaleDetailElement>
+          </InfoField>
         </div>
       </div>
-      <SaleDetailElement className="mt-2" label="Plate Number">
+      <InfoField className="mt-2" label="Plate Number">
         <span className="font-medium">{vehicle.plateNumber}</span>
-      </SaleDetailElement>
-      <SaleDetailElement className="mt-2" label="Mileage">
+      </InfoField>
+      <InfoField className="mt-2" label="Mileage">
         {vehicle.mileage} km
-      </SaleDetailElement>
-      <SaleDetailElement className="mt-2" label="VIN N.O">
+      </InfoField>
+      <InfoField className="mt-2" label="VIN N.O">
         {vehicle.vinNo}
-      </SaleDetailElement>
-      <SaleDetailElement className="mt-2" label="Engine N.O">
+      </InfoField>
+      <InfoField className="mt-2" label="Engine N.O">
         {vehicle.engineNo}
-      </SaleDetailElement>
-      <SaleDetailElement className="mt-2" label="Vehicle Note">
+      </InfoField>
+      <InfoField className="mt-2" label="Vehicle Note">
         <Textarea rows={1} className="mt-2 w-[340px]">
           {vehicle.note}
         </Textarea>
-      </SaleDetailElement>
+      </InfoField>
     </div>
   );
 }

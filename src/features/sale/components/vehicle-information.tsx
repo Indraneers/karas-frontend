@@ -1,4 +1,4 @@
-import { SaleDetailElement } from "./sale-detail-element";
+import { InfoField } from "../../../components/info-field";
 import { cn } from "@/lib/utils";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
@@ -11,26 +11,26 @@ export function VehicleInformation({ vehicle, className } : { vehicle: VehicleDt
       <TypographyH2>
           Vehicle Detail
       </TypographyH2>
-      <SaleDetailElement className="mt-2" label="Make & Model">
+      <InfoField className="mt-2" label="Make & Model">
         <span className="font-medium">{vehicle.makeAndModel}</span>
-      </SaleDetailElement>
+      </InfoField>
       <div className="gap-2 grid grid-cols-2 grid-rows-2 mt-2">
-        <SaleDetailElement label="Plate Number">
+        <InfoField label="Plate Number">
           <span className="font-medium">{vehicle.plateNumber}</span>
-        </SaleDetailElement>
-        <SaleDetailElement className="ml-4" label="Mileage">
+        </InfoField>
+        <InfoField className="ml-4" label="Mileage">
           {vehicle.mileage}
-        </SaleDetailElement>
-        <SaleDetailElement label="VIN N.O">
+        </InfoField>
+        <InfoField label="VIN N.O">
           {vehicle.vinNo}
-        </SaleDetailElement>
-        <SaleDetailElement className="ml-4" label="Engine N.O">
+        </InfoField>
+        <InfoField className="ml-4" label="Engine N.O">
           {vehicle.engineNo}
-        </SaleDetailElement>
+        </InfoField>
       </div>
-      <SaleDetailElement className="mt-2" label="Vehicle Note">
+      <InfoField className="mt-2" label="Vehicle Note">
         {vehicle.note}
-      </SaleDetailElement>
+      </InfoField>
     </div>
   );
 }
