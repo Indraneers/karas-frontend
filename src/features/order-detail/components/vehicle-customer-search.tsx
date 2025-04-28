@@ -36,9 +36,7 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
 
   const isCustomerDataNotEmpty =
     customerQuery.totalElements !== 0;
-
-  console.log(customerQuery);
-
+    
   const isVehicleDataNotEmpty = 
     vehicleQuery.totalElements !== 0;
 

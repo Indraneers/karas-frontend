@@ -29,7 +29,6 @@ export function UnitSelection({ className }: UnitSelectionProps) {
     const threshold = 50;
     
     if (scrollHeight - clientHeight <= scrollTop + threshold) {
-      console.log(hasNextPage, fetchNextPage);
       if (hasNextPage && fetchNextPage) {
         fetchNextPage();
       }

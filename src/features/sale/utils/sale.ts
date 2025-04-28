@@ -84,7 +84,6 @@ export function getServicesTotal(services: MaintenanceService[]): number {
 
 // TODO: add maintenances
 export function getSubtotal({ items, maintenanceServices }: { items: Item[], maintenanceServices: MaintenanceService[] }) {
-  console.log(items, getUnitsTotal(items));
   return getUnitsTotal(items) + getServicesTotal(maintenanceServices);
 }
 

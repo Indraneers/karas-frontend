@@ -9,19 +9,35 @@ import { PageLoading } from "@/components/page-loading";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
 import { useState } from "react";
 import { Page } from "@/types/page";
-import { APIQuery } from "@/types/query";
 import { SaleResponseDto } from "../../types/sale.dto";
+import { SaleSearch } from "../../types/sale-search";
+import { convertDateToLocaleDate } from "@/lib/date";
+import { APIQuery } from "@/types/query";
 
-export function SalesTable({ className, key = 'sales',getSalesFn = getSales } : { 
+export function SalesTable({ className, key = 'sales', getSalesFn = getSales, saleSearch } : { 
   className?: string, 
   key?: string,
-  getSalesFn?: (q: APIQuery) => Promise<Page<SaleResponseDto>>
+  getSalesFn?: (saleQuery: APIQuery) => Promise<Page<SaleResponseDto>>,
+  saleSearch: SaleSearch,
 }) {
   const navigate = useNavigate();
   const { isLoading, data, ...paginationDetail } = 
     useSearchPagination({ 
       key, 
-      getEntity: getSalesFn
+      getEntity: getSalesFn,
+      query: {
+        createdAtFrom: 
+          saleSearch.createdAtFrom ? 
+            convertDateToLocaleDate(saleSearch.createdAtFrom)
+            : 
+            undefined,
+        createdAtTo: 
+            saleSearch.createdAtTo ? 
+              convertDateToLocaleDate(saleSearch.createdAtTo) 
+              : 
+              undefined,
+        customerId: saleSearch.customerId
+      }
     });
 
   const sales = data ? data.content.map(s => convertSaleResponseDtoToSale(s)) : [];

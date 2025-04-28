@@ -15,7 +15,12 @@ export function useSearchPagination<T>({ key, getEntity, enabled, query } : Sear
   });
 
   const { isError, isLoading, data } = useQuery({
-    queryKey: [key, pagination.pageIndex, q],
+    queryKey: [
+      key, 
+      pagination.pageIndex, 
+      q,
+      ...Object.entries(query ?? {}).map(([k, v]) => `${ String(k) }-${ String(v) }`)
+    ],
     queryFn: () => getEntity({ page: pagination.pageIndex, q, ...query }),
     enabled: enabled || (debouncedQ !== '' || q !== undefined) // More robust enabled condition
   });

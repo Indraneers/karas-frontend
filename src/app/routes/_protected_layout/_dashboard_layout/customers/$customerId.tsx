@@ -2,7 +2,7 @@ import { InfoField } from '@/components/info-field';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { TypographyH2 } from '@/components/ui/typography/h2';
-import { getCustomerById, getCustomerSalesThroughCustomerId } from '@/features/customer/api/customer';
+import { getCustomerById } from '@/features/customer/api/customer';
 import { SalesTable } from '@/features/sale/components/sales-table';
 import { getVehiclesByCustomerId } from '@/features/vehicle/api/vehicle';
 import { VehicleItem } from '@/features/vehicle/components/vehicle-item';
@@ -106,7 +106,7 @@ function CustomerDetailPage() {
         </Card>
       </div>
       <div className='col-span-3'>
-        <SalesTable key='sales-customer' getSalesFn={getCustomerSalesThroughCustomerId(customerId)} />
+        <SalesTable key='sales-customer' saleSearch={{ customerId }} />
       </div>
     </div>
   );

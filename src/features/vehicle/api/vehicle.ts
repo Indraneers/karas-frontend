@@ -29,7 +29,6 @@ export const createVehicle = (vehicleDto: VehicleDto): Promise<VehicleDto> =>
   });
 
 export const updateVehicle = (id: string, vehicleDto: VehicleDto): Promise<VehicleDto> => {
-  console.log("CALLED", vehicleDto);
   return request({
     url: '/vehicles/' + id,
     method: 'PUT',
