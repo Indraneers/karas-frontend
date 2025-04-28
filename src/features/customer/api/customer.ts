@@ -24,10 +24,6 @@ export const getCustomerSales = (id: string, query: APIQuery): Promise<Page<Sale
     method: 'GET',
     params: query
   });
-
-export const getCustomerSalesThroughCustomerId = (customerId: string) => {
-  return (query: APIQuery) => getCustomerSales(customerId, query);
-};
   
 export const createCustomer = (customerDto: CustomerDto): Promise<CustomerDto> => 
   request({

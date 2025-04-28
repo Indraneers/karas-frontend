@@ -3,14 +3,18 @@ import { SaleRequestDto, SaleResponseDto } from "../types/sale.dto";
 import { Page } from "@/types/page";
 import { APIQuery } from "@/types/query";
 
-export const getSales = async({ page } : APIQuery): Promise<Page<SaleResponseDto>> =>
-  request({
+export const getSales = async(saleQuery: APIQuery): Promise<Page<SaleResponseDto>> => {
+  return request({
     url: '/sales',
     method: 'GET',
     params: {
-      page
+      page: saleQuery.page,
+      createdAtFrom: saleQuery.createdAtFrom,
+      createdAtTo: saleQuery.createdAtTo,
+      customerId: saleQuery.customerId
     }
   });
+};
 
 export const getSaleById = async(id: string): Promise<SaleResponseDto> =>
   request({

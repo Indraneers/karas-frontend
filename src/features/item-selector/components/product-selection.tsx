@@ -24,7 +24,6 @@ export function ProductSelection({ className }: ProductSelectionProps) {
     const threshold = 50;
       
     if (scrollHeight - clientHeight <= scrollTop + threshold) {
-      console.log(hasNextPage, fetchNextPage);
       if (hasNextPage && fetchNextPage) {
         fetchNextPage();
       }
