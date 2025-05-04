@@ -75,7 +75,7 @@ export function InvoicePage() {
   }
 
   return (
-    <div className='flex justify-center items-center w-full'>
+    <div className='flex justify-center items-center bg-white w-full'>
       <div className='p-8 font-body a4-page' ref={contentRef}>
         <div className='flex justify-between items-center'>
           <h1 className='font-bold text-[42px]'>INVOICE</h1>

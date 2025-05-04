@@ -14,9 +14,9 @@ module.exports = {
       padding: {
         DEFAULT: '1rem',
         sm: '2rem',
-        lg: '4rem',
-        xl: '5rem',
-        '2xl': '6rem',
+        lg: '2rem',
+        xl: '2rem',
+        '2xl': '4rem',
       },
     },
   	fontFamily: {
@@ -38,6 +38,10 @@ module.exports = {
   			secondary: {
   				DEFAULT: 'hsl(var(--secondary))',
   				foreground: 'hsl(var(--secondary-foreground))'
+  			},
+				surface: {
+  				DEFAULT: 'hsl(var(--surface))',
+  				foreground: 'hsl(var(--primary-foreground))'
   			},
   			destructive: {
   				DEFAULT: 'hsl(var(--destructive))',

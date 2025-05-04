@@ -22,14 +22,17 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
 
         className={
           cn([
-            'hover:text-accent transition cursor-pointer',
-            isActive ? 'text-accent' : ''
+            'hover:bg-accent group/item hover:text-primary-foreground transition cursor-pointer',
+            isActive ? 'bg-accent text-primary-foreground' : ''
           ])
         }
         asChild
       >
         <a href={url} target="_blank" rel="noreferrer">
-          <Icon />
+          <Icon className={cn([
+            "text-muted-foreground group-hover/item:text-primary-foreground",
+            isActive && 'text-primary-foreground'
+          ])} />
           <span>{children}</span>
           <ChevronRight className={cn([
             "hidden group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4",
@@ -46,14 +49,17 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
         onClick={() => navigate({ to: url })}
         className={
           cn([
-            'hover:text-accent transition cursor-pointer',
-            isActive ? 'text-accent' : ''
+            'hover:bg-accent group/item hover:text-primary-foreground transition cursor-pointer font-medium',
+            isActive ? 'bg-accent text-primary-foreground' : ''
           ])
         }
         asChild
       >
         <a>
-          <Icon />
+          <Icon className={cn([
+            "text-muted-foreground group-hover/item:text-primary-foreground",
+            isActive && 'text-primary-foreground'
+          ])} />
           <span>{children}</span>
           <ChevronRight className={cn([
             "hidden group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4",
@@ -68,13 +74,17 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
     <SidebarMenuButton 
       className={
         cn([
-          'hover:text-accent transition cursor-pointer'
+          'hover:bg-accent group/item hover:text-primary-foreground transition cursor-pointer',
+          isActive ? 'bg-accent text-primary-foreground' : ''
         ])
       }
       asChild
     >
       <a>
-        <Icon />
+        <Icon className={cn([
+          "text-muted-foreground group-hover/item:text-primary-foreground",
+          isActive && 'text-primary-foreground'
+        ])} />
         <span>{children}</span>
         <ChevronRight className={cn([
           "hidden group-data-[state=open]/collapsible:rotate-90 ml-auto w-4 h-4",

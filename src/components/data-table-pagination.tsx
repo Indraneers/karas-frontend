@@ -22,6 +22,7 @@ import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { PaginationDetail } from "@/types/pagination";
+import { Card } from "./ui/card";
 
 interface DataTablePaginationProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -85,72 +86,72 @@ export function DataTablePagination<TData, TValue>({
   ).length;
 
   return (
-    <div className="grid grid-rows-[1fr,auto]">
-      <div className="border rounded-md">
-        <Table className="overflow-hidden">
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      className="font-semibold text-foreground"
-                      colSpan={header.colSpan}
-                      style={{
-                        width: header.getSize() !== 0 ? header.getSize() : undefined
-                      }}
-                      key={header.id}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
-                  onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      style={{
-                        width: cell.column.getSize() !== 0
-                          ? cell.column.getSize()
-                          : undefined
-                      }}
-                      key={cell.id}
-                    >
-                      {isLoading ? (
-                        <Skeleton className="h-4" />
-                      ) : (
-                        flexRender(cell.column.columnDef.cell, cell.getContext())
+    <Card className="grid grid-rows-[1fr,auto] p-1 rounded-xl">
+      <Table className="overflow-hidden">
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    className="last:pr-4 first:pl-4 font-semibold text-foreground"
+                    colSpan={header.colSpan}
+                    style={{
+                      width: header.getSize() !== 0 ? header.getSize() : undefined
+                    }}
+                    key={header.id}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
                       )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {isLoading ? 'Loading...' : 'No results.'}
-                </TableCell>
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody className='px-4'>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    className="last:pr-4 first:pl-4"
+                    style={{
+                      width: cell.column.getSize() !== 0
+                        ? cell.column.getSize()
+                        : undefined
+                    }}
+                    key={cell.id}
+                  >
+                    {isLoading ? (
+                      <Skeleton className="h-4" />
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex justify-end items-center py-4">
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="h-24 text-center">
+                {isLoading ? 'Loading...' : 'No results.'}
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+
+      <div className="flex justify-end items-center px-4 py-2 pt-4">
         <div className="flex-1 text-accent text-sm">
           {totalSelectedRows} of{" "}
           {paginationDetail.rowCount} row(s) selected.
@@ -174,7 +175,7 @@ export function DataTablePagination<TData, TValue>({
           </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }
 
@@ -221,72 +222,71 @@ export function DataTableAutoPagination<TData, TValue>({
   });
 
   return (
-    <div className="grid grid-rows-[1fr,auto]">
-      <div className="border rounded-md">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead
-                      className="font-semibold text-foreground"
-                      colSpan={header.colSpan}
-                      style={{
-                        width: header.getSize() !== 0 ? header.getSize() : undefined
-                      }}
-                      key={header.id}
-                    >
-                      {header.isPlaceholder
-                        ? null
-                        : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext()
-                        )}
-                    </TableHead>
-                  );
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
-                  onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell
-                      style={{
-                        width: cell.column.getSize() !== 0
-                          ? cell.column.getSize()
-                          : undefined
-                      }}
-                      key={cell.id}
-                    >
-                      {isLoading ? (
-                        <Skeleton className="h-4" />
-                      ) : (
-                        flexRender(cell.column.columnDef.cell, cell.getContext())
+    <Card className="grid grid-rows-[1fr,auto] p-2">
+      <Table>
+        <TableHeader>
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow key={headerGroup.id}>
+              {headerGroup.headers.map((header) => {
+                return (
+                  <TableHead
+                    className="font-semibold text-foreground"
+                    colSpan={header.colSpan}
+                    style={{
+                      width: header.getSize() !== 0 ? header.getSize() : undefined
+                    }}
+                    key={header.id}
+                  >
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                        header.column.columnDef.header,
+                        header.getContext()
                       )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
-                  {isLoading ? 'Loading...' : 'No results.'}
-                </TableCell>
+                  </TableHead>
+                );
+              })}
+            </TableRow>
+          ))}
+        </TableHeader>
+        <TableBody>
+          {table.getRowModel().rows?.length ? (
+            table.getRowModel().rows.map((row) => (
+              <TableRow
+                className={cn([onRowClick && 'cursor-pointer', 'px-4 hover:bg-accent/10 cursor-pointer'])}
+                onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}
+              >
+                {row.getVisibleCells().map((cell) => (
+                  <TableCell
+                    className="last:pr-4 first:pl-4"
+                    style={{
+                      width: cell.column.getSize() !== 0
+                        ? cell.column.getSize()
+                        : undefined
+                    }}
+                    key={cell.id}
+                  >
+                    {isLoading ? (
+                      <Skeleton className="h-4" />
+                    ) : (
+                      flexRender(cell.column.columnDef.cell, cell.getContext())
+                    )}
+                  </TableCell>
+                ))}
               </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex justify-end items-center py-4">
+            ))
+          ) : (
+            <TableRow>
+              <TableCell colSpan={columns.length} className="first:pl-4 last:pl-4 h-24 text-center">
+                {isLoading ? 'Loading...' : 'No results.'}
+              </TableCell>
+            </TableRow>
+          )}
+        </TableBody>
+      </Table>
+      <div className="flex justify-end items-center px-4 py-2 pt-4">
         <div className="flex-1 text-accent text-sm">
           {table.getSelectedRowModel().rows.length} of{" "}
           {table.getRowCount()} row(s) selected.
@@ -310,6 +310,6 @@ export function DataTableAutoPagination<TData, TValue>({
           </Button>
         </div>
       </div>
-    </div>
+    </Card>
   );
 }

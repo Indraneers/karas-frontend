@@ -10,7 +10,7 @@ interface RouterContext {
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   component: () => (
-    <div className='font-body'>
+    <div className='font-body text-foreground'>
       <Outlet />
       {import.meta.env.VITE_SHOW_DEV_TOOLS === 'true' && <TanStackRouterDevtools />}
     </div>

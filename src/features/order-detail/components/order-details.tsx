@@ -18,7 +18,7 @@ interface OrderDetailsProps {
 
 export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   return (
-    <Section className="flex flex-col border rounded-2xl h-full">
+    <Section className="flex flex-col bg-surface border rounded-2xl h-full">
       <SectionHeader className="relative p-3">
         <TypographyH2 className="flex items-center gap-2">
           Order Details

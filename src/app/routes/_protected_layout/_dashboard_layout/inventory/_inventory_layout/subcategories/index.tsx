@@ -19,7 +19,7 @@ export function SubcategoryPage() {
   const subcategories = data?.map((sc) => convertSCDtoToSC(sc)) || [];
   return (
     <>
-      <SectionHeader className='mt-2'>
+      <SectionHeader>
         <TypographyH1>
             Subcategory
         </TypographyH1>

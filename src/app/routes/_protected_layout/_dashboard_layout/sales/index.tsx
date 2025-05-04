@@ -33,7 +33,7 @@ function SalesPage() {
   return (
     <Section className='flex flex-col h-full'>
       <SectionHeader>
-        <TypographyH1 className='mt-4'>
+        <TypographyH1>
         Sales and Orders
         </TypographyH1>
         <Subtitle>

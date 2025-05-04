@@ -16,7 +16,7 @@ function DashboardLayout() {
     <SidebarProvider>
       <AppSidebar />
       <div className='w-full h-screen max-h-screen'>
-        <SidebarInset className='z-20 flex flex-col bg-background h-full'>
+        <SidebarInset className='z-20 flex flex-col h-full'>
           <Header className='z-20 bg-background'>
             <SidebarTrigger />
             <div className='flex justify-end items-center gap-4 w-full h-12'>
@@ -25,7 +25,7 @@ function DashboardLayout() {
               <LogoutBtn />
             </div>
           </Header>      
-          <MainContent className='py-8 h-full overflow-y-scroll'>
+          <MainContent className='mb-8 h-full overflow-y-scroll'>
             <Outlet />
           </MainContent>
         </SidebarInset>
