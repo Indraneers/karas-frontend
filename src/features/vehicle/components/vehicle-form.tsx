@@ -249,7 +249,7 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                     <Textarea {...field} />
                   </FormControl>
                   <FormDescription>
-                  Set the Vehicle Note
+                    Set the Vehicle Note
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
