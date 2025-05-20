@@ -33,8 +33,8 @@ export function DataTable<TData, TValue>({
   });
  
   return (
-    <ScrollArea className="shadow-sm border rounded-xl h-full">
-      <Table className="bg-surface rounded-xl h-full">
+    <ScrollArea className="shadow-sm border h-full">
+      <Table className="bg-surface h-full">
         <TableHeader className="z-10 bg-card rounded-xl">
           {table.getHeaderGroups().map((headerGroup) => (
             <TableRow className="rounded-xl" key={headerGroup.id}>

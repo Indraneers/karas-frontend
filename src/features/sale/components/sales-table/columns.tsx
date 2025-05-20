@@ -140,7 +140,6 @@ export const columns: ColumnDef<Sale>[] = [
   },
   {
     id: 'actions',
-    header: 'Actions',
     cell: ({ row }) => {
       return (
         <SaleActions 

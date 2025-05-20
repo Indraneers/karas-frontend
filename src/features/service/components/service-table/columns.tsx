@@ -41,7 +41,6 @@ export const columns: ColumnDef<Service>[] = [
   },
   {
     id: 'actions',
-    header: 'Actions',
     size: 10,
     cell: ({ row }) => <ServiceActions id={row.original.id} handleDelete={deleteAutoService} />
   }
