@@ -1,20 +1,21 @@
-import { VehicleDto } from "../types/vehicle.dto";
 import { DropdownActionItem, DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Edit, Trash } from "lucide-react";
+import { CategoryDto } from "../types/category.dto";
 
-interface VehicleActionsProps {
+
+interface CategoryActionsProps {
   id: string;
-  handleDelete: (id: string) => Promise<VehicleDto>;
+  handleDelete: (id: string) => Promise<CategoryDto>;
 }
 
-export function VehicleActions({ id, handleDelete }: VehicleActionsProps) {
+export function CategoryActions({ id, handleDelete }: CategoryActionsProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutatation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['vehicles'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['categories'] })
   });
 
   const dropdownActionItems: DropdownActionItem[] = [
@@ -22,9 +23,9 @@ export function VehicleActions({ id, handleDelete }: VehicleActionsProps) {
       key: 1,
       onClick: (e) => {
         e.stopPropagation();
-        navigate({ to: `/vehicles/edit/` + id });
+        navigate({ to: `/inventory/categories/edit/` + id });
       },
-      content: <><Edit /> Edit Vehicle</>
+      content: <><Edit /> Edit Category</>
     },
     {
       key: 2,
@@ -32,9 +33,9 @@ export function VehicleActions({ id, handleDelete }: VehicleActionsProps) {
         e.stopPropagation();
         mutatation.mutate(id);
       },
-      content: <><Trash /> Delete Vehicle</>
+      content: <><Trash /> Delete Category</>
     }
   ];
 
-  return <DropdownAction label='Vehicle Actions' items={dropdownActionItems} />;
+  return <DropdownAction label='Category Actions' items={dropdownActionItems} />;
 }

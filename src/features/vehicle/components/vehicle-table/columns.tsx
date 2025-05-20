@@ -71,8 +71,7 @@ export const columns: ColumnDef<Vehicle>[] = [
   },
   {
     id: 'actions',
-    header: 'Actions',
-    size: 100,
+    size: 10,
     cell: ({ row }) => <VehicleActions id={row.original.id || ''} handleDelete={deleteVehicle} />
   }
 ];

@@ -3,9 +3,9 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { Product } from "@/features/product/types/product";
 import { deleteProduct } from "../../api/product";
-import { InventoryActions } from "@/components/inventory-actions";
 import { Badge } from "@/components/ui/badge";
 import { ProductTypeBadge } from "../product-type-badge";
+import { ProductActions } from "../product-actions";
 
 export const columns: ColumnDef<Product>[] = [
   {
@@ -77,15 +77,13 @@ export const columns: ColumnDef<Product>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
-    size: 125,
+    size: 10,
     enableHiding: false,
     cell: ({ row }) => {
       const product = row.original;
       return (
-        <InventoryActions
+        <ProductActions
           id={product.id}
-          type="products"
           handleDelete={deleteProduct}
         />
       );

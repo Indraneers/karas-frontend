@@ -1,9 +1,8 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-
 import { Category } from "@/features/category/types/category";
-import { InventoryActions } from "@/components/inventory-actions";
 import { deleteCategory } from "../../api/category";
+import { CategoryActions } from "../category-actions";
 
 export const columns: ColumnDef<Category>[] = [
   {
@@ -41,15 +40,13 @@ export const columns: ColumnDef<Category>[] = [
   },
   {
     id: "actions",
-    size: 125,
-    header: "Actions",
+    size: 10,
     enableHiding: false,
     cell: ({ row }) => {
       const category = row.original;
       return (
-        <InventoryActions 
+        <CategoryActions
           id={category.id} 
-          type="categories"
           handleDelete={deleteCategory}
         />
       );

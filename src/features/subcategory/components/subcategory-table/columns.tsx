@@ -1,10 +1,9 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
-
-import { InventoryActions } from "@/components/inventory-actions";
 import { Subcategory } from "../../types/subcategory";
 import { deleteSubcategory } from "../../api/subcategory";
 import { Badge } from "@/components/ui/badge";
+import { SubcategoryActions } from "../subcategory-actions";
 
 export const columns: ColumnDef<Subcategory>[] = [
   {
@@ -47,15 +46,12 @@ export const columns: ColumnDef<Subcategory>[] = [
   },
   {
     id: "actions",
-    size: 125,
-    header: "Actions",
+    size: 10,
     enableHiding: false,
     cell: ({ row }) => {
-      const category = row.original;
       return (
-        <InventoryActions 
-          id={category.id} 
-          type="subcategories"
+        <SubcategoryActions
+          id={row.original.id} 
           handleDelete={deleteSubcategory}
         />
       );

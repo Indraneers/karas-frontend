@@ -1,10 +1,10 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import { Unit } from "@/features/unit/types/unit";
-import { InventoryActions } from "@/components/inventory-actions";
 import { deleteUnit } from "../../api/unit";
 import { ProductCell, ToBaseUnitCell, PriceCell, UnitQuantityCell } from "../unit-table";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
+import { UnitActions } from "../unit-actions";
 
 export const columns: ColumnDef<Unit>[] = [
   {
@@ -78,14 +78,12 @@ export const columns: ColumnDef<Unit>[] = [
   },
   {
     id: "actions",
-    header: "Actions",
-    size: 125,
+    size: 10,
     cell: ({ row }) => {
       const unit = row.original;
       return (
-        <InventoryActions
+        <UnitActions
           id={unit.id || ''}
-          type="units"
           handleDelete={deleteUnit}
         />
       );
