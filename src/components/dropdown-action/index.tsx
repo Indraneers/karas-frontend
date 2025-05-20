@@ -1,18 +1,13 @@
 import { EllipsisVertical } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "../ui/dropdown-menu";
 import { Button } from "../ui/button";
-import React from "react";
+import { DropdownActionItem } from "@/types/context-options";
 
-export interface DropdownActionItem {
-  key: string | number,
-  content: React.ReactElement,
-  onClick: React.MouseEventHandler<HTMLDivElement>
-}
-
-export function DropdownAction({
+export function DropdownAction<TData>({
   label,
-  items
-} : { label: string, items: DropdownActionItem[] }) {
+  items,
+  value
+} : { label: string, items: DropdownActionItem<TData>[], value: TData }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
@@ -26,7 +21,10 @@ export function DropdownAction({
         <DropdownMenuGroup>
           {
             items.map(i => 
-              <DropdownMenuItem className="cursor-pointer" key={i.key} onClick={i.onClick}>
+              <DropdownMenuItem className="cursor-pointer" key={i.key} onClick={(e) => {
+                e.stopPropagation();
+                i.onClick(value);
+              }}>
                 {i.content}
               </DropdownMenuItem>
             )

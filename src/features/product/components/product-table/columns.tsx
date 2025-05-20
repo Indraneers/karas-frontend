@@ -80,10 +80,9 @@ export const columns: ColumnDef<Product>[] = [
     size: 10,
     enableHiding: false,
     cell: ({ row }) => {
-      const product = row.original;
       return (
         <ProductActions
-          id={product.id}
+          value={row.original}
           handleDelete={deleteProduct}
         />
       );

@@ -80,10 +80,9 @@ export const columns: ColumnDef<Unit>[] = [
     id: "actions",
     size: 10,
     cell: ({ row }) => {
-      const unit = row.original;
       return (
         <UnitActions
-          id={unit.id || ''}
+          value={row.original}
           handleDelete={deleteUnit}
         />
       );

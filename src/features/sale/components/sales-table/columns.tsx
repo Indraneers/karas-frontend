@@ -143,7 +143,7 @@ export const columns: ColumnDef<Sale>[] = [
     cell: ({ row }) => {
       return (
         <SaleActions 
-          id={row.original.id || ''}
+          value={row.original}
           handleDelete={deleteSale}
         />
       );

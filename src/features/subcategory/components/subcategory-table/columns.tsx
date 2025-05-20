@@ -51,7 +51,7 @@ export const columns: ColumnDef<Subcategory>[] = [
     cell: ({ row }) => {
       return (
         <SubcategoryActions
-          id={row.original.id} 
+          value={row.original}
           handleDelete={deleteSubcategory}
         />
       );

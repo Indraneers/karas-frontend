@@ -4,14 +4,16 @@ import { useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { paySale } from "../api/sale";
 import { onClickUrl } from "@/lib/link";
-import { DropdownAction, DropdownActionItem } from "@/components/dropdown-action";
+import { DropdownAction } from "@/components/dropdown-action";
+import { Sale } from "../types/sale";
+import { DropdownActionItem } from "@/types/context-options";
 
 interface SaleActionsProps {
-  id: string,
+  value: Sale
   handleDelete: (d: string) => Promise<SaleResponseDto>
 }
 
-export function SaleActions({ id, handleDelete }: SaleActionsProps) {
+export function SaleActions({ value, handleDelete }: SaleActionsProps) {
   const queryClient = useQueryClient();
   const payMutation = useMutation({
     mutationFn: async (id: string) => paySale(id),
@@ -24,40 +26,36 @@ export function SaleActions({ id, handleDelete }: SaleActionsProps) {
 
   const navigate = useNavigate();
 
-  const dropdownItems: DropdownActionItem[] = [
+  const dropdownItems: DropdownActionItem<Sale>[] = [
     {
       key: 1,
-      onClick: (e) => {
-        e.stopPropagation();
-        payMutation.mutate(id);
+      onClick: (sale) => {
+        payMutation.mutate(sale.id || '');
       },
       content: <><BadgeDollarSign /> Set Paid</>
     },
     {
       key: 2,
-      onClick: (e) => {
-        e.stopPropagation();
-        (onClickUrl('/invoice/' + id + '?print=true'))();
+      onClick: (sale) => {
+        (onClickUrl('/invoice/' + sale.id + '?print=true'))();
       },
       content: <><Printer /> Print</>
     },
     {
       key: 3,
-      onClick: (e) => {
-        e.stopPropagation();
-        navigate({ to: '/sales/edit/' + id });
+      onClick: (sale) => {
+        navigate({ to: '/sales/edit/' + sale.id });
       },
       content: <><Edit /> Edit</>
     },
     {
       key: 4,
-      onClick: (e) => {
-        e.stopPropagation();
-        deleteMutatation.mutate(id);
+      onClick: (sale) => {
+        deleteMutatation.mutate(sale.id || '');
       },
       content: <><Trash2 /> Delete</>
     }
   ];
 
-  return <DropdownAction label='Sales Action' items={dropdownItems} />;
+  return <DropdownAction label='Sales Action' items={dropdownItems} value={value} />;
 }

@@ -1,16 +1,18 @@
-import { DropdownActionItem, DropdownAction } from "@/components/dropdown-action";
+import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Edit, Trash } from "lucide-react";
 import { CategoryDto } from "../types/category.dto";
+import { Category } from "../types/category";
+import { DropdownActionItem } from "@/types/context-options";
 
 
 interface CategoryActionsProps {
-  id: string;
+  value: Category;
   handleDelete: (id: string) => Promise<CategoryDto>;
 }
 
-export function CategoryActions({ id, handleDelete }: CategoryActionsProps) {
+export function CategoryActions({ value, handleDelete }: CategoryActionsProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutatation = useMutation({
@@ -18,24 +20,22 @@ export function CategoryActions({ id, handleDelete }: CategoryActionsProps) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['categories'] })
   });
 
-  const dropdownActionItems: DropdownActionItem[] = [
+  const dropdownActionItems: DropdownActionItem<Category>[] = [
     {
       key: 1,
-      onClick: (e) => {
-        e.stopPropagation();
-        navigate({ to: `/inventory/categories/edit/` + id });
+      onClick: (category) => {
+        navigate({ to: `/inventory/categories/edit/` + category.id });
       },
       content: <><Edit /> Edit Category</>
     },
     {
       key: 2,
-      onClick: (e) => {
-        e.stopPropagation();
-        mutatation.mutate(id);
+      onClick: (category) => {
+        mutatation.mutate(category.id);
       },
       content: <><Trash /> Delete Category</>
     }
   ];
 
-  return <DropdownAction label='Category Actions' items={dropdownActionItems} />;
+  return <DropdownAction label='Category Actions' items={dropdownActionItems} value={value} />;
 }

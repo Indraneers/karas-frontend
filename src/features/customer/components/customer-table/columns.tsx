@@ -43,6 +43,6 @@ export const columns: ColumnDef<Customer>[] = [
   {
     id: 'actions',
     size: 10,
-    cell: ({ row }) => <CustomerActions id={row.original.id || ''} handleDelete={deleteCustomer} />
+    cell: ({ row }) => <CustomerActions value={row.original} handleDelete={deleteCustomer} />
   }
 ];

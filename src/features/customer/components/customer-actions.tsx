@@ -1,16 +1,18 @@
-import { DropdownActionItem, DropdownAction } from "@/components/dropdown-action";
+import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Edit, Trash } from "lucide-react";
 import { CustomerDto } from "../types/customer.dto";
+import { Customer } from "../types/customer";
+import { DropdownActionItem } from "@/types/context-options";
 
 
 interface CustomerActionsProps {
-  id: string;
+  value: Customer;
   handleDelete: (id: string) => Promise<CustomerDto>;
 }
 
-export function CustomerActions({ id, handleDelete }: CustomerActionsProps) {
+export function CustomerActions({ value, handleDelete }: CustomerActionsProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutatation = useMutation({
@@ -18,24 +20,22 @@ export function CustomerActions({ id, handleDelete }: CustomerActionsProps) {
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customers'] })
   });
 
-  const dropdownActionItems: DropdownActionItem[] = [
+  const dropdownActionItems: DropdownActionItem<Customer>[] = [
     {
       key: 1,
-      onClick: (e) => {
-        e.stopPropagation();
-        navigate({ to: `/customers/edit/` + id });
+      onClick: (customer) => {
+        navigate({ to: `/customers/edit/` + customer.id });
       },
       content: <><Edit /> Edit Customer</>
     },
     {
       key: 2,
-      onClick: (e) => {
-        e.stopPropagation();
-        mutatation.mutate(id);
+      onClick: (customer) => {
+        mutatation.mutate(customer.id);
       },
       content: <><Trash /> Delete Customer</>
     }
   ];
 
-  return <DropdownAction label='Customer Actions' items={dropdownActionItems} />;
+  return <DropdownAction label='Customer Actions' items={dropdownActionItems} value={value} />;
 }

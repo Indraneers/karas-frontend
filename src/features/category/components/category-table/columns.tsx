@@ -46,7 +46,7 @@ export const columns: ColumnDef<Category>[] = [
       const category = row.original;
       return (
         <CategoryActions
-          id={category.id} 
+          value={category}
           handleDelete={deleteCategory}
         />
       );

@@ -1,15 +1,17 @@
-import { DropdownActionItem, DropdownAction } from "@/components/dropdown-action";
+import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Edit, Trash } from "lucide-react";
 import { SubcategoryResponseDto } from "../types/subcategory.dto";
+import { Subcategory } from "../types/subcategory";
+import { DropdownActionItem } from "@/types/context-options";
 
 interface SubcategoryActionsProps {
-  id: string;
+  value: Subcategory
   handleDelete: (id: string) => Promise<SubcategoryResponseDto>;
 }
 
-export function SubcategoryActions({ id, handleDelete }: SubcategoryActionsProps) {
+export function SubcategoryActions({ value, handleDelete }: SubcategoryActionsProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   const mutatation = useMutation({
@@ -17,24 +19,22 @@ export function SubcategoryActions({ id, handleDelete }: SubcategoryActionsProps
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['subcategories'] })
   });
 
-  const dropdownActionItems: DropdownActionItem[] = [
+  const dropdownActionItems: DropdownActionItem<Subcategory>[] = [
     {
       key: 1,
-      onClick: (e) => {
-        e.stopPropagation();
-        navigate({ to: `/inventory/subcategories/edit/` + id });
+      onClick: (subcategory) => {
+        navigate({ to: `/inventory/subcategories/edit/` + subcategory.id });
       },
       content: <><Edit /> Edit Subcategory</>
     },
     {
       key: 2,
-      onClick: (e) => {
-        e.stopPropagation();
-        mutatation.mutate(id);
+      onClick: (subcategory) => {
+        mutatation.mutate(subcategory.id);
       },
       content: <><Trash /> Delete Subcategory</>
     }
   ];
 
-  return <DropdownAction label='Subcategory Actions' items={dropdownActionItems} />;
+  return <DropdownAction label='Subcategory Actions' items={dropdownActionItems} value={value} />;
 }

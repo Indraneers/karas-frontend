@@ -23,6 +23,8 @@ import { useMemo } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { PaginationDetail } from "@/types/pagination";
 import { Card } from "./ui/card";
+import { ContextOption } from "@/types/context-options";
+import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "./ui/context-menu";
 
 interface DataTablePaginationProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +34,8 @@ interface DataTablePaginationProps<TData, TValue> {
   paginationDetail: PaginationDetail;
   rowSelection: Record<string, boolean>;
   onRowSelectionChange: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  contextLabel?: string;
+  contextOptions?: ContextOption<TData>[];
 }
 
 export function DataTablePagination<TData, TValue>({
@@ -41,7 +45,9 @@ export function DataTablePagination<TData, TValue>({
   isLoading,
   paginationDetail,
   rowSelection,
-  onRowSelectionChange
+  onRowSelectionChange,
+  contextLabel = 'Actions',
+  contextOptions
 }: DataTablePaginationProps<TData, TValue>) {
   const tableData = useMemo(
     () => (isLoading ? Array(10).fill({}) : data),
@@ -116,30 +122,83 @@ export function DataTablePagination<TData, TValue>({
         <TableBody className='px-4'>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
-                onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    className="last:pr-4 first:pl-4"
-                    style={{
-                      width: cell.column.getSize() !== 0
-                        ? cell.column.getSize()
-                        : undefined
-                    }}
-                    key={cell.id}
+              <>
+                {
+                  contextOptions &&
+                  <ContextMenu>
+                    <ContextMenuTrigger asChild>
+                      <TableRow
+                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            className="last:pr-4 first:pl-4"
+                            style={{
+                              width: cell.column.getSize() !== 0
+                                ? cell.column.getSize()
+                                : undefined
+                            }}
+                            key={cell.id}
+                          >
+                            {isLoading ? (
+                              <Skeleton className="h-4" />
+                            ) : (
+                              flexRender(cell.column.columnDef.cell, cell.getContext())
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuLabel>{contextLabel}</ContextMenuLabel>
+                      <ContextMenuSeparator />
+                      <ContextMenuGroup>
+                        {
+                          contextOptions.map(c => (
+                            <ContextMenuItem
+                              className="cursor-pointer"
+                              key={c.key}
+                              onClick={() => c.onClick(row.original as TData)}
+                            >
+                              {c.content}
+                            </ContextMenuItem>
+                          ))
+                        }
+                      </ContextMenuGroup>
+                    </ContextMenuContent>
+                  </ContextMenu>
+                }
+                {
+                  !contextOptions &&
+                  <TableRow
+                    className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                    onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
                   >
-                    {isLoading ? (
-                      <Skeleton className="h-4" />
-                    ) : (
-                      flexRender(cell.column.columnDef.cell, cell.getContext())
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        className="last:pr-4 first:pl-4"
+                        style={{
+                          width: cell.column.getSize() !== 0
+                            ? cell.column.getSize()
+                            : undefined
+                        }}
+                        key={cell.id}
+                      >
+                        {isLoading ? (
+                          <Skeleton className="h-4" />
+                        ) : (
+                          flexRender(cell.column.columnDef.cell, cell.getContext())
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                }
+              </>
             ))
           ) : (
             <TableRow>
@@ -184,13 +243,17 @@ interface DataTableAutoPaginationProps<TData, TValue> {
   data: TData[];
   onRowClick?: (data: TData) => void;
   isLoading?: boolean;
+  contextLabel?: string;
+  contextOptions?: ContextOption<TData>[];
 }
 
 export function DataTableAutoPagination<TData, TValue>({
   columns,
   data,
   onRowClick,
-  isLoading
+  isLoading,
+  contextLabel = 'Actions',
+  contextOptions
 }: DataTableAutoPaginationProps<TData, TValue>) {
   const tableData = useMemo(
     () => (isLoading ? Array(10).fill({}) : data),
@@ -252,34 +315,87 @@ export function DataTableAutoPagination<TData, TValue>({
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow
-                className={cn([onRowClick && 'cursor-pointer', 'px-4 hover:bg-accent/10 cursor-pointer'])}
-                onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    className="last:pr-4 first:pl-4"
-                    style={{
-                      width: cell.column.getSize() !== 0
-                        ? cell.column.getSize()
-                        : undefined
-                    }}
-                    key={cell.id}
+              <>
+                {
+                  contextOptions &&
+                  <ContextMenu>
+                    <ContextMenuTrigger asChild>
+                      <TableRow
+                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            className="last:pr-4 first:pl-4"
+                            style={{
+                              width: cell.column.getSize() !== 0
+                                ? cell.column.getSize()
+                                : undefined
+                            }}
+                            key={cell.id}
+                          >
+                            {isLoading ? (
+                              <Skeleton className="h-4" />
+                            ) : (
+                              flexRender(cell.column.columnDef.cell, cell.getContext())
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuLabel>{contextLabel}</ContextMenuLabel>
+                      <ContextMenuSeparator />
+                      <ContextMenuGroup>
+                        {
+                          contextOptions.map(c => (
+                            <ContextMenuItem
+                              className="cursor-pointer"
+                              key={c.key}
+                              onClick={() => c.onClick(row.original as TData)}
+                            >
+                              {c.content}
+                            </ContextMenuItem>
+                          ))
+                        }
+                      </ContextMenuGroup>
+                    </ContextMenuContent>
+                  </ContextMenu>
+                }
+                {
+                  !contextOptions &&
+                  <TableRow
+                    className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                    onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
                   >
-                    {isLoading ? (
-                      <Skeleton className="h-4" />
-                    ) : (
-                      flexRender(cell.column.columnDef.cell, cell.getContext())
-                    )}
-                  </TableCell>
-                ))}
-              </TableRow>
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        className="last:pr-4 first:pl-4"
+                        style={{
+                          width: cell.column.getSize() !== 0
+                            ? cell.column.getSize()
+                            : undefined
+                        }}
+                        key={cell.id}
+                      >
+                        {isLoading ? (
+                          <Skeleton className="h-4" />
+                        ) : (
+                          flexRender(cell.column.columnDef.cell, cell.getContext())
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                }
+              </>
             ))
           ) : (
             <TableRow>
-              <TableCell colSpan={columns.length} className="first:pl-4 last:pl-4 h-24 text-center">
+              <TableCell colSpan={columns.length} className="h-24 text-center">
                 {isLoading ? 'Loading...' : 'No results.'}
               </TableCell>
             </TableRow>
