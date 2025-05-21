@@ -92,39 +92,40 @@ export function DataTablePagination<TData, TValue>({
   ).length;
 
   return (
-    <Card className="grid grid-rows-[1fr,auto] p-1 rounded-xl">
-      <Table className="overflow-hidden">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    className="last:pr-4 first:pl-4 font-semibold text-foreground"
-                    colSpan={header.colSpan}
-                    style={{
-                      width: header.getSize() !== 0 ? header.getSize() : undefined
-                    }}
-                    key={header.id}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody className='px-4'>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <>
-                {
-                  contextOptions &&
+    <Card className="grid grid-rows-[1fr,auto] p-1 rounded-xl w-full overflow-auto">
+      <div className="grid grid-cols-1 overflow-auto">
+        <Table className="relative">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      className="last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap"
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize() !== 0 ? header.getSize() : undefined
+                      }}
+                      key={header.id}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody className='px-4'>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <>
+                  {
+                    contextOptions &&
                   <ContextMenu>
                     <ContextMenuTrigger asChild>
                       <TableRow
@@ -135,7 +136,7 @@ export function DataTablePagination<TData, TValue>({
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell
-                            className="last:pr-4 first:pl-4"
+                            className="last:pr-4 first:pl-4 whitespace-nowrap"
                             style={{
                               width: cell.column.getSize() !== 0
                                 ? cell.column.getSize()
@@ -170,9 +171,9 @@ export function DataTablePagination<TData, TValue>({
                       </ContextMenuGroup>
                     </ContextMenuContent>
                   </ContextMenu>
-                }
-                {
-                  !contextOptions &&
+                  }
+                  {
+                    !contextOptions &&
                   <TableRow
                     className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
                     onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
@@ -181,7 +182,7 @@ export function DataTablePagination<TData, TValue>({
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
-                        className="last:pr-4 first:pl-4"
+                        className="last:pr-4 first:pl-4 whitespace-nowrap"
                         style={{
                           width: cell.column.getSize() !== 0
                             ? cell.column.getSize()
@@ -197,18 +198,19 @@ export function DataTablePagination<TData, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                }
-              </>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                {isLoading ? 'Loading...' : 'No results.'}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+                  }
+                </>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  {isLoading ? 'Loading...' : 'No results.'}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       <div className="flex justify-end items-center px-4 py-2 pt-4">
         <div className="flex-1 text-accent text-sm">
@@ -286,38 +288,39 @@ export function DataTableAutoPagination<TData, TValue>({
 
   return (
     <Card className="grid grid-rows-[1fr,auto] p-2">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    className="font-semibold text-foreground"
-                    colSpan={header.colSpan}
-                    style={{
-                      width: header.getSize() !== 0 ? header.getSize() : undefined
-                    }}
-                    key={header.id}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <>
-                {
-                  contextOptions &&
+      <div className="grid grid-cols-1 overflow-auto">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      className="font-semibold text-foreground whitespace-nowrap"
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize() !== 0 ? header.getSize() : undefined
+                      }}
+                      key={header.id}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <>
+                  {
+                    contextOptions &&
                   <ContextMenu>
                     <ContextMenuTrigger asChild>
                       <TableRow
@@ -328,7 +331,7 @@ export function DataTableAutoPagination<TData, TValue>({
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell
-                            className="last:pr-4 first:pl-4"
+                            className="last:pr-4 first:pl-4 whitespace-nowrap"
                             style={{
                               width: cell.column.getSize() !== 0
                                 ? cell.column.getSize()
@@ -363,9 +366,9 @@ export function DataTableAutoPagination<TData, TValue>({
                       </ContextMenuGroup>
                     </ContextMenuContent>
                   </ContextMenu>
-                }
-                {
-                  !contextOptions &&
+                  }
+                  {
+                    !contextOptions &&
                   <TableRow
                     className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
                     onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
@@ -374,7 +377,7 @@ export function DataTableAutoPagination<TData, TValue>({
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell
-                        className="last:pr-4 first:pl-4"
+                        className="last:pr-4 first:pl-4 whitespace-nowrap"
                         style={{
                           width: cell.column.getSize() !== 0
                             ? cell.column.getSize()
@@ -390,18 +393,19 @@ export function DataTableAutoPagination<TData, TValue>({
                       </TableCell>
                     ))}
                   </TableRow>
-                }
-              </>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                {isLoading ? 'Loading...' : 'No results.'}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+                  }
+                </>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  {isLoading ? 'Loading...' : 'No results.'}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
       <div className="flex justify-end items-center px-4 py-2 pt-4">
         <div className="flex-1 text-accent text-sm">
           {table.getSelectedRowModel().rows.length} of{" "}
