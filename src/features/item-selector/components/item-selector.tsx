@@ -182,7 +182,7 @@ export const ItemCardList = React.forwardRef<HTMLDivElement, ItemCardListProps>(
         )}
         {...props}
       >
-        <div className="absolute inset-0 gap-2 grid grid-cols-4 auto-rows-max">
+        <div className="absolute inset-0 gap-2 grid grid-cols-3 xl:grid-cols-4 auto-rows-max">
           {children}
         </div>
       </div>

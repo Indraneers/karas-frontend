@@ -90,11 +90,11 @@ export function ItemCartUnit({ item }: { item: Item }) {
       <div className="flex items-center gap-2">
         <div className="flex flex-col flex-grow justify-between h-full">
           {/* Unit Name, Product and SKU */}
-          <div className="flex justify-between justify-items-start items-center gap-2 w-full">
-            <div className="font-medium text-[14px]">
+          <div className="flex xl:flex-row flex-col justify-between justify-items-start xl:items-center xl:gap-2 w-full">
+            <div className="font-medium xl:text-[14px] text-xs">
               {product.name}
             </div>
-            <div className="self-start font-medium text-sm">
+            <div className="self-start font-medium text-xs xl:text-sm">
               {item.unit.name || ''}
             </div>
           </div>
@@ -102,23 +102,23 @@ export function ItemCartUnit({ item }: { item: Item }) {
             <ProductIdentifier className="text-xs" identifier={product.identifier} />
           </div>
           {/* Price, discount and quantity */}
-          <div className="flex justify-between items-center gap-8 mt-2">
-            <div className="flex gap-2">
+          <div className="flex xl:flex-row flex-col justify-between items-center gap-2 xl:gap-8 mt-4 xl:mt-2">
+            <div className="flex gap-4 xl:gap-2">
               <ItemCartCurrencyInput 
-                className="w-14"
+                className="xl:w-14"
                 prefix="$"
                 defaultValue={price}
                 onValueChange={(value) => updateItem(item.id, { ...item, price: value })}
               />
               <ItemCartCurrencyInput 
-                className="w-14"
+                className="xl:w-14"
                 prefix="-$"
                 defaultValue={discount}
                 onValueChange={(value) => updateItem(item.id, { ...item, discount: value })}
               />
             </div>
             <ItemCounter
-              className="w-32 h-6"
+              className="xl:w-32 h-6"
               variable={product.variable}
               baseUnit={product.baseUnit}
               value={qty}

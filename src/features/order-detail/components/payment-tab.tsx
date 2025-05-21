@@ -15,7 +15,7 @@ export function PaymentTab({ saleId, handlePayment }: PaymentTabProps) {
   const { services } = maintenance;
   return (
     <div className="flex flex-col h-full">
-      <ItemCart className="flex-grow mt-4 px-4">
+      <ItemCart className="flex-grow mt-2 xl:mt-4 px-2 xl:px-4">
         { items.length === 0 && services.length == 0 &&
             <div className="place-content-center grid w-full h-full text-muted-foreground text-center">
               Empty...

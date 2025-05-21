@@ -157,7 +157,7 @@ function RestockPage() {
   return (
     <Section className='flex flex-col h-full'>
       <SectionHeader>
-        <Card className="gap-8 grid grid-cols-[auto,auto,1fr] shadow-none p-8">
+        <Card className="gap-4 xl:gap-8 grid grid-cols-[auto,auto,1fr] shadow-none p-4 xl:p-8">
           <div>
             <TypographyH1>
               Restock
