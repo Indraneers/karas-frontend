@@ -81,7 +81,7 @@ export function InvoicePage() {
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
           <InvoiceNumber id={saleQuery.data.id || ''} />
         </div>
-        <div className='gap-8 grid grid-cols-[3fr,2fr] mt-4 py-4'>
+        <div className='gap-8 grid grid-cols-2 mt-4 py-4'>
           <CompanyLogoName config={configQuery.data} />
           <CompanyInfo config={configQuery.data} />
         </div>
