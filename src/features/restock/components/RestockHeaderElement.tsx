@@ -9,11 +9,11 @@ export interface RestockHeaderElementProps {
 export function RestockHeaderElement({ label, children, color  }: RestockHeaderElementProps) {
   return (
     <div>
-      <div className="text-muted-foreground text-sm capitalize">
+      <div className="text-muted-foreground text-xs xl:text-sm capitalize">
         {label}
       </div>
       <div className={cn([
-        "font-bold text-2xl text-foreground",
+        "font-bold text-lg xl:text-2xl text-foreground",
         color === 'GREEN' && 'text-green-500',
         color === 'RED' && 'text-red-500'
       ])}>

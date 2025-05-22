@@ -140,11 +140,10 @@ export const columns: ColumnDef<Sale>[] = [
   },
   {
     id: 'actions',
-    header: 'Actions',
     cell: ({ row }) => {
       return (
         <SaleActions 
-          id={row.original.id || ''}
+          value={row.original}
           handleDelete={deleteSale}
         />
       );

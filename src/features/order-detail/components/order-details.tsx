@@ -18,7 +18,7 @@ interface OrderDetailsProps {
 
 export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   return (
-    <Section className="flex flex-col bg-surface border rounded-2xl h-full">
+    <Section className="flex flex-col bg-surface border rounded-2xl h-full overflow-y-scroll">
       <SectionHeader className="relative p-3">
         <TypographyH2 className="flex items-center gap-2">
           Order Details
@@ -29,7 +29,7 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
       </SectionHeader>
       <SectionContent className="mt-0 w-full">
         <Tabs className="inset-0 flex flex-col p-0 w-full h-full overflow-y-hidden" defaultValue="order-info">
-          <BorderedTabsList className="w-full">
+          <BorderedTabsList className="w-full xl:text-base">
             <BorderedTabsTrigger value='order-info'>
               Order Info
             </BorderedTabsTrigger>

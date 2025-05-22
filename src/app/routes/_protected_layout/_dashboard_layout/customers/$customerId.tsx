@@ -1,3 +1,4 @@
+import { EditButton } from '@/components/edit-button';
 import { InfoField } from '@/components/info-field';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -69,13 +70,14 @@ function CustomerDetailPage() {
   }
 
   return (
-    <div className='gap-4 grid grid-cols-4'>
-      <div>
+    <div className='gap-4 grid grid-cols-1 xl:grid-cols-4'>
+      <div className='xl:block flex gap-4 w-full xl:w-auto'>
         <Card className='px-1'>
-          <CardHeader>
+          <CardHeader className='flex flex-row justify-between items-center gap-4'>
             <TypographyH2>
               {customerQuery.data?.name || '-'}
             </TypographyH2>
+            <EditButton className='w-8 h-8' to={'/customers/edit/' + customerId} />
           </CardHeader>
           <CardContent>
             <InfoField label='Phone Number'>
@@ -86,7 +88,7 @@ function CustomerDetailPage() {
             </InfoField>
           </CardContent>
         </Card>
-        <Card className='mt-4 px-1'>
+        <Card className='xl:mt-4 px-1 w-full xl:w-auto'>
           <CardHeader>
             <TypographyH2>
               Vehicles

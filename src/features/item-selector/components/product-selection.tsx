@@ -109,21 +109,21 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
         product.img
       ])}>
         <div className={cn([
-          "font-bold text-sm",
+          "font-bold xl:text-sm text-xs",
           product.img && 'text-background'
         ])}>{product.name}</div>
         <div className={cn([
           "group-hover:text-background flex flex-col items-start gap-1 font-medium text-background mt-2"
         ])}>
           <Badge className={cn([
-            'hidden rounded-full bg-amber-500 hover:bg-amber-600 text-[10px]',
+            'hidden rounded-full bg-amber-500 hover:bg-amber-600 xl:text-[10px] text-[9px]',
             product.identifier && 'inline-block'
           ])}>
             {product.identifier}
           </Badge>
           <Badge className={cn([
             "bg-accent rounded-full",
-            !product.img && "group-hover:bg-background group-hover:text-accent",
+            !product.img && "group-hover:bg-background group-hover:text-accent xl:text-[10px] text-[9px]",
             product.identifier && 'mt-1'
           ])}>
             {product.unitCount || 0} units

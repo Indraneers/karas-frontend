@@ -23,6 +23,8 @@ import { useMemo } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { PaginationDetail } from "@/types/pagination";
 import { Card } from "./ui/card";
+import { ContextOption } from "@/types/context-options";
+import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "./ui/context-menu";
 
 interface DataTablePaginationProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -32,6 +34,8 @@ interface DataTablePaginationProps<TData, TValue> {
   paginationDetail: PaginationDetail;
   rowSelection: Record<string, boolean>;
   onRowSelectionChange: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
+  contextLabel?: string;
+  contextOptions?: ContextOption<TData>[];
 }
 
 export function DataTablePagination<TData, TValue>({
@@ -41,7 +45,9 @@ export function DataTablePagination<TData, TValue>({
   isLoading,
   paginationDetail,
   rowSelection,
-  onRowSelectionChange
+  onRowSelectionChange,
+  contextLabel = 'Actions',
+  contextOptions
 }: DataTablePaginationProps<TData, TValue>) {
   const tableData = useMemo(
     () => (isLoading ? Array(10).fill({}) : data),
@@ -86,70 +92,125 @@ export function DataTablePagination<TData, TValue>({
   ).length;
 
   return (
-    <Card className="grid grid-rows-[1fr,auto] p-1 rounded-xl">
-      <Table className="overflow-hidden">
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    className="last:pr-4 first:pl-4 font-semibold text-foreground"
-                    colSpan={header.colSpan}
-                    style={{
-                      width: header.getSize() !== 0 ? header.getSize() : undefined
-                    }}
-                    key={header.id}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody className='px-4'>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
-                onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    className="last:pr-4 first:pl-4"
-                    style={{
-                      width: cell.column.getSize() !== 0
-                        ? cell.column.getSize()
-                        : undefined
-                    }}
-                    key={cell.id}
-                  >
-                    {isLoading ? (
-                      <Skeleton className="h-4" />
-                    ) : (
-                      flexRender(cell.column.columnDef.cell, cell.getContext())
-                    )}
-                  </TableCell>
-                ))}
+    <Card className="grid grid-rows-[1fr,auto] p-1 rounded-xl w-full overflow-auto">
+      <div className="grid grid-cols-1 overflow-auto">
+        <Table className="relative">
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      className="last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap"
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize() !== 0 ? header.getSize() : undefined
+                      }}
+                      key={header.id}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                {isLoading ? 'Loading...' : 'No results.'}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody className='px-4'>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <>
+                  {
+                    contextOptions &&
+                  <ContextMenu>
+                    <ContextMenuTrigger asChild>
+                      <TableRow
+                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            className="last:pr-4 first:pl-4 whitespace-nowrap"
+                            style={{
+                              width: cell.column.getSize() !== 0
+                                ? cell.column.getSize()
+                                : undefined
+                            }}
+                            key={cell.id}
+                          >
+                            {isLoading ? (
+                              <Skeleton className="h-4" />
+                            ) : (
+                              flexRender(cell.column.columnDef.cell, cell.getContext())
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuLabel>{contextLabel}</ContextMenuLabel>
+                      <ContextMenuSeparator />
+                      <ContextMenuGroup>
+                        {
+                          contextOptions.map(c => (
+                            <ContextMenuItem
+                              className="cursor-pointer"
+                              key={c.key}
+                              onClick={() => c.onClick(row.original as TData)}
+                            >
+                              {c.content}
+                            </ContextMenuItem>
+                          ))
+                        }
+                      </ContextMenuGroup>
+                    </ContextMenuContent>
+                  </ContextMenu>
+                  }
+                  {
+                    !contextOptions &&
+                  <TableRow
+                    className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                    onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        className="last:pr-4 first:pl-4 whitespace-nowrap"
+                        style={{
+                          width: cell.column.getSize() !== 0
+                            ? cell.column.getSize()
+                            : undefined
+                        }}
+                        key={cell.id}
+                      >
+                        {isLoading ? (
+                          <Skeleton className="h-4" />
+                        ) : (
+                          flexRender(cell.column.columnDef.cell, cell.getContext())
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  }
+                </>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  {isLoading ? 'Loading...' : 'No results.'}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
 
       <div className="flex justify-end items-center px-4 py-2 pt-4">
         <div className="flex-1 text-accent text-sm">
@@ -184,13 +245,17 @@ interface DataTableAutoPaginationProps<TData, TValue> {
   data: TData[];
   onRowClick?: (data: TData) => void;
   isLoading?: boolean;
+  contextLabel?: string;
+  contextOptions?: ContextOption<TData>[];
 }
 
 export function DataTableAutoPagination<TData, TValue>({
   columns,
   data,
   onRowClick,
-  isLoading
+  isLoading,
+  contextLabel = 'Actions',
+  contextOptions
 }: DataTableAutoPaginationProps<TData, TValue>) {
   const tableData = useMemo(
     () => (isLoading ? Array(10).fill({}) : data),
@@ -223,69 +288,124 @@ export function DataTableAutoPagination<TData, TValue>({
 
   return (
     <Card className="grid grid-rows-[1fr,auto] p-2">
-      <Table>
-        <TableHeader>
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead
-                    className="font-semibold text-foreground"
-                    colSpan={header.colSpan}
-                    style={{
-                      width: header.getSize() !== 0 ? header.getSize() : undefined
-                    }}
-                    key={header.id}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <TableRow
-                className={cn([onRowClick && 'cursor-pointer', 'px-4 hover:bg-accent/10 cursor-pointer'])}
-                onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
-                key={row.id}
-                data-state={row.getIsSelected() && "selected"}
-              >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    className="last:pr-4 first:pl-4"
-                    style={{
-                      width: cell.column.getSize() !== 0
-                        ? cell.column.getSize()
-                        : undefined
-                    }}
-                    key={cell.id}
-                  >
-                    {isLoading ? (
-                      <Skeleton className="h-4" />
-                    ) : (
-                      flexRender(cell.column.columnDef.cell, cell.getContext())
-                    )}
-                  </TableCell>
-                ))}
+      <div className="grid grid-cols-1 overflow-auto">
+        <Table>
+          <TableHeader>
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead
+                      className="font-semibold text-foreground whitespace-nowrap"
+                      colSpan={header.colSpan}
+                      style={{
+                        width: header.getSize() !== 0 ? header.getSize() : undefined
+                      }}
+                      key={header.id}
+                    >
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
+                    </TableHead>
+                  );
+                })}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="first:pl-4 last:pl-4 h-24 text-center">
-                {isLoading ? 'Loading...' : 'No results.'}
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <>
+                  {
+                    contextOptions &&
+                  <ContextMenu>
+                    <ContextMenuTrigger asChild>
+                      <TableRow
+                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                        key={row.id}
+                        data-state={row.getIsSelected() && "selected"}
+                      >
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            className="last:pr-4 first:pl-4 whitespace-nowrap"
+                            style={{
+                              width: cell.column.getSize() !== 0
+                                ? cell.column.getSize()
+                                : undefined
+                            }}
+                            key={cell.id}
+                          >
+                            {isLoading ? (
+                              <Skeleton className="h-4" />
+                            ) : (
+                              flexRender(cell.column.columnDef.cell, cell.getContext())
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                    </ContextMenuTrigger>
+                    <ContextMenuContent>
+                      <ContextMenuLabel>{contextLabel}</ContextMenuLabel>
+                      <ContextMenuSeparator />
+                      <ContextMenuGroup>
+                        {
+                          contextOptions.map(c => (
+                            <ContextMenuItem
+                              className="cursor-pointer"
+                              key={c.key}
+                              onClick={() => c.onClick(row.original as TData)}
+                            >
+                              {c.content}
+                            </ContextMenuItem>
+                          ))
+                        }
+                      </ContextMenuGroup>
+                    </ContextMenuContent>
+                  </ContextMenu>
+                  }
+                  {
+                    !contextOptions &&
+                  <TableRow
+                    className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                    onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
+                    key={row.id}
+                    data-state={row.getIsSelected() && "selected"}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell
+                        className="last:pr-4 first:pl-4 whitespace-nowrap"
+                        style={{
+                          width: cell.column.getSize() !== 0
+                            ? cell.column.getSize()
+                            : undefined
+                        }}
+                        key={cell.id}
+                      >
+                        {isLoading ? (
+                          <Skeleton className="h-4" />
+                        ) : (
+                          flexRender(cell.column.columnDef.cell, cell.getContext())
+                        )}
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                  }
+                </>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="h-24 text-center">
+                  {isLoading ? 'Loading...' : 'No results.'}
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
       <div className="flex justify-end items-center px-4 py-2 pt-4">
         <div className="flex-1 text-accent text-sm">
           {table.getSelectedRowModel().rows.length} of{" "}

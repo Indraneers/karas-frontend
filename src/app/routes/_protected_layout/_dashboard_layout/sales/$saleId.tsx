@@ -88,12 +88,14 @@ function SaleDetailPage() {
   const sale = convertSaleResponseDtoToSale(data);
 
   return (
-    <div className='gap-4 grid grid-cols-3 py-4 h-full'>
-      <SaleDetailAside className='h-full'>
+    <div className='gap-4 grid grid-cols-1 xl:grid-cols-3 py-4 h-full'>
+      <SaleDetailAside className='xl:block flex gap-4 w-full xl:h-full'>
         <SaleInformation sale={sale} />
-        <Separator className='mt-3 mb-2' />
+        <Separator className='hidden xl:block mt-3 mb-2' />
+        <Separator orientation='vertical' className='xl:hidden block' />
         <CustomerInformation customer={sale.customer} />
-        <Separator className='mt-3 mb-2' />
+        <Separator className='hidden xl:block mt-3 mb-2' />
+        <Separator orientation='vertical' className='xl:hidden block' />
         <VehicleInformation vehicle={sale.vehicle} />
       </SaleDetailAside>
       <div className='col-span-2 h-full'>

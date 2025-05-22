@@ -42,7 +42,7 @@ export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className,
       <Button 
         variant='ghost' 
         onClick={() => updateValue(Number(quantity) - 1)} 
-        className="w-5 h-5" 
+        className="w-6 xl:w-5 h-6 xl:h-5" 
         size="icon"
       >
         <Minus />
@@ -54,7 +54,7 @@ export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className,
       <Button 
         variant='ghost' 
         onClick={() => updateValue(Number(quantity) + 1)} 
-        className="w-5 h-5" 
+        className="w-6 xl:w-5 h-6 xl:h-5" 
         size="icon"
       >
         <Plus />

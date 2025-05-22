@@ -69,9 +69,9 @@ function CustomerInformation({ customer, className } : CustomerInformationProps)
       <TypographyH3>
         Customer Information
       </TypographyH3>
-      <div className="gap-2 grid grid-cols-[2fr,auto,1fr] mt-2">
+      <div className="gap-2 grid xl:grid-cols-[2fr,auto,1fr] mt-2">
         <div>
-          <div className="items-start gap-2 grid grid-cols-[1fr,auto]">
+          <div className="justify-start items-start lg:gap-2 grid xl:grid-cols-[1fr,auto]">
             <div className="min-h-6 font-medium text-md">
               {customer.name}
             </div>
@@ -83,12 +83,12 @@ function CustomerInformation({ customer, className } : CustomerInformationProps)
               <Phone className="mr-1 w-3" /> {customer.contact || '-'}
             </Badge>
           </div>
-          <div className="min-h-8 font-medium text-[10px] text-muted-foreground">
+          <div className="mt-2 xl:mt-0 min-h-8 font-medium text-[10px] text-muted-foreground">
             {customer.address}
           </div>
         </div>
-        <Separator orientation="vertical" />
-        <div className="flex justify-center items-center gap-2">
+        <Separator className="hidden xl:block" orientation="vertical" />
+        <div className="flex xl:justify-center items-center gap-2">
           <PopoverButton 
             trigger={
               <Button variant="ghost"  size="icon">
@@ -203,11 +203,11 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
       <TypographyH3>
           Vehicle Information
       </TypographyH3>
-      <div className="items-center gap-4 grid grid-cols-[2fr,auto,1fr] mt-3">
+      <div className="items-center gap-4 grid xl:grid-cols-[2fr,auto,1fr] mt-3">
         <InfoField className="w-full" label="Vehicle">
           <VehicleSelect className="mt-2" />
         </InfoField>
-        <Separator orientation="vertical" />
+        <Separator className="hidden xl:block" orientation="vertical" />
         <div className="flex gap-2">
           <PopoverButton 
             trigger={
@@ -246,11 +246,11 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
           </Button>
         </div>
       </div>
-      <div  className="flex gap-6 mt-4">
+      <div  className="xl:flex gap-6 mt-4">
         <InfoField label="Make and Model">
           <span className="font-medium">{vehicle.makeAndModel}</span>
         </InfoField>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mt-2 xl:mt-0">
           {vehicle.vehicleType !== VehicleType.EMPTY && vehicle.vehicleType ? 
             <VehicleIcon className="w-8 h-8" iconClassName="h-6 w-6" icon={vehicleObj.icon} /> 
             : 
@@ -275,7 +275,7 @@ export function VehicleInformation({ className, vehicle }: VehicleInformationPro
         {vehicle.engineNo}
       </InfoField>
       <InfoField className="mt-2" label="Vehicle Note">
-        <Textarea rows={1} className="mt-2 w-[340px]">
+        <Textarea rows={1} className="mt-2 xl:w-[340px]">
           {vehicle.note}
         </Textarea>
       </InfoField>
