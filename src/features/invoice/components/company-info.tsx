@@ -3,7 +3,7 @@ import { AppConfig } from "@/features/app-config/types/app-config";
 
 export function CompanyInfo({ config }: { config: AppConfig}) {
   return (
-    <div className="gap-2 grid grid-cols-[3fr,1fr] grid-rows-2">
+    <div className="justify-end gap-2 grid grid-cols-[auto,auto] grid-rows-2 ml-10">
       <InvoiceDetailElement label="អាស័យដ្ធាន">
         {config.addressKh}
       </InvoiceDetailElement>

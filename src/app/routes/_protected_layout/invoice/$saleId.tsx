@@ -81,18 +81,16 @@ export function InvoicePage() {
           <h1 className='font-bold text-[42px]'>INVOICE</h1>
           <InvoiceNumber id={saleQuery.data.id || ''} />
         </div>
-        <Separator className='bg-foreground' />
-        <div className='gap-8 grid grid-cols-[auto,auto,1fr] py-4'>
+        <div className='gap-8 grid grid-cols-[3fr,2fr] mt-4 py-4'>
           <CompanyLogoName config={configQuery.data} />
-          <Separator className='bg-foreground' orientation='vertical' />
           <CompanyInfo config={configQuery.data} />
         </div>
-        <Separator className='bg-foreground' />
-        <CustomerInfo customer={saleQuery.data.customer} className='my-2' />
-        <Separator className='bg-foreground' />
-        <VehicleInfo vehicle={saleQuery.data.vehicle} className='my-2' />
-        <Separator className='bg-foreground' />
-        <div className='flex gap-4 mt-2'>
+        <Separator className='mt-2' />
+        <CustomerInfo customer={saleQuery.data.customer} className='my-1'  />
+        <Separator />
+        <VehicleInfo vehicle={saleQuery.data.vehicle} className='my-1' />
+        <Separator className='mb-2' />
+        <div className='flex justify-between items-center gap-4 mt-2'>
           <div className='flex items-center gap-4'>
             <div className='space-x-4'>
               <InvoiceStatusBadge statusEnum={saleQuery.data.status} />
