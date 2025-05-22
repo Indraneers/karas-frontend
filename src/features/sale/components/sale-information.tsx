@@ -35,11 +35,11 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
           {sale.user.username}
         </CustomLink>
       </InfoField>
-      <div className="flex justify-between gap-2 mt-2">
+      <div className="xl:flex justify-between gap-2 mt-2">
         <InfoField label="Created At">
           {format(sale.createdAt, 'do MMM yyyy, hh:mm aa')}
         </InfoField>
-        <InfoField label="Due At">
+        <InfoField className="mt-2 xl:mt-0" label="Due At">
           {format(sale.dueAt, 'do MMM yyyy, hh:mm aa')}
         </InfoField>
       </div>

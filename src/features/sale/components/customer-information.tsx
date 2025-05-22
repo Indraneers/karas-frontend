@@ -11,11 +11,11 @@ export function CustomerInformation({ customer, className } : { customer: Custom
       <TypographyH2>
           Customer Detail
       </TypographyH2>
-      <div className="flex justify-between mt-2">
+      <div className="xl:flex justify-between mt-2">
         <InfoField label="Name">
           <span className="font-medium">{customer.name}</span>
         </InfoField>
-        <InfoField label="Phone Number">
+        <InfoField className="mt-2 xl:mt-0" label="Phone Number">
           {customer.contact}
         </InfoField>
       </div>
