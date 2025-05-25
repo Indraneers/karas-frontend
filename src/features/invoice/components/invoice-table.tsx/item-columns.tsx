@@ -25,7 +25,7 @@ export const itemColumns: ColumnDef<Item>[] = [
     header: () => <div>មុខទំនិញ<br></br>Item/Service</div>,
     cell: ({ row }) => (
       <div>
-        <span className="inline-flex flex-nowrap gap-1">
+        <span className="inline-flex gap-1 w-[300px]">
           <span>
             {row.original.unit.product.name} <ProductIdentifier identifier={row.original.unit.product.identifier} />
           </span>
@@ -37,32 +37,32 @@ export const itemColumns: ColumnDef<Item>[] = [
     accessorKey: 'price',
     header: () => <div>ថ្លៃឯកតា ($)<br></br>Price ($)</div>,
     cell: ({ row }) => (
-      <div className="text-green-600">
+      <div className="text-green-600 text-nowrap">
         <Currency amount={row.original.price} />
       </div>
     )
   },
   {
     accessorKey: 'discount',
-    header: () => <div>បញ្ចុះតម្លៃ ($)<br></br>Discount ($)</div>,
+    header: () => <div className="text-nowrap">បញ្ចុះតម្លៃ ($)<br></br>Discount ($)</div>,
     cell: ({ row }) => (
-      <div className="text-primary">
+      <div className="text-primary text-nowrap">
         <Currency amount={row.original.discount} />
       </div>
     )
   },
   {
     accessorKey: 'quantity',
-    header: () => <div>បរិមាណ<br></br>Qty</div>,
+    header: () => <div className="text-nowrap">បរិមាណ<br></br>Qty</div>,
     cell: ({ row }) => (
-      <div>{getQuantity(row.original)}</div>
+      <div className="text-nowrap">{getQuantity(row.original)} {row.original.unit.name}</div>
     )
   },
   {
     accessorKey: 'Total',
-    header: () => <div>ថ្លៃទំនិញ ($)<br></br>Total ($)</div>,
+    header: () => <div className="text-nowrap">ថ្លៃទំនិញ ($)<br></br>Total ($)</div>,
     cell: ({ row }) => (
-      <div className="font-medium text-green-700">
+      <div className="font-medium text-green-700 text-nowrap">
         <Currency amount={
           calculateUnitItemTotalCost(
             row.original.price,
