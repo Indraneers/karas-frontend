@@ -10,7 +10,7 @@ import { getAuditsHOF } from '@/features/audit/api/audit';
 import { columns } from '@/features/audit/components/audit-table/columns';
 import { AuditServiceEnum } from '@/features/audit/types/AuditServiceEnum';
 import { useSearchPagination } from '@/hooks/use-search-pagination';
-import { createFileRoute } from '@tanstack/react-router';
+import { createFileRoute, useNavigate } from '@tanstack/react-router';
 import { useMemo, useState } from 'react';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/audit/')({
@@ -49,6 +49,7 @@ const auditServices = [
 ];
 
 export function AuditPage() {
+  const navigate = useNavigate();
   const [auditService, setAuditService] = useState<AuditServiceEnum>(AuditServiceEnum.SALE);
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
 
@@ -103,6 +104,7 @@ export function AuditPage() {
             paginationDetail={paginationDetail} 
             rowSelection={rowSelection}
             onRowSelectionChange={setRowSelection}
+            onRowClick={(audit) => navigate({ to: '/audit/' + audit.id })}
           />
         </div>
       </SectionContent>

@@ -32,6 +32,7 @@ import { Route as ProtectedlayoutDashboardlayoutSalesSaleIdImport } from './rout
 import { Route as ProtectedlayoutDashboardlayoutInventoryInventorylayoutImport } from './routes/_protected_layout/_dashboard_layout/inventory/_inventory_layout'
 import { Route as ProtectedlayoutDashboardlayoutCustomersCreateImport } from './routes/_protected_layout/_dashboard_layout/customers/create'
 import { Route as ProtectedlayoutDashboardlayoutCustomersCustomerIdImport } from './routes/_protected_layout/_dashboard_layout/customers/$customerId'
+import { Route as ProtectedlayoutDashboardlayoutAuditAuditIdImport } from './routes/_protected_layout/_dashboard_layout/audit/$auditId'
 import { Route as ProtectedlayoutDashboardlayoutInventoryRestockIndexImport } from './routes/_protected_layout/_dashboard_layout/inventory/restock/index'
 import { Route as ProtectedlayoutDashboardlayoutVehiclesEditVehicleIdImport } from './routes/_protected_layout/_dashboard_layout/vehicles/edit/$vehicleId'
 import { Route as ProtectedlayoutDashboardlayoutServicesEditServiceIdImport } from './routes/_protected_layout/_dashboard_layout/services/edit/$serviceId'
@@ -174,6 +175,12 @@ const ProtectedlayoutDashboardlayoutCustomersCreateRoute =
 const ProtectedlayoutDashboardlayoutCustomersCustomerIdRoute =
   ProtectedlayoutDashboardlayoutCustomersCustomerIdImport.update({
     path: '/customers/$customerId',
+    getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
+  } as any)
+
+const ProtectedlayoutDashboardlayoutAuditAuditIdRoute =
+  ProtectedlayoutDashboardlayoutAuditAuditIdImport.update({
+    path: '/audit/$auditId',
     getParentRoute: () => ProtectedlayoutDashboardlayoutRoute,
   } as any)
 
@@ -330,6 +337,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof ProtectedlayoutDashboardlayoutIndexImport
+      parentRoute: typeof ProtectedlayoutDashboardlayoutImport
+    }
+    '/_protected_layout/_dashboard_layout/audit/$auditId': {
+      id: '/_protected_layout/_dashboard_layout/audit/$auditId'
+      path: '/audit/$auditId'
+      fullPath: '/audit/$auditId'
+      preLoaderRoute: typeof ProtectedlayoutDashboardlayoutAuditAuditIdImport
       parentRoute: typeof ProtectedlayoutDashboardlayoutImport
     }
     '/_protected_layout/_dashboard_layout/customers/$customerId': {
@@ -567,6 +581,7 @@ export const routeTree = rootRoute.addChildren({
       ProtectedlayoutDashboardlayoutRoute.addChildren({
         ProtectedlayoutDashboardlayoutPosRoute,
         ProtectedlayoutDashboardlayoutIndexRoute,
+        ProtectedlayoutDashboardlayoutAuditAuditIdRoute,
         ProtectedlayoutDashboardlayoutCustomersCustomerIdRoute,
         ProtectedlayoutDashboardlayoutCustomersCreateRoute,
         ProtectedlayoutDashboardlayoutInventoryRoute:
@@ -634,6 +649,7 @@ export const routeTree = rootRoute.addChildren({
       "children": [
         "/_protected_layout/_dashboard_layout/pos",
         "/_protected_layout/_dashboard_layout/",
+        "/_protected_layout/_dashboard_layout/audit/$auditId",
         "/_protected_layout/_dashboard_layout/customers/$customerId",
         "/_protected_layout/_dashboard_layout/customers/create",
         "/_protected_layout/_dashboard_layout/inventory",
@@ -663,6 +679,10 @@ export const routeTree = rootRoute.addChildren({
     },
     "/_protected_layout/_dashboard_layout/": {
       "filePath": "_protected_layout/_dashboard_layout/index.tsx",
+      "parent": "/_protected_layout/_dashboard_layout"
+    },
+    "/_protected_layout/_dashboard_layout/audit/$auditId": {
+      "filePath": "_protected_layout/_dashboard_layout/audit/$auditId.tsx",
       "parent": "/_protected_layout/_dashboard_layout"
     },
     "/_protected_layout/_dashboard_layout/customers/$customerId": {

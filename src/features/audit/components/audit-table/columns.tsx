@@ -1,6 +1,7 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { AuditDTO } from "../../types/AuditDTO";
 import { format } from "date-fns";
+import { Badge } from "@/components/ui/badge";
 
 export const columns: ColumnDef<AuditDTO>[] = [
   {
@@ -8,8 +9,17 @@ export const columns: ColumnDef<AuditDTO>[] = [
     header: 'Name'
   },
   {
+    accessorKey: 'resourceName',
+    header: 'Resource Name'
+  },
+  {
     accessorKey: 'requestUrl',
     header: 'Request URL'
+  },
+  {
+    accessorKey: 'user',
+    header: 'Account',
+    cell: ({ row }) => <Badge variant='outline'>{row.original.user.username}</Badge>
   },
   {
     accessorKey: 'timestamp',

@@ -11,6 +11,7 @@ export interface AuditDTO {
   id: string;
   timestamp: Date;
   name: string;
+  resourceName: string;
   service: AuditServiceEnum;
   httpMethod: HttpMethod;
   requestUrl: string;
