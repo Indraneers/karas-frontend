@@ -22,7 +22,7 @@ export function CustomerPage() {
     data, 
     isLoading, 
     ...paginationDetail
-  } = useSearchPagination({ getEntity: getCustomers, key: 'customers' });
+  } = useSearchPagination({ getEntity: getCustomers, key: ['customers'] });
   return (
     <Section>
       <SectionHeader>

@@ -25,7 +25,7 @@ export const itemColumns: ColumnDef<Item>[] = [
     header: () => <div>មុខទំនិញ<br></br>Item/Service</div>,
     cell: ({ row }) => (
       <div>
-        <span className="inline-flex gap-1 w-[300px]">
+        <span className="inline-flex gap-1 w-[350px]">
           <span>
             {row.original.unit.product.name} <ProductIdentifier identifier={row.original.unit.product.identifier} />
           </span>

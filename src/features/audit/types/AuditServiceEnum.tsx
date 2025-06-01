@@ -1,0 +1,9 @@
+export enum AuditServiceEnum {
+  SALE = 'SALE',
+  CUSTOMER = 'CUSTOMER',
+  VEHICLE = 'VEHICLE',
+  CATEGORY = 'CATEGORY',
+  SUBCATEGORY = 'SUBCATEGORY',
+  PRODUCT = 'PRODUCT',
+  UNIT = 'UNIT'
+}

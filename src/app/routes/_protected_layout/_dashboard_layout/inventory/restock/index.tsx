@@ -46,7 +46,7 @@ function RestockPage() {
 
   const { q, setQ, isLoading, data, totalElements, fetchNextPage, hasNextPage } = useInfiniteSearch({
     getEntity: getUnits,
-    key: 'units'
+    key: ['units']
   });
 
   const products: ProductRequestDto[] = restockItems

@@ -1,4 +1,4 @@
-import { BadgeDollarSign, CalendarDays, CarFront, Cog, House, ListTodo, LucideIcon, NotepadText, ReceiptText, User, Users, Wrench } from "lucide-react";
+import { BadgeDollarSign, CalendarDays, CarFront, Cog, House, ListTodo, Logs, LucideIcon, NotepadText, ReceiptText, User, Users, Wrench } from "lucide-react";
 
 export interface SideBarNavDataItem {
   icon: LucideIcon;
@@ -63,6 +63,11 @@ export const sidebarUserList: SideBarNavDataItem[] = [
     icon: CalendarDays,
     title: 'Maintenance',
     url: '/maintenance'
+  },
+  {
+    icon: Logs,
+    title: 'Audit',
+    url: '/audit'
   }
 ];
 

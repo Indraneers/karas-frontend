@@ -5,7 +5,7 @@ import { APIQuery } from "./query";
 export interface UsePaginationState<T> {
   pageSize?: number;
   pageIndex?: number;
-  key: string;
+  key: string[];
   getEntity: (q: APIQuery) => Promise<Page<T>>
 }
 

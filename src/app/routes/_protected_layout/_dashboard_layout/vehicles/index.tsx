@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/vehic
 });
 
 function VehiclePage() {
-  const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({ getEntity: getVehicles, key: 'vehicles' });
+  const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({ getEntity: getVehicles, key: ['vehicles'] });
   return (
     <Section>
       <SectionHeader>

@@ -20,12 +20,12 @@ export function VehicleCustomerSearch({ className, value } : VehicleCustomerSear
 
   const vehicleQuery = useInfiniteSearch({
     getEntity: getVehicles,
-    key: 'vehicles'
+    key: ['vehicles']
   });
   
   const customerQuery = useInfiniteSearch({
     getEntity: getCustomers,
-    key: 'customers'
+    key: ['customers']
   });
 
   function handleOnInput(event: FormEvent<HTMLInputElement>) {
