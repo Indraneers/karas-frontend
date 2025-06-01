@@ -18,14 +18,14 @@ import { ContextOption } from "@/types/context-options";
 import { onClickUrl } from "@/lib/link";
 import { BadgeDollarSign, Printer, Edit, Trash2 } from "lucide-react";
 
-export function SalesTable({ className, key = 'sales', getSalesFn = getSales, saleSearch } : { 
+export function SalesTable({ className, key = ['sales'], getSalesFn = getSales, saleSearch } : { 
   className?: string, 
-  key?: string,
+  key?: string[],
   getSalesFn?: (saleQuery: APIQuery) => Promise<Page<SaleResponseDto>>,
   saleSearch: SaleSearch,
 }) {
   const navigate = useNavigate();
-  const { isLoading, data, ...paginationDetail } = 
+  const { isLoading, data, paginationDetail } = 
     useSearchPagination({ 
       key, 
       getEntity: getSalesFn,

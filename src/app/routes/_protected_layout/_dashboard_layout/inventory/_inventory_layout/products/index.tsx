@@ -14,10 +14,11 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function ProductPage() {
-  const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({
+  const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({
     getEntity: getProducts,
-    key: 'products'
+    key: ['products']
   });
+
   return (
     <>
       <SectionHeader>

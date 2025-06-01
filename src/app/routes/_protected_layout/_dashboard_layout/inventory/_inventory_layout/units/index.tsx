@@ -16,7 +16,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inven
 });
 
 function UnitPage() {
-  const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination({ getEntity: getUnits, key: 'units' });
+  const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({ getEntity: getUnits, key: ['units'] });
   return (
     <>
       <SectionHeader>

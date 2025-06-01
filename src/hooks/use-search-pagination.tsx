@@ -18,7 +18,7 @@ export function useSearchPagination<T>({ key, getEntity, enabled, query } : Sear
 
   const { isError, isLoading, data } = useQuery({
     queryKey: [
-      key, 
+      ...key, 
       pagination.pageIndex, 
       q,
       ...Object.entries(queryParams ?? {}).map(([k, v]) => `${ String(k) }-${ String(v) }`)
@@ -64,6 +64,12 @@ export function useSearchPagination<T>({ key, getEntity, enabled, query } : Sear
     pageCount,
     rowCount,
     pagination,
+    paginationDetail: {
+      onPaginationChange,
+      pageCount,
+      rowCount,
+      pagination
+    },
     isError,
     isLoading,
     data,
