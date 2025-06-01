@@ -117,7 +117,7 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
               control={form.control}
               name="active"
               render={({ field }) => (
-                <FormItem className="flex flex-row justify-between items-center bg-surface shadow-sm p-4 border border-input rounded-lg">
+                <FormItem className="flex flex-row justify-between items-center bg-surface shadow-sm p-4 border border-border rounded-lg">
                   <div className="space-y-0.5">
                     <FormLabel>Status</FormLabel>
                     <FormDescription>

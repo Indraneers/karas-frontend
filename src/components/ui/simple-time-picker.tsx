@@ -23,7 +23,7 @@ import {
   endOfDay,
   addHours,
   subHours,
-  setMilliseconds,
+  setMilliseconds
 } from 'date-fns';
 
 interface SimpleTimeOption {
@@ -42,7 +42,7 @@ export function SimpleTimePicker({
   min,
   max,
   disabled,
-  modal,
+  modal
 }: {
   use12HourFormat?: boolean;
   value: Date;
@@ -85,7 +85,7 @@ export function SimpleTimePicker({
         return {
           value: hourValue,
           label: hourValue.toString().padStart(2, '0'),
-          disabled,
+          disabled
         };
       }),
     [value, min, max, use12HourFormat, ampm]
@@ -102,7 +102,7 @@ export function SimpleTimePicker({
       return {
         value: i,
         label: i.toString().padStart(2, '0'),
-        disabled,
+        disabled
       };
     });
   }, [value, min, max, _hourIn24h]);
@@ -118,7 +118,7 @@ export function SimpleTimePicker({
       return {
         value: i,
         label: i.toString().padStart(2, '0'),
-        disabled,
+        disabled
       };
     });
   }, [value, minute, min, max, _hourIn24h]);
@@ -127,7 +127,7 @@ export function SimpleTimePicker({
     const endD = endOfDay(value);
     return [
       { value: AM_VALUE, label: 'AM' },
-      { value: PM_VALUE, label: 'PM' },
+      { value: PM_VALUE, label: 'PM' }
     ].map((v) => {
       let disabled = false;
       const start = addHours(startD, v.value * 12);
@@ -153,19 +153,19 @@ export function SimpleTimePicker({
       }
     }, 1);
     return () => clearTimeout(timeoutId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [open]);
   const onHourChange = useCallback(
     (v: SimpleTimeOption) => {
       if (min) {
-        let newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
         if (newTime < min) {
           setMinute(min.getMinutes());
           setSecond(min.getSeconds());
         }
       }
       if (max) {
-        let newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
         if (newTime > max) {
           setMinute(max.getMinutes());
           setSecond(max.getSeconds());
@@ -179,13 +179,13 @@ export function SimpleTimePicker({
   const onMinuteChange = useCallback(
     (v: SimpleTimeOption) => {
       if (min) {
-        let newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
         if (newTime < min) {
           setSecond(min.getSeconds());
         }
       }
       if (max) {
-        let newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour: v.value, minute, second, ampm });
         if (newTime > max) {
           setSecond(newTime.getSeconds());
         }
@@ -198,7 +198,7 @@ export function SimpleTimePicker({
   const onAmpmChange = useCallback(
     (v: SimpleTimeOption) => {
       if (min) {
-        let newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute, second, ampm: v.value });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute, second, ampm: v.value });
         if (newTime < min) {
           const minH = min.getHours() % 12;
           setHour(minH === 0 ? 12 : minH);
@@ -207,7 +207,7 @@ export function SimpleTimePicker({
         }
       }
       if (max) {
-        let newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute, second, ampm: v.value });
+        const newTime = buildTime({ use12HourFormat, value, formatStr, hour, minute, second, ampm: v.value });
         if (newTime > max) {
           const maxH = max.getHours() % 12;
           setHour(maxH === 0 ? 12 : maxH);
@@ -231,21 +231,21 @@ export function SimpleTimePicker({
           role="combobox"
           aria-expanded={open}
           className={cn(
-            'flex h-9 px-3 items-center justify-between cursor-pointer font-normal border border-input rounded-md text-sm shadow-sm',
+            'flex h-9 px-3 items-center justify-between cursor-pointer font-normal border border-border rounded-md text-sm shadow-sm',
             disabled && 'opacity-50 cursor-not-allowed'
           )}
           tabIndex={0}
         >
           <Clock className="mr-2 size-4" />
           {display}
-          <ChevronDownIcon className="opacity-50 ml-2 shrink-0 size-4" />
+          <ChevronDownIcon className="opacity-50 ml-2 size-4 shrink-0" />
         </div>
       </PopoverTrigger>
       <PopoverContent className="p-0" side="top">
         <div className="flex-col gap-2 p-2">
           <div className="flex h-56 grow">
             <ScrollArea className="flex-grow h-full">
-              <div className="flex flex-col items-stretch pb-48 overflow-y-auto grow pe-2">
+              <div className="flex flex-col items-stretch pe-2 pb-48 overflow-y-auto grow">
                 {hours.map((v) => (
                   <div ref={v.value === hour ? hourRef : undefined} key={v.value}>
                     <TimeItem
@@ -260,7 +260,7 @@ export function SimpleTimePicker({
               </div>
             </ScrollArea>
             <ScrollArea className="flex-grow h-full">
-              <div className="flex flex-col items-stretch pb-48 overflow-y-auto grow pe-2">
+              <div className="flex flex-col items-stretch pe-2 pb-48 overflow-y-auto grow">
                 {minutes.map((v) => (
                   <div ref={v.value === minute ? minuteRef : undefined} key={v.value}>
                     <TimeItem
@@ -275,7 +275,7 @@ export function SimpleTimePicker({
               </div>
             </ScrollArea>
             <ScrollArea className="flex-grow h-full">
-              <div className="flex flex-col items-stretch pb-48 overflow-y-auto grow pe-2">
+              <div className="flex flex-col items-stretch pe-2 pb-48 overflow-y-auto grow">
                 {seconds.map((v) => (
                   <div ref={v.value === second ? secondRef : undefined} key={v.value}>
                     <TimeItem
@@ -291,7 +291,7 @@ export function SimpleTimePicker({
             </ScrollArea>
             {use12HourFormat && (
               <ScrollArea className="flex-grow h-full">
-                <div className="flex flex-col items-stretch overflow-y-auto grow pe-2">
+                <div className="flex flex-col items-stretch pe-2 overflow-y-auto grow">
                   {ampmOptions.map((v) => (
                     <TimeItem
                       key={v.value}
@@ -317,7 +317,7 @@ const TimeItem = ({
   selected,
   onSelect,
   className,
-  disabled,
+  disabled
 }: {
   option: SimpleTimeOption;
   selected: boolean;
@@ -360,7 +360,8 @@ function buildTime(options: BuildTimeOptions) {
     dateStr = dateStr.slice(0, 17) + second.toString().padStart(2, '0') + dateStr.slice(19);
     dateStr = dateStr.slice(0, 24) + (ampm == AM_VALUE ? 'AM' : 'PM') + dateStr.slice(26);
     date = parse(dateStr, formatStr, value);
-  } else {
+  }
+  else {
     date = setHours(setMinutes(setSeconds(setMilliseconds(value, 0), second), minute), hour);
   }
   return date;

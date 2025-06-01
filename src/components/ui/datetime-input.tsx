@@ -275,7 +275,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
     <div
       ref={ref}
       className={cn(
-        'flex h-10 items-center justify-start rounded-md border border-input bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground  disabled:cursor-not-allowed disabled:opacity-50',
+        'flex h-10 items-center justify-start rounded-md border border-border bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground  disabled:cursor-not-allowed disabled:opacity-50',
         isFocused ? 'outline-none ring-2 ring-ring ring-offset-2' : '',
         options.hideCalendarIcon && 'ps-2',
         options.className
@@ -283,12 +283,12 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
     >
       {!options.hideCalendarIcon && (
         <Button variant="ghost" size="icon" onClick={options.onCalendarClick}>
-          <CalendarIcon className="text-muted-foreground size-4" />
+          <CalendarIcon className="size-4 text-muted-foreground" />
         </Button>
       )}
       <input
         ref={mergeRefs(inputRef)}
-        className="flex-grow bg-transparent disabled:opacity-50 py-1 min-w-0 font-mono text-sm disabled:cursor-not-allowed focus:outline-none pe-2"
+        className="flex-grow bg-transparent disabled:opacity-50 py-1 pe-2 focus:outline-none min-w-0 font-mono text-sm disabled:cursor-not-allowed"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onClick={onClick}
@@ -301,7 +301,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
       />
       <div className="me-3">
         {inputValue ? (
-          <CircleCheck className="text-green-500 size-4" />
+          <CircleCheck className="size-4 text-green-500" />
         ) : (
           <TooltipProvider>
             <Tooltip>

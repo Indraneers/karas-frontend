@@ -43,7 +43,7 @@ export function PrefixedCurrencyInput({
   return (
     <div
       className={cn([
-        "flex items-center gap-2 border-foreground bg-white p-1 border rounded-md w-16 h-6",
+        "flex items-center gap-2 border-border bg-white p-1 border rounded-md w-16 h-6",
         className
       ])}
     >
