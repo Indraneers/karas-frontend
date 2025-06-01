@@ -15,7 +15,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
 
   const { q, setQ, data, isLoading, isError, totalElements, hasNextPage, fetchNextPage } = useInfiniteSearch({
     getEntity: getProducts,
-    key: 'products',
+    key: ['products'],
     query: { subcategoryId: subcategory?.id }
   });
 

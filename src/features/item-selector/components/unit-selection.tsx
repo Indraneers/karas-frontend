@@ -17,7 +17,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
   const { product } = useItemSelectionStore();
   const { q, setQ, data, isLoading, isError, totalElements, hasNextPage, fetchNextPage } = useInfiniteSearch({ 
     getEntity: getUnits, 
-    key: 'units', 
+    key: ['units'], 
     query: { 
       productId: product?.id
     },

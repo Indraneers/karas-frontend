@@ -41,7 +41,7 @@ export function ProductDetailedSearch({
 
   const { q, setQ, isLoading, data, totalElements, fetchNextPage, hasNextPage } = useInfiniteSearch({
     getEntity: getProducts,
-    key: 'products'
+    key: ['products']
   });
 
   function onClickEntity(entityDto: ProductResponseDto) {
