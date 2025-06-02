@@ -21,8 +21,8 @@ export function AuditDetailPage() {
     queryFn: () => getAuditById(auditId)
   });
 
-  const oldData = data ? JSON.parse(data.oldValue || '') : '';
-  const newData = data ? JSON.parse(data.newValue || '') : '';
+  const oldData = data?.oldValue ? JSON.parse(data.oldValue) : null;
+  const newData = data?.newValue ? JSON.parse(data.newValue) : null;
 
 
   return (
