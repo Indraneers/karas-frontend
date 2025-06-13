@@ -2,7 +2,6 @@ import { PageLoading } from '@/components/page-loading';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getVehicles } from '@/features/vehicle/api/vehicle';
 import { NewVehicleButton } from '@/features/vehicle/components/new-vehicle.btn';
@@ -23,10 +22,6 @@ function VehiclePage() {
         <TypographyH1>
           Vehicles
         </TypographyH1>
-        <Subtitle>
-          Page for handling vehicle creation, deletion,
-          and update.
-        </Subtitle>
       </SectionHeader>
       <SectionContent>
         <div className='flex justify-between gap-8'>
@@ -39,11 +34,11 @@ function VehiclePage() {
         </div>
         {
           (isLoading || !data) &&
-          <PageLoading />
+              <PageLoading />
         }
         {
           !isLoading && data &&
-          <VehicleTable paginationDetail={paginationDetail} data={data.content} className='mt-4' />
+              <VehicleTable paginationDetail={paginationDetail} data={data.content} className='mt-4' />
         } 
       </SectionContent>
     </Section>

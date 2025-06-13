@@ -35,8 +35,7 @@ export const columns: ColumnDef<Sale>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'Invoice ID',
-    cell:({ row }) => <div className="font-medium text-primary hover:underline">{row.original.id}</div>
+    header: 'Invoice ID'
   },
   {
     accessorKey: 'customer.name',
@@ -52,7 +51,7 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Vehicle',
     cell: ({ row }) => (
       <CustomLink to={'/vehicles/' + row.original.vehicle.id}>
-        {row.original.vehicle.makeAndModel} <span className="font-medium">({row.original.vehicle.plateNumber})</span>
+        {row.original.vehicle.makeAndModel} <span className="font-light text-xs">({row.original.vehicle.plateNumber})</span>
       </CustomLink>
     )
   },

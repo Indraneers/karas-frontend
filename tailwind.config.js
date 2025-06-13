@@ -14,9 +14,9 @@ module.exports = {
       padding: {
         DEFAULT: '1rem',
         sm: '2rem',
-        lg: '2rem',
-        xl: '2rem',
-        '2xl': '2rem',
+        lg: '3rem',
+        xl: '3rem',
+        '2xl': '4rem',
       },
     },
   	fontFamily: {
@@ -89,7 +89,8 @@ module.exports = {
   			lg: 'var(--radius)',
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)',
-  			'3xl': '1.25rem'
+  			'3xl': '1.5rem',
+				'4xl': '2rem'
   		},
   		keyframes: {
   			'accordion-down': {

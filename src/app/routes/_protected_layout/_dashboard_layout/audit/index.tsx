@@ -3,7 +3,6 @@ import { DataTablePagination } from '@/components/data-table-pagination';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Subtitle } from '@/components/subtitle';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getAuditsHOF } from '@/features/audit/api/audit';
@@ -72,9 +71,6 @@ export function AuditPage() {
         <TypographyH1>
           Audit
         </TypographyH1>
-        <Subtitle>
-          Page for audit logs
-        </Subtitle>
       </SectionHeader>
       <SectionContent>
         <div>

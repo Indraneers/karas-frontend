@@ -9,11 +9,11 @@ interface ProductCellProps {
 export function ProductCell({ product }: ProductCellProps) {
   return (
     <div className="flex gap-1">
-      <Badge className="bg-accent">{product.name}</Badge>
+      <Badge variant='info-primary'>{product.name}</Badge>
       <Badge 
-        variant='outline'
+        variant='info-amber'
         className={cn([
-          "border-amber-500 hidden uppercase text-amber-600",
+          "hidden",
           product.identifier && 'inline-flex'
         ])}>
         {product.identifier}

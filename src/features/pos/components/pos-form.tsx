@@ -2,7 +2,6 @@ import { CategorySelection } from '@/features/item-selector/components/category-
 import { ItemSelector } from '@/features/item-selector/components/item-selector';
 import { OrderDetails } from '@/features/order-detail/components/order-details';
 import { ProductSelection } from '@/features/item-selector/components/product-selection';
-import { SelectionMenu } from '@/features/pos/components/selection-menu';
 import { UnitSelection } from '@/features/item-selector/components/unit-selection';
 import { useItemSelectionStore } from '@/features/item-selector/store/item-selection';
 import { ItemSelectionEnum } from '@/features/item-selector/types/item-selection-enum';
@@ -55,15 +54,13 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
 
   return (
     <>
-      <div className='gap-4 grid lg:grid-cols-[5fr,3fr] grid-rows-2 lg:grid-rows-1 py-4 h-full lg:max-h-full lg:overflow-hidden'>
-        <SelectionMenu>
-          <ItemSelector>
-            { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
-            { (selector === ItemSelectionEnum.SUBCATEGORY) && <SubcategorySelection /> }
-            { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
-            { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
-          </ItemSelector>
-        </SelectionMenu>
+      <div className='gap-8 grid lg:grid-cols-[5fr,3fr] grid-rows-2 lg:grid-rows-1 py-4 h-full lg:max-h-full lg:overflow-hidden'>
+        <ItemSelector>
+          { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
+          { (selector === ItemSelectionEnum.SUBCATEGORY) && <SubcategorySelection /> }
+          { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
+          { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
+        </ItemSelector>
         <OrderDetails saleId={saleId} handlePayment={handlePayment} />
       </div>
     </>

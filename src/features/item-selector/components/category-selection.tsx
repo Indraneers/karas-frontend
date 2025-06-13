@@ -19,7 +19,7 @@ export function CategorySelection({ className }: CategorySelectionProps) {
       <div className="gap-2 grid grid-rows-[auto,1fr] h-full">
         <CategorySearch value={q} onChange={setQ}  />
         { isError && 'error'}
-        { data?.length === 0 && 
+        { !isLoading && data?.length === 0 && 
           <ItemEmpty />
         }
         { 
@@ -78,7 +78,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
           />
         }
       </CardHeader>
-      <CardContent className="flex-grow" />
+      <CardContent className="flex-grow p-0 pt-0" />
       <CardFooter className="flex flex-col items-start text-md">
         <div className={cn([
           "font-medium text-lg",

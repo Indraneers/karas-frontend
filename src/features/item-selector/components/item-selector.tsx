@@ -1,13 +1,9 @@
-import { Section } from "@/components/section";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
-import { TypographyH2 } from "@/components/ui/typography/h2";
 import { ChevronLeft } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { cn } from "@/lib/utils";
-import { SectionHeader } from "@/components/section-header";
-import { SectionContent } from "@/components/section-content";
 
 interface ItemSelectionProps {
   children?: React.ReactNode;
@@ -31,33 +27,33 @@ export function ItemSelector({ children }: ItemSelectionProps) {
   }
 
   return (
-    <Section className="flex flex-col h-full">
-      <SectionHeader>
-        <ItemSelectorHeader>
-          <div className="flex justify-between gap-2">
-            <TypographyH2>Items</TypographyH2>
-          </div>
-          <Separator className="h-4" orientation="vertical" />
-          <div className="flex justify-between items-center w-full">
-            <ItemSelectorBreadCrumb />
-            <Button 
-              className={cn([
-                'text-accent display h-8',
-                selector === ItemSelectionEnum.CATEGORY && 'hidden'
-              ])} 
-              variant='ghost'
-              onClick={handleBackBtn}
-            >
-              <span><ChevronLeft /></span>
+    <div className="flex flex-col h-full">
+      <ItemSelectorHeader>
+        <TypographyH1>Items</TypographyH1>
+        <Separator className="h-4" orientation="vertical" />
+        <div className="flex justify-between items-center w-full h-12">
+          <ItemSelectorBreadCrumb  />
+          <Button 
+            className={cn([
+              'text-accent display h-8 ml-2',
+              selector === ItemSelectionEnum.CATEGORY && 'hidden'
+            ])} 
+            variant='ghost'
+            onClick={handleBackBtn}
+          >
+            <span><ChevronLeft /></span>
             Back
-            </Button>
-          </div>
-        </ItemSelectorHeader>
-      </SectionHeader>
-      <SectionContent className="flex-grow">
-        {children}
-      </SectionContent>
-    </Section>
+          </Button>
+        </div>
+      </ItemSelectorHeader>
+      <div className="relative flex-grow">
+        <Card className="absolute inset-0 flex flex-col mt-4">
+          <CardContent className="flex-grow my-4">
+            {children}
+          </CardContent>
+        </Card>
+      </div>
+    </div>
   );
 }
 
@@ -148,6 +144,8 @@ export function ItemSelectorBreadCrumb() {
 
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { TypographyH1 } from "@/components/ui/typography/h1";
 
 export function ItemSkeletonList() {
   return (
@@ -182,7 +180,7 @@ export const ItemCardList = React.forwardRef<HTMLDivElement, ItemCardListProps>(
         )}
         {...props}
       >
-        <div className="absolute inset-0 gap-2 grid grid-cols-3 xl:grid-cols-4 auto-rows-max">
+        <div className="absolute inset-0 gap-2 grid grid-cols-3 2xl:grid-cols-4 auto-rows-max">
           {children}
         </div>
       </div>

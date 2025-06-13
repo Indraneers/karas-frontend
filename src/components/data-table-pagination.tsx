@@ -22,7 +22,6 @@ import { cn } from "@/lib/utils";
 import { useMemo } from "react";
 import { Skeleton } from "./ui/skeleton";
 import { PaginationDetail } from "@/types/pagination";
-import { Card } from "./ui/card";
 import { ContextOption } from "@/types/context-options";
 import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuLabel, ContextMenuSeparator, ContextMenuTrigger } from "./ui/context-menu";
 
@@ -36,6 +35,7 @@ interface DataTablePaginationProps<TData, TValue> {
   onRowSelectionChange: React.Dispatch<React.SetStateAction<Record<string, boolean>>>;
   contextLabel?: string;
   contextOptions?: ContextOption<TData>[];
+  showOutlineStyle?: boolean;
 }
 
 export function DataTablePagination<TData, TValue>({
@@ -59,7 +59,7 @@ export function DataTablePagination<TData, TValue>({
       isLoading
         ? columns.map((column) => ({
           ...column,
-          cell: () => <Skeleton className="h-4" />
+          cell: () => <Skeleton className="h-6" />
         }))
         : columns,
     [isLoading, columns]
@@ -92,16 +92,22 @@ export function DataTablePagination<TData, TValue>({
   ).length;
 
   return (
-    <Card className="grid grid-rows-[1fr,auto] p-1 rounded-xl w-full overflow-auto">
-      <div className="grid grid-cols-1 overflow-auto">
+    <div className={cn([
+      "grid grid-rows-[1fr,auto] w-full overflow-auto"
+    ])}>
+      <div className="grid grid-cols-1 pb-2 rounded-lg overflow-auto">
         <Table className="relative">
-          <TableHeader>
+          <TableHeader className="bg-muted border-b-0">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
+              <TableRow className="rounded-md h-6" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      className="last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap"
+                      className={cn([
+                        "last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap",
+                        headerGroup.headers[0].id === header.id && "rounded-l-md",
+                        headerGroup.headers[headerGroup.headers.length - 1].id === header.id && "rounded-r-md"
+                      ])}
                       colSpan={header.colSpan}
                       style={{
                         width: header.getSize() !== 0 ? header.getSize() : undefined
@@ -120,7 +126,10 @@ export function DataTablePagination<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
-          <TableBody className='px-4'>
+          <tr>
+            <td></td>
+          </tr>
+          <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <>
@@ -129,14 +138,17 @@ export function DataTablePagination<TData, TValue>({
                   <ContextMenu>
                     <ContextMenuTrigger asChild>
                       <TableRow
-                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        className={cn([
+                          onRowClick && 'cursor-pointer', 
+                          'cursor-pointer hover:bg-primary/10'
+                        ])}
                         onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                         key={row.id}
                         data-state={row.getIsSelected() && "selected"}
                       >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell
-                            className="last:pr-4 first:pl-4 whitespace-nowrap"
+                            className="p-2 last:pr-4 first:pl-4 whitespace-nowrap"
                             style={{
                               width: cell.column.getSize() !== 0
                                 ? cell.column.getSize()
@@ -145,7 +157,7 @@ export function DataTablePagination<TData, TValue>({
                             key={cell.id}
                           >
                             {isLoading ? (
-                              <Skeleton className="h-4" />
+                              <Skeleton className="h-6" />
                             ) : (
                               flexRender(cell.column.columnDef.cell, cell.getContext())
                             )}
@@ -191,7 +203,7 @@ export function DataTablePagination<TData, TValue>({
                         key={cell.id}
                       >
                         {isLoading ? (
-                          <Skeleton className="h-4" />
+                          <Skeleton className="h-6" />
                         ) : (
                           flexRender(cell.column.columnDef.cell, cell.getContext())
                         )}
@@ -212,7 +224,7 @@ export function DataTablePagination<TData, TValue>({
         </Table>
       </div>
 
-      <div className="flex justify-end items-center px-4 py-2 pt-4">
+      <div className="flex justify-end items-center pt-4">
         <div className="flex-1 text-accent text-sm">
           {totalSelectedRows} of{" "}
           {paginationDetail.rowCount} row(s) selected.
@@ -236,7 +248,7 @@ export function DataTablePagination<TData, TValue>({
           </Button>
         </div>
       </div>
-    </Card>
+    </div>
   );
 }
 
@@ -267,7 +279,7 @@ export function DataTableAutoPagination<TData, TValue>({
       isLoading
         ? columns.map((column) => ({
           ...column,
-          cell: () => <Skeleton className="h-4" />
+          cell: () => <Skeleton className="h-6" />
         }))
         : columns,
     [isLoading, columns]
@@ -287,16 +299,20 @@ export function DataTableAutoPagination<TData, TValue>({
   });
 
   return (
-    <Card className="grid grid-rows-[1fr,auto] p-2">
+    <div>
       <div className="grid grid-cols-1 overflow-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-muted border-b-0">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
-                      className="font-semibold text-foreground whitespace-nowrap"
+                      className={cn([
+                        "last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap",
+                        headerGroup.headers[0].id === header.id && "rounded-l-md",
+                        headerGroup.headers[headerGroup.headers.length - 1].id === header.id && "rounded-r-md"
+                      ])}
                       colSpan={header.colSpan}
                       style={{
                         width: header.getSize() !== 0 ? header.getSize() : undefined
@@ -315,6 +331,9 @@ export function DataTableAutoPagination<TData, TValue>({
               </TableRow>
             ))}
           </TableHeader>
+          <tr>
+            <td></td>
+          </tr>
           <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
@@ -324,7 +343,7 @@ export function DataTableAutoPagination<TData, TValue>({
                   <ContextMenu>
                     <ContextMenuTrigger asChild>
                       <TableRow
-                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        className={cn([onRowClick && 'cursor-pointer'])}
                         onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                         key={row.id}
                         data-state={row.getIsSelected() && "selected"}
@@ -340,7 +359,7 @@ export function DataTableAutoPagination<TData, TValue>({
                             key={cell.id}
                           >
                             {isLoading ? (
-                              <Skeleton className="h-4" />
+                              <Skeleton className="h-6" />
                             ) : (
                               flexRender(cell.column.columnDef.cell, cell.getContext())
                             )}
@@ -370,7 +389,7 @@ export function DataTableAutoPagination<TData, TValue>({
                   {
                     !contextOptions &&
                   <TableRow
-                    className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                    className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer h-6'])}
                     onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
@@ -386,7 +405,7 @@ export function DataTableAutoPagination<TData, TValue>({
                         key={cell.id}
                       >
                         {isLoading ? (
-                          <Skeleton className="h-4" />
+                          <Skeleton className="h-6" />
                         ) : (
                           flexRender(cell.column.columnDef.cell, cell.getContext())
                         )}
@@ -430,6 +449,6 @@ export function DataTableAutoPagination<TData, TValue>({
           </Button>
         </div>
       </div>
-    </Card>
+    </div>
   );
 }

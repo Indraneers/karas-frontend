@@ -1,6 +1,5 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
@@ -25,12 +24,8 @@ function ProductPage() {
         <TypographyH1>
         Product
         </TypographyH1>
-        <Subtitle>
-          Page for handling product creation, deletion,
-          and update.
-        </Subtitle>
       </SectionHeader>
-      <SectionContent className='flex flex-col pt-2 h-full'>
+      <SectionContent className='flex flex-col h-full'>
         <div className='flex justify-between'>
           <ProductSearch 
             className='w-[400px]'
@@ -41,9 +36,8 @@ function ProductPage() {
             <NewProductButton />
           </div>
         </div>
-        <div className='relative flex-grow mt-4 h-full'>
+        <div className='mt-4'>
           <ProductTable 
-            className='absolute inset-0 h-full'
             isLoading={isLoading} 
             products={data?.content || []} 
             paginationDetail={paginationDetail}

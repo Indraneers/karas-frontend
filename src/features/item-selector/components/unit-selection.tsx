@@ -51,7 +51,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
     }>
       <UnitSearch value={q} onChange={setQ} />
       { isError && 'error' }
-      { totalElements === 0 && 
+      { !isLoading && totalElements === 0 && 
         <ItemEmpty />
       }
       {

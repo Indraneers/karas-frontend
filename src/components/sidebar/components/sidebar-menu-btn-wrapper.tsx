@@ -22,16 +22,15 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
 
         className={
           cn([
-            'hover:bg-accent group/item hover:text-primary-foreground transition cursor-pointer',
-            isActive ? 'bg-accent text-primary-foreground' : ''
+            'hover:bg-muted/80 transition cursor-pointer font-medium',
+            isActive ? 'bg-muted' : ''
           ])
         }
         asChild
       >
         <a href={url} target="_blank" rel="noreferrer">
           <Icon className={cn([
-            "text-muted-foreground group-hover/item:text-primary-foreground",
-            isActive && 'text-primary-foreground'
+            "text-muted-foreground"
           ])} />
           <span>{children}</span>
           <ChevronRight className={cn([
@@ -49,16 +48,15 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
         onClick={() => navigate({ to: url })}
         className={
           cn([
-            'hover:bg-accent group/item hover:text-primary-foreground transition cursor-pointer font-medium',
-            isActive ? 'bg-accent text-primary-foreground' : ''
+            'hover:bg-muted/80 transition cursor-pointer font-medium',
+            isActive ? 'bg-muted' : ''
           ])
         }
         asChild
       >
         <a>
           <Icon className={cn([
-            "text-muted-foreground group-hover/item:text-primary-foreground",
-            isActive && 'text-primary-foreground'
+            "text-muted-foreground"
           ])} />
           <span>{children}</span>
           <ChevronRight className={cn([
@@ -74,16 +72,15 @@ export function SidebarMenuBtnWrapper({ Icon, children, url, childRoutes, isColl
     <SidebarMenuButton 
       className={
         cn([
-          'hover:bg-accent group/item hover:text-primary-foreground transition cursor-pointer',
-          isActive ? 'bg-accent text-primary-foreground' : ''
+          'hover:bg-muted/80 transition cursor-pointer font-medium',
+          isActive ? 'bg-muted' : ''
         ])
       }
       asChild
     >
       <a>
         <Icon className={cn([
-          "text-muted-foreground group-hover/item:text-primary-foreground",
-          isActive && 'text-primary-foreground'
+          "text-muted-foreground group-hover/item:text-primary-foreground"
         ])} />
         <span>{children}</span>
         <ChevronRight className={cn([
