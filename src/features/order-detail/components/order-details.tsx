@@ -18,16 +18,16 @@ interface OrderDetailsProps {
 
 export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   return (
-    <Section className="flex flex-col rounded-2xl h-full overflow-y-scroll">
+    <Section className="flex flex-col h-full overflow-y-scroll">
       <SectionHeader className="relative">
-        <TypographyH1 className="flex items-center gap-2">
+        <TypographyH1 className="flex items-center gap-2 h-12">
           Order Details
         </TypographyH1>
         {
           saleId && <Badge className="top-0 right-0 absolute m-4">{saleId}</Badge>
         }
       </SectionHeader>
-      <SectionContent className="mt-7 border rounded-xl w-full">
+      <SectionContent className="mt-4 border rounded-xl w-full">
         <Tabs className="inset-0 flex flex-col w-full h-full overflow-y-hidden" defaultValue="order-info">
           <BorderedTabsList className="w-full xl:text-base">
             <BorderedTabsTrigger value='order-info'>
