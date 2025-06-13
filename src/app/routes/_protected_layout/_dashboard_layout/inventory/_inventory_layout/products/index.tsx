@@ -1,5 +1,6 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
@@ -36,13 +37,15 @@ function ProductPage() {
             <NewProductButton />
           </div>
         </div>
-        <div className='mt-4'>
-          <ProductTable 
-            isLoading={isLoading} 
-            products={data?.content || []} 
-            paginationDetail={paginationDetail}
-          />
-        </div>
+        <Card className='mt-4'>
+          <CardContent className='mt-4'>
+            <ProductTable 
+              isLoading={isLoading} 
+              products={data?.content || []} 
+              paginationDetail={paginationDetail}
+            />
+          </CardContent>
+        </Card>
       </SectionContent>
     </>
   );

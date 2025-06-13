@@ -9,6 +9,7 @@ import { VehicleTable } from '@/features/vehicle/components/vehicle-table';
 import { VehicleSearch } from '@/features/vehicle/components/vehicle-search';
 import { createFileRoute } from '@tanstack/react-router';
 import { useSearchPagination } from '@/hooks/use-search-pagination';
+import { Card, CardContent } from '@/components/ui/card';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/vehicles/')({
   component: () => <VehiclePage />
@@ -38,7 +39,11 @@ function VehiclePage() {
         }
         {
           !isLoading && data &&
-              <VehicleTable paginationDetail={paginationDetail} data={data.content} className='mt-4' />
+              <Card className='mt-4'>
+                <CardContent className='mt-4'>
+                  <VehicleTable paginationDetail={paginationDetail} data={data.content} className='mt-4' />
+                </CardContent>
+              </Card>
         } 
       </SectionContent>
     </Section>
