@@ -1,7 +1,6 @@
 import { Section } from "@/components/section";
 import { SectionContent } from "@/components/section-content";
 import { SectionHeader } from "@/components/section-header";
-import { TypographyH2 } from "@/components/ui/typography/h2";
 import { SaleRequestDto, SaleResponseDto } from "@/features/sale/types/sale.dto";
 import { Tabs } from "@/components/ui/tabs";
 import { BorderedTabsList, BorderedTabsTrigger } from "@/components/bordered-tabs";
@@ -10,6 +9,7 @@ import { OrderInformationTab } from "./order-information-tab";
 import { PaymentTab } from "./payment-tab";
 import { MaintenanceTab } from "./maintenance-tab";
 import { Badge } from "@/components/ui/badge";
+import { TypographyH1 } from "@/components/ui/typography/h1";
 
 interface OrderDetailsProps {
   saleId?: string;
@@ -18,17 +18,17 @@ interface OrderDetailsProps {
 
 export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
   return (
-    <Section className="flex flex-col bg-surface border rounded-2xl h-full overflow-y-scroll">
-      <SectionHeader className="relative p-3">
-        <TypographyH2 className="flex items-center gap-2">
+    <Section className="flex flex-col rounded-2xl h-full overflow-y-scroll">
+      <SectionHeader className="relative">
+        <TypographyH1 className="flex items-center gap-2">
           Order Details
-        </TypographyH2>
+        </TypographyH1>
         {
           saleId && <Badge className="top-0 right-0 absolute m-4">{saleId}</Badge>
         }
       </SectionHeader>
-      <SectionContent className="mt-0 w-full">
-        <Tabs className="inset-0 flex flex-col p-0 w-full h-full overflow-y-hidden" defaultValue="order-info">
+      <SectionContent className="mt-7 border rounded-xl w-full">
+        <Tabs className="inset-0 flex flex-col w-full h-full overflow-y-hidden" defaultValue="order-info">
           <BorderedTabsList className="w-full xl:text-base">
             <BorderedTabsTrigger value='order-info'>
               Order Info

@@ -78,7 +78,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
           />
         }
       </CardHeader>
-      <CardContent className="flex-grow" />
+      <CardContent className="flex-grow p-0 pt-0" />
       <CardFooter className="flex flex-col items-start text-md">
         <div className={cn([
           "font-medium text-lg",
