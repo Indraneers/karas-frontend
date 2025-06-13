@@ -56,7 +56,7 @@ export const columns: ColumnDef<Vehicle>[] = [
   {
     accessorKey: 'mileage',
     header: 'Mileage',
-    cell: ({ row }) => <Badge>{row.original.mileage} km</Badge> 
+    cell: ({ row }) => <Badge variant='info-primary'>{row.original.mileage} km</Badge> 
   },
   {
     accessorKey: 'vinNo',
