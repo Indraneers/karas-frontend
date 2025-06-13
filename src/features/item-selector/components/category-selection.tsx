@@ -61,7 +61,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
   return (
     <Card 
       className={cn([
-        "flex flex-col border-primary hover:!bg-accent shadow-none w-full hover:text-background transition cursor-pointer aspect-square group",
+        "flex flex-col border-primary border-2 hover:!bg-accent shadow-none w-full hover:text-background transition cursor-pointer aspect-square group",
         category.color && 'border-none' + 'bg-[#' + category.color + ']'
       ])}
       style={{ background: category.color }}

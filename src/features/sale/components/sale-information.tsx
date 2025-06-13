@@ -24,7 +24,7 @@ export function SaleInformation({ sale, className }: SaleInformationProps) {
         </TypographyH1>
       </div>
       <div className="flex justify-between items-centers mt-1">
-        <StatusBadge className="text-md" status={sale.status} />
+        <StatusBadge className="self-center" status={sale.status} />
         <div className="space-x-2">
           <EditButton className="w-8 h-8" to={'/sales/edit/' + sale.id} />
           <PrintButton className="w-8 h-8" to={'/invoice/' + sale.id + '?print=true'} />
