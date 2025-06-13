@@ -83,6 +83,7 @@ import { useState } from "react";
 import { Unit } from "@/features/unit/types/unit";
 import { Currency } from "@/components/currency";
 import { Item } from "@/features/sale/types/item";
+import { Badge } from "@/components/ui/badge";
 
 interface UnitSelectionCardProps {
   unit: Unit
@@ -110,13 +111,13 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full">
-          <Card className="group flex flex-col hover:bg-accent border-primary w-full aspect-square hover:text-background transition cursor-pointer">
+          <Card className="group flex flex-col hover:bg-accent border-2 border-primary w-full aspect-square hover:text-background transition cursor-pointer">
             <CardHeader className="space-y-0 text-left">
               <div className="font-medium text-xl">
                 {unit.name}
                 {
                   unit.product.variable &&
-                  <span>
+                  <span className="font-light text-lg">
                     {' '}({convertBaseQuantityToDisplayQuantity(unit.toBaseUnit)}{unit.product.baseUnit})
                   </span>
                 }
@@ -133,7 +134,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
             </CardHeader>
             <CardContent className="flex-grow" />
             <CardFooter className="flex flex-col items-start text-xs">
-              <div className="text-foreground/50 group-hover:text-background">{convertBaseQuantityToQuantity(unit.toBaseUnit, unit.quantity) || 0} units left</div>
+              <Badge variant='info-green'>{convertBaseQuantityToQuantity(unit.toBaseUnit, unit.quantity) || 0} units left</Badge>
             </CardFooter>
           </Card>
         </DialogTrigger>
