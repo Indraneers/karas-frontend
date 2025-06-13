@@ -13,7 +13,7 @@ interface SidebarSubmenuBtnWrapperProps {
 
 export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes }: SidebarSubmenuBtnWrapperProps) {
   const navigate = useNavigate();
-  const { isExternalLink, isActive } = useSidebarContent({ url, childRoutes });
+  const { isExternalLink } = useSidebarContent({ url, childRoutes });
 
   if (isExternalLink) {
     return (
