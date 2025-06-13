@@ -16,7 +16,7 @@ export function StatusBadge({ status, className }: { status: StatusEnum, classNa
       }
       {status === "HOLD" && 
     <Badge 
-      variant='info-amber'
+      variant='info-amber-dark'
       className={cn([
         className
       ])}

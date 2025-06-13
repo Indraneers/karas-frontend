@@ -19,7 +19,7 @@ export const columns: ColumnDef<AuditDTO>[] = [
   {
     accessorKey: 'user',
     header: 'Account',
-    cell: ({ row }) => <Badge variant='outline'>{row.original.user.username}</Badge>
+    cell: ({ row }) => <Badge variant='info-primary'>{row.original.user.username}</Badge>
   },
   {
     accessorKey: 'timestamp',

@@ -21,8 +21,12 @@ const badgeVariants = cva(
           "bg-emerald-100 border-emerald-300 rounded-full text-emerald-700",
         'info-dark-green':
           "bg-green-100 border-green-700 rounded-full text-green-800",
-        'info-amber':
+        'info-amber-dark':
           "bg-amber-100 border-amber-700 rounded-full text-amber-800",
+        'info-amber':
+          "bg-amber-100 border-amber-300 rounded-full text-amber-700",
+        'info-orange':
+          "bg-orange-100 border-orange-300 rounded-full text-orange-700",
         'info-blue':
           "bg-blue-100 border-blue-300 rounded-full text-blue-700"
       }

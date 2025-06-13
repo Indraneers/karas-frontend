@@ -59,7 +59,7 @@ export function DataTablePagination<TData, TValue>({
       isLoading
         ? columns.map((column) => ({
           ...column,
-          cell: () => <Skeleton className="h-4" />
+          cell: () => <Skeleton className="h-6" />
         }))
         : columns,
     [isLoading, columns]
@@ -157,7 +157,7 @@ export function DataTablePagination<TData, TValue>({
                             key={cell.id}
                           >
                             {isLoading ? (
-                              <Skeleton className="h-4" />
+                              <Skeleton className="h-6" />
                             ) : (
                               flexRender(cell.column.columnDef.cell, cell.getContext())
                             )}
@@ -203,7 +203,7 @@ export function DataTablePagination<TData, TValue>({
                         key={cell.id}
                       >
                         {isLoading ? (
-                          <Skeleton className="h-4" />
+                          <Skeleton className="h-6" />
                         ) : (
                           flexRender(cell.column.columnDef.cell, cell.getContext())
                         )}
@@ -279,7 +279,7 @@ export function DataTableAutoPagination<TData, TValue>({
       isLoading
         ? columns.map((column) => ({
           ...column,
-          cell: () => <Skeleton className="h-4" />
+          cell: () => <Skeleton className="h-6" />
         }))
         : columns,
     [isLoading, columns]
@@ -359,7 +359,7 @@ export function DataTableAutoPagination<TData, TValue>({
                             key={cell.id}
                           >
                             {isLoading ? (
-                              <Skeleton className="h-4" />
+                              <Skeleton className="h-6" />
                             ) : (
                               flexRender(cell.column.columnDef.cell, cell.getContext())
                             )}
@@ -405,7 +405,7 @@ export function DataTableAutoPagination<TData, TValue>({
                         key={cell.id}
                       >
                         {isLoading ? (
-                          <Skeleton className="h-4" />
+                          <Skeleton className="h-6" />
                         ) : (
                           flexRender(cell.column.columnDef.cell, cell.getContext())
                         )}
