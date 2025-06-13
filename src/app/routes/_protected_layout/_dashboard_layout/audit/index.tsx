@@ -3,7 +3,6 @@ import { DataTablePagination } from '@/components/data-table-pagination';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Subtitle } from '@/components/subtitle';
 import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TypographyH1 } from '@/components/ui/typography/h1';

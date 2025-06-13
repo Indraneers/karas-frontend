@@ -2,7 +2,6 @@ import { PageLoading } from '@/components/page-loading';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Subtitle } from '@/components/subtitle';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getVehicles } from '@/features/vehicle/api/vehicle';
 import { NewVehicleButton } from '@/features/vehicle/components/new-vehicle.btn';

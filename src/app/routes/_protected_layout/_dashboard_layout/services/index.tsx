@@ -1,7 +1,6 @@
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Subtitle } from '@/components/subtitle';
 import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewServiceButton } from '@/features/service/components/new-service-btn';
