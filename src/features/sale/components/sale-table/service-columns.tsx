@@ -18,11 +18,9 @@ export const serviceColumns: ColumnDef<MaintenanceService>[] = [
     accessorKey: 'type',
     header: 'Item Type',
     cell: () => (
-      <>
-        <Badge className="bg-amber-400 hover:bg-amber-500">
+      <Badge variant='info-blue'>
             Service
-        </Badge>
-      </>
+      </Badge>
     )
   },
   {
@@ -30,8 +28,6 @@ export const serviceColumns: ColumnDef<MaintenanceService>[] = [
     header: 'Item Name',
     cell: ({ row }) => (
       <>
-        {/* {row.original.type === 'service' && row.original.service?.name
-        } */}
         {
           <div>
             {row.original.service.name}

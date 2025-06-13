@@ -1,9 +1,9 @@
 import { LoadingSpinner } from '@/components/loading-spinner';
+import { Card, CardContent } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
 import { Skeleton } from '@/components/ui/skeleton';
 import { getSaleById } from '@/features/sale/api/sale';
 import { CustomerInformation } from '@/features/sale/components/customer-information';
-import { SaleDetailAside } from '@/features/sale/components/sale-detail-aside';
 import { SaleInformation } from '@/features/sale/components/sale-information';
 import { SaleTable } from '@/features/sale/components/sale-table';
 import { VehicleInformation } from '@/features/sale/components/vehicle-information';
@@ -51,29 +51,35 @@ function SaleDetailPage() {
 
   if (isLoading || !data) {
     return (
-      <div className='gap-4 grid grid-cols-3 py-4 h-full'>
-        <SaleDetailAside className='h-full'>
-          <div>
-            <Skeleton className="w-full h-12" />
-            <Skeleton className="mt-2 w-full h-8" />
-            <Skeleton className="mt-4 w-[100px] h-8" />
-            <Skeleton className="mt-4 w-full h-8" />
-          </div>
+      <div className='gap-4 grid grid-cols-1 xl:grid-cols-4 py-4 h-full'>
+        <div className='xl:block flex space-x-6 xl:space-x-0 xl:space-y-4'>
+          <Card>
+            <CardContent className='mt-4'>
+              <Skeleton className="w-full h-12" />
+              <Skeleton className="mt-2 w-full h-8" />
+              <Skeleton className="mt-4 w-[100px] h-8" />
+              <Skeleton className="mt-4 w-full h-8" />
+            </CardContent>
+          </Card>
           <Separator className='mt-3 mb-2' />
-          <div>
-            <Skeleton className="w-full h-8" />
-            <Skeleton className="mt-2 w-full h-8" />
-            <Skeleton className="mt-4 w-full h-8" />
-          </div>
+          <Card>
+            <CardContent className='mt-4'>
+              <Skeleton className="w-full h-8" />
+              <Skeleton className="mt-2 w-full h-8" />
+              <Skeleton className="mt-4 w-full h-8" />
+            </CardContent>
+          </Card>
           <Separator className='mt-3 mb-2' />
-          <div>
-            <Skeleton className="w-full h-8" />
-            <Skeleton className="mt-2 w-full h-8" />
-            <Skeleton className="mt-4 w-full h-8" />
-            <Skeleton className="mt-2 w-full h-8" />
-          </div>
-        </SaleDetailAside>
-        <div className='col-span-2 h-full'>
+          <Card>
+            <CardContent className='mt-4'>
+              <Skeleton className="w-full h-8" />
+              <Skeleton className="mt-2 w-full h-8" />
+              <Skeleton className="mt-4 w-full h-8" />
+              <Skeleton className="mt-2 w-full h-8" />
+            </CardContent>
+          </Card>
+        </div>
+        <div className='xl:col-span-3 h-full'>
           {
             isLoading &&
           <div className='place-content-center grid h-full'>
@@ -88,19 +94,29 @@ function SaleDetailPage() {
   const sale = convertSaleResponseDtoToSale(data);
 
   return (
-    <div className='gap-4 grid grid-cols-1 xl:grid-cols-3 py-4 h-full'>
-      <SaleDetailAside className='xl:block flex gap-4 w-full xl:h-full'>
-        <SaleInformation sale={sale} />
-        <Separator className='hidden xl:block mt-3 mb-2' />
-        <Separator orientation='vertical' className='xl:hidden block' />
-        <CustomerInformation customer={sale.customer} />
-        <Separator className='hidden xl:block mt-3 mb-2' />
-        <Separator orientation='vertical' className='xl:hidden block' />
-        <VehicleInformation vehicle={sale.vehicle} />
-      </SaleDetailAside>
-      <div className='col-span-2 h-full'>
-        <SaleTable sale={sale} />
+    <div className='gap-4 grid grid-cols-1 xl:grid-cols-4 py-4 h-full'>
+      <div className='xl:block flex space-x-4 xl:space-x-0 xl:space-y-4'>
+        <Card>
+          <CardContent className='mt-4'>
+            <SaleInformation sale={sale} />
+          </CardContent>
+        </Card>
+        <Card>
+          <CardContent className='mt-4'>
+            <CustomerInformation customer={sale.customer} />
+          </CardContent>
+        </Card>
+        <Card className='flex-grow'>
+          <CardContent className='mt-4'>
+            <VehicleInformation vehicle={sale.vehicle} />
+          </CardContent>
+        </Card>
       </div>
+      <Card className='xl:col-span-3 h-full'>
+        <CardContent className='mt-4'>
+          <SaleTable sale={sale} />
+        </CardContent>
+      </Card>
     </div>
   );
 }

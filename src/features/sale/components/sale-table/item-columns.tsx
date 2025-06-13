@@ -3,9 +3,7 @@ import { Badge } from "@/components/ui/badge";
 import { Currency } from "@/components/currency";
 import { calculateUnitItemTotalCost } from "../../utils/sale";
 import { Item } from "../../types/item";
-import { cn } from "@/lib/utils";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
-import { Dot } from "lucide-react";
 import { getQuantity } from "@/features/unit/util/convert";
 
 export const itemColumns: ColumnDef<Item>[] = [
@@ -22,46 +20,18 @@ export const itemColumns: ColumnDef<Item>[] = [
     accessorKey: 'type',
     header: 'Item Type',
     cell: () => (
-      <>
-        {/* {row.original.type === 'service' &&
-          <Badge className="bg-amber-400 hover:bg-amber-500">
-            Service
-          </Badge>
-        } */}
-        <Badge className="bg-green-500 hover:bg-green-600">
-            Product
-        </Badge>
-      </>
+      <Badge variant='info-green'>
+          Product
+      </Badge>
     )
   },
   {
     id: 'name',
     header: 'Item Name',
     cell: ({ row }) => (
-      <>
-        {
-          <div className="flex items-center">
-            <div>
-              {row.original.unit.product.name} <ProductIdentifier identifier={row.original.unit.product.identifier} />
-            </div>
-            <div className={cn([
-              'hidden',
-              row.original.unit.product.variable && 'inline-flex items-center'
-            ])}>
-              <Dot />
-              1 
-              { row.original.unit.product.baseUnit }
-            </div>
-            <div className={cn([
-              'hidden',
-              (!row.original.unit.product.variable) && 'inline-flex items-center'
-            ])}>
-              <Dot />
-              { row.original.unit.name }
-            </div>
-          </div>
-        }
-      </>
+      <div>
+        {row.original.unit.product.name}  <ProductIdentifier className="font-light text-xs" identifier={row.original.unit.product.identifier} />
+      </div>
     )
   },
   {
@@ -84,8 +54,10 @@ export const itemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'quantity',
-    header: 'Quantity',
-    cell: ({ row }) => getQuantity(row.original)
+    header: () => 'Quantity',
+    cell: ({ row }) => (
+      <div className="text-nowrap">{getQuantity(row.original)} {row.original.unit.name}</div>
+    )
   },
   {
     accessorKey: 'Total',
