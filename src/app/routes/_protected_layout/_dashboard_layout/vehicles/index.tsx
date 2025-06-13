@@ -9,7 +9,6 @@ import { VehicleTable } from '@/features/vehicle/components/vehicle-table';
 import { VehicleSearch } from '@/features/vehicle/components/vehicle-search';
 import { createFileRoute } from '@tanstack/react-router';
 import { useSearchPagination } from '@/hooks/use-search-pagination';
-import { Card, CardContent } from '@/components/ui/card';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/vehicles/')({
   component: () => <VehiclePage />
@@ -25,26 +24,22 @@ function VehiclePage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <Card>
-          <CardContent className='mt-4'>
-            <div className='flex justify-between gap-8'>
-              <VehicleSearch 
-                className='w-[400px]'
-                value={q}
-                onChange={setQ}
-              />
-              <NewVehicleButton />
-            </div>
-            {
-              (isLoading || !data) &&
-          <PageLoading />
-            }
-            {
-              !isLoading && data &&
-          <VehicleTable paginationDetail={paginationDetail} data={data.content} className='mt-4' />
-            } 
-          </CardContent>
-        </Card>
+        <div className='flex justify-between gap-8'>
+          <VehicleSearch 
+            className='w-[400px]'
+            value={q}
+            onChange={setQ}
+          />
+          <NewVehicleButton />
+        </div>
+        {
+          (isLoading || !data) &&
+              <PageLoading />
+        }
+        {
+          !isLoading && data &&
+              <VehicleTable paginationDetail={paginationDetail} data={data.content} className='mt-4' />
+        } 
       </SectionContent>
     </Section>
   );

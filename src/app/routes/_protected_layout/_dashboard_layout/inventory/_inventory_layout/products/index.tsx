@@ -1,6 +1,5 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getProducts } from '@/features/product/api/product';
 import { NewProductButton } from '@/features/product/components/new-product-btn';
@@ -27,27 +26,23 @@ function ProductPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent className='flex flex-col h-full'>
-        <Card>
-          <CardContent className='mt-4'>
-            <div className='flex justify-between'>
-              <ProductSearch 
-                className='w-[400px]'
-                value={q}
-                onChange={setQ}
-              />
-              <div className='flex flex-row-reverse gap-4'>
-                <NewProductButton />
-              </div>
-            </div>
-            <div className='mt-4'>
-              <ProductTable 
-                isLoading={isLoading} 
-                products={data?.content || []} 
-                paginationDetail={paginationDetail}
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <div className='flex justify-between'>
+          <ProductSearch 
+            className='w-[400px]'
+            value={q}
+            onChange={setQ}
+          />
+          <div className='flex flex-row-reverse gap-4'>
+            <NewProductButton />
+          </div>
+        </div>
+        <div className='mt-4'>
+          <ProductTable 
+            isLoading={isLoading} 
+            products={data?.content || []} 
+            paginationDetail={paginationDetail}
+          />
+        </div>
       </SectionContent>
     </>
   );

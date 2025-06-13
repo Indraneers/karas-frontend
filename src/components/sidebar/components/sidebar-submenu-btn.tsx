@@ -20,14 +20,13 @@ export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes 
       <SidebarMenuSubButton
         className={
           cn([
-            'hover:text-accent transition cursor-pointer',
-            isActive ? 'text-accent' : ''
+            'transition cursor-pointer'
           ])
         }
         asChild
       >
         <a href={url} target="_blank" rel="noreferrer">
-          <Icon className={isActive ? 'text-accent' : 'text-foreground'} />
+          <Icon />
           <span>{children}</span>
         </a>
       </SidebarMenuSubButton>
@@ -40,14 +39,13 @@ export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes 
         onClick={() => navigate({ to: url })}
         className={
           cn([
-            'hover:text-accent transition cursor-pointer',
-            isActive ? 'text-accent' : ''
+            'transition cursor-pointer'
           ])
         }
         asChild
       >
         <a>
-          <Icon className={isActive ? '!text-accent' : 'text-foreground'} />
+          <Icon  />
           <span>{children}</span>
         </a>
       </SidebarMenuSubButton>
@@ -58,14 +56,13 @@ export function SidebarSubmenuItemBtnWrapper({ Icon, children, url, childRoutes 
     <SidebarMenuSubButton
       className={
         cn([
-          'hover:text-accent transition cursor-pointer',
-          isActive ? 'text-accent' : ''
+          'transition cursor-pointer'
         ])
       }
       asChild
     >
       <a>
-        <Icon className={isActive ? '!text-accent' : 'text-foreground'} />
+        <Icon />
         <span>{children}</span>
       </a>
     </SidebarMenuSubButton>

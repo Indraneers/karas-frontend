@@ -95,16 +95,16 @@ export function DataTablePagination<TData, TValue>({
     <div className={cn([
       "grid grid-rows-[1fr,auto] w-full overflow-auto"
     ])}>
-      <div className="grid grid-cols-1 overflow-auto">
+      <div className="grid grid-cols-1 pb-2 rounded-lg overflow-auto">
         <Table className="relative">
-          <TableHeader className="bg-muted border-0 border-b-0">
+          <TableHeader className="bg-muted border-b-0">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="border-b-0 h-6" key={headerGroup.id}>
+              <TableRow className="rounded-md h-6" key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       className={cn([
-                        "last:pr-4 first:pl-4 text-muted-foreground whitespace-nowrap",
+                        "last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap",
                         headerGroup.headers[0].id === header.id && "rounded-l-md",
                         headerGroup.headers[headerGroup.headers.length - 1].id === header.id && "rounded-r-md"
                       ])}
@@ -129,7 +129,7 @@ export function DataTablePagination<TData, TValue>({
           <tr>
             <td></td>
           </tr>
-          <TableBody className='px-4'>
+          <TableBody>
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => (
                 <>
@@ -138,7 +138,10 @@ export function DataTablePagination<TData, TValue>({
                   <ContextMenu>
                     <ContextMenuTrigger asChild>
                       <TableRow
-                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        className={cn([
+                          onRowClick && 'cursor-pointer', 
+                          'cursor-pointer hover:bg-primary/10'
+                        ])}
                         onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                         key={row.id}
                         data-state={row.getIsSelected() && "selected"}
@@ -299,14 +302,14 @@ export function DataTableAutoPagination<TData, TValue>({
     <div>
       <div className="grid grid-cols-1 overflow-auto">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-muted border-b-0">
             {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow className="bg-muted border-b-0" key={headerGroup.id}>
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead
                       className={cn([
-                        "last:pr-4 first:pl-4 text-muted-foreground whitespace-nowrap",
+                        "last:pr-4 first:pl-4 font-semibold text-foreground whitespace-nowrap",
                         headerGroup.headers[0].id === header.id && "rounded-l-md",
                         headerGroup.headers[headerGroup.headers.length - 1].id === header.id && "rounded-r-md"
                       ])}
@@ -340,7 +343,7 @@ export function DataTableAutoPagination<TData, TValue>({
                   <ContextMenu>
                     <ContextMenuTrigger asChild>
                       <TableRow
-                        className={cn([onRowClick && 'cursor-pointer', 'hover:bg-accent/10 cursor-pointer'])}
+                        className={cn([onRowClick && 'cursor-pointer'])}
                         onClick={() => onRowClick && !isLoading && onRowClick(row.original)}
                         key={row.id}
                         data-state={row.getIsSelected() && "selected"}

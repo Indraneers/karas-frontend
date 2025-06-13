@@ -2,7 +2,6 @@ import { DatePickerWithRange } from '@/components/date-picker-range';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { SalesTable } from '@/features/sale/components/sales-table';
 import { SaleSearch } from '@/features/sale/types/sale-search';
@@ -38,18 +37,14 @@ function SalesPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <Card className='flex flex-col bg-surface border'>
-          <CardContent className='pt-4'>
-            <DatePickerWithRange value={dateRange} onValueChange={onValueChange} />
-            <SalesTable 
-              className='mt-4'
-              saleSearch={{
-                createdAtFrom: dateRange && dateRange.from,
-                createdAtTo: dateRange && dateRange.to
-              }} 
-            />
-          </CardContent>
-        </Card>
+        <DatePickerWithRange value={dateRange} onValueChange={onValueChange} />
+        <SalesTable 
+          className='mt-4'
+          saleSearch={{
+            createdAtFrom: dateRange && dateRange.from,
+            createdAtTo: dateRange && dateRange.to
+          }} 
+        />
       </SectionContent>
     </Section>
   );

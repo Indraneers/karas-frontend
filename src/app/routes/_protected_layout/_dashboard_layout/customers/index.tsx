@@ -2,7 +2,6 @@ import { PageLoading } from '@/components/page-loading';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCustomers } from '@/features/customer/api/customer';
 import { CustomerSearch } from '@/features/customer/components/customer-search';
@@ -31,26 +30,22 @@ export function CustomerPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <Card>
-          <CardContent className='mt-4'>
-            <div className='flex justify-between'>
-              <CustomerSearch 
-                value={q}
-                onChange={setQ}
-                className='w-[400px]' 
-              />
-              <NewCustomerButton />
-            </div>
-            {
-              (isLoading || !data) &&
-            <PageLoading />
-            }
-            {
-              !isLoading && data &&
+        <div className='flex justify-between'>
+          <CustomerSearch 
+            value={q}
+            onChange={setQ}
+            className='w-[400px]' 
+          />
+          <NewCustomerButton />
+        </div>
+        {
+          (isLoading || !data) &&
+          <PageLoading />
+        }
+        {
+          !isLoading && data &&
           <CustomerTable data={data.content} paginationDetail={paginationDetail} className='mt-4' />
-            }
-          </CardContent>
-        </Card>
+        }
       </SectionContent>
     </Section>
   );

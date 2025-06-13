@@ -1,6 +1,5 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
-import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewSubcategoryButton } from '@/features/subcategory/components/new-subcategory-btn';
 import { SubcategorySearch } from '@/features/subcategory/components/subcategory-search';
@@ -25,23 +24,20 @@ export function SubcategoryPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent className='flex flex-col h-full'>
-        <Card>
-          <CardContent className='mt-4'>
-            <div className='flex justify-between gap-4'>
-              <SubcategorySearch
-                className='w-[400px]' 
-                value={q}
-                onChange={setQ}
-              />
-              <div className='flex flex-row-reverse gap-4'>
-                <NewSubcategoryButton />
-              </div>
-            </div>
-            <div className='mt-4'>
-              <SubcategoryTable isLoading={isLoading} subcategories={subcategories} />
-            </div>
-          </CardContent>
-        </Card>
+        <div className='flex justify-between gap-4'>
+          <SubcategorySearch
+            className='w-[400px]' 
+            value={q}
+            onChange={setQ}
+          />
+          <div className='flex flex-row-reverse gap-4'>
+            <NewSubcategoryButton />
+          </div>
+        </div>
+        <div className='mt-4'>
+          <SubcategoryTable isLoading={isLoading} subcategories={subcategories} />
+        </div>
+
       </SectionContent>
     </>
   );
