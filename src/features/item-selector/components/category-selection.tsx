@@ -19,7 +19,7 @@ export function CategorySelection({ className }: CategorySelectionProps) {
       <div className="gap-2 grid grid-rows-[auto,1fr] h-full">
         <CategorySearch value={q} onChange={setQ}  />
         { isError && 'error'}
-        { data?.length === 0 && 
+        { !isLoading && data?.length === 0 && 
           <ItemEmpty />
         }
         { 

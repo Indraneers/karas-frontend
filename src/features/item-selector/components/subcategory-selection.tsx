@@ -21,7 +21,7 @@ export function SubcategorySelection({ className }: SubcategorySelectionProps) {
     }>
       <SubcategorySearch value={q} onChange={setQ} />
       { isError && "error" }
-      { data?.length === 0 && 
+      { !isLoading && data?.length === 0 && 
         <ItemEmpty />
       }
       {
