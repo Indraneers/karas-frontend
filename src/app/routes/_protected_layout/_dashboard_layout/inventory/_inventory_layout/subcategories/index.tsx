@@ -1,5 +1,6 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { NewSubcategoryButton } from '@/features/subcategory/components/new-subcategory-btn';
 import { SubcategorySearch } from '@/features/subcategory/components/subcategory-search';
@@ -34,10 +35,13 @@ export function SubcategoryPage() {
             <NewSubcategoryButton />
           </div>
         </div>
-        <div className='mt-4'>
-          <SubcategoryTable isLoading={isLoading} subcategories={subcategories} />
+        <div>
+          <Card className='mt-4'>
+            <CardContent className='mt-4'>
+              <SubcategoryTable isLoading={isLoading} subcategories={subcategories} />
+            </CardContent>
+          </Card>
         </div>
-
       </SectionContent>
     </>
   );

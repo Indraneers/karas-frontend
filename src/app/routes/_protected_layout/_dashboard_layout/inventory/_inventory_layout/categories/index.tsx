@@ -1,5 +1,6 @@
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { CategorySearch } from '@/features/category/components/category-search';
 import { CategoryTable } from '@/features/category/components/category-table';
@@ -31,9 +32,11 @@ function CategoryPage() {
             <NewCategoryButton />
           </div>
         </div>
-        <div className='mt-4'>
-          <CategoryTable isLoading={isLoading} categories={data || []} />
-        </div>
+        <Card className='mt-4'>
+          <CardContent className='mt-4'>
+            <CategoryTable isLoading={isLoading} categories={data || []} />
+          </CardContent>
+        </Card>
       </SectionContent>
     </>
   );

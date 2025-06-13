@@ -9,6 +9,7 @@ import { UnitSearch } from '@/features/unit/components/unit-search';
 import { convertUnitDtoToUnit } from '@/features/unit/util/convert';
 import { getUnits } from '@/features/unit/api/unit';
 import { useSearchPagination } from '@/hooks/use-search-pagination';
+import { Card, CardContent } from '@/components/ui/card';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/units/')({
   component: () => <UnitPage />
@@ -35,13 +36,15 @@ function UnitPage() {
             <RestockButton />
           </div>
         </div>
-        <div className='mt-4'>
-          <UnitTable 
-            isLoading={isLoading} 
-            units={data?.content.map((u) => convertUnitDtoToUnit(u)) || []}  
-            paginationDetail={paginationDetail}
-          />
-        </div>
+        <Card className='mt-4'>
+          <CardContent className='mt-4'>
+            <UnitTable 
+              isLoading={isLoading} 
+              units={data?.content.map((u) => convertUnitDtoToUnit(u)) || []}  
+              paginationDetail={paginationDetail}
+            />
+          </CardContent>
+        </Card>
       </SectionContent>
     </>
   );

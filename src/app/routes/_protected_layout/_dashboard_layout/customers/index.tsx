@@ -2,6 +2,7 @@ import { PageLoading } from '@/components/page-loading';
 import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
+import { Card, CardContent } from '@/components/ui/card';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getCustomers } from '@/features/customer/api/customer';
 import { CustomerSearch } from '@/features/customer/components/customer-search';
@@ -44,7 +45,11 @@ export function CustomerPage() {
         }
         {
           !isLoading && data &&
-          <CustomerTable data={data.content} paginationDetail={paginationDetail} className='mt-4' />
+          <Card className='mt-4'>
+            <CardContent className='mt-4'>
+              <CustomerTable data={data.content} paginationDetail={paginationDetail} className='mt-4' />
+            </CardContent>
+          </Card>
         }
       </SectionContent>
     </Section>
