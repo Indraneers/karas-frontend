@@ -4,6 +4,7 @@ import { Section } from '@/components/section';
 import { SectionContent } from '@/components/section-content';
 import { SectionHeader } from '@/components/section-header';
 import { Subtitle } from '@/components/subtitle';
+import { Card, CardContent } from '@/components/ui/card';
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { getAuditsHOF } from '@/features/audit/api/audit';
@@ -72,41 +73,42 @@ export function AuditPage() {
         <TypographyH1>
           Audit
         </TypographyH1>
-        <Subtitle>
-          Page for audit logs
-        </Subtitle>
       </SectionHeader>
       <SectionContent>
-        <div>
-          <Select value={auditService} onValueChange={(service: AuditServiceEnum) => setAuditService(service)}>
-            <SelectTrigger className='w-[180px]'>
-              <SelectValue placeholder="Select Audit" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectGroup>
-                <SelectLabel>Audit Services</SelectLabel>
-                {
-                  auditServices.map(aS => 
-                    <SelectItem className='cursor-pointer' key={aS.value} value={aS.value}>
-                      {aS.content}
-                    </SelectItem>
-                  )
-                }
-              </SelectGroup>
-            </SelectContent>
-          </Select>
-        </div>
-        <div className='mt-4'>
-          <DataTablePagination 
-            columns={columns} 
-            data={auditService ? (data?.content || []) : []} 
-            isLoading={isLoading}
-            paginationDetail={paginationDetail} 
-            rowSelection={rowSelection}
-            onRowSelectionChange={setRowSelection}
-            onRowClick={(audit) => navigate({ to: '/audit/' + audit.id })}
-          />
-        </div>
+        <Card>
+          <CardContent className='mt-4'>
+            <div>
+              <Select value={auditService} onValueChange={(service: AuditServiceEnum) => setAuditService(service)}>
+                <SelectTrigger className='w-[180px]'>
+                  <SelectValue placeholder="Select Audit" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Audit Services</SelectLabel>
+                    {
+                      auditServices.map(aS => 
+                        <SelectItem className='cursor-pointer' key={aS.value} value={aS.value}>
+                          {aS.content}
+                        </SelectItem>
+                      )
+                    }
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className='mt-4'>
+              <DataTablePagination 
+                columns={columns} 
+                data={auditService ? (data?.content || []) : []} 
+                isLoading={isLoading}
+                paginationDetail={paginationDetail} 
+                rowSelection={rowSelection}
+                onRowSelectionChange={setRowSelection}
+                onRowClick={(audit) => navigate({ to: '/audit/' + audit.id })}
+              />
+            </div>
+          </CardContent>
+        </Card>
       </SectionContent>
     </Section>
   );
