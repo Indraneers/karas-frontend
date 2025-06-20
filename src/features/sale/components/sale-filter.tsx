@@ -390,7 +390,6 @@ export function SalesPopupFilter() {
         </div>
         <div className='flex justify-between items-center col-span-4 border-t-border'>
           <Button variant='outline' onClick={handleClearFilters}>Clear</Button>
-          <Button>Apply Filter</Button>
         </div>
       </PopoverContent>
     </Popover>
