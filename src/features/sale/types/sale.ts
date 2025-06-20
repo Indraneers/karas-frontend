@@ -6,12 +6,14 @@ import { Maintenance } from "@/features/maintenance/types/maintenance";
 
 export enum StatusEnum {
   PAID = 'PAID',
-  HOLD = 'HOLD'
+  HOLD = 'HOLD',
+  NONE = ''
 }
 
 export enum PaymentType {
   BANK = 'BANK',
-  CASH = 'CASH'
+  CASH = 'CASH',
+  NONE = ''
 }
 export interface Sale {
   id?: string;

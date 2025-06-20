@@ -6,48 +6,41 @@ import { cn } from "@/lib/utils";
 import { useNavigate } from "@tanstack/react-router";
 import { Sale } from "../../types/sale";
 import { PageLoading } from "@/components/page-loading";
-import { useSearchPagination } from "@/hooks/use-search-pagination";
 import { useState } from "react";
-import { Page } from "@/types/page";
-import { SaleResponseDto } from "../../types/sale.dto";
-import { SaleSearch } from "../../types/sale-search";
-import { convertDateToLocaleDate } from "@/lib/date";
-import { APIQuery } from "@/types/query";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContextOption } from "@/types/context-options";
 import { onClickUrl } from "@/lib/link";
 import { BadgeDollarSign, Printer, Edit, Trash2 } from "lucide-react";
+import { useSearchPagination } from "@/hooks/use-search-pagination";
+import { SaleFilter } from "../../types/sale-filter";
 
-export function SalesTable({ className, queryKey = ['sales'], getSalesFn = getSales, saleSearch } : { 
-  className?: string, 
-  queryKey?: string[],
-  getSalesFn?: (saleQuery: APIQuery) => Promise<Page<SaleResponseDto>>,
-  saleSearch: SaleSearch,
+function getQueryKeys(queryKey: string[], saleFilter: SaleFilter): string[] {
+  const queryKeys = [...queryKey];
+  for (const val in saleFilter) {
+    if (val in saleFilter) {
+      queryKeys.push(String(val));
+    }
+  }
+
+  return queryKeys;
+}
+
+export function SalesTable({ className, saleFilter, queryKey = ['sales'] } : { 
+  className?: string,
+  saleFilter: SaleFilter,
+  queryKey: string[],
 }) {
-  const navigate = useNavigate();
   const { isLoading, data, paginationDetail } = 
-    useSearchPagination({ 
-      key: queryKey, 
-      getEntity: getSalesFn,
-      query: {
-        createdAtFrom: 
-          saleSearch.createdAtFrom ? 
-            convertDateToLocaleDate(saleSearch.createdAtFrom)
-            : 
-            undefined,
-        createdAtTo: 
-            saleSearch.createdAtTo ? 
-              convertDateToLocaleDate(saleSearch.createdAtTo) 
-              : 
-              undefined,
-        customerId: saleSearch.customerId
-      }
-    });
+        useSearchPagination({ 
+          key: getQueryKeys(queryKey, saleFilter), 
+          getEntity: getSales,
+          query: saleFilter
+        });
+  const navigate = useNavigate();
 
   const sales = data ? data.content.map(s => convertSaleResponseDtoToSale(s)) : [];
-
+  
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
-
   const queryClient = useQueryClient();
   const payMutation = useMutation({
     mutationFn: async (id: string) => paySale(id),

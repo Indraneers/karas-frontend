@@ -137,13 +137,15 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem className="mt-4">
                   <FormLabel>Customer</FormLabel>
                   <FormControl>
-                    <FormSearchPaginated
-                      value={field.value}
-                      onChange={field.onChange}
-                      getEntity={getCustomers}
-                      placeholder='Search for customers'
-                      entityName='customer'
-                    />
+                    <div className="flex w-[300px] h-9">
+                      <FormSearchPaginated
+                        value={field.value}
+                        onChange={field.onChange}
+                        getEntity={getCustomers}
+                        placeholder='Search for customers'
+                        entityName='customer'
+                      />
+                    </div>
                   </FormControl>
                   <FormDescription>
                     Search and Select for Customer
@@ -164,7 +166,7 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                     <FormLabel>VeicleType</FormLabel>
                     <FormControl>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger className="w-[300px]">
+                        <SelectTrigger className="w-[200px]">
                           <SelectValue placeholder="Select vehicle type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -314,13 +316,15 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
               <FormItem className="mt-4">
                 <FormLabel>Customer</FormLabel>
                 <FormControl>
-                  <FormSearchPaginated
-                    value={field.value}
-                    onChange={field.onChange}
-                    getEntity={getCustomers}
-                    placeholder='Search for customers'
-                    entityName='customer'
-                  />
+                  <div className="flex w-[300px] h-9">
+                    <FormSearchPaginated
+                      value={field.value}
+                      onChange={field.onChange}
+                      getEntity={getCustomers}
+                      placeholder='Search for customers'
+                      entityName='customer'
+                    />
+                  </div>
                 </FormControl>
                 <FormDescription>
                  Search and Select for Customer

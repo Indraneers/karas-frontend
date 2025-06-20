@@ -110,7 +110,7 @@ function CustomerDetailPage() {
       <div className='col-span-3'>
         <Card>
           <CardContent className='mt-4'>
-            <SalesTable queryKey={['sales-customer']} saleSearch={{ customerId }} />
+            <SalesTable queryKey={['sales-customer']} saleFilter={{ customerId }} />
           </CardContent>
         </Card>
       </div>
