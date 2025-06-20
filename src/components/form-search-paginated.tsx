@@ -11,6 +11,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import React from "react";
 import { Entity } from "@/types/entity";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 
 interface FormSearchPaginatedProps<T> {
   value?: T;
@@ -22,19 +23,35 @@ interface FormSearchPaginatedProps<T> {
   autoQuery?: boolean;
   getEntityById?: (id: string) => Promise<T>;
   onEntityChange?: (value: T) => void;
+  buttonClassName?: string;
 }
 
-export function FormSearchPaginated<T extends Entity>({ 
+function getDisplayName(entity: Entity | VehicleDto) {
+  return (entity &&
+    ('name' in entity)  
+    ? 
+    entity.name 
+    : 
+    (entity ? 
+      `${ entity?.makeAndModel }${ entity?.plateNumber ? ' (' + entity?.plateNumber + ')' : '' }` 
+      : ''
+    )
+  );
+}
+
+export function FormSearchPaginated<T extends Entity | VehicleDto>({ 
   value, 
   onChange,
   getEntity,
   placeholder, 
   entityName,
   autoQuery = false,
-  onEntityChange
+  onEntityChange,
+  buttonClassName = ''
 }: FormSearchPaginatedProps<T> ) {
   const [open, setOpen] = useState(false);
   const [entity, setEntity] = useState<T | undefined>(value);
+
 
   const [maxPages, setMaxPages] = useState(1);
 
@@ -78,7 +95,7 @@ export function FormSearchPaginated<T extends Entity>({
   }, [entity, value, onEntityChange]);
 
   return (
-    <div>
+    <div className="relative w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -86,13 +103,16 @@ export function FormSearchPaginated<T extends Entity>({
             role="combobox"
             aria-expanded={open}
             className={cn([
-              "justify-between w-[300px]"
+              "justify-between absolute inset-0",
+              buttonClassName
             ])}
           >
-            {value
-              ? (entity  ? entity.name : '' )
-              : `Select ${ entityName }...`
-            }
+            <span className="flex-1 overflow-hidden text-start text-ellipsis whitespace-nowrap">
+              {value ?
+                getDisplayName(value)
+                : `Select ${ entityName }...`
+              }
+            </span>
             <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
           </Button>
         </PopoverTrigger>
@@ -120,20 +140,29 @@ export function FormSearchPaginated<T extends Entity>({
                     <React.Fragment key={index}>
                       {p.content.map((e) => (
                         <CommandItem
+                          className="cursor-pointer"
                           key={e.id}
                           onSelect={() => {
                             onClickEntity(e);
                             setOpen(false);
                           }}
-                          value={e.name}
+                          value={getDisplayName(e)}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              (entity && (e.name === entity.name)) ? "opacity-100" : "opacity-0"
+                              (entity 
+                                && 
+                                (
+                                  ('name' in entity && 'name' in e) && (e.name === entity.name)
+                                ||
+                                  ('plateNumber' in entity && 'plateNumber' in e) && (e.plateNumber == entity.plateNumber)
+                                )
+                              ) 
+                                ? "opacity-100" : "opacity-0"
                             )}
                           />
-                          {e.name || ''}
+                          {getDisplayName(e) || ''}
                         </CommandItem>
                       ))}
                     </React.Fragment>
