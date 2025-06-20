@@ -18,7 +18,7 @@ export interface DatePickerInputProps extends Omit<React.InputHTMLAttributes<HTM
 
 export const DatePickerInput = React.forwardRef<HTMLInputElement, DatePickerInputProps>(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  ({ value, onChange, onDayClick, formatString = "MMM dd, yyyy", className, ...props }, _ref) => {
+  ({ value, onChange, onDayClick, formatString = "MMM dd, yyyy", className }, _ref) => {
     const [open, setOpen] = React.useState(false);
     const [inputValue, setInputValue] = React.useState<string>();
 
