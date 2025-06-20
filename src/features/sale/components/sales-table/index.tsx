@@ -14,8 +14,8 @@ import { BadgeDollarSign, Printer, Edit, Trash2 } from "lucide-react";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
 import { SaleFilter } from "../../types/sale-filter";
 
-function getQueryKeys(saleFilter: SaleFilter): string[] {
-  const queryKeys = ['sales'];
+function getQueryKeys(queryKey: string[], saleFilter: SaleFilter): string[] {
+  const queryKeys = [...queryKey];
   for (const val in saleFilter) {
     if (val in saleFilter) {
       queryKeys.push(String(val));
@@ -25,13 +25,14 @@ function getQueryKeys(saleFilter: SaleFilter): string[] {
   return queryKeys;
 }
 
-export function SalesTable({ className, saleFilter } : { 
+export function SalesTable({ className, saleFilter, queryKey = ['sales'] } : { 
   className?: string,
   saleFilter: SaleFilter,
+  queryKey: string[],
 }) {
   const { isLoading, data, paginationDetail } = 
         useSearchPagination({ 
-          key: getQueryKeys(saleFilter), 
+          key: getQueryKeys(queryKey, saleFilter), 
           getEntity: getSales,
           query: saleFilter
         });

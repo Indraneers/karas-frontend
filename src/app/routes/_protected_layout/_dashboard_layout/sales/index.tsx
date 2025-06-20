@@ -20,7 +20,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/sales
       createdAtTo: isNaN(parsedCreatedAtTo) ? undefined : new Date(parsedCreatedAtTo),
       customerId: (search.customerId as string) || undefined,
       vehicleId: (search.vehicleId as string) || undefined,
-      userId: (search.userID as string) || undefined,
+      userId: (search.userId as string) || undefined,
       paymentType: (search.paymentType as PaymentType) || undefined,
       status: (search.status as StatusEnum) || undefined
     };
@@ -43,6 +43,7 @@ function SalesPage() {
             <SalesTable 
               className='mt-4' 
               saleFilter={saleFilter}        
+              queryKey={['sales']}
             />
           </CardContent>
         </Card>

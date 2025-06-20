@@ -109,8 +109,9 @@ export function FormSearchPaginated<T extends Entity | VehicleDto>({
           >
             <span className="flex-1 overflow-hidden text-start text-ellipsis whitespace-nowrap">
               {value ?
-                getDisplayName(value)
-                : `Select ${ entityName }...`
+                <span>{getDisplayName(value)}</span>
+                :
+                <span className="text-muted-foreground">{`Select ${ entityName }...`}</span>
               }
             </span>
             <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
@@ -156,7 +157,7 @@ export function FormSearchPaginated<T extends Entity | VehicleDto>({
                                 (
                                   ('name' in entity && 'name' in e) && (e.name === entity.name)
                                 ||
-                                  ('plateNumber' in entity && 'plateNumber' in e) && (e.plateNumber == entity.plateNumber)
+                                  ('plateNumber' in entity && 'plateNumber' in e) && (e.plateNumber == entity.plateNumber) && (e.makeAndModel  === entity.makeAndModel)
                                 )
                               ) 
                                 ? "opacity-100" : "opacity-0"

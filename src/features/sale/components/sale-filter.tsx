@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Popover,
@@ -12,16 +12,19 @@ import { cn } from '@/lib/utils';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Separator } from '@/components/ui/separator';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { getCustomers } from '@/features/customer/api/customer';
+import { getCustomerById, getCustomers } from '@/features/customer/api/customer';
 import { FormSearchPaginated } from '@/components/form-search-paginated';
-import { getVehicles } from '@/features/vehicle/api/vehicle';
+import { getVehicleById, getVehicles } from '@/features/vehicle/api/vehicle';
 import { CustomerDto } from '@/features/customer/types/customer.dto';
 import { VehicleDto } from '@/features/vehicle/types/vehicle.dto';
 import { PaymentType, StatusEnum } from '../types/sale';
 import { isEqual } from 'date-fns';
 import { useQuery } from '@tanstack/react-query';
-import { getUsers } from '@/features/user/api/user';
+import { getUserById, getUsers } from '@/features/user/api/user';
 import { UserDto } from '@/features/user/types/user.dto';
+import { Route } from '@/app/routes/_protected_layout/_dashboard_layout/sales';
+import { SaleFilter } from '../types/sale-filter';
+import { useNavigate } from '@tanstack/react-router';
 
 export function FilterIcon({ children, className } : { children: React.ReactNode, className?: string }) {
   return (
@@ -77,18 +80,43 @@ function RadioOption({ option, isSelected, groupName, onClick } : {
 };
 
 export function SalesPopupFilter() {
+  const searchFilter: SaleFilter = Route.useSearch();
+  const navigate = useNavigate();
+
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<UserDto>();
   const [customer, setCustomer] = useState<CustomerDto>();
   const [vehicle, setVehicle] = useState<VehicleDto>();
-  const [paymentType, setPaymentType] = useState<PaymentType>(PaymentType.NONE);
-  const [status, setStatus] = useState<StatusEnum>(StatusEnum.NONE);
-  const [fromCreatedDate, setFromCreatedDate] = useState<Date>();
-  const [toCreatedDate, setToCreatedDate] = useState<Date>();
+  const [paymentType, setPaymentType] = 
+    useState<PaymentType>(searchFilter.paymentType ? searchFilter.paymentType.toUpperCase() as PaymentType : PaymentType.NONE);
+  const [status, setStatus] = 
+    useState<StatusEnum>(searchFilter.status ? searchFilter.status.toUpperCase() as StatusEnum : StatusEnum.NONE);
+  const [createdAtFrom, setCreatedAtFrom] = 
+    useState<Date | undefined>(searchFilter.createdAtFrom);
+  const [createdAtTo, setCreatedAtTo] = 
+    useState<Date | undefined>(searchFilter.createdAtTo);
 
-  const userQuery = useQuery({
+  const usersQuery = useQuery({
     queryKey: ['users'],
     queryFn: () => getUsers()
+  });
+
+  const userQuery = useQuery({
+    queryKey: ['user', searchFilter.userId],
+    queryFn: () => getUserById(searchFilter.userId || ''),
+    enabled: !!searchFilter.userId
+  });
+
+  const customerQuery = useQuery({
+    queryKey: ['user', searchFilter.customerId],
+    queryFn: () => getCustomerById(searchFilter.customerId || ''),
+    enabled: !!searchFilter.customerId
+  });
+
+  const vehicleQuery = useQuery({
+    queryKey: ['user', searchFilter.vehicleId],
+    queryFn: () => getVehicleById(searchFilter.vehicleId || ''),
+    enabled: !!searchFilter.vehicleId
   });
 
   const handleClearFilters = () => {
@@ -96,8 +124,9 @@ export function SalesPopupFilter() {
     setVehicle(undefined);
     setStatus(StatusEnum.NONE);
     setPaymentType(PaymentType.NONE);
-    setFromCreatedDate(undefined);
-    setToCreatedDate(undefined);
+    setCreatedAtFrom(undefined);
+    setCreatedAtTo(undefined);
+    navigate({ search: {} });
   };
 
   const paymentTypeOptions = [
@@ -126,6 +155,31 @@ export function SalesPopupFilter() {
     }
   ];
 
+  useEffect(() => {
+    if (searchFilter.userId && userQuery.data) {
+      setUser(userQuery.data);
+    }
+
+    if (searchFilter.customerId && customerQuery.data) {
+      setCustomer(customerQuery.data);
+    }
+    else {
+      setCustomer(undefined);
+    }
+    
+    if (searchFilter.vehicleId && vehicleQuery.data) {
+      setVehicle(vehicleQuery.data);
+    }
+    else {
+      setVehicle(undefined);
+    }
+  }, 
+  [customer, customerQuery.data, 
+    searchFilter.customerId, searchFilter.userId, 
+    searchFilter.vehicleId, user, userQuery.data, 
+    vehicle, vehicleQuery.data
+  ]);
+
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
       <PopoverTrigger asChild>
@@ -144,9 +198,17 @@ export function SalesPopupFilter() {
           </Label>
           <DatePickerInput 
             className='flex mt-2'
-            value={fromCreatedDate} 
-            onChange={setFromCreatedDate} 
-            onDayClick={(date) => isEqual(date, fromCreatedDate || Date.now()) && setFromCreatedDate(undefined)}
+            value={createdAtFrom} 
+            onChange={(v) => {
+              setCreatedAtFrom(v);
+              navigate({ search: { ...searchFilter, createdAtFrom: v } });
+            }} 
+            onDayClick={(date) => {
+              if (isEqual(date, createdAtFrom || Date.now())) {
+                setCreatedAtFrom(undefined);
+                navigate({ search: { ...searchFilter, createdAtFrom: undefined } });
+              }
+            }}
           />
         </div>
         <div className='flex flex-col w-full'>
@@ -158,9 +220,17 @@ export function SalesPopupFilter() {
           </Label>
           <DatePickerInput 
             className='flex mt-2' 
-            value={toCreatedDate} 
-            onChange={setToCreatedDate}
-            onDayClick={(date) => isEqual(date, toCreatedDate || Date.now()) && setToCreatedDate(undefined)}
+            value={createdAtTo} 
+            onChange={(v) => {
+              setCreatedAtTo(v);
+              navigate({ search: { ...searchFilter, createdAtTo: v } });
+            }} 
+            onDayClick={(date) => {
+              if (isEqual(date, createdAtTo || Date.now())) {
+                setCreatedAtTo(undefined);
+                navigate({ search: { ...searchFilter, createdAtTo: undefined } });
+              }
+            }}
           />
         </div>
         <Separator orientation='vertical' className='row-span-3' />
@@ -171,15 +241,32 @@ export function SalesPopupFilter() {
             </FilterIcon>
             By Staff
           </Label>
-          <Select value={user ? user.id : ''} onValueChange={(v) => setUser(userQuery.data?.find(u => u.id === v))}>
+          <Select 
+            value={user ? user.id : ''} 
+            onValueChange={(v) => {
+              navigate({ search: { ...searchFilter, userId: v } });
+            }}
+          >
             <SelectTrigger className='mt-2 h-8'>
               <SelectValue placeholder='Select staff' />
             </SelectTrigger>
             <SelectContent>
               {
-                userQuery.data && 
-                userQuery.data.map  (u => (
-                  <SelectItem key={u.id} value={u.id} className='cursor-pointer'>{u.username}</SelectItem>
+                usersQuery.data && 
+                usersQuery.data.map  (u => (
+                  <SelectItem 
+                    onClick={() => {
+                      if (user && u.id === user.id) {
+                        setTimeout(() => {
+                          setUser(undefined);
+                          navigate({ search: { ...searchFilter, userId: undefined } });
+                        }, 0);
+                      }
+                    }}
+                    key={u.id} 
+                    value={u.id} 
+                    className='cursor-pointer'
+                  >{u.username}</SelectItem>
                 ))
               }
             </SelectContent>
@@ -196,7 +283,10 @@ export function SalesPopupFilter() {
             name='paymentType'             
             className="justify-items-stretch grid grid-cols-2 mt-2"
             value={paymentType}
-            onValueChange={(v) => setPaymentType(v as PaymentType)}
+            onValueChange={(v) => {
+              setPaymentType(v as PaymentType);
+              navigate({ search: { ...searchFilter, paymentType: v } });
+            }}
           >
             {paymentTypeOptions.map((option) => (
               <RadioOption
@@ -205,7 +295,10 @@ export function SalesPopupFilter() {
                 isSelected={paymentType == option.value}
                 groupName="paymentType"
                 onClick={() => {
-                  if (option.value === paymentType) setPaymentType(PaymentType.NONE);
+                  if (option.value === paymentType) {
+                    setPaymentType(PaymentType.NONE);
+                    navigate({ search: { ...searchFilter, paymentType: undefined } });
+                  };
                 }}
               />
             ))}
@@ -221,7 +314,15 @@ export function SalesPopupFilter() {
           <div className='mt-2 w-full'>
             <FormSearchPaginated
               value={customer}
-              onChange={(c) => setCustomer(c)}
+              onChange={(c) => {
+                if (customer && c.id === customer.id) {
+                  navigate({ search: { ...searchFilter, customerId: undefined } });
+                  setCustomer(undefined);
+                }
+                else {
+                  navigate({ search: { ...searchFilter, customerId: c.id } });
+                }
+              }}
               getEntity={getCustomers}
               placeholder='Search Customer'
               entityName='customer'
@@ -240,7 +341,10 @@ export function SalesPopupFilter() {
             name='status'
             className="justify-items-stretch grid grid-cols-2 mt-2"
             value={status}
-            onValueChange={(s) => setStatus(s as StatusEnum)}
+            onValueChange={(s) => {
+              setStatus(s as StatusEnum);
+              navigate({ search: { ...searchFilter, status: s } });
+            }}
           >
             {statusOptions.map((option) => (
               <RadioOption
@@ -249,7 +353,10 @@ export function SalesPopupFilter() {
                 isSelected={status == option.value}
                 groupName="status"
                 onClick={() => {  
-                  if (option.value === status) setStatus(StatusEnum.NONE);
+                  if (option.value === status) {
+                    setStatus(StatusEnum.NONE);
+                    navigate({ search: { ...searchFilter, status: undefined } });
+                  }
                 }}
               />
             ))}
@@ -266,7 +373,15 @@ export function SalesPopupFilter() {
             <FormSearchPaginated
               buttonClassName='h-8 text-xs'
               value={vehicle}
-              onChange={(v) => setVehicle(v)}
+              onChange={(v) => {
+                if (vehicle && v.id == vehicle.id) {
+                  setVehicle(undefined);
+                  navigate({ search: { ...searchFilter, vehicleId: undefined } });
+                }
+                else {
+                  navigate({ search: { ...searchFilter, vehicleId: v.id } });
+                }
+              }}
               getEntity={getVehicles}
               placeholder='Search Vehicle'
               entityName='vehicle'
