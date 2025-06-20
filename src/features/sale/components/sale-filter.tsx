@@ -5,7 +5,7 @@ import {
   PopoverContent,
   PopoverTrigger
 } from '@/components/ui/popover';
-import { ArrowLeft, ArrowRight, Banknote, Building2, CarFront, Check, CircleChevronUp, Clock4, Filter, LucideIcon, ShieldUser, User, WalletCards } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Banknote, Building2, CarFront, Check, CircleChevronUp, Clock4, Filter, LucideIcon, ShieldUser, Trash, User, WalletCards } from 'lucide-react';
 import { Label } from '@/components/ui/label';
 import { DatePickerInput } from '@/components/ui/datepicker-input';
 import { cn } from '@/lib/utils';
@@ -159,6 +159,9 @@ export function SalesPopupFilter() {
     if (searchFilter.userId && userQuery.data) {
       setUser(userQuery.data);
     }
+    else {
+      setUser(undefined);
+    }
 
     if (searchFilter.customerId && customerQuery.data) {
       setCustomer(customerQuery.data);
@@ -244,25 +247,28 @@ export function SalesPopupFilter() {
           <Select 
             value={user ? user.id : ''} 
             onValueChange={(v) => {
-              navigate({ search: { ...searchFilter, userId: v } });
+              if (v === 'CLEAR') {
+                navigate({ search: { ...searchFilter, userId: undefined } });
+                setUser(undefined);
+              }
+              else {
+                navigate({ search: { ...searchFilter, userId: v } });
+              }
             }}
           >
             <SelectTrigger className='mt-2 h-8'>
               <SelectValue placeholder='Select staff' />
             </SelectTrigger>
             <SelectContent>
+              <SelectItem className='group cursor-pointer' value={'CLEAR'}>
+                <span className='inline-flex items-center text-primary group-hover:text-surface'>
+                  <Trash className='mr-1 w-3 h-3' /> Clear Selection
+                </span>
+              </SelectItem>
               {
                 usersQuery.data && 
                 usersQuery.data.map  (u => (
-                  <SelectItem 
-                    onClick={() => {
-                      if (user && u.id === user.id) {
-                        setTimeout(() => {
-                          setUser(undefined);
-                          navigate({ search: { ...searchFilter, userId: undefined } });
-                        }, 0);
-                      }
-                    }}
+                  <SelectItem
                     key={u.id} 
                     value={u.id} 
                     className='cursor-pointer'
