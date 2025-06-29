@@ -1,1 +1,1 @@
-export const ACCEPTED_IMAGE_TYPES = ["image/svg+xml", "image/png"];
+export const ACCEPTED_IMAGE_TYPES = ["image/svg+xml", "image/png", "image/jpeg", "image/jpg", "image/webp"];
