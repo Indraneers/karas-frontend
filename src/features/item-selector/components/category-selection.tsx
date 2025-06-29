@@ -43,7 +43,6 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { CategoryDto } from "@/features/category/types/category.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
-import { getImageUrl } from "@/lib/image";
 import { FilterIcon } from "@/components/filter-icon";
 
 interface CategorySelectionCardProps {
@@ -74,7 +73,7 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
               'group-hover:bg-accent',
               category.color ? 'bg-background' : 'bg-accent'
             ])}
-            src={getImageUrl(category.img)}
+            src={category.img}
           />
         }
       </CardHeader>

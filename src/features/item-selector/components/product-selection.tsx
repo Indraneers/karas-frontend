@@ -77,9 +77,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
-import { getImageUrl } from "@/lib/image";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
+import { ItemImgBg } from "./item-img-bg";
 
 interface ProductSelectionCardProps {
   product: ProductResponseDto
@@ -98,15 +98,9 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
       className="group relative grid hover:bg-accent py-2 border-2 border-primary w-full aspect-square overflow-hidden hover:text-background transition cursor-pointer"
       onClick={handleClick}
     >
-      <div className="absolute inset-0">
-        {
-          product.img && product.img.length > 0 &&
-          <img className="brightness-50 object-cover" src={getImageUrl(product.img)} loading="lazy" />
-        }
-      </div>
+      {product.img && product.img.length > 0 && <ItemImgBg src={product.img} />}
       <CardContent className={cn([
-        "z-10 text-sm w-full",
-        product.img
+        "z-10 text-sm w-full"
       ])}>
         <div className={cn([
           "font-bold xl:text-sm text-xs",

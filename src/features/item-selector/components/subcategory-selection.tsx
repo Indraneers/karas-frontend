@@ -43,7 +43,6 @@ export function SubcategorySelection({ className }: SubcategorySelectionProps) {
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { SubcategoryResponseDto } from "@/features/subcategory/types/subcategory.dto";
-import { getImageUrl } from "@/lib/image";
 import { FilterIcon } from "@/components/filter-icon";
 
 interface SubcategorySelectionCardProps {
@@ -69,13 +68,15 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
     >
       <CardHeader>
         {subcategory.img && subcategory.img.length > 0 && 
-          <FilterIcon
-            className={cn([
-              'group-hover:bg-accent',
-              subcategory.color ? 'bg-background' : 'bg-accent'
-            ])}
-            src={getImageUrl(subcategory.img)}
-          />
+          <div className="w-10 h-10">
+            <FilterIcon
+              className={cn([
+                'group-hover:bg-white',
+                subcategory.color ? 'bg-background' : 'bg-accent'
+              ])}
+              src={subcategory.img}
+            />
+          </div>
         }
       </CardHeader>
       <CardContent className="flex-grow" />

@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { UnitResponseDto } from "../types/unit.dto";
 import { Box } from "lucide-react";
-import { getImageUrl } from "@/lib/image";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 import { convertBaseQuantityToDisplayQuantity } from "../util/convert";
@@ -28,7 +27,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               'w-full h-full',
               'bg-accent'
             ])}
-            src={getImageUrl(unit.subcategoryImg)}
+            src={unit.subcategoryImg}
           />
         }
       </div>
