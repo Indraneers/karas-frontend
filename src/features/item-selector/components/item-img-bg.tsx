@@ -9,7 +9,7 @@ export function ItemImgBg({
         loading="lazy" 
       />
       {/* Gradient overlay for better text readability */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-transparent to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-60% via-transparent to-transparent" />
     </div>
   );
 }

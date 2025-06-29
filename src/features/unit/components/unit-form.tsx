@@ -12,6 +12,7 @@ import { convertBaseQuantityToDisplayQuantity, convertQuantityToBaseQuantity, co
 import { UnitRequestDto } from "../types/unit.dto";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { ProductDetailedSearch } from "@/features/product/components/product-detailed-search";
+import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 
 export interface UnitForm {
   id: string;
@@ -28,7 +29,12 @@ const formSchema = z.object({
   price: z.number(),
   productId: z.string({ message: 'Product is required' }).min(1, 'Product is required'),
   quantity: z.number(),
-  toBaseUnit: z.number()
+  toBaseUnit: z.number(),
+  file: z.any()
+    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "Only SVG and PNG files are allowed"
+    })
+    .optional()
 });
 
 const defaultData: UnitForm = {
@@ -41,7 +47,7 @@ const defaultData: UnitForm = {
 };
 
 interface UnitFormProps {
-  handleSubmit: (values: UnitRequestDto) => void;
+  handleSubmit: ({ unitDto, file } : { unitDto: UnitRequestDto, file?: File }) => void;
   data?: UnitForm | undefined;
 }
 
@@ -70,8 +76,9 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const unitDto = convertUnitFormToUnitDto(values, product.variable);
-    handleSubmit(unitDto);
+    const { file, ...unit } = values;
+    const unitDto = convertUnitFormToUnitDto(unit, product.variable);
+    handleSubmit({ unitDto, file });
     form.reset();
     navigate({ to: '/inventory/units', replace: true });
     router.invalidate();
@@ -120,6 +127,26 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
                   Select the product that this unit belongs to
                 </FormDescription>
                 <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField 
+            control={form.control}
+            name="file"
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            render={({ field: { value, onChange, ...fieldProps } }) => (
+              <FormItem className="mt-6">
+                <FormLabel>Set POS Icon</FormLabel>
+                <Input 
+                  {...fieldProps}
+                  id="picture" 
+                  type="file"
+                  className="w-[300px] cursor-pointer"
+                  accept="image/*"
+                  onChange={(event) =>
+                    onChange(event.target.files && event.target.files[0])
+                  }
+                />
               </FormItem>
             )}
           />
