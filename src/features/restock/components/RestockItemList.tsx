@@ -52,11 +52,11 @@ export function RestockItemElement({ restockItem, updateRestockItem, removeResto
         >
           <X />
         </Button>
-        <div className="brightness-[90%] rounded-xl h-[100px] aspect-square">
+        <div className="border border-border rounded-xl h-[100px] aspect-square">
           {
-            unit.productImg ?
+            unit.img ?
               <img 
-                src={unit.productImg} 
+                src={unit.img} 
                 className="block rounded-xl h-full max-h-full object-cover aspect-square" 
               />
               :

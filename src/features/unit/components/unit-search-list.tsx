@@ -24,8 +24,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
           :
           <FilterIcon
             className={cn([
-              'w-full h-full',
-              'bg-accent'
+              'w-full h-full bg-accent'
             ])}
             src={unit.subcategoryImg}
           />
@@ -47,7 +46,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               toBaseUnit={unit.toBaseUnit}
             />
             <ProductTypeBadge 
-              className='ml-2 font-semibold text-background !text-xs'
+              className='ml-2 font-semibold !text-xs'
               variable={product.variable}
             />
           </div>

@@ -66,9 +66,9 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
       style={{ backgroundColor: subcategory.color }}
       onClick={handleClick}
     >
-      <CardHeader>
+      <CardHeader className="pb-0">
         {subcategory.img && subcategory.img.length > 0 && 
-          <div className="w-10 h-10">
+          <div className="w-8 lg:w-8 xl:w-10 h-8 lg:h-8 xl:h-10">
             <FilterIcon
               className={cn([
                 'group-hover:bg-white',
@@ -79,14 +79,14 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
           </div>
         }
       </CardHeader>
-      <CardContent className="flex-grow" />
+      <CardContent className="flex-grow p-0" />
       <CardFooter className="flex flex-col items-start">
         <div className={cn([
-          "font-medium text-lg",
+          "font-medium text-xs lg:text-base xl:text-lg",
           subcategory.color && 'text-background'
         ])}>{subcategory.name}</div>
         <div className={cn([
-          "group-hover:text-background text-sm text-foreground/50",
+          "group-hover:text-background text-xs lg:text-sm text-foreground/50",
           subcategory.color && 'text-background/80'
         ])}>{subcategory.productCount || 0} products</div>
       </CardFooter>

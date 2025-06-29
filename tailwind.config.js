@@ -9,12 +9,25 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+		screens: {
+      'sm': '640px',
+      // => @media (min-width: 640px) { ... }
+
+      'md': '864px',
+      // => @media (min-width: 864px) { ... }
+
+      'lg': '1024px',
+      // => @media (min-width: 1024px) { ... }
+
+      'xl': '1400px',
+      // => @media (min-width: 1400px) { ... }
+    },
     container: {
 			center: true,
       padding: {
         DEFAULT: '1rem',
         sm: '2rem',
-        lg: '3rem',
+        lg: '2rem',
         xl: '3rem',
         '2xl': '4rem',
       },

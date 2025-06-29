@@ -10,14 +10,14 @@ export function ItemCart({ className, children } : ItemCartProps) {
   return (
 
     <div className={cn([
-      'overflow-hidden flex flex-col',
+      'overflow-hidden flex flex-col min-h-40',
       className
     ])}>
       <TypographyH3>
         Item Cart
       </TypographyH3>
       <div className="relative flex-grow mt-2 h-full">
-        <div className="absolute inset-0 flex flex-col gap-3 p-2 overflow-scroll">
+        <div className="absolute inset-0 flex flex-col gap-3 p-1 overflow-scroll">
           { children }
         </div>
       </div>
@@ -28,7 +28,7 @@ export function ItemCart({ className, children } : ItemCartProps) {
 import { Currency } from "@/components/currency";
 import { Button } from "@/components/ui/button";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
-import { X } from "lucide-react";
+import { Box, X } from "lucide-react";
 import { MouseEventHandler } from "react";
 
 interface ItemCartItemProps {
@@ -36,10 +36,12 @@ interface ItemCartItemProps {
   product?: ProductRequestDto;
   totalCost: number;
   onClickRemove?: MouseEventHandler<HTMLButtonElement>;
+  img?: string;
+  isService?: boolean;
 }
 
 export function ItemCartItem
-({ children, totalCost, onClickRemove }: ItemCartItemProps) {
+({ children, totalCost, onClickRemove, img, isService = false }: ItemCartItemProps) {
   return (
     <div className={cn([
       "relative border border-primary bg-accent rounded-lg"
@@ -52,10 +54,25 @@ export function ItemCartItem
       </Button>
       <div className="rounded-t-lg w-full h-full overflow-hidden">
         <div className="flex flex-col items-center h-full">
-          <div className="flex-grow bg-card p-2 rounded-t-lg w-full">
-            {children}
+          <div className="flex gap-2 bg-surface p-2 rounded-t-lg w-full">
+            <div className={cn([
+              "relative h-full aspect-square",
+              isService && 'hidden'
+            ])}>
+              {
+                img ?
+                  <img className='absolute inset-0 border border-border rounded-lg' src={img} />
+                  :
+                  <Box strokeWidth={1} className="absolute inset-0 p-2 border rounded-lg w-full h-full" />
+              }
+            </div>
+            <div className={cn([
+              'w-full'
+            ])} >
+              {children}
+            </div>
           </div>
-          <div className="place-content-center grid py-2 font-medium text-background text-xs">
+          <div className="place-content-center grid py-1 font-medium text-background text-xs">
             <Currency amount={totalCost} />
           </div>
         </div>
@@ -83,6 +100,7 @@ export function ItemCartUnit({ item }: { item: Item }) {
   const totalCost = calculateUnitItemTotalCost(price, discount, item);
   return (
     <ItemCartItem 
+      img={unit.img}
       product={item.unit.product}
       totalCost={totalCost} 
       onClickRemove={() => removeItem(item?.id || '')}
@@ -90,35 +108,35 @@ export function ItemCartUnit({ item }: { item: Item }) {
       <div className="flex items-center gap-2">
         <div className="flex flex-col flex-grow justify-between h-full">
           {/* Unit Name, Product and SKU */}
-          <div className="flex xl:flex-row flex-col justify-between justify-items-start xl:items-center xl:gap-2 w-full">
-            <div className="font-medium xl:text-[14px] text-xs">
+          <div className="flex lg:flex-row flex-col justify-between justify-items-start lg:items-center lg:gap-2">
+            <div className="font-medium text-xs lg:text-sm">
               {product.name}
             </div>
-            <div className="self-start font-medium text-xs xl:text-sm">
+            <div className="self-start font-semibold text-xs">
               {item.unit.name || ''}
             </div>
           </div>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center min-h-4">
             <ProductIdentifier className="text-xs" identifier={product.identifier} />
           </div>
           {/* Price, discount and quantity */}
-          <div className="flex xl:flex-row flex-col justify-between items-center gap-2 xl:gap-8 mt-4 xl:mt-2">
-            <div className="flex gap-4 xl:gap-2">
+          <div className="flex lg:flex-row flex-col justify-between items-center gap-2 lg:gap-4 mt-4 lg:mt-2">
+            <div className="flex gap-4 lg:gap-2">
               <ItemCartCurrencyInput 
-                className="xl:w-14"
+                className="lg:w-12"
                 prefix="$"
                 defaultValue={price}
                 onValueChange={(value) => updateItem(item.id, { ...item, price: value })}
               />
               <ItemCartCurrencyInput 
-                className="xl:w-14"
+                className="lg:w-12"
                 prefix="-$"
                 defaultValue={discount}
                 onValueChange={(value) => updateItem(item.id, { ...item, discount: value })}
               />
             </div>
             <ItemCounter
-              className="xl:w-32 h-6"
+              className="lg:w-32 h-6"
               variable={product.variable}
               baseUnit={product.baseUnit}
               value={qty}
@@ -141,7 +159,11 @@ export function ItemCartService({ maintenanceService } : { maintenanceService: M
   const totalCost = calculateTotalCost(price, discount, 1);
 
   return (
-    <ItemCartItem totalCost={totalCost} onClickRemove={() => removeService(maintenanceService.service.id)}>
+    <ItemCartItem 
+      totalCost={totalCost} 
+      onClickRemove={() => removeService(maintenanceService.service.id)}
+      isService={true}
+    >
       <div className="flex flex-col gap-3">
         <div className="flex-grow self-start font-medium text-md">
           {maintenanceService.service?.name}
