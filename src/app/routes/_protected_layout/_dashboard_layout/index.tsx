@@ -10,7 +10,7 @@ export const Route = createFileRoute('/_protected_layout/_dashboard_layout/')({
 
 export function Homepage() {
   return (
-    <div className="p-4 md:p-6">
+    <div>
       <TypographyH1>Dashboard</TypographyH1>
       <Separator className="mt-4" orientation="horizontal" />
       <TypographyH2 className='mt-6 text-3xl'>Sales Analytics</TypographyH2>
