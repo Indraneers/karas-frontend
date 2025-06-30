@@ -26,6 +26,7 @@ import {
 
 import "react-image-crop/dist/ReactCrop.css";
 import { CropIcon, Trash2Icon, ImageIcon } from "lucide-react";
+import { TypographyH3 } from "./typography/h3";
 
 interface ImageCropperFormFieldProps {
   form: any; // Your form instance
@@ -127,8 +128,11 @@ export function ImageCropperFormField({
       const url = URL.createObjectURL(file);
       setOriginalImageUrl(url);
       setPreviewUrl(url);
+      setCroppedImageUrl(""); // Reset cropped image when new file is selected
       onChange(file);
     }
+    // Reset the input value to allow selecting the same file again
+    event.target.value = '';
   }
 
   function handleImageClick(currentFile: File | null) {
@@ -190,22 +194,25 @@ export function ImageCropperFormField({
                 
                 <DialogContent className="gap-0 p-0 max-w-2xl">
                   <div className="p-6 size-full">
+                    <TypographyH3>Upload and Crop Image</TypographyH3>
                     {originalImageUrl && (
-                      <ReactCrop
-                        crop={crop}
-                        onChange={(_, percentCrop) => setCrop(percentCrop)}
-                        onComplete={(c) => onCropComplete(c)}
-                        aspect={aspect}
-                        className="w-full"
-                      >
-                        <img
-                          ref={imgRef}
-                          className="max-w-full max-h-96 object-contain"
-                          alt="Image to crop"
-                          src={originalImageUrl}
-                          onLoad={onImageLoad}
-                        />
-                      </ReactCrop>
+                      <div className="mt-2 p-2 bg-border rounded-sm">
+                        <ReactCrop
+                          crop={crop}
+                          onChange={(_, percentCrop) => setCrop(percentCrop)}
+                          onComplete={(c) => onCropComplete(c)}
+                          aspect={aspect}
+                          className="w-full"
+                        >
+                          <img
+                            ref={imgRef}
+                            className="max-w-full max-h-96 object-contain"
+                            alt="Image to crop"
+                            src={originalImageUrl}
+                            onLoad={onImageLoad}
+                          />
+                        </ReactCrop>
+                      </div>
                     )}
                   </div>
                   <DialogFooter className="justify-center p-6 pt-0">
@@ -220,6 +227,9 @@ export function ImageCropperFormField({
                           setPreviewUrl("");
                           setOriginalImageUrl("");
                           setCroppedImageUrl("");
+                          if (fileInputRef.current) {
+                            fileInputRef.current.value = '';
+                          }
                         }}
                       >
                         <Trash2Icon className="mr-1.5 size-4" />
