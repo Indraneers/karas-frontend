@@ -10,7 +10,7 @@ import { convertRawCurrencyToDisplayCurrency } from "@/features/currency/utils/c
 // Skeleton Components
 function ChartSkeleton() {
   return (
-    <div className="w-full h-[200px]">
+    <div className="w-full h-[175px]">
       <div className="flex justify-between items-end space-x-2 px-4 h-full">
         {Array.from({ length: 7 }).map((_, i) => (
           <div
@@ -93,7 +93,7 @@ export function WeeklySalesCard() {
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                width={30}
+                width={40}
                 tickFormatter={(value) => `$${ value.toLocaleString() }`}
               />
               <ChartTooltip
@@ -204,7 +204,7 @@ export function MonthlySalesCard() {
               <YAxis
                 tickLine={false}
                 axisLine={false}
-                width={30}
+                width={40}
                 tickFormatter={(value) => `$${ value.toLocaleString() }`}
               />
               <ChartTooltip
