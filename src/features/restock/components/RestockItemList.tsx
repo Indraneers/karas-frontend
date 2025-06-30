@@ -2,7 +2,6 @@ import { cn } from "@/lib/utils";
 import { RestockItem } from "../types/restock-item";
 import { Box, Dot, X } from "lucide-react";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
-import { getImageUrl } from "@/lib/image";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbSeparator } from "@/components/ui/breadcrumb";
 import { UnitQuantityBadge } from "@/features/unit/components/unit-quantity-badge";
 import { RestockItemStatusButton } from "./RestockItemStatusBtn";
@@ -53,11 +52,11 @@ export function RestockItemElement({ restockItem, updateRestockItem, removeResto
         >
           <X />
         </Button>
-        <div className="brightness-[90%] rounded-xl h-[100px] aspect-square">
+        <div className="border border-border rounded-xl h-[100px] aspect-square">
           {
-            unit.productImg ?
+            unit.img ?
               <img 
-                src={getImageUrl(unit.productImg)} 
+                src={unit.img} 
                 className="block rounded-xl h-full max-h-full object-cover aspect-square" 
               />
               :

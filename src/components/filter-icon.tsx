@@ -4,14 +4,16 @@ export function FilterIcon({ className, src } : { className?: string, src: strin
   return (
     <div
       className={cn([
-        "w-10 h-10",  
+        "block relative after:w-full h-full",  
         className
       ])}
-      style={{ 
-        WebkitMask: `url(${ src }) no-repeat center`, 
-        WebkitMaskSize: 'contain', 
-        mask: `url(${ src }) no-repeat center`, 
-        maskSize: 'contain'
+      style={{
+        // Mask styling
+        WebkitMask: `url('${ src }') no-repeat center/contain`,
+        mask: `url('${ src }') no-repeat center/contain`,
+        // Ensure the div expands
+        minWidth: '100%',
+        minHeight: '100%'
       }}
     />
   );

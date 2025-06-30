@@ -28,7 +28,8 @@ function UpdateUnitPage() {
   });
   
   const mutation = useMutation({
-    mutationFn: async (unitDto: UnitRequestDto) => await updateUnit(unitId, unitDto),
+    mutationFn: async ({ unitDto, file }: { unitDto: UnitRequestDto, file?: File }) =>
+      await updateUnit(unitId, unitDto, file),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['units']

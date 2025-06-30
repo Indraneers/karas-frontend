@@ -77,13 +77,14 @@ export function UnitSelection({ className }: UnitSelectionProps) {
 }
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ItemAdder } from "../../pos/components/item-adder";
 import { useState } from "react";
 import { Unit } from "@/features/unit/types/unit";
 import { Currency } from "@/components/currency";
 import { Item } from "@/features/sale/types/item";
 import { Badge } from "@/components/ui/badge";
+import { ItemImgBg } from "./item-img-bg";
 
 interface UnitSelectionCardProps {
   unit: Unit
@@ -111,9 +112,16 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
     <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full">
-          <Card className="group flex flex-col hover:bg-accent border-2 border-primary w-full aspect-square hover:text-background transition cursor-pointer">
-            <CardHeader className="space-y-0 text-left">
-              <div className="font-medium text-xl">
+          <Card className="group relative flex flex-col hover:bg-accent border-2 border-primary w-full aspect-square overflow-hidden hover:text-background transition cursor-pointer">
+            {
+              unit.img && unit.img.length > 0 &&
+              <ItemImgBg src={unit.img} />
+            }
+            <CardHeader className="z-10 space-y-0 text-left">
+              <div className={cn([
+                "font-medium text-xl",
+                unit.img && 'text-background'
+              ])}>
                 {unit.name}
                 {
                   unit.product.variable &&
@@ -122,7 +130,10 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
                   </span>
                 }
               </div>
-              <div className="text-foreground/50 group-hover:text-background">
+              <div className={cn([
+                "text-foreground/50 group-hover:text-background",
+                unit.img && 'text-background'
+              ])}>
                 <Currency amount={unit.price} />
                 {
                   unit.product.variable &&
@@ -133,14 +144,14 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
               </div>
             </CardHeader>
             <CardContent className="flex-grow" />
-            <CardFooter className="flex flex-col items-start text-xs">
+            <CardFooter className="z-10 flex flex-col items-start text-xs">
               <Badge variant='info-green'>{convertBaseQuantityToQuantity(unit.toBaseUnit, unit.quantity) || 0} units left</Badge>
             </CardFooter>
           </Card>
         </DialogTrigger>
-        <DialogContentWrapper className="bg-transparent shadow-none border-none">
+        <DialogContent className="bg-transparent shadow-none border-none w-auto" showCloseButton={false}>
           <ItemAdder item={item} setOpen={setOpen} />
-        </DialogContentWrapper>
+        </DialogContent>
       </Dialog>
     </div>
   );

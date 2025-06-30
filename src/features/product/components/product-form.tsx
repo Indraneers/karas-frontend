@@ -14,6 +14,7 @@ import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 import { toast } from "sonner";
 import axios from "axios";
 import { FormSearch } from "@/components/form-search";
+import { ImageCropperFormField } from "@/components/ui/img-cropper";
 
 const formSchema = z.object({
   id: z.string(),
@@ -136,25 +137,11 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               </FormItem>
             )}
           />
-          <FormField 
-            control={form.control}
+          <ImageCropperFormField 
+            form={form}
             name="file"
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-6">
-                <FormLabel>Set POS Icon</FormLabel>
-                <Input 
-                  {...fieldProps}
-                  id="picture" 
-                  type="file"
-                  className="w-[300px] cursor-pointer"
-                  accept="image/*"
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
-                />
-              </FormItem>
-            )}
+            label="Set POS Icon"
+            className="mt-6"
           />
         </FormGroup>
         <FormGroup title="Stock Information">

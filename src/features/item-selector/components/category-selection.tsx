@@ -43,7 +43,6 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { CategoryDto } from "@/features/category/types/category.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
-import { getImageUrl } from "@/lib/image";
 import { FilterIcon } from "@/components/filter-icon";
 
 interface CategorySelectionCardProps {
@@ -67,25 +66,25 @@ export function CategorySelectionCard({ category }: CategorySelectionCardProps) 
       style={{ background: category.color }}
       onClick={handleClick}
     >
-      <CardHeader>
+      <CardHeader className="pb-0">
         { category.img && category.img.length > 0 && 
           <FilterIcon
             className={cn([
               'group-hover:bg-accent',
               category.color ? 'bg-background' : 'bg-accent'
             ])}
-            src={getImageUrl(category.img)}
+            src={category.img}
           />
         }
       </CardHeader>
-      <CardContent className="flex-grow p-0 pt-0" />
+      <CardContent className="flex-grow p-0" />
       <CardFooter className="flex flex-col items-start text-md">
         <div className={cn([
-          "font-medium text-lg",
+          "font-medium text-xs lg:text-base xl:text-lg",
           category.color && 'text-background'
         ])}>{category.name}</div>
         <div className={cn([
-          "group-hover:text-background text-foreground text-sm",
+          "group-hover:text-background text-foreground text-xs lg:text-sm",
           category.color && 'text-background/80'
         ])}>{category.subcategoryCount || 0} subcategories</div>
       </CardFooter>

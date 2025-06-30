@@ -54,7 +54,7 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
 
   return (
     <>
-      <div className='gap-8 grid lg:grid-cols-[5fr,3fr] grid-rows-2 lg:grid-rows-1 py-4 h-full lg:max-h-full lg:overflow-hidden'>
+      <div className='gap-8 grid md:grid-cols-2 xl:grid-cols-[5fr,3fr] grid-rows-2 md:grid-rows-1 py-4 h-full lg:max-h-full lg:overflow-hidden'>
         <ItemSelector>
           { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
           { (selector === ItemSelectionEnum.SUBCATEGORY) && <SubcategorySelection /> }

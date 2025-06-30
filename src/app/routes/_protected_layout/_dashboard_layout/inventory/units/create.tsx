@@ -16,7 +16,8 @@ function CreateUnitPage() {
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: async (unitDto: UnitRequestDto) => await createUnit(unitDto),
+    mutationFn: async ({ unitDto, file }: { unitDto: UnitRequestDto, file?: File }) =>
+      await createUnit(unitDto, file),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['units']

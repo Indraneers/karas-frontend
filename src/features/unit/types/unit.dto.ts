@@ -16,8 +16,8 @@ export interface UnitResponseDto {
   toBaseUnit: number;
   price: number;
   product: ProductRequestDto;
-  productImg: string;
   subcategory: string;
   subcategoryImg: string;
   category: string;
+  img: string;
 }

@@ -1,7 +1,6 @@
 import { cn } from "@/lib/utils";
 import { UnitResponseDto } from "../types/unit.dto";
 import { Box } from "lucide-react";
-import { getImageUrl } from "@/lib/image";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
 import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
 import { convertBaseQuantityToDisplayQuantity } from "../util/convert";
@@ -25,10 +24,9 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
           :
           <FilterIcon
             className={cn([
-              'w-full h-full',
-              'bg-accent'
+              'w-full h-full bg-accent'
             ])}
-            src={getImageUrl(unit.subcategoryImg)}
+            src={unit.subcategoryImg}
           />
         }
       </div>
@@ -48,7 +46,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               toBaseUnit={unit.toBaseUnit}
             />
             <ProductTypeBadge 
-              className='ml-2 font-semibold text-background !text-xs'
+              className='ml-2 font-semibold !text-xs'
               variable={product.variable}
             />
           </div>
