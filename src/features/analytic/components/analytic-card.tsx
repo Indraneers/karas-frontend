@@ -108,7 +108,7 @@ export function WeeklySalesCard() {
                         year: "numeric"
                       });
                     }}
-                    formatter={(value, name) => [
+                    formatter={(value) => [
                       `Daily Revenue: $${ Number(value).toLocaleString() }`
                     ]}
                   />
@@ -219,7 +219,7 @@ export function MonthlySalesCard() {
                         year: "numeric"
                       });
                     }}
-                    formatter={(value, name) => [
+                    formatter={(value) => [
                       `Daily Revenue: $${ Number(value).toLocaleString() }`
                     ]}
                   />
