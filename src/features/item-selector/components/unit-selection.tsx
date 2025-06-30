@@ -77,7 +77,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
 }
 
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
-import { Dialog, DialogContentWrapper, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { ItemAdder } from "../../pos/components/item-adder";
 import { useState } from "react";
 import { Unit } from "@/features/unit/types/unit";
@@ -149,9 +149,9 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
             </CardFooter>
           </Card>
         </DialogTrigger>
-        <DialogContentWrapper className="bg-transparent shadow-none border-none">
+        <DialogContent className="bg-transparent shadow-none border-none w-auto" showCloseButton={false}>
           <ItemAdder item={item} setOpen={setOpen} />
-        </DialogContentWrapper>
+        </DialogContent>
       </Dialog>
     </div>
   );

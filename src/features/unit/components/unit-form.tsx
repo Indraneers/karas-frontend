@@ -13,6 +13,7 @@ import { UnitRequestDto } from "../types/unit.dto";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { ProductDetailedSearch } from "@/features/product/components/product-detailed-search";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
+import { ImageCropperFormField } from "@/components/ui/img-cropper";
 
 export interface UnitForm {
   id: string;
@@ -130,25 +131,11 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
               </FormItem>
             )}
           />
-          <FormField 
-            control={form.control}
+          <ImageCropperFormField 
+            form={form}
             name="file"
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-6">
-                <FormLabel>Set POS Icon</FormLabel>
-                <Input 
-                  {...fieldProps}
-                  id="picture" 
-                  type="file"
-                  className="w-[300px] cursor-pointer"
-                  accept="image/*"
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
-                />
-              </FormItem>
-            )}
+            label="Set POS Icon"
+            className="mt-6"
           />
         </FormGroup>
         <FormGroup title="Stock Information (Quantity and Price)">
