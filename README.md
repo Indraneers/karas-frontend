@@ -4,10 +4,6 @@ Frontend application for the Karas ERP/POS system designed for auto service busi
 ## Preview
 
 ### Demo Video
-<video width="100%" controls>
-  <source src="assets/demo.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
 
 ### Screenshots
 <img src="assets/image.png" alt="Karas Frontend Dashboard" width="100%">
