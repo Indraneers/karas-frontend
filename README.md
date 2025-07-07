@@ -1,6 +1,8 @@
 # Karas Frontend
 Frontend application for the Karas ERP/POS system designed for auto service businesses.
 
+[![Website Demo](./assets/image.png)](./assets/demo.mp4)
+
 ## Demo
 🔗 **Live Demo**: [dev.twistercambodia.com](https://dev.twistercambodia.com)
 - Username: `demo`
