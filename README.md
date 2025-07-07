@@ -1,48 +1,55 @@
-
-
 # Karas Frontend
+Frontend application for the Karas ERP/POS system designed for auto service businesses.
 
-The frontend server for the Karas
+## Preview
+
+### Demo Video
+
+### Screenshots
+<img src="assets/image.png" alt="Karas Frontend Dashboard" width="100%">
+
+## Demo
+🔗 **Live Demo**: [dev.twistercambodia.com](https://dev.twistercambodia.com)
+- Username: `demo`
+- Password: `password@demo`
 
 ## Getting Started
-The app can be run locally. Follow the instructions below
+Follow the instructions below to run the app locally.
 
-### Prequisites
-Requirements to deploy and run this project
-- [Node.js v17 or higher.](https://nodejs.org/en/about/previous-releases)
-- [Npm latest release](https://www.npmjs.com/)
+### Prerequisites
+Make sure you have the following installed:
+- [Node.js v17 or higher](https://nodejs.org/en/about/previous-releases)  
+- Latest version of [npm](https://www.npmjs.com/)
 
-### Extension Requirement
-Please use the following extension in order to comply to the project's stand
-- [Tailwind Sorter](https://marketplace.visualstudio.com/items?itemName=dejmedus.tailwind-sorter)
+### Recommended Extensions
+To maintain code quality and project standards, please use these VS Code extensions:
+- [Tailwind Sorter](https://marketplace.visualstudio.com/items?itemName=dejmedus.tailwind-sorter)  
 - [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 ### Installation
-First, enter your working repository/folder and clone the repository
+Clone the repository and install dependencies:
 ```bash
 git clone git@github.com:Indraneers/karas-frontend.git
-```
-
-Then enter directory and install the dependencies
-```bash
 cd karas-frontend
 npm install
 ```
 
-### Environment Variable
-Use the following env template or the one found `.env.example`.
-```
-# frontend port
+### Environment Variables
+Create a .env file using .env.example as a template and configure the following variables:
+```env
+# Frontend port
 PORT=5173
-
-# backend api url
+# Backend API URL
 VITE_BACKEND_API_URL=
+# Keycloak Authentication URL
 VITE_KEYCLOAK_URL=
+# MinIO storage URL and bucket info
 VITE_MINIO_URL=
 VITE_BUCKET_NAME=
+# OAuth2 Client ID and authority URL
 VITE_CLIENT_ID=
 VITE_AUTHORITY=
-
+# Show development tools toggle (true/false)
 VITE_SHOW_DEV_TOOLS=
 ```
 
@@ -52,6 +59,10 @@ To start a local server, run
 npm run dev
 ```
 
+## Roadmap
 
-## Live Deployment
-TBA
+- [ ] **Note taking for vehicles and customers** - Track service history and important details
+- [ ] **Telegram integration** - Automated maintenance reminders for customers  
+- [ ] **Stock analytics** - Inventory management with turnover rates and reorder alerts
+- [ ] **Elasticsearch for sales** - Advanced search and analytics for sales data
+- [ ] **AI spare parts lookup** - Smart system for finding parts and technical details
