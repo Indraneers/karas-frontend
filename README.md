@@ -1,11 +1,6 @@
 # Karas Frontend
 Frontend application for the Karas ERP/POS system designed for auto service businesses.
 
-## Preview
-
-### Demo Video
-
-### Screenshots
 <img src="assets/image.png" alt="Karas Frontend Dashboard" width="100%">
 
 ## Demo
@@ -24,7 +19,11 @@ Make sure you have the following installed:
 ### Recommended Extensions
 To maintain code quality and project standards, please use these VS Code extensions:
 - [Tailwind Sorter](https://marketplace.visualstudio.com/items?itemName=dejmedus.tailwind-sorter)  
-- [ESLint](https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
+- [ESLint](https://mar
+
+https://github.com/user-attachments/assets/499ec0e5-51a2-45d4-8a55-81e760180154
+
+ketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint)
 
 ### Installation
 Clone the repository and install dependencies:
