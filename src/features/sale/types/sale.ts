@@ -18,7 +18,7 @@ export enum PaymentType {
 export interface Sale {
   id?: string;
   dueAt: string;
-  createdAt: string;
+  createdAt?: string;
   discount: number;
   user: UserDto;
   customer: CustomerDto;

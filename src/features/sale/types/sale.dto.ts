@@ -8,7 +8,6 @@ import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 export interface SaleRequestDto {
   id: string;
   dueAt: string;
-  createdAt: string;
   discount: number;
   userId: string;
   customerId: string;

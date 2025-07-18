@@ -5,7 +5,6 @@ export interface RestockRequestDto {
   id: string;
   items: RestockItemRequestDto[];
   userId: string;
-  createdAt: string;
 }
 
 export interface RestockResponseDto {

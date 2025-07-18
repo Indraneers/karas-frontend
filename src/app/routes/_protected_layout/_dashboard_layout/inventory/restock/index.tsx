@@ -146,8 +146,7 @@ function RestockPage() {
         username: user?.name || '',
         id: user?.sub || ''
       },
-      items: restockItems,
-      createdAt: new Date()
+      items: restockItems
     };
 
     const restockDto: RestockRequestDto = convertRestockToRestockDto(restock);
