@@ -12,3 +12,27 @@ export const getTotalSaleInAMonth = (): Promise<AnalyticDTO[]> =>
     url: '/analytics/sales/month',
     method: 'GET'
   });
+
+export const getTotalCustomerInAWeek = (): Promise<AnalyticDTO[]> =>
+  request({
+    url: '/analytics/customers/week',
+    method: 'GET'
+  });
+
+export const getTotalCustomerInAMonth = (): Promise<AnalyticDTO[]> =>
+  request({
+    url: '/analytics/customers/month',
+    method: 'GET'
+  });
+
+export const getTotalVehicleInAWeek = (): Promise<AnalyticDTO[]> =>
+  request({
+    url: '/analytics/vehicles/week',
+    method: 'GET'
+  });
+
+export const getTotalVehicleInAMonth = (): Promise<AnalyticDTO[]> =>
+  request({
+    url: '/analytics/vehicles/month',
+    method: 'GET'
+  });
