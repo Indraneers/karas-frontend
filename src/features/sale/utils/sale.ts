@@ -9,7 +9,6 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
   return {
     id: saleResponseDto.id,
     dueAt: saleResponseDto.dueAt,
-    createdAt: saleResponseDto.createdAt,
     status: saleResponseDto.status,
     paymentType: saleResponseDto.paymentType,
     discount: saleResponseDto.discount,
@@ -17,6 +16,7 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
     vehicle: saleResponseDto.vehicle,
     customer: saleResponseDto.customer,
     items: saleResponseDto.items.map((i) => convertItemDtoToItem(i)),
+    createdAt: saleResponseDto.createdAt,
     maintenance: saleResponseDto.maintenance ?
       {
         ...saleResponseDto.maintenance,

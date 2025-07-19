@@ -76,8 +76,8 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
       return;
     }
 
-    if (!sale.dueAt || !sale.createdAt) {
-      toastError('Due Date or Created Date is not set');
+    if (!sale.dueAt && sale.status === StatusEnum.HOLD) {
+      toastError('Due Date is not set');
       return;
     }
 
