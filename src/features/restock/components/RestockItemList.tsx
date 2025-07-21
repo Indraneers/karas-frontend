@@ -142,7 +142,7 @@ export function RestockItemElement({ restockItem, updateRestockItem, removeResto
             <ItemCounter 
               className="w-[150px] h-8" 
               value={quantity}
-              variable={false}
+              variable={isBaseUnit}
               setValue={changeQuantity} 
               baseUnit={product.baseUnit}
               toBaseUnit={unit.toBaseUnit}

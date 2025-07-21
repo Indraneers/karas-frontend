@@ -120,3 +120,10 @@ export function getQuantity(item: Item | RestockItem): number {
 export function convertBaseQuantityToDisplayQuantity(quantity: number): number {
   return Math.round(quantity / UNIVERSAL_BASE_UNIT_QTY * 1000) / 1000;
 }
+
+/**
+ * Raw Quantity - Quantity understood by the system
+ * Display Quantity - Quantity understand by human
+ * Variable Quantity - Variable Quantity understood by human
+ * Discrete Quantity - Countable Quantity understood by human
+ */
