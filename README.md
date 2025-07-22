@@ -1,11 +1,6 @@
 # Karas Frontend
 Frontend application for the Karas ERP/POS system designed for auto service businesses.
 
-## Preview
-
-### Demo Video
-
-### Screenshots
 <img src="assets/image.png" alt="Karas Frontend Dashboard" width="100%">
 
 ## Demo
