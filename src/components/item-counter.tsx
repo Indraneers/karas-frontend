@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils";
 import { ItemCartInput } from "../features/cart/components/item-cart-input";
 import { useEffect, useState } from "react";
 import { isValidVariableQty } from "@/lib/variable";
-import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity, convertBaseQuantityToRawQuantity, convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
+import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity, convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity } from "@/features/unit/util/convert";
 
 interface CounterProps {
   className?: string;

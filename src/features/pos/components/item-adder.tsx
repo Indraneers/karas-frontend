@@ -6,7 +6,7 @@ import { Item } from "@/features/sale/types/item";
 import { UnderlineCurrencyInput } from "./underline-currency-input";
 import { UnderlineInput } from "./underline-input";
 import { Unit } from "@/features/unit/types/unit";
-import { convertBaseQuantityToQuantity, convertQuantityToBaseQuantity } from "@/features/unit/util/convert";
+import { convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity, convertQuantityToBaseQuantity, convertVariableQuantityToDiscreteQuantity, convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
 import { cn } from "@/lib/utils";
 import { FormEvent } from "react";
@@ -21,10 +21,10 @@ interface ItemAdderProps {
 interface ItemAdderPanelStateInterface {
   price: string;
   discount: string;
-  qty: string;
+  variableQty: string;
   setPrice: Dispatch<SetStateAction<string>>;
   setDiscount: Dispatch<SetStateAction<string>>;
-  setQty: Dispatch<SetStateAction<string>>;
+  setVariableQty: Dispatch<SetStateAction<string>>;
 }
 
 interface ItemAdderPanelRefsInterface {
@@ -36,7 +36,6 @@ interface ItemAdderPanelRefsInterface {
 
 export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const product = item.unit.product;
-  const unit = item.unit;
   const isVariable = product.variable;
 
   const [currentElementIndex, setCurrentElementIndex] = useState(0);  
@@ -48,17 +47,17 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
 
   const [price, setPrice] = useState<string>(convertRawCurrencyToCurrencyString(item.price));
   const [discount, setDiscount] = useState<string>('');
-  const [qty, setQty] = useState<string>('');
+  const [variableQty, setVariableQty] = useState<string>('');
 
   const { addItem } = usePosStore();
 
   const stateProps: ItemAdderPanelStateInterface = {
     price,
     discount,
-    qty,
+    variableQty,
     setPrice,
     setDiscount,
-    setQty
+    setVariableQty
   };
 
   const refProps : ItemAdderPanelRefsInterface = {
@@ -70,18 +69,14 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const totalCost = calculateTotalCost(
     convertCurrencyStringToRawCurrency(price), 
     convertCurrencyStringToRawCurrency(discount), 
-    Number(qty)
+    convertVariableQuantityToDisplayQuantity(Number(variableQty))
   );
 
   function handleSubmit() {
-    const isVariable = unit.product.variable;
     const itemResult: Item = {
       ...item,
       price: convertCurrencyStringToRawCurrency(price),
-      quantity: isVariable ?
-        convertQuantityToBaseQuantity(1000, Number(qty))
-        : 
-        convertQuantityToBaseQuantity(unit.toBaseUnit, Number(qty)),
+      quantity: Number(variableQty),
       discount: convertCurrencyStringToRawCurrency(discount),
       // temporary solution for id
       id: uuidv4()
@@ -165,6 +160,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
               states={stateProps}
               refs={refProps}
               setCurrentElementIndex={setCurrentElementIndex}
+              unit={item.unit}
             />
             }
             {
@@ -223,13 +219,14 @@ export function ItemAdderPanelVariable({
     setter(value || '');
   }
 
-  function handleQtyInput(event: FormEvent<HTMLInputElement>) {
-    const qty = convertQuantityToBaseQuantity(unit.toBaseUnit, Number(event.currentTarget.value));
-    states.setQty(qty.toString());
+  function handleDiscreteQtyInput(event: FormEvent<HTMLInputElement>) {
+    const variableQtyFromInput = convertDiscreteQuantityToVariableQuantity(Number(event.currentTarget.value), unit.toBaseUnit);
+    states.setVariableQty(variableQtyFromInput.toString());
   }
   
-  function handleBaseUnitQtyInput(event: FormEvent<HTMLInputElement>) {
-    states.setQty(Number(event.currentTarget.value).toString());
+  function handleVariableUnitQtyInput(event: FormEvent<HTMLInputElement>) {
+    const variableQtyFromInput = convertDisplayQuantityToVariableQuantity(event.currentTarget.value);
+    states.setVariableQty(variableQtyFromInput.toString());
   }
 
 
@@ -274,8 +271,8 @@ export function ItemAdderPanelVariable({
           &&
           <UnderlineInput
             className="w-20"
-            defaultValue={convertBaseQuantityToQuantity(unit.toBaseUnit, Number(states.qty)) || ''}  
-            onInput={handleQtyInput}
+            defaultValue={convertVariableQuantityToDiscreteQuantity(states.variableQty, unit.toBaseUnit) || ''}  
+            onInput={handleDiscreteQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={!isBaseUnit && refs.qtyInput} 
             type="text" 
@@ -286,8 +283,8 @@ export function ItemAdderPanelVariable({
           &&
           <UnderlineInput
             className="w-20"
-            defaultValue={states.qty}  
-            onInput={handleBaseUnitQtyInput}
+            defaultValue={convertVariableQuantityToDisplayQuantity(states.variableQty)}  
+            onInput={handleVariableUnitQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={isBaseUnit && refs.qtyInput} 
             type="text"
@@ -303,12 +300,14 @@ interface ItemAdderPanelCountableProps {
   states: ItemAdderPanelStateInterface;
   refs: ItemAdderPanelRefsInterface;
   setCurrentElementIndex:  React.Dispatch<React.SetStateAction<number>>;
+  unit: Unit;
 }
 
 export function ItemAdderPanelCountable({
   states,
   refs,
-  setCurrentElementIndex
+  setCurrentElementIndex,
+  unit
 }: ItemAdderPanelCountableProps) {
   /**
    * only for price and discount
@@ -318,7 +317,7 @@ export function ItemAdderPanelCountable({
   }
   
   function handleQtyInput(event: FormEvent<HTMLInputElement>) {
-    states.setQty(Number(event.currentTarget.value).toString());
+    states.setVariableQty(convertDiscreteQuantityToVariableQuantity(event.currentTarget.value, unit.toBaseUnit).toString());
   }
   return (
     <div className="flex gap-2 text-xl">
@@ -350,7 +349,7 @@ export function ItemAdderPanelCountable({
         <span>Qty</span>
         <UnderlineInput
           className="w-full"
-          defaultValue={states.qty}  
+          defaultValue={convertVariableQuantityToDiscreteQuantity(states.variableQty, unit.toBaseUnit || 1000)}  
           onInput={handleQtyInput}
           onFocus={() => setCurrentElementIndex(2)} 
           ref={refs.qtyInput} 
@@ -406,7 +405,7 @@ export function Numpad({
     case 1:
       return states.setDiscount;
     case 2:
-      return states.setQty;
+      return states.setVariableQty;
     }
   }
 
@@ -417,7 +416,7 @@ export function Numpad({
     case 1:
       return states.discount;
     case 2:
-      return states.qty;
+      return states.variableQty;
     }
   }
 

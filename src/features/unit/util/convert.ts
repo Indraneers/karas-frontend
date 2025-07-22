@@ -117,20 +117,20 @@ export function convertBaseQuantityToDisplayQuantity(quantity: number): number {
  * Discrete Quantity - Countable Quantity understood by human and the system
  */
 
-export function convertVariableQuantityToDisplayQuantity(variableQuantity: number) {
-  return variableQuantity / UNIVERSAL_BASE_UNIT_QTY;
+export function convertVariableQuantityToDisplayQuantity(variableQuantity: number | string) {
+  return Number(variableQuantity) / UNIVERSAL_BASE_UNIT_QTY;
 }
 
 export function convertDisplayQuantityToVariableQuantity(displayQuantity: number | string) {
   return Number(displayQuantity) * UNIVERSAL_BASE_UNIT_QTY;
 } 
 
-export function convertDiscreteQuantityToVariableQuantity(discreteQuantity: number, toBaseUnit: number): number {
-  return Math.trunc(discreteQuantity * toBaseUnit);
+export function convertDiscreteQuantityToVariableQuantity(discreteQuantity: number | string, toBaseUnit: number): number {
+  return Math.trunc(Number(discreteQuantity) * toBaseUnit);
 }
 
-export function convertVariableQuantityToDiscreteQuantity(variableQuantity: number, toBaseUnit: number): number {
-  return Math.trunc((variableQuantity / toBaseUnit) * UNIVERSAL_BASE_UNIT_QTY) / UNIVERSAL_BASE_UNIT_QTY;
+export function convertVariableQuantityToDiscreteQuantity(variableQuantity: number | string, toBaseUnit: number): number {
+  return Math.trunc((Number(variableQuantity) / toBaseUnit) * UNIVERSAL_BASE_UNIT_QTY) / UNIVERSAL_BASE_UNIT_QTY;
 }
 
 export function getQuantity(quantity: number, toBaseUnit?: number, variable?: boolean): number {
