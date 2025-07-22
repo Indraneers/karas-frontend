@@ -2,7 +2,7 @@ import { Item } from "../types/item";
 import { ItemResponseDto } from "../types/item.dto";
 import { Sale } from "../types/sale";
 import {  SaleResponseDto } from "../types/sale.dto";
-import { convertUnitDtoToUnit, getQuantity } from "@/features/unit/util/convert";
+import { convertUnitDtoToUnit, getQuantityFromItem } from "@/features/unit/util/convert";
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
 export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): Sale {
@@ -52,7 +52,7 @@ export function calculateUnitItemTotalCost(price: number, discount: number, item
   return calculateTotalCost(
     price,
     discount,
-    getQuantity(item)
+    getQuantityFromItem(item)
   );
 }
 

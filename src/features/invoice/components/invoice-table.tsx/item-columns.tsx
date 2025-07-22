@@ -3,7 +3,7 @@ import { Currency } from "@/components/currency";
 import { calculateUnitItemTotalCost } from "@/features/sale/utils/sale";
 import { Item } from "@/features/sale/types/item";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
-import { getQuantity } from "@/features/unit/util/convert";
+import { getQuantityFromItem } from "@/features/unit/util/convert";
 
 export const itemColumns: ColumnDef<Item>[] = [
   {
@@ -55,7 +55,7 @@ export const itemColumns: ColumnDef<Item>[] = [
     accessorKey: 'quantity',
     header: () => <div className="text-nowrap">បរិមាណ<br></br>Qty</div>,
     cell: ({ row }) => (
-      <div className="text-nowrap">{getQuantity(row.original)} {row.original.unit.name}</div>
+      <div className="text-nowrap">{getQuantityFromItem(row.original)} {row.original.unit.name}</div>
     )
   },
   {

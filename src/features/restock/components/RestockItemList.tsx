@@ -13,6 +13,7 @@ import { ProductIdentifier } from "@/features/product/components/product-identif
 import { ToBaseUnitSwitch } from "@/features/pos/components/item-adder";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
 
 interface RestockItemElementProps {
   restockItem: RestockItem;
@@ -26,6 +27,10 @@ export function RestockItemElement({ restockItem, updateRestockItem, removeResto
   const [quantity, setQuantity] = useState<number>(restockItem.quantity);
   const unit = restockItem.unit;
   const product = restockItem.unit.product;
+
+  const displayUnit = unit.toBaseUnit !== 0 && product.variable
+                  && ` (${ convertVariableQuantityToDisplayQuantity(unit.toBaseUnit) }${ product.baseUnit })`;
+                
 
   function changeStatus(newStatus: StockUpdate) {
     setStatus(newStatus);
@@ -71,6 +76,7 @@ export function RestockItemElement({ restockItem, updateRestockItem, removeResto
             <div className="flex font-medium text-lg">
               <span className="flex mr-4">
                 {unit.name}
+                {displayUnit}
                 <Dot />
                 {product.name + ' '}
               </span>
