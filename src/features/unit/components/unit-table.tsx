@@ -45,7 +45,7 @@ export function PriceCell({ product, price }: PriceCellProps) {
   );
 }
 
-import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity } from "../util/convert";
+import { convertBaseQuantityToDisplayQuantity, convertVariableQuantityToDiscreteQuantity, convertVariableQuantityToDisplayQuantity } from "../util/convert";
 
 interface UnitQuantityCellProps {
   product: ProductRequestDto;
@@ -56,15 +56,16 @@ interface UnitQuantityCellProps {
 export function UnitQuantityCell({ product, quantity, toBaseUnit }: UnitQuantityCellProps) {
   return (
     <>
-      {product.variable && 
+      {
+        product.variable &&
       <>
-        {convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty
-        {' '}({convertBaseQuantityToDisplayQuantity(quantity)} {product.baseUnit})
+        {convertVariableQuantityToDiscreteQuantity(toBaseUnit, quantity)} Qty
+        {' '}({convertVariableQuantityToDisplayQuantity(quantity)}{product.baseUnit})
       </>
       }
       {
         !product.variable &&
-        <>{convertBaseQuantityToQuantity(toBaseUnit, quantity)} Qty</>
+      <>{convertVariableQuantityToDiscreteQuantity(toBaseUnit, quantity)} Qty</>
       }
     </>
   );

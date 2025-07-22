@@ -9,7 +9,7 @@ export function UnitDtoQuantityBadge
         variable &&
       <>
         {convertVariableQuantityToDiscreteQuantity(toBaseUnit, quantity)} Qty
-        {' '}({convertVariableQuantityToDisplayQuantity(toBaseUnit)}{baseUnit})
+        {' '}({convertVariableQuantityToDisplayQuantity(quantity)}{baseUnit})
       </>
       }
       {
