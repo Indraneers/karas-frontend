@@ -1,7 +1,6 @@
 import { Restock } from "../types/restock";
 import { RestockItemRequestDto } from "../types/restock-item.dto";
 import { RestockRequestDto } from "../types/restock.dto"; 
-import { convertDateToLocaleDate } from "@/lib/date";
 
 export function convertRestockToRestockDto(restock: Restock): RestockRequestDto {
   const restockItemDtos: RestockItemRequestDto[] = 
@@ -16,7 +15,6 @@ export function convertRestockToRestockDto(restock: Restock): RestockRequestDto 
   return {
     id: restock.id,
     userId: restock.user.id,
-    createdAt: convertDateToLocaleDate(new Date()),
     items: restockItemDtos
   };
 }

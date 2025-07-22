@@ -1,7 +1,7 @@
 import { Separator } from '@/components/ui/separator';
 import { TypographyH1 } from '@/components/ui/typography/h1';
 import { TypographyH2 } from '@/components/ui/typography/h2';
-import { MonthlySalesCard, TotalMonthlySalesCard, TotalWeeklySalesCard, WeeklySalesCard } from '@/features/analytic/components/analytic-card';
+import { MonthlyCustomersCard, MonthlySalesCard, MonthlyVehiclesCard, TotalMonthlCustomersCard, TotalMonthlVehiclesCard, TotalMonthlySalesCard, TotalWeeklyCustomersCard, TotalWeeklySalesCard, TotalWeeklyVehiclesCard, WeeklyCustomerCard, WeeklySalesCard, WeeklyVehiclesCard } from '@/features/analytic/components/analytic-card';
 import { createFileRoute } from '@tanstack/react-router';
 
 export const Route = createFileRoute('/_protected_layout/_dashboard_layout/')({
@@ -29,6 +29,38 @@ export function Homepage() {
           </div>
           <div className="lg:col-span-2 h-[280px]">
             <MonthlySalesCard />
+          </div>
+        </div>
+      </div>
+      <TypographyH2 className='mt-6 text-3xl'>Customer Analytics</TypographyH2>
+      <div className='space-y-6 mt-4'>
+        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+          <TotalWeeklyCustomersCard />
+          <TotalMonthlCustomersCard />
+        </div>
+      
+        <div className="gap-4 grid grid-cols-1 lg:grid-cols-3">
+          <div className="lg:col-span-1 h-[280px]">
+            <WeeklyCustomerCard />
+          </div>
+          <div className="lg:col-span-2 h-[280px]">
+            <MonthlyCustomersCard />
+          </div>
+        </div>
+      </div>
+      <TypographyH2 className='mt-6 text-3xl'>Vehicle Analytics</TypographyH2>
+      <div className='space-y-6 mt-4'>
+        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
+          <TotalWeeklyVehiclesCard />
+          <TotalMonthlVehiclesCard />
+        </div>
+      
+        <div className="gap-4 grid grid-cols-1 lg:grid-cols-3">
+          <div className="lg:col-span-1 h-[280px]">
+            <WeeklyVehiclesCard />
+          </div>
+          <div className="lg:col-span-2 h-[280px]">
+            <MonthlyVehiclesCard />
           </div>
         </div>
       </div>

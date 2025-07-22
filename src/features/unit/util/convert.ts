@@ -107,16 +107,49 @@ export function convertQuantityToBaseQuantity(toBaseUnit: number, quantity: numb
   return Math.trunc(quantity * toBaseUnit);
 }
 
-export function getQuantity(item: Item | RestockItem): number {
-  const unit = item.unit;
-  const product = unit.product;
-  if (product.variable) {
-    return convertBaseQuantityToDisplayQuantity(item.quantity);
-  }
-
-  return convertBaseQuantityToQuantity(unit.toBaseUnit, item.quantity);
-}
-
 export function convertBaseQuantityToDisplayQuantity(quantity: number): number {
   return Math.round(quantity / UNIVERSAL_BASE_UNIT_QTY * 1000) / 1000;
+}
+
+/**
+ * Display Quantity - Quantity understand by human
+ * Variable Quantity - Variable Quantity understood by human
+ * Discrete Quantity - Countable Quantity understood by human and the system
+ */
+
+export function convertVariableQuantityToDisplayQuantity(variableQuantity: number | string) {
+  return Number(variableQuantity) / UNIVERSAL_BASE_UNIT_QTY;
+}
+
+export function convertDisplayQuantityToVariableQuantity(displayQuantity: number | string) {
+  return Number(displayQuantity) * UNIVERSAL_BASE_UNIT_QTY;
+} 
+
+export function convertDiscreteQuantityToVariableQuantity(discreteQuantity: number | string, toBaseUnit: number): number {
+  return Math.trunc(Number(discreteQuantity) * toBaseUnit);
+}
+
+export function convertVariableQuantityToDiscreteQuantity(variableQuantity: number | string, toBaseUnit: number): number {
+  return Math.trunc((Number(variableQuantity) / toBaseUnit) * UNIVERSAL_BASE_UNIT_QTY) / UNIVERSAL_BASE_UNIT_QTY;
+}
+
+export function getQuantity(quantity: number, toBaseUnit?: number, variable?: boolean): number {
+  if (variable || !toBaseUnit) {
+    return convertVariableQuantityToDisplayQuantity(quantity);
+  }
+
+  return convertVariableQuantityToDiscreteQuantity(quantity, toBaseUnit);
+}
+
+export function getQuantityFromItem(item: Item): number {
+  const unit = item.unit;
+  const product = unit.product;
+
+  return getQuantity(item.quantity, unit.toBaseUnit, product.variable);
+}
+
+export function getQuantityFromRestockItem(restockItem: RestockItem) : number {
+  const unit = restockItem.unit;
+  
+  return convertVariableQuantityToDiscreteQuantity(restockItem.quantity, unit.toBaseUnit);
 }

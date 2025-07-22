@@ -5,5 +5,5 @@ export interface Restock {
   id: string;
   items: RestockItem[];
   user: UserDto;
-  createdAt: Date;
+  createdAt?: Date;
 }

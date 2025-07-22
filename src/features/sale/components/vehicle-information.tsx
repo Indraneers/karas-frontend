@@ -21,10 +21,10 @@ export function VehicleInformation({ vehicle, className } : { vehicle: VehicleDt
         <InfoField className="ml-4" label="Mileage">
           {vehicle.mileage}
         </InfoField>
-        <InfoField label="VIN N.O">
+        <InfoField className="col-span-2" label="VIN N.O">
           {vehicle.vinNo}
         </InfoField>
-        <InfoField className="ml-4" label="Engine N.O">
+        <InfoField label="Engine N.O">
           {vehicle.engineNo}
         </InfoField>
       </div>
