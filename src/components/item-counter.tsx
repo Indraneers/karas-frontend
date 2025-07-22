@@ -24,8 +24,8 @@ export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className,
       const quantity = variable ? 
         convertDisplayQuantityToVariableQuantity(value) 
         : convertDiscreteQuantityToVariableQuantity(toBaseUnit, Number(value));
-      console.log(quantity);
       setValue(quantity);
+      setDisplayQuantity(value);
     }
   }
 
