@@ -2,7 +2,6 @@ import { SaleRequestDto } from "@/features/sale/types/sale.dto";
 import { PaymentType, StatusEnum } from "@/features/sale/types/sale";
 import { PosState } from "../store/pos";
 import { ItemRequestDto } from "@/features/sale/types/item.dto";
-import { convertDateToLocaleDate } from "@/lib/date";
 import { MaintenanceDto } from "@/features/maintenance/types/maintenance.dto";
 
 export function convertPosStoreToSaleRequestDto
@@ -31,14 +30,14 @@ export function convertPosStoreToSaleRequestDto
   posState.maintenance.services.length > 0 ?
     {
       ...posState.maintenance,
-      createdAt: convertDateToLocaleDate(posState.maintenance.createdAt)
+      createdAt: posState.maintenance.createdAt.toISOString()
     }
     :
     undefined;
 
   return {
     id: '',
-    dueAt: convertDateToLocaleDate(posState.dueAt),
+    dueAt: posState.dueAt.toISOString(),
     discount: posState.discount,
     vehicleId: posState.vehicle.id || '',
     customerId: posState.customer.id || '',
