@@ -2,7 +2,6 @@ import { request } from "@/lib/request";
 import { SaleRequestDto, SaleResponseDto } from "../types/sale.dto";
 import { Page } from "@/types/page";
 import { APIQuery } from "@/types/query";
-import { convertDateToLocaleDate } from "@/lib/date";
 
 export const getSales = async(saleQuery: APIQuery): Promise<Page<SaleResponseDto>> => {
   return request({
@@ -10,8 +9,8 @@ export const getSales = async(saleQuery: APIQuery): Promise<Page<SaleResponseDto
     method: 'GET',
     params: {
       page: saleQuery.page,
-      createdAtFrom: saleQuery.createdAtFrom ? convertDateToLocaleDate(saleQuery.createdAtFrom as Date) : undefined,
-      createdAtTo: saleQuery.createdAtTo ? convertDateToLocaleDate(saleQuery.createdAtTo as Date) : undefined,
+      createdAtFrom: saleQuery.createdAtFrom ? saleQuery.createdAtFrom as Date: undefined,
+      createdAtTo: saleQuery.createdAtTo ? saleQuery.createdAtTo as Date : undefined,
       customerId: saleQuery.customerId,
       status: saleQuery.status,
       paymentType: saleQuery.paymentType,
