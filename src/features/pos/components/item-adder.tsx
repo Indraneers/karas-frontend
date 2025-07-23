@@ -6,7 +6,7 @@ import { Item } from "@/features/sale/types/item";
 import { UnderlineCurrencyInput } from "./underline-currency-input";
 import { UnderlineInput } from "./underline-input";
 import { Unit } from "@/features/unit/types/unit";
-import { convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity, convertQuantityToBaseQuantity, convertVariableQuantityToDiscreteQuantity, convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
+import { convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity, convertQuantityToBaseQuantity, convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
 import { cn } from "@/lib/utils";
 import { FormEvent } from "react";
