@@ -19,6 +19,7 @@ export interface Sale {
   id?: string;
   dueAt: string;
   createdAt?: string;
+  updatedAt?: string;
   discount: number;
   user: UserDto;
   customer: CustomerDto;

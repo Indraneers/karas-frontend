@@ -17,6 +17,7 @@ export function convertSaleResponseDtoToSale(saleResponseDto: SaleResponseDto): 
     customer: saleResponseDto.customer,
     items: saleResponseDto.items.map((i) => convertItemDtoToItem(i)),
     createdAt: saleResponseDto.createdAt,
+    updatedAt: saleResponseDto.updatedAt,
     maintenance: saleResponseDto.maintenance ?
       {
         ...saleResponseDto.maintenance,
