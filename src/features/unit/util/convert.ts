@@ -118,7 +118,6 @@ export function convertBaseQuantityToDisplayQuantity(quantity: number): number {
  */
 
 export function convertVariableQuantityToDisplayQuantity(variableQuantity: number | string) {
-  console.log(Math.floor(Number(variableQuantity) * 1000 / UNIVERSAL_BASE_UNIT_QTY) / 1000);
   return Math.floor(Number(variableQuantity) * 1000 / UNIVERSAL_BASE_UNIT_QTY) / 1000;
 }
 
