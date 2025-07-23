@@ -283,7 +283,7 @@ export function ItemAdderPanelVariable({
           &&
           <UnderlineInput
             className="w-20"
-            defaultValue={convertVariableQuantityToDisplayQuantity(states.variableQty)}  
+            defaultValue={convertVariableQuantityToDisplayQuantity(states.variableQty) || ''}  
             onInput={handleVariableUnitQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
             ref={isBaseUnit && refs.qtyInput} 
@@ -319,6 +319,7 @@ export function ItemAdderPanelCountable({
   function handleQtyInput(event: FormEvent<HTMLInputElement>) {
     states.setVariableQty(convertDiscreteQuantityToVariableQuantity(event.currentTarget.value, unit.toBaseUnit).toString());
   }
+
   return (
     <div className="flex gap-2 text-xl">
       <div className="flex items-baseline gap-2">
@@ -349,7 +350,7 @@ export function ItemAdderPanelCountable({
         <span>Qty</span>
         <UnderlineInput
           className="w-full"
-          defaultValue={convertVariableQuantityToDiscreteQuantity(states.variableQty, unit.toBaseUnit || 1000)}  
+          defaultValue={convertVariableQuantityToDiscreteQuantity(states.variableQty, unit.toBaseUnit || 1000) || ''}  
           onInput={handleQtyInput}
           onFocus={() => setCurrentElementIndex(2)} 
           ref={refs.qtyInput} 
