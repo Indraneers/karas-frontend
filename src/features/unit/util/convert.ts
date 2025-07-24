@@ -126,7 +126,8 @@ export function convertDisplayQuantityToVariableQuantity(displayQuantity: number
 } 
 
 export function convertDiscreteQuantityToVariableQuantity(discreteQuantity: number | string, toBaseUnit: number): number {
-  return Math.trunc(Number(discreteQuantity) * toBaseUnit || 1000);
+  console.log(discreteQuantity, toBaseUnit);
+  return Math.trunc(Number(discreteQuantity) * (toBaseUnit || 1000));
 }
 
 export function convertVariableQuantityToDiscreteQuantity(variableQuantity: number | string, toBaseUnit: number): number {

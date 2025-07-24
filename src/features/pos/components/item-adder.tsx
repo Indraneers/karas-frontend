@@ -511,11 +511,12 @@ export function Numpad({
         else {
           variableQty = convertDisplayQuantityToVariableQuantity(qtyString);
         }
-        qtyString += key;
+        qtyString += (newInput + key);
       }
       else {
-        qtyString = newInput += key;
+        qtyString = (newInput + key);
         if (isDiscreteQuantity)  {
+          console.log('HEY');
           variableQty = convertDiscreteQuantityToVariableQuantity(qtyString, unit.toBaseUnit);
         }
         else {
@@ -526,6 +527,8 @@ export function Numpad({
       if (!isValidVariableQty(qtyString)) {
         return;
       }
+
+      console.log(qtyString, variableQty);
 
       setter(String(variableQty));
       states.setQtyString(qtyString);
@@ -540,7 +543,6 @@ export function Numpad({
     }
   }
 
-  console.log(states);
   return (
     <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-[2rem] text-3xl">
       <NumpadKey
