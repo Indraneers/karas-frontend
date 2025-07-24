@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 
 import { useItemSelectionStore } from "../store/item-selection";
 import { UnitSearch } from "@/features/unit/components/unit-search";
-import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity, convertUnitDtoToUnit } from "@/features/unit/util/convert";
+import { convertUnitDtoToUnit, convertVariableQuantityToDiscreteQuantity, convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
 import { ItemEmpty, ItemCardList, ItemSkeletonList } from "./item-selector";
 import { getUnits } from "@/features/unit/api/unit";
 import React, { useCallback, useEffect } from "react";
@@ -126,7 +126,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
                 {
                   unit.product.variable &&
                   <span className="font-light text-lg">
-                    {' '}({convertBaseQuantityToDisplayQuantity(unit.toBaseUnit)}{unit.product.baseUnit})
+                    {' '}({convertVariableQuantityToDisplayQuantity(unit.toBaseUnit)}{unit.product.baseUnit})
                   </span>
                 }
               </div>
@@ -145,7 +145,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
             </CardHeader>
             <CardContent className="flex-grow" />
             <CardFooter className="z-10 flex flex-col items-start text-xs">
-              <Badge variant='info-green'>{convertBaseQuantityToQuantity(unit.toBaseUnit, unit.quantity) || 0} units left</Badge>
+              <Badge variant='info-green'>{convertVariableQuantityToDiscreteQuantity(unit.quantity, unit.toBaseUnit) || 0} units left</Badge>
             </CardFooter>
           </Card>
         </DialogTrigger>

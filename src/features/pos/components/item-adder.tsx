@@ -6,7 +6,7 @@ import { Item } from "@/features/sale/types/item";
 import { UnderlineCurrencyInput } from "./underline-currency-input";
 import { UnderlineInput } from "./underline-input";
 import { Unit } from "@/features/unit/types/unit";
-import { convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity, convertQuantityToBaseQuantity, convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
+import { convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity, convertVariableQuantityToDiscreteQuantity, convertVariableQuantityToDisplayQuantity } from "@/features/unit/util/convert";
 import { ProductRequestDto } from "@/features/product/types/product.dto";
 import { cn } from "@/lib/utils";
 import { FormEvent } from "react";
@@ -22,9 +22,11 @@ interface ItemAdderPanelStateInterface {
   price: string;
   discount: string;
   variableQty: string;
+  qtyString: string;
   setPrice: Dispatch<SetStateAction<string>>;
   setDiscount: Dispatch<SetStateAction<string>>;
   setVariableQty: Dispatch<SetStateAction<string>>;
+  setQtyString: Dispatch<SetStateAction<string>>;
 }
 
 interface ItemAdderPanelRefsInterface {
@@ -48,6 +50,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
   const [price, setPrice] = useState<string>(convertRawCurrencyToCurrencyString(item.price));
   const [discount, setDiscount] = useState<string>('');
   const [variableQty, setVariableQty] = useState<string>('');
+  const [qtyString, setQtyString] = useState<string>('');
 
   const { addItem } = usePosStore();
 
@@ -55,9 +58,11 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
     price,
     discount,
     variableQty,
+    qtyString,
     setPrice,
     setDiscount,
-    setVariableQty
+    setVariableQty,
+    setQtyString
   };
 
   const refProps : ItemAdderPanelRefsInterface = {
@@ -96,6 +101,19 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
     else {
       handleSubmit();
     }
+  }
+
+  function onSwitchBaseUnit() {
+    if (isBaseUnit) {
+      const discreteQty = convertVariableQuantityToDiscreteQuantity(variableQty, item.unit.toBaseUnit);
+      setQtyString(String(discreteQty));
+    }
+    else {
+      const variableQty = convertVariableQuantityToDisplayQuantity(convertDiscreteQuantityToVariableQuantity(qtyString, item.unit.toBaseUnit));
+      setQtyString(String(variableQty));
+    }
+
+    setIsBaseUnit(!isBaseUnit);
   }
   
 
@@ -143,7 +161,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
         <ToBaseUnitSwitch 
           className="mr-4"
           isBaseUnit={isBaseUnit}
-          onChange={setIsBaseUnit}
+          onChange={onSwitchBaseUnit}
           baseUnit={product.baseUnit} 
         />
       </div>
@@ -220,15 +238,28 @@ export function ItemAdderPanelVariable({
   }
 
   function handleDiscreteQtyInput(event: FormEvent<HTMLInputElement>) {
-    const variableQtyFromInput = convertDiscreteQuantityToVariableQuantity(Number(event.currentTarget.value), unit.toBaseUnit);
+    const { value } =  event.currentTarget;
+
+    if (!isValidVariableQty(value)) {
+      return;
+    }
+    
+    states.setQtyString(value);
+    const variableQtyFromInput = convertDiscreteQuantityToVariableQuantity(Number(value), unit.toBaseUnit);
     states.setVariableQty(variableQtyFromInput.toString());
   }
   
   function handleVariableUnitQtyInput(event: FormEvent<HTMLInputElement>) {
-    const variableQtyFromInput = convertDisplayQuantityToVariableQuantity(event.currentTarget.value);
+    const { value } =  event.currentTarget;
+
+    if (!isValidVariableQty(value)) {
+      return;
+    }
+
+    states.setQtyString(value);
+    const variableQtyFromInput = convertDisplayQuantityToVariableQuantity(value);
     states.setVariableQty(variableQtyFromInput.toString());
   }
-
 
   return (
     <div>
@@ -270,6 +301,7 @@ export function ItemAdderPanelVariable({
           !isBaseUnit
           &&
           <UnderlineInput
+            value={states.qtyString}
             className="w-20"
             onInput={handleDiscreteQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
@@ -281,6 +313,7 @@ export function ItemAdderPanelVariable({
           isBaseUnit
           &&
           <UnderlineInput
+            value={states.qtyString}
             className="w-20"
             onInput={handleVariableUnitQtyInput}
             onFocus={() => setCurrentElementIndex(2)} 
@@ -315,7 +348,14 @@ export function ItemAdderPanelCountable({
   }
   
   function handleQtyInput(event: FormEvent<HTMLInputElement>) {
-    states.setVariableQty(convertDiscreteQuantityToVariableQuantity(event.currentTarget.value, unit.toBaseUnit).toString());
+    const { value } =  event.currentTarget;
+
+    if (!isValidVariableQty(value)) {
+      return;
+    }
+
+    states.setQtyString(value);
+    states.setVariableQty(convertDiscreteQuantityToVariableQuantity(value, unit.toBaseUnit).toString());
   }
 
   return (
@@ -347,6 +387,7 @@ export function ItemAdderPanelCountable({
       <div className="flex items-baseline gap-2">
         <span>Qty</span>
         <UnderlineInput
+          value={convertVariableQuantityToDiscreteQuantity(states.variableQty, unit.toBaseUnit)}
           className="w-full"
           onInput={handleQtyInput}
           onFocus={() => setCurrentElementIndex(2)} 
@@ -450,32 +491,44 @@ export function Numpad({
       }
     }
     else if (currentElementIndex == 2) {
-      const isDirectChange = isBaseUnit || !isVariable;
+      const isDiscreteQuantity = !isBaseUnit || !isVariable;
+      let qtyString = '';
+      let variableQty = 0;
 
       if (key === 'd') {
-        if (isDirectChange)  {
-          newInput = newInput.slice(0, -1);
+        qtyString = newInput.slice(0, -1);
+        if (isDiscreteQuantity)  {
+          variableQty = convertDiscreteQuantityToVariableQuantity(qtyString, unit.toBaseUnit);
         }
         else {
-          const newQty = String(newInput).slice(0, -1);
-          newInput = String(convertQuantityToBaseQuantity(unit.toBaseUnit, Number(newQty)));
+          variableQty = convertDisplayQuantityToVariableQuantity(qtyString);
         }
       }
       else if (key === '.') {
-        if (isDirectChange) {
-          newInput += key;
-        }
-      }
-      else {
-        if (isDirectChange) {
-          newInput += key;
+        if (isDiscreteQuantity)  {
+          variableQty = convertDiscreteQuantityToVariableQuantity(qtyString, unit.toBaseUnit);
         }
         else {
-          const newQty = newInput + key;
-          newInput = String(convertQuantityToBaseQuantity(unit.toBaseUnit, Number(newQty)));
+          variableQty = convertDisplayQuantityToVariableQuantity(qtyString);
+        }
+        qtyString += key;
+      }
+      else {
+        qtyString = newInput += key;
+        if (isDiscreteQuantity)  {
+          variableQty = convertDiscreteQuantityToVariableQuantity(qtyString, unit.toBaseUnit);
+        }
+        else {
+          variableQty = convertDisplayQuantityToVariableQuantity(qtyString);
         }
       }
-      setter(newInput);
+
+      if (!isValidVariableQty(qtyString)) {
+        return;
+      }
+
+      setter(String(variableQty));
+      states.setQtyString(qtyString);
       return;
     }
 
@@ -486,6 +539,8 @@ export function Numpad({
       setter(newInput);
     }
   }
+
+  console.log(states);
   return (
     <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-[2rem] text-3xl">
       <NumpadKey
@@ -596,6 +651,7 @@ export function NumpadKey({ children, className, onClick }: NumpadKeyProps) {
 
 import { Switch } from "@/components/ui/switch";
 import { calculateTotalCost } from "@/features/sale/utils/sale";
+import { isValidVariableQty } from "@/lib/variable";
 
 interface ToBaseUnitSwitchProps {
   isBaseUnit: boolean;
