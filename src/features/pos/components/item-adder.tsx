@@ -387,7 +387,7 @@ export function ItemAdderPanelCountable({
       <div className="flex items-baseline gap-2">
         <span>Qty</span>
         <UnderlineInput
-          value={convertVariableQuantityToDiscreteQuantity(states.variableQty, unit.toBaseUnit)}
+          value={states.qtyString}
           className="w-full"
           onInput={handleQtyInput}
           onFocus={() => setCurrentElementIndex(2)} 
@@ -527,8 +527,6 @@ export function Numpad({
       if (!isValidVariableQty(qtyString)) {
         return;
       }
-
-      console.log(qtyString, variableQty);
 
       setter(String(variableQty));
       states.setQtyString(qtyString);
