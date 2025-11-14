@@ -9,7 +9,7 @@ export const client = (() => {
     }
   });
 
-  // Attach token to every request
+
   instance.interceptors.request.use(
     (config) => {
       const user = getUser();
