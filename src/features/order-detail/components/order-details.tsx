@@ -40,17 +40,17 @@ export function OrderDetails({ saleId, handlePayment } : OrderDetailsProps) {
               Payment
             </BorderedTabsTrigger>
           </BorderedTabsList>
-          <TabsContent className="relative flex-grow h-full" value='order-info'>
+          <TabsContent className="relative grow h-full" value='order-info'>
             <div className="absolute inset-0">
               <OrderInformationTab />
             </div>
           </TabsContent>
-          <TabsContent className="relative flex-grow" value="maintenance">
+          <TabsContent className="relative grow" value="maintenance">
             <div className="absolute inset-0">
               <MaintenanceTab />
             </div>
           </TabsContent>
-          <TabsContent className="flex-grow h-full" value="payment">
+          <TabsContent className="grow h-full" value="payment">
             <PaymentTab saleId={saleId} handlePayment={handlePayment} />
           </TabsContent>
         </Tabs>

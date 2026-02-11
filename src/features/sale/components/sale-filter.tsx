@@ -191,7 +191,7 @@ export function SalesPopupFilter() {
           Filter Sales
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="justify-items-stretch gap-4 grid sm:grid-cols-[1fr,1fr,auto,2fr] sm:grid-rows-4 p-4 w-[550px]" align="start">
+      <PopoverContent className="justify-items-stretch gap-4 grid sm:grid-cols-[1fr_1fr_auto_2fr] sm:grid-rows-4 p-4 w-[550px]" align="start">
         <div className='flex flex-col w-full'>
           <Label className='flex items-center font-normal text-muted-foreground text-xs'>
             <FilterIcon className='mr-1'>

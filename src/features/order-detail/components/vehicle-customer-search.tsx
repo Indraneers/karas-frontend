@@ -223,7 +223,7 @@ export function CustomerSearchItem({ className, customer, setQ, setOpen }: Custo
     <div
       onClick={handleClick}
       className={cn([
-        "hover:bg-accent group gap-2 hover:text-background items-center grid grid-cols-[auto,1fr] p-1 rounded-md cursor-pointer",
+        "hover:bg-accent group gap-2 hover:text-background items-center grid grid-cols-[auto_1fr] p-1 rounded-md cursor-pointer",
         className
       ])}
     >

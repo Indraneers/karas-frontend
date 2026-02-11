@@ -93,7 +93,7 @@ export function DataTablePagination<TData, TValue>({
 
   return (
     <div className={cn([
-      "grid grid-rows-[1fr,auto] w-full overflow-auto"
+      "grid grid-rows-[1fr_auto] w-full overflow-auto"
     ])}>
       <div className="grid grid-cols-1 pb-2 rounded-lg overflow-auto">
         <Table className="relative">

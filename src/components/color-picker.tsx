@@ -63,7 +63,7 @@ export function ColorPicker({
           <div className="flex items-center gap-2 w-full">
             {background ? (
               <div
-                className="!bg-cover !bg-center rounded w-4 h-4 transition-all"
+                className="bg-cover! bg-center! rounded w-4 h-4 transition-all"
                 style={{ background }}
               ></div>
             ) : (

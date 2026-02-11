@@ -93,7 +93,7 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
           <FormGroup title="General Information">
-            <div className="gap-4 grid grid-cols-[1fr,2fr]">
+            <div className="gap-4 grid grid-cols-[1fr_2fr]">
   
               <FormField
                 control={form.control}

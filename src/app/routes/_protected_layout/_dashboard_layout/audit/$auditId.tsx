@@ -41,7 +41,7 @@ export function AuditDetailPage() {
           <AuditInfo label='Timestamp'>{data ? format(data?.timestamp, 'do MMM yyyy, hh:mm aa') : '-'}</AuditInfo>
         </CardContent>
       </Card>
-      <Card className='flex-grow p-2'>
+      <Card className='grow p-2'>
         <CardHeader>
           <TypographyH2>Data Comparison</TypographyH2>
         </CardHeader>

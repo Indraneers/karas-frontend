@@ -50,7 +50,7 @@ export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className,
 
   return (
     <div className={cn([
-      "gap-2 items-center grid grid-cols-[auto,1fr,auto]",
+      "gap-2 items-center grid grid-cols-[auto_1fr_auto]",
       className
     ])}>
       <Button 

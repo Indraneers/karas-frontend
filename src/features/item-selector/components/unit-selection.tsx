@@ -45,7 +45,7 @@ export function UnitSelection({ className }: UnitSelectionProps) {
   return (
     <div className={
       cn([
-        'h-full w-full grid grid-rows-[auto,1fr] gap-2',
+        'h-full w-full grid grid-rows-[auto_1fr] gap-2',
         className
       ])
     }>
@@ -143,7 +143,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
                 }
               </div>
             </CardHeader>
-            <CardContent className="flex-grow" />
+            <CardContent className="grow" />
             <CardFooter className="z-10 flex flex-col items-start text-xs">
               <Badge variant='info-green'>{convertVariableQuantityToDiscreteQuantity(unit.quantity, unit.toBaseUnit) || 0} units left</Badge>
             </CardFooter>

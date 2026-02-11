@@ -106,7 +106,7 @@ function SaleDetailPage() {
             <CustomerInformation customer={sale.customer} />
           </CardContent>
         </Card>
-        <Card className='flex-grow'>
+        <Card className='grow'>
           <CardContent className='mt-4'>
             <VehicleInformation vehicle={sale.vehicle} />
           </CardContent>

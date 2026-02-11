@@ -40,7 +40,7 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   return (
     <div className={
       cn([
-        'h-full w-full grid grid-rows-[auto,1fr] gap-2',
+        'h-full w-full grid grid-rows-[auto_1fr] gap-2',
         className
       ])
     }>

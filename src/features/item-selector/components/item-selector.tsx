@@ -46,9 +46,9 @@ export function ItemSelector({ children }: ItemSelectionProps) {
           </Button>
         </div>
       </ItemSelectorHeader>
-      <div className="relative flex-grow">
+      <div className="relative grow">
         <Card className="absolute inset-0 flex flex-col mt-4">
-          <CardContent className="flex-grow my-4">
+          <CardContent className="grow my-4">
             {children}
           </CardContent>
         </Card>
@@ -169,24 +169,31 @@ interface ItemCardListProps {
   ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const ItemCardList = React.forwardRef<HTMLDivElement, ItemCardListProps>(
-  ({ children, className, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(
-          "relative h-full overflow-y-auto", // Changed to overflow-y-auto
-          className
-        )}
-        {...props}
-      >
-        <div className="absolute inset-0 gap-2 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 auto-rows-max">
-          {children}
-        </div>
-      </div>
-    );
+export const ItemCardList = (
+  {
+    ref,
+    children,
+    className,
+    ...props
+  }: ItemCardListProps & {
+    ref: React.RefObject<HTMLDivElement>;
   }
-);
+) => {
+  return (
+    <div
+      ref={ref}
+      className={cn(
+        "relative h-full overflow-y-auto", // Changed to overflow-y-auto
+        className
+      )}
+      {...props}
+    >
+      <div className="absolute inset-0 gap-2 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 auto-rows-max">
+        {children}
+      </div>
+    </div>
+  );
+};
 
 ItemCardList.displayName = "ItemCardList";
 

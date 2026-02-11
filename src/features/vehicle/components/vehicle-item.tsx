@@ -9,13 +9,13 @@ export function VehicleItem({ vehicle, className, showCustomer = true } : { vehi
   return (
     <div 
       className={cn([
-        'grid grid-cols-[auto,1fr] p-1 rounded-md gap-2 cursor-pointer items-center hover:bg-accent group hover:text-background',
+        'grid grid-cols-[auto_1fr] p-1 rounded-md gap-2 cursor-pointer items-center hover:bg-accent group hover:text-background',
         className
       ])}
     >
       <VehicleIcon className="w-8 h-8" iconClassName="w-6 h-6" icon={vehicleIcon} />
-      <div className="flex flex-grow">
-        <div className="flex flex-col flex-grow">
+      <div className="flex grow">
+        <div className="flex flex-col grow">
           <div className="font-medium text-sm">
             {vehicle.makeAndModel}
           </div>

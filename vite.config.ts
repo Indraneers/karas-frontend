@@ -1,24 +1,33 @@
-import path from "path";
-import react from "@vitejs/plugin-react";
 import { defineConfig } from "vite";
-import { TanStackRouterVite } from '@tanstack/router-plugin/vite';
-import svgr from 'vite-plugin-svgr'; 
+import react from "@vitejs/plugin-react";
+import { tanstackRouter } from '@tanstack/router-plugin/vite'
+import tailwindcss from "@tailwindcss/vite";
+import svgr from "vite-plugin-svgr";
+import tsconfigPaths from "vite-tsconfig-paths";
+import path from "path";
 
-
-// https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [react(), TanStackRouterVite(), svgr()],
-  server: {
-    watch: {
-      usePolling: true
-    },
-    host: true, // Here
-    strictPort: true,
-    port: 5173
-  },
+  plugins: [
+    tanstackRouter({
+      target: 'react',
+      autoCodeSplitting: true,
+    }),
+    react(),
+    tailwindcss(),
+    svgr(),
+    tsconfigPaths(), 
+  ],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src")
-    }
-  }
+      "@": path.resolve(__dirname, "./src"),
+    },
+  },
+  server: {
+    host: true,
+    strictPort: true,
+    port: 5173,
+    watch: {
+      usePolling: true,
+    },
+  },
 });

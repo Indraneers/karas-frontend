@@ -66,7 +66,14 @@ const mergeRefs = (...refs: any) => {
     }
   };
 };
-const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((options: DateTimeInputProps, ref) => {
+const DateTimeInput = (
+  {
+    ref,
+    ...options
+  }: DateTimeInputProps & {
+    ref: React.RefObject<HTMLInputElement>;
+  }
+) => {
   const { format: formatProp, value: _value, timezone } = options;
   const value = useMemo(() => _value ? new TZDate(_value, timezone) : undefined, [_value, timezone]);
   const form = useFormContext();
@@ -288,7 +295,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
       )}
       <input
         ref={mergeRefs(inputRef)}
-        className="flex-grow bg-transparent disabled:opacity-50 py-1 pe-2 focus:outline-none min-w-0 font-mono text-sm disabled:cursor-not-allowed"
+        className="grow bg-transparent disabled:opacity-50 py-1 pe-2 focus:outline-none min-w-0 font-mono text-sm disabled:cursor-not-allowed"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onClick={onClick}
@@ -319,7 +326,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
       </div>
     </div>
   );
-});
+};
 
 DateTimeInput.displayName = 'DateTimeInput';
 
