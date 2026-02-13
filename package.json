@@ -44,7 +44,6 @@
     "lucide-react": "^0.563.0",
     "next-themes": "^0.4.6",
     "oidc-client-ts": "^3.4.1",
-    "radix-ui": "latest",
     "react": "19.2",
     "react-currency-input-field": "^4.0.3",
     "react-day-picker": "^9.13.2",
@@ -61,10 +60,11 @@
     "tailwindcss-animate": "^1.0.7",
     "uuid": "^13.0.0",
     "zod": "^4.3.6",
-    "zustand": "^5.0.11"
+    "zustand": "^5.0.11",
+    "radix-ui": "latest"
   },
   "devDependencies": {
-    "@eslint/js": "^10.0.1",
+    "@eslint/js": "^9.10.0",
     "@stylistic/eslint-plugin": "^5.8.0",
     "@stylistic/eslint-plugin-js": "^4.4.1",
     "@tanstack/router-devtools": "^1.159.5",
@@ -74,7 +74,7 @@
     "@types/react": "^19.2.13",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^5.1.4",
-    "eslint": "^9.39.2",
+    "eslint": "^9.10.0",
     "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-hooks": "^7.0.1",
     "eslint-plugin-react-refresh": "^0.5.0",
