@@ -32,7 +32,6 @@ export const DatePickerInput = // eslint-disable-next-line @typescript-eslint/no
   const [open, setOpen] = React.useState(false);
   const [inputValue, setInputValue] = React.useState<string>();
 
-  // Update inputValue when parent changes value
   React.useEffect(() => {
     setInputValue(value ? format(value, formatString) : "");
   }, [value, formatString]);

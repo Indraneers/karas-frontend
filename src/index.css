@@ -58,6 +58,8 @@
   --radius-sm: calc(var(--radius) - 4px);
   --radius-3xl: 1.5rem;
   --radius-4xl: 2rem;
+
+  /* Font Weight */
 }
 
 @layer base {
@@ -384,5 +386,15 @@
 
   @media (width >= 1400px) {
     padding-inline: 3rem;
+  }
+}
+
+@layer base {
+  button:not([disabled]),
+  [role="button"]:not([disabled]),
+  a:not([disabled]),
+  [role="link"]:not([disabled]),
+  [onclick]:not([disabled]) {
+    cursor: pointer;
   }
 }

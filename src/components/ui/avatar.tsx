@@ -1,10 +1,6 @@
-"use client";
-
 import * as React from "react";
 import { Avatar as AvatarPrimitive } from "radix-ui";
-
 import { cn } from "@/lib/utils";
-
 function Avatar({
   className,
   size = "default",
@@ -24,7 +20,6 @@ function Avatar({
     />
   );
 }
-
 function AvatarImage({
   className,
   ...props
@@ -37,7 +32,6 @@ function AvatarImage({
     />
   );
 }
-
 function AvatarFallback({
   className,
   ...props
@@ -53,7 +47,6 @@ function AvatarFallback({
     />
   );
 }
-
 function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   return (
     <span
@@ -69,7 +62,6 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
     />
   );
 }
-
 function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
@@ -82,7 +74,6 @@ function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
     />
   );
 }
-
 function AvatarGroupCount({
   className,
   ...props
@@ -98,7 +89,6 @@ function AvatarGroupCount({
     />
   );
 }
-
 export {
   Avatar,
   AvatarImage,
