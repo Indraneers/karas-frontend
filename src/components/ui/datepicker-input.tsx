@@ -1,78 +1,69 @@
 "use client";
 
 import * as React from "react";
-import { format } from "date-fns";
+import { format, isValid } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { DayEventHandler } from "react-day-picker";
+import { DayEventHandler, SelectSingleEventHandler } from "react-day-picker";
 
-export interface DatePickerInputProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "value" | "onChange"> {
+export interface DatePickerInputProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, "value" | "onChange"> {
   value?: Date;
   onChange?: (date: Date | undefined) => void;
   formatString?: string;
-  onDayClick?: DayEventHandler<React.MouseEvent<Element, MouseEvent>> | undefined;
+  onDayClick?: DayEventHandler<React.MouseEvent<Element, MouseEvent>>;
 }
 
-export const DatePickerInput = // eslint-disable-next-line @typescript-eslint/no-unused-vars
-(
-  {
-    ref: _ref,
-    value,
-    onChange,
-    onDayClick,
-    formatString = "MMM dd, yyyy",
-    className
-  }: DatePickerInputProps & {
-    ref: React.RefObject<HTMLInputElement>;
+/**
+ * Modernized DatePickerInput
+ * - Restores onDayClick support
+ * - Uses forwardRef for compatibility with shadcn/ui and form libraries
+ * - Derives display value directly from props to stay in sync
+ */
+export const DatePickerInput = React.forwardRef<HTMLButtonElement, DatePickerInputProps>(
+  ({ value, onChange, onDayClick, formatString = "MMM dd, yyyy", className, ...props }, ref) => {
+    const [open, setOpen] = React.useState(false);
+
+    // Derived State: Instant sync with parent props
+    const displayValue = value && isValid(value) ? format(value, formatString) : "Select Date";
+
+    const handleSelect: SelectSingleEventHandler = (selectedDate) => {
+      onChange?.(selectedDate);
+      if (selectedDate) setOpen(false);
+    };
+
+    return (
+      <Popover open={open} onOpenChange={setOpen}>
+        <PopoverTrigger asChild>
+          <Button
+            ref={ref}
+            type="button"
+            variant="outline"
+            className={cn(
+              "justify-between px-3 h-8 font-normal text-xs",
+              !value && "text-muted-foreground",
+              className
+            )}
+            {...props}
+          >
+            <span className={cn(value ? "text-foreground" : "text-muted-foreground")}>
+              {displayValue}
+            </span>
+            <CalendarIcon className="opacity-50 ml-2 w-3.5 h-3.5" />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="p-0 w-auto" align="start" sideOffset={8}>
+          <Calendar
+            mode="single"
+            selected={value}
+            onSelect={handleSelect}
+            onDayClick={onDayClick} // Restored property
+            initialFocus
+          />
+        </PopoverContent>
+      </Popover>
+    );
   }
-) => {
-  const [open, setOpen] = React.useState(false);
-  const [inputValue, setInputValue] = React.useState<string>();
-
-  React.useEffect(() => {
-    setInputValue(value ? format(value, formatString) : "");
-  }, [value, formatString]);
-
-
-  const handleSelect = (selectedDate: Date | undefined) => {
-    if (!selectedDate) return;
-    onChange?.(selectedDate);
-    setInputValue(format(selectedDate, formatString));
-    setOpen(false);
-  };
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          className={cn([
-            "font-normal h-8 text-muted-foreground text-xs justify-between",
-            className
-          ])}
-          variant="outline"
-        >
-          <span className="text-foreground">{inputValue || 'Select Date'}</span>
-          <CalendarIcon className="w-3! h-3!" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent
-        className="p-0 w-auto overflow-hidden"
-        align="end"
-        alignOffset={-8}
-        sideOffset={10}
-      >
-        <Calendar
-          mode="single"
-          selected={value}
-          onSelect={handleSelect}
-          onDayClick={onDayClick}
-        />
-      </PopoverContent>
-    </Popover>
-  );
-};
-
-DatePickerInput.displayName = "DatePickerInput";
+);

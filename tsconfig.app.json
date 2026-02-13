@@ -7,20 +7,17 @@
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "moduleDetection": "force",
     "allowImportingTsExtensions": true,
-    "allowJs": true,
-    "checkJs": false,
+    "isolatedModules": true,
+    "moduleDetection": "force",
     "noEmit": true,
     "jsx": "react-jsx",
-    "jsxImportSource": "react",
 
     /* Strictness */
     "strict": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-    "noUncheckedIndexedAccess": true,
 
     /* Path Aliases - Updated for TS 5.0+ */
     "paths": {

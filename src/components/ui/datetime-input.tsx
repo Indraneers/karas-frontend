@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import { format, parse, isValid, getYear } from 'date-fns';
-import { useRef, useState, useMemo, useEffect, useLayoutEffect, useCallback } from 'react';
+import { useRef, useState, useMemo, useEffect, useLayoutEffect, useCallback, MutableRefObject, RefObject } from 'react';
 import { CalendarIcon, CircleAlert, CircleCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFormContext } from 'react-hook-form';
@@ -59,7 +59,21 @@ const segmentConfigs = [
   }
 ];
 
-function DateTimeInput(options: DateTimeInputProps) {
+const mergeRefs = (...refs: any) => {
+  return (node: any) => {
+    for (const ref of refs) {
+      if (ref) ref.current = node;
+    }
+  };
+};
+const DateTimeInput = (
+  {
+    ref,
+    ...options
+  }: DateTimeInputProps & {
+    ref: React.RefObject<HTMLInputElement>;
+  }
+) => {
   const { format: formatProp, value: _value, timezone } = options;
   const value = useMemo(() => _value ? new TZDate(_value, timezone) : undefined, [_value, timezone]);
   const form = useFormContext();
@@ -73,9 +87,9 @@ function DateTimeInput(options: DateTimeInputProps) {
     if (form?.formState.isSubmitted) {
       setSegments(parseFormat(formatStr, value));
     }
-  }, [form?.formState.isSubmitted, formatStr, value]);
-  
+  }, [form?.formState.isSubmitted]);
   useEffect(() => {
+    // console.error('valueChanged', {formatStr, inputStr, value});
     setSegments(parseFormat(formatStr, value));
   }, [formatStr, value]);
 
@@ -84,13 +98,12 @@ function DateTimeInput(options: DateTimeInputProps) {
       return undefined;
     return segments[selectedSegmentAt];
   }, [segments, selectedSegmentAt]);
-  
   const setCurrentSegment = useCallback(
     (segment: Segment | undefined) => {
       const at = segments?.findIndex((s) => s.index === segment?.index);
       at !== -1 && setSelectedSegmentAt(at);
     },
-    [segments]
+    [segments, setSelectedSegmentAt]
   );
 
   const validSegments = useMemo(() => segments.filter((s) => s.type !== 'space'), [segments]);
@@ -104,17 +117,19 @@ function DateTimeInput(options: DateTimeInputProps) {
     if (!allHasValue) return;
     const date = parse(inputStr, formatStr, value || new TZDate(new Date(), timezone));
     const year = getYear(date);
+    // console.log('inputValue', {allHasValue, validSegments, inputStr, formatStr, date, year});
     if (isValid(date) && year > 1900 && year < 2100) {
       return date;
     }
-  }, [validSegments, inputStr, formatStr, value, timezone]);
-  
+  }, [validSegments, inputStr, formatStr]);
   useEffect(() => {
     if (!inputValue) return;
     if (value?.getTime() !== inputValue.getTime()) {
+      // console.log('inputValueChanged', {formatStr, inputStr, value, inputValue, });
       options.onChange?.(inputValue);
     }
-  }, [inputValue, value, options]);
+  }, [inputValue]);
+
 
   const onClick = useEventCallback(
     (event: React.MouseEvent<HTMLInputElement>) => {
@@ -132,7 +147,7 @@ function DateTimeInput(options: DateTimeInputProps) {
         setSelection(inputRef, segment);
       }
     },
-    [segments, setCurrentSegment]
+    [segments]
   );
 
   const onSegmentChange = useEventCallback(
@@ -148,7 +163,7 @@ function DateTimeInput(options: DateTimeInputProps) {
         setSelection(inputRef, segment);
       }
     },
-    [segments, curSegment, setCurrentSegment]
+    [segments, curSegment]
   );
 
   const onSegmentNumberValueChange = useEventCallback(
@@ -191,7 +206,7 @@ function DateTimeInput(options: DateTimeInputProps) {
       }
       shouldNext ? onSegmentChange('right') : setSelection(inputRef, segment);
     },
-    [segments, curSegment, timezone, onSegmentChange]
+    [segments, curSegment]
   );
 
   const onSegmentPeriodValueChange = useEventCallback(
@@ -229,7 +244,7 @@ function DateTimeInput(options: DateTimeInputProps) {
     else {
       onSegmentChange('left');
     }
-  }, [segments, curSegment, onSegmentChange]);
+  }, [segments, curSegment]);
 
   const onKeyDown = useEventCallback((event: React.KeyboardEvent<HTMLInputElement>) => {
     const key = event.key;
@@ -241,6 +256,11 @@ function DateTimeInput(options: DateTimeInputProps) {
       onSegmentChange(key === 'ArrowRight' ? 'right' : 'left');
       event.preventDefault();
       break;
+      // case 'ArrowUp':
+      // case 'ArrowDown':
+      //   // onSegmentValueChange?.(event);
+      //   event.preventDefault();
+      //   break;
     case 'Backspace':
       onSegmentValueRemove();
       event.preventDefault();
@@ -255,12 +275,12 @@ function DateTimeInput(options: DateTimeInputProps) {
       event.preventDefault();
       break;
     }
-  }, [curSegment, onSegmentChange, onSegmentValueRemove, onSegmentNumberValueChange, onSegmentPeriodValueChange]);
+  }, []);
 
   const [isFocused, setIsFocused] = useState(false);
-  
   return (
     <div
+      ref={ref}
       className={cn(
         'flex justify-start items-center bg-background file:bg-transparent disabled:opacity-50 border border-border file:border-0 rounded-md ring-offset-background h-10 file:font-medium placeholder:text-muted-foreground file:text-foreground text-sm file:text-sm disabled:cursor-not-allowed',
         isFocused ? 'outline-none ring-2 ring-ring ring-offset-2' : '',
@@ -274,7 +294,7 @@ function DateTimeInput(options: DateTimeInputProps) {
         </Button>
       )}
       <input
-        ref={inputRef}
+        ref={mergeRefs(inputRef)}
         className="bg-transparent disabled:opacity-50 py-1 pe-2 focus:outline-none min-w-0 font-mono text-sm disabled:cursor-not-allowed grow"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
@@ -306,7 +326,9 @@ function DateTimeInput(options: DateTimeInputProps) {
       </div>
     </div>
   );
-}
+};
+
+DateTimeInput.displayName = 'DateTimeInput';
 
 export { DateTimeInput };
 
@@ -316,7 +338,6 @@ interface Segment {
   index: number;
   value: string;
 }
-
 function parseFormat(formatStr: string, value?: Date) {
   const views: Segment[] = [];
   let lastPattern: any = '';
@@ -359,9 +380,18 @@ const safeDate = (timezone?: string) => {
 
 const isAndroid = () => /Android/i.test(navigator.userAgent);
 
-function setSelection(ref: React.RefObject<HTMLInputElement | null>, segment?: Segment) {
-  if (!ref.current || !segment) return;
-  safeSetSelection(ref.current, segment.index, segment.index + segment.symbols.length);
+function setSelection(
+  ref: RefObject<HTMLInputElement | null> | MutableRefObject<HTMLInputElement | null | undefined> | null, 
+  segment?: Segment
+) {
+  const element = ref?.current;
+
+  if (!element || !segment) return;
+
+  const start = segment.index;
+  const end = segment.index + (segment.symbols?.length ?? 0);
+
+  safeSetSelection(element, start, end);
 }
 
 function safeSetSelection(element: HTMLInputElement, selectionStart: number, selectionEnd: number) {
@@ -378,7 +408,6 @@ function safeSetSelection(element: HTMLInputElement, selectionStart: number, sel
     }
   });
 }
-
 export function useEventCallback<T extends Function>(fn: T, deps: any[]) {
   const ref = useRef(fn);
   useIsomorphicLayoutEffect(() => {

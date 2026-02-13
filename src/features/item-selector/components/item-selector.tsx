@@ -48,7 +48,7 @@ export function ItemSelector({ children }: ItemSelectionProps) {
       </ItemSelectorHeader>
       <div className="relative grow">
         <Card className="absolute inset-0 flex flex-col mt-4">
-          <CardContent className="grow my-4">
+          <CardContent className="my-4 grow">
             {children}
           </CardContent>
         </Card>
@@ -70,73 +70,59 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbList, BreadcrumbSeparator } from 
 export function ItemSelectorBreadCrumb() {
   const { selector, setSelector, category, subcategory, product } = useItemSelectionStore();
 
-  function isBreadcrumbVisible(itemSelectionType: ItemSelectionEnum) {
-    switch(itemSelectionType) {
-    case ItemSelectionEnum.SUBCATEGORY:
-      if (selector === ItemSelectionEnum.UNIT || selector === ItemSelectionEnum.PRODUCT || selector === ItemSelectionEnum.SUBCATEGORY) {
-        return 'block';
-      }
-      break;
-    case ItemSelectionEnum.PRODUCT:
-      if (selector === ItemSelectionEnum.UNIT || selector === ItemSelectionEnum.PRODUCT) {
-        return 'block';
-      }
-      break;
-    case ItemSelectionEnum.UNIT:
-      if (selector === ItemSelectionEnum.UNIT) {
-        return 'block';
-      }
-      break;
-    default:
-      return 'hidden';
-    }
-  }
+  // Helper to determine if we are at or past a certain level
+  const isAtLevel = (level: ItemSelectionEnum) => {
+    const hierarchy = [
+      ItemSelectionEnum.CATEGORY,
+      ItemSelectionEnum.SUBCATEGORY,
+      ItemSelectionEnum.PRODUCT,
+      ItemSelectionEnum.UNIT
+    ];
+    return hierarchy.indexOf(selector) >= hierarchy.indexOf(level);
+  };
+
+  const breadcrumbItems = [
+    { 
+      level: ItemSelectionEnum.SUBCATEGORY, 
+      label: category?.name, 
+      target: ItemSelectionEnum.SUBCATEGORY 
+    },
+    { 
+      level: ItemSelectionEnum.PRODUCT, 
+      label: subcategory?.name, 
+      target: ItemSelectionEnum.PRODUCT 
+    },
+    { 
+      level: ItemSelectionEnum.UNIT, 
+      label: product?.name, 
+      target: null // Last item usually isn't clickable
+    },
+  ];
 
   return (
-    <Breadcrumb>  
+    <Breadcrumb>
       <BreadcrumbList>
-        {/* Category */}
         <BreadcrumbItem 
           className="text-accent hover:underline cursor-pointer" 
           onClick={() => setSelector(ItemSelectionEnum.CATEGORY)}
         >
           Categories
         </BreadcrumbItem>
-        {/* Subcategory */}
-        <BreadcrumbSeparator 
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.SUBCATEGORY) ? 'block text-accent' : 'hidden'])} 
-        />
-        <BreadcrumbItem
-          onClick={() => setSelector(ItemSelectionEnum.SUBCATEGORY)}
-          className={cn([
-            "hover:underline cursor-pointer text-accent",
-            isBreadcrumbVisible(ItemSelectionEnum.SUBCATEGORY) ? 'block' : 'hidden'
-          ])} 
-        >
-          {category?.name}
-        </BreadcrumbItem>
-        {/* Product */}
-        <BreadcrumbSeparator 
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block text-accent' : 'hidden'])} 
-        />
-        <BreadcrumbItem
-          onClick={() => setSelector(ItemSelectionEnum.PRODUCT)}
-          className={cn([
-            "hover:underline cursor-pointer text-accent",
-            isBreadcrumbVisible(ItemSelectionEnum.PRODUCT) ? 'block' : 'hidden'
-          ])} 
-        >
-          {subcategory?.name}
-        </BreadcrumbItem>
-        {/* Unit */}
-        <BreadcrumbSeparator 
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block text-accent' : 'hidden'])} 
-        />
-        <BreadcrumbItem
-          className={cn([isBreadcrumbVisible(ItemSelectionEnum.UNIT) ? 'block text-accent' : 'hidden'])} 
-        >
-          {product?.name}
-        </BreadcrumbItem>
+
+        {breadcrumbItems.map((item) => isAtLevel(item.level) && (
+          <React.Fragment key={item.level}>
+            <BreadcrumbSeparator className="text-accent" />
+            <BreadcrumbItem
+              onClick={() => item.target && setSelector(item.target)}
+              className={cn(
+                "text-accent",
+                item.target && "cursor-pointer hover:underline"
+              )}
+            >
+              {item.label || "..."}
+            </BreadcrumbItem>
+          </React.Fragment>
+        ))}
       </BreadcrumbList>
     </Breadcrumb>
   );
@@ -169,31 +155,22 @@ interface ItemCardListProps {
   ref?: React.RefObject<HTMLDivElement>;
 }
 
-export const ItemCardList = (
-  {
-    ref,
-    children,
-    className,
-    ...props
-  }: ItemCardListProps & {
-    ref: React.RefObject<HTMLDivElement>;
-  }
-) => {
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        "relative h-full overflow-y-auto", // Changed to overflow-y-auto
-        className
-      )}
-      {...props}
-    >
-      <div className="absolute inset-0 gap-2 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 auto-rows-max">
-        {children}
+export const ItemCardList = React.forwardRef<HTMLDivElement, Omit<ItemCardListProps, 'ref'>>(
+  ({ children, className, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn("relative h-full overflow-y-auto", className)}
+        {...props}
+      >
+        <div className="gap-2 grid grid-cols-2 2xl:grid-cols-4 xl:grid-cols-3 auto-rows-max">
+          {children}
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+);
+ItemCardList.displayName = "ItemCardList";
 
 ItemCardList.displayName = "ItemCardList";
 

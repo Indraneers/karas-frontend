@@ -30,9 +30,9 @@ interface ItemAdderPanelStateInterface {
 }
 
 interface ItemAdderPanelRefsInterface {
-  priceInput: React.RefObject<HTMLInputElement>;
-  discountInput: React.RefObject<HTMLInputElement>;
-  qtyInput: React.RefObject<HTMLInputElement>
+  priceInput: React.RefObject<HTMLInputElement | null>;
+  discountInput: React.RefObject<HTMLInputElement | null>;
+  qtyInput: React.RefObject<HTMLInputElement | null>;
 }
 
 
@@ -122,7 +122,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
    */
   useEffect(() => {
     if (priceInput && priceInput.current) {
-      priceInput.current.focus();
+      priceInput.current?.focus();
     }
   }, [priceInput]);
 

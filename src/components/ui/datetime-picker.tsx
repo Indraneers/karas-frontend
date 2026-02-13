@@ -379,55 +379,48 @@ interface PeriodSelectorProps {
   onLeftFocus?: () => void;
 }
 
-function TimePeriodSelect({
-  period,
-  setPeriod,
-  date,
-  onDateChange,
-  onLeftFocus,
-  onRightFocus
-}: PeriodSelectorProps) {
-  const ref = useRef<HTMLButtonElement>(null);
-  
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (e.key === 'ArrowRight') onRightFocus?.();
-    if (e.key === 'ArrowLeft') onLeftFocus?.();
-  };
+const TimePeriodSelect = React.forwardRef<HTMLButtonElement, PeriodSelectorProps>(
+  ({ period, setPeriod, date, onDateChange, onLeftFocus, onRightFocus }, ref) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (e.key === 'ArrowRight') onRightFocus?.();
+      if (e.key === 'ArrowLeft') onLeftFocus?.();
+    };
 
-  const handleValueChange = (value: Period) => {
-    setPeriod?.(value);
+    const handleValueChange = (value: Period) => {
+      setPeriod?.(value);
 
-    /**
-     * trigger an update whenever the user switches between AM and PM;
-     * otherwise user must manually change the hour each time
-     */
-    if (date) {
-      const tempDate = new Date(date);
-      const hours = display12HourValue(date.getHours());
-      onDateChange?.(
-        setDateByType(tempDate, hours.toString(), '12hours', period === 'AM' ? 'PM' : 'AM')
-      );
-    }
-  };
+      /**
+       * trigger an update whenever the user switches between AM and PM;
+       * otherwise user must manually change the hour each time
+       */
+      if (date) {
+        const tempDate = new Date(date);
+        const hours = display12HourValue(date.getHours());
+        onDateChange?.(
+          setDateByType(tempDate, hours.toString(), '12hours', period === 'AM' ? 'PM' : 'AM')
+        );
+      }
+    };
 
-  return (
-    <div className="flex items-center h-10">
-      <Select defaultValue={period} onValueChange={(value: Period) => handleValueChange(value)}>
-        <SelectTrigger
-          ref={ref}
-          className="focus:bg-accent w-[65px] focus:text-accent-foreground"
-          onKeyDown={handleKeyDown}
-        >
-          <SelectValue />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="AM">AM</SelectItem>
-          <SelectItem value="PM">PM</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
-  );
-}
+    return (
+      <div className="flex items-center h-10">
+        <Select defaultValue={period} onValueChange={(value: Period) => handleValueChange(value)}>
+          <SelectTrigger
+            ref={ref}
+            className="focus:bg-accent w-[65px] focus:text-accent-foreground"
+            onKeyDown={handleKeyDown}
+          >
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem value="AM">AM</SelectItem>
+            <SelectItem value="PM">PM</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    );
+  }
+);
 
 interface TimePickerInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   picker: TimePickerType;
@@ -438,103 +431,107 @@ interface TimePickerInputProps extends React.InputHTMLAttributes<HTMLInputElemen
   onLeftFocus?: () => void;
 }
 
-function TimePickerInput({
-  className,
-  type = 'tel',
-  value,
-  id,
-  name,
-  date = new Date(new Date().setHours(0, 0, 0, 0)),
-  onDateChange,
-  onChange,
-  onKeyDown,
-  picker,
-  period,
-  onLeftFocus,
-  onRightFocus,
-  ...props
-}: TimePickerInputProps) {
-  const ref = useRef<HTMLInputElement>(null);
-  const [flag, setFlag] = React.useState<boolean>(false);
-  const [prevIntKey, setPrevIntKey] = React.useState<string>('0');
+const TimePickerInput = React.forwardRef<HTMLInputElement, TimePickerInputProps>(
+  (
+    {
+      className,
+      type = 'tel',
+      value,
+      id,
+      name,
+      date = new Date(new Date().setHours(0, 0, 0, 0)),
+      onDateChange,
+      onChange,
+      onKeyDown,
+      picker,
+      period,
+      onLeftFocus,
+      onRightFocus,
+      ...props
+    },
+    ref
+  ) => {
+    const [flag, setFlag] = React.useState<boolean>(false);
+    const [prevIntKey, setPrevIntKey] = React.useState<string>('0');
 
-  /**
-   * allow the user to enter the second digit within 2 seconds
-   * otherwise start again with entering first digit
-   */
-  React.useEffect(() => {
-    if (flag) {
-      const timer = setTimeout(() => {
-        setFlag(false);
-      }, 2000);
-
-      return () => clearTimeout(timer);
-    }
-  }, [flag]);
-
-  const calculatedValue = React.useMemo(() => {
-    return getDateByType(date, picker);
-  }, [date, picker]);
-
-  const calculateNewValue = (key: string) => {
-    /*
-     * If picker is '12hours' and the first digit is 0, then the second digit is automatically set to 1.
-     * The second entered digit will break the condition and the value will be set to 10-12.
+    /**
+     * allow the user to enter the second digit within 2 seconds
+     * otherwise start again with entering first digit
      */
-    if (picker === '12hours') {
-      if (flag && calculatedValue.slice(1, 2) === '1' && prevIntKey === '0') return `0${ key }`;
-    }
+    React.useEffect(() => {
+      if (flag) {
+        const timer = setTimeout(() => {
+          setFlag(false);
+        }, 2000);
 
-    return !flag ? `0${ key }` : calculatedValue.slice(1, 2) + key;
-  };
+        return () => clearTimeout(timer);
+      }
+    }, [flag]);
 
-  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Tab') return;
-    e.preventDefault();
-    if (e.key === 'ArrowRight') onRightFocus?.();
-    if (e.key === 'ArrowLeft') onLeftFocus?.();
-    if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
-      const step = e.key === 'ArrowUp' ? 1 : -1;
-      const newValue = getArrowByType(calculatedValue, step, picker);
-      if (flag) setFlag(false);
-      const tempDate = date ? new Date(date) : new Date();
-      onDateChange?.(setDateByType(tempDate, newValue, picker, period));
-    }
-    if (e.key >= '0' && e.key <= '9') {
-      if (picker === '12hours') setPrevIntKey(e.key);
+    const calculatedValue = React.useMemo(() => {
+      return getDateByType(date, picker);
+    }, [date, picker]);
 
-      const newValue = calculateNewValue(e.key);
-      if (flag) onRightFocus?.();
-      setFlag((prev) => !prev);
-      const tempDate = date ? new Date(date) : new Date();
-      onDateChange?.(setDateByType(tempDate, newValue, picker, period));
-    }
-  };
+    const calculateNewValue = (key: string) => {
+      /*
+       * If picker is '12hours' and the first digit is 0, then the second digit is automatically set to 1.
+       * The second entered digit will break the condition and the value will be set to 10-12.
+       */
+      if (picker === '12hours') {
+        if (flag && calculatedValue.slice(1, 2) === '1' && prevIntKey === '0') return `0${ key }`;
+      }
 
-  return (
-    <Input
-      ref={ref}
-      id={id || picker}
-      name={name || picker}
-      className={cn(
-        'focus:bg-accent w-[48px] font-mono tabular-nums text-base text-center focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none caret-transparent',
-        className
-      )}
-      value={value || calculatedValue}
-      onChange={(e) => {
-        e.preventDefault();
-        onChange?.(e);
-      }}
-      type={type}
-      inputMode="decimal"
-      onKeyDown={(e) => {
-        onKeyDown?.(e);
-        handleKeyDown(e);
-      }}
-      {...props}
-    />
-  );
-}
+      return !flag ? `0${ key }` : calculatedValue.slice(1, 2) + key;
+    };
+
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Tab') return;
+      e.preventDefault();
+      if (e.key === 'ArrowRight') onRightFocus?.();
+      if (e.key === 'ArrowLeft') onLeftFocus?.();
+      if (['ArrowUp', 'ArrowDown'].includes(e.key)) {
+        const step = e.key === 'ArrowUp' ? 1 : -1;
+        const newValue = getArrowByType(calculatedValue, step, picker);
+        if (flag) setFlag(false);
+        const tempDate = date ? new Date(date) : new Date();
+        onDateChange?.(setDateByType(tempDate, newValue, picker, period));
+      }
+      if (e.key >= '0' && e.key <= '9') {
+        if (picker === '12hours') setPrevIntKey(e.key);
+
+        const newValue = calculateNewValue(e.key);
+        if (flag) onRightFocus?.();
+        setFlag((prev) => !prev);
+        const tempDate = date ? new Date(date) : new Date();
+        onDateChange?.(setDateByType(tempDate, newValue, picker, period));
+      }
+    };
+
+    return (
+      <Input
+        ref={ref}
+        id={id || picker}
+        name={name || picker}
+        className={cn(
+          'focus:bg-accent w-[48px] font-mono tabular-nums text-base text-center focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none caret-transparent',
+          className
+        )}
+        value={value || calculatedValue}
+        onChange={(e) => {
+          e.preventDefault();
+          onChange?.(e);
+        }}
+        type={type}
+        inputMode="decimal"
+        onKeyDown={(e) => {
+          onKeyDown?.(e);
+          handleKeyDown(e);
+        }}
+        {...props}
+      />
+    );
+  }
+);
 
 interface TimePickerProps {
   date?: Date | null;
@@ -615,6 +612,7 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
         {hourCycle === 12 && (
           <div className="gap-1 grid text-center">
             <TimePeriodSelect
+              ref={periodRef}
               period={period}
               setPeriod={setPeriod}
               date={date}
