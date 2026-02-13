@@ -8,7 +8,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Install dependencies
-RUN npm install && npm install typescript -g
+RUN npm install --legacy-peer-deps && npm install typescript -g
 
 # Copy the rest of the application code to the container
 COPY . .
