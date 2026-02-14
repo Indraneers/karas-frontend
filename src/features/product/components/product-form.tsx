@@ -4,7 +4,15 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { FormGroup } from "@/components/form-group";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
@@ -16,48 +24,65 @@ import axios from "axios";
 import { FormSearch } from "@/components/form-search";
 import { ImageCropperFormField } from "@/components/ui/img-cropper";
 
-const formSchema = z.object({
-  id: z.string(),
-  name: z.string({ message: 'Name is required' }).min(2).max(150),
-  identifier: z.string(),
-  subcategoryId: z.string({ message: 'Subcategory is requiqred' }).min(1, 'Subcategory is requiqred'),
-  unitCount: z.number(),
-  variable: z.boolean({ message: 'Variable is required' }),
-  baseUnit: z.string(),
-  file: z.any()
-    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-      message: "Only SVG and PNG files are allowed"
-    })
-    .optional()
-}).refine(schema => {
-  return !(schema.variable && !schema.baseUnit);
-}, {
-  message: "Base Unit is required if variable is true",
-  path: ['baseUnit']
-});
+const formSchema = z
+  .object({
+    id: z.string(),
+    name: z.string({ message: "Name is required" }).min(2).max(150),
+    identifier: z.string(),
+    subcategoryId: z
+      .string({ message: "Subcategory is requiqred" })
+      .min(1, "Subcategory is requiqred"),
+    unitCount: z.number(),
+    variable: z.boolean({ message: "Variable is required" }),
+    baseUnit: z.string(),
+    file: z
+      .any()
+      .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+        message: "Only SVG and PNG files are allowed",
+      })
+      .optional(),
+  })
+  .refine(
+    (schema) => {
+      return !(schema.variable && !schema.baseUnit);
+    },
+    {
+      message: "Base Unit is required if variable is true",
+      path: ["baseUnit"],
+    },
+  );
 
 const defaultData: ProductRequestDto = {
-  id: '',
-  name: '',
-  identifier: '',
-  subcategoryId: '',
+  id: "",
+  name: "",
+  identifier: "",
+  subcategoryId: "",
   unitCount: 0,
   variable: false,
-  baseUnit: ''
+  baseUnit: "",
 };
 
 interface ProductFormProps {
-  handleSubmit: ({ productDto, file } : { productDto: ProductRequestDto, file?: File }) => void;
+  handleSubmit: ({
+    productDto,
+    file,
+  }: {
+    productDto: ProductRequestDto;
+    file?: File;
+  }) => void;
   data?: ProductRequestDto | undefined;
 }
 
-export function ProductForm({ data = defaultData, handleSubmit = console.log }: ProductFormProps) {
+export function ProductForm({
+  data = defaultData,
+  handleSubmit = console.log,
+}: ProductFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: data
+    defaultValues: data,
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
@@ -65,11 +90,10 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
       const { file, ...productDto } = values;
       handleSubmit({ productDto, file });
       form.reset();
-      navigate({ to: '/inventory/products' });
+      navigate({ to: "/inventory/products" });
       router.invalidate();
-    }
-    catch(error: unknown) {
-      if (axios.isAxiosError(error))  {
+    } catch (error: unknown) {
+      if (axios.isAxiosError(error)) {
         toast(error.message);
       }
     }
@@ -90,10 +114,14 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               <FormItem>
                 <FormLabel>Product Name</FormLabel>
                 <FormControl>
-                  <Input className="w-[300px]" placeholder="Ex: TW ProTech F-1" {...field} />
+                  <Input
+                    className="w-[300px]"
+                    placeholder="Ex: TW ProTech F-1"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
-                Set the product name. Min. 3 Max. 150
+                  Set the product name. Min. 3 Max. 150
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -106,7 +134,11 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               <FormItem className="mt-4">
                 <FormLabel>Product Identifier</FormLabel>
                 <FormControl>
-                  <Input className="w-[200px]" placeholder="Ex: API SP SAE 5W-30" {...field} />
+                  <Input
+                    className="w-[200px]"
+                    placeholder="Ex: API SP SAE 5W-30"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
                   Set the product identifier. Min. 3 Max. 150
@@ -137,7 +169,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               </FormItem>
             )}
           />
-          <ImageCropperFormField 
+          <ImageCropperFormField
             form={form}
             name="file"
             label="Set POS Icon"
@@ -150,7 +182,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               control={form.control}
               name="variable"
               render={({ field }) => (
-                <FormItem className="flex flex-row justify-between items-center shadow-sm p-4 border rounded-lg">
+                <FormItem className="flex flex-row justify-between items-center shadow-xs p-4 border rounded-lg">
                   <div className="space-y-0.5">
                     <FormLabel>Variable Status</FormLabel>
                     <FormDescription>
@@ -173,7 +205,9 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
               name="baseUnit"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Base Unit Name (Required if Variable Status is on)</FormLabel>
+                  <FormLabel>
+                    Base Unit Name (Required if Variable Status is on)
+                  </FormLabel>
                   <FormControl>
                     <Input placeholder="Ex: L" {...field} />
                   </FormControl>
@@ -186,11 +220,7 @@ export function ProductForm({ data = defaultData, handleSubmit = console.log }: 
             />
           </div>
         </FormGroup>
-        <Button
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

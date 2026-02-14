@@ -25,7 +25,9 @@ import { VehicleType } from "../types/vehicle";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
 } from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
@@ -178,23 +180,26 @@ export function VehicleForm({
                 name="vehicleType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>VeicleType</FormLabel>
+                    <FormLabel>Vehicle Type</FormLabel>
                     <FormControl>
                       <Select
                         onValueChange={field.onChange}
                         defaultValue={field.value}
                       >
-                        <SelectTrigger className="w-[200px]">
-                          <SelectValue placeholder="Select vehicle type" />
+                        <SelectTrigger className="w-50">
+                          <SelectValue placeholder="Select a vehicle type" />
                         </SelectTrigger>
-                        <SelectContent>
-                          {vehicleTypeList.map((t) => (
-                            <SelectItem key={t.content} value={t.value}>
-                              <div className="flex items-center gap-2">
-                                <VehicleIcon icon={t.icon} /> {t.content}
-                              </div>
-                            </SelectItem>
-                          ))}
+                        <SelectContent position="popper" align="start">
+                          <SelectGroup>
+                            <SelectLabel>Select a vehicle type</SelectLabel>
+                            {vehicleTypeList.map((t) => (
+                              <SelectItem key={t.content} value={t.value}>
+                                <div className="flex items-center gap-2">
+                                  <VehicleIcon icon={t.icon} /> {t.content}
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
                         </SelectContent>
                       </Select>
                     </FormControl>
@@ -363,16 +368,19 @@ export function VehicleForm({
                       defaultValue={field.value}
                     >
                       <SelectTrigger className="w-[300px]">
-                        <SelectValue placeholder="Select vehicle type" />
+                        <SelectValue placeholder="Select a vehicle type" />
                       </SelectTrigger>
-                      <SelectContent>
-                        {vehicleTypeList.map((t) => (
-                          <SelectItem key={t.content} value={t.value}>
-                            <div className="flex items-center gap-2">
-                              <VehicleIcon icon={t.icon} /> {t.content}
-                            </div>
-                          </SelectItem>
-                        ))}
+                      <SelectContent position="popper" align="start">
+                        <SelectGroup>
+                          <SelectLabel>Select a vehicle type</SelectLabel>
+                          {vehicleTypeList.map((t) => (
+                            <SelectItem key={t.content} value={t.value}>
+                              <div className="flex items-center gap-2">
+                                <VehicleIcon icon={t.icon} /> {t.content}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </FormControl>

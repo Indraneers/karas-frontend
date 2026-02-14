@@ -221,7 +221,7 @@ export function CustomerSearchItem({
         className,
       ])}
     >
-      <div className={cn(["bg-primary p-1 rounded-sm h-8 w-8", className])}>
+      <div className={cn(["bg-accent p-1 rounded-sm h-8 w-8", className])}>
         <User className={cn(["w-6 h-6 text-white"])} />
       </div>
       <div className="flex flex-col">
