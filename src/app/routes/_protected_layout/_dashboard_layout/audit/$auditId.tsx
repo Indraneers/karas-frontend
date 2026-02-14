@@ -9,6 +9,7 @@ import "json-diff-kit/dist/viewer.css";
 
 import { createFileRoute } from "@tanstack/react-router";
 import { format } from "date-fns";
+import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute(
   "/_protected_layout/_dashboard_layout/audit/$auditId",
@@ -36,6 +37,11 @@ export function AuditDetailPage() {
 
   const diff = differ.diff(oldData, newData);
 
+  const copyToClipboard = (obj: any) => {
+    navigator.clipboard.writeText(JSON.stringify(obj, null, 2));
+    alert("Copied to clipboard!");
+  };
+
   return (
     <div className="flex flex-col gap-4 h-full">
       <Card className="p-2">
@@ -61,6 +67,16 @@ export function AuditDetailPage() {
           <TypographyH2>Data Comparison</TypographyH2>
         </CardHeader>
         <CardContent>
+          {!isLoading && (
+            <div className="flex justify-between mb-2">
+              <Button onClick={() => copyToClipboard(oldData)}>
+                Copy Old Data
+              </Button>
+              <Button onClick={() => copyToClipboard(newData)}>
+                Copy New Data
+              </Button>
+            </div>
+          )}
           {isLoading ? (
             <div className="flex flex-col gap-1">
               <Skeleton className="h-6"></Skeleton>
