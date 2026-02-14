@@ -167,7 +167,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       </div>
       <div 
         onKeyDown={handleOnEnter}
-        className="bg-background p-2 rounded-[2.5rem] w-[40vw] lg:w-[30vw] xl:w-[22.5vw]"
+        className="bg-background p-2 rounded-[2rem] w-[40vw] lg:w-[30vw] xl:w-[22.5vw]"
       >
         <div className="bg-accent rounded-4xl text-background">
           {/* Input screen */}
