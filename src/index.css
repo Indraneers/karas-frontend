@@ -238,19 +238,3 @@
     @apply bg-background text-foreground;
   }
 }
-
-/* This prevents the selection from jumping across columns */
-.json-diff-kit-viewer-left,
-.json-diff-kit-viewer-right {
-  display: inline-block; /* or block */
-  unicode-bidi: bidi-override;
-}
-
-/* Specifically for json-diff-kit containers */
-.json-diff-kit-row {
-  user-select: none; /* Disable selection on the row container */
-}
-
-.json-diff-kit-cell {
-  user-select: text; /* Re-enable it only for the actual content cells */
-}
