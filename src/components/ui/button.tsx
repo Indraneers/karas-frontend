@@ -23,7 +23,7 @@ const buttonVariants = cva(
           "border-primary bg-transparent border text-primary cursor-pointer hover:bg-primary hover:text-surface",
       },
       size: {
-        default: "h-9 px-2 py-2",
+        default: "h-8 px-2 py-2",
         sm: "h-8 rounded-md px-3 text-xs",
         lg: "h-10 rounded-md px-8",
         icon: "h-9 w-9",

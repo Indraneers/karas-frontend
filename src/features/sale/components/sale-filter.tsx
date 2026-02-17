@@ -27,7 +27,9 @@ import { cn } from "@/lib/utils";
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
@@ -81,7 +83,7 @@ function RadioOption({
       <RadioGroupItem
         value={option.value}
         id={`${groupName}-${option.id}`}
-        className="sr-only peer"
+        className="sr-only peer opacity-0 w-0 h-0"
         onClick={onClick}
       />
       <Label
@@ -287,25 +289,28 @@ export function SalesPopupFilter() {
               }
             }}
           >
-            <SelectTrigger className="mt-2 h-8">
-              <SelectValue placeholder="Select staff" />
+            <SelectTrigger className="mt-2 px-2 py-1 w-full h-auto text-xs">
+              <SelectValue className="p-0" placeholder="Select staff" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem className="group cursor-pointer" value={"CLEAR"}>
-                <span className="inline-flex items-center text-primary group-hover:text-surface">
-                  <Trash className="mr-1 w-3 h-3" /> Clear Selection
-                </span>
-              </SelectItem>
-              {usersQuery.data &&
-                usersQuery.data.map((u) => (
-                  <SelectItem
-                    key={u.id}
-                    value={u.id}
-                    className="cursor-pointer"
-                  >
-                    {u.username}
-                  </SelectItem>
-                ))}
+              <SelectGroup>
+                <SelectLabel>Select a staff</SelectLabel>
+                <SelectItem className="group cursor-pointer" value={"CLEAR"}>
+                  <span className="inline-flex items-center text-primary group-hover:text-surface">
+                    <Trash className="mr-1 w-3 h-3" /> Clear Selection
+                  </span>
+                </SelectItem>
+                {usersQuery.data &&
+                  usersQuery.data.map((u) => (
+                    <SelectItem
+                      key={u.id}
+                      value={u.id}
+                      className="cursor-pointer"
+                    >
+                      {u.username}
+                    </SelectItem>
+                  ))}
+              </SelectGroup>
             </SelectContent>
           </Select>
         </div>
