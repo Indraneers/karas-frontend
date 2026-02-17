@@ -113,7 +113,7 @@ function RadioOption({
 export function SalesPopupFilter() {
   const searchFilter: SaleFilter = Route.useSearch();
   const navigate = useNavigate({
-    from: "/_protected_layout/_dashboard_layout/sales",
+    from: "/sales",
   });
 
   const [isOpen, setIsOpen] = useState(false);
