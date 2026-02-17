@@ -189,7 +189,7 @@ export function VehicleForm({
                         <SelectTrigger className="w-50">
                           <SelectValue placeholder="Select a vehicle type" />
                         </SelectTrigger>
-                        <SelectContent position="popper" align="start">
+                        <SelectContent align="start">
                           <SelectGroup>
                             <SelectLabel>Select a vehicle type</SelectLabel>
                             {vehicleTypeList.map((t) => (
@@ -370,7 +370,7 @@ export function VehicleForm({
                       <SelectTrigger className="w-[300px]">
                         <SelectValue placeholder="Select a vehicle type" />
                       </SelectTrigger>
-                      <SelectContent position="popper" align="start">
+                      <SelectContent align="start">
                         <SelectGroup>
                           <SelectLabel>Select a vehicle type</SelectLabel>
                           {vehicleTypeList.map((t) => (

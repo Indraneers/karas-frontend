@@ -289,7 +289,7 @@ export function SalesPopupFilter() {
               }
             }}
           >
-            <SelectTrigger className="mt-2 px-2 py-1 w-full h-auto text-xs">
+            <SelectTrigger className="mt-2 px-2 py-1 w-full data-[size=default]:h-8 data-[size=sm]:h-7 text-xs">
               <SelectValue className="p-0" placeholder="Select staff" />
             </SelectTrigger>
             <SelectContent>
