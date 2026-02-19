@@ -2,7 +2,7 @@ import { ServiceDto } from "../types/service.dto";
 import { useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { DropdownAction } from "@/components/dropdown-action";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { Service } from "../types/service";
 import { DropdownActionItem } from "@/types/context-options";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";

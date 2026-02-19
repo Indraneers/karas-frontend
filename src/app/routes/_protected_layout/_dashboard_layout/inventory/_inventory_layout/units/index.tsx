@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { UnitTable } from "@/features/unit/components/unit-table/index";
 import { TypographyH1 } from "@/components/ui/typography/h1";
 import { NewUnitButton } from "@/features/unit/components/new-unit-button";

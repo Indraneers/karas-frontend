@@ -1,7 +1,7 @@
 import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { UnitResponseDto } from "../types/unit.dto";
 import { Unit } from "../types/unit";
 import { DropdownActionItem } from "@/types/context-options";

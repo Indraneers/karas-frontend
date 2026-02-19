@@ -189,9 +189,11 @@ export function DataTablePagination<TData, TValue>({
                             <ContextMenuItem
                               className="cursor-pointer"
                               key={c.key}
-                              onClick={() => c.onClick(row.original as TData)}
+                              onClick={() => c.onClick?.(row.original as TData)}
                             >
-                              {c.content}
+                              {typeof c.content === "function"
+                                ? c.content(row.original as TData)
+                                : c.content}
                             </ContextMenuItem>
                           ))}
                         </ContextMenuGroup>
@@ -411,9 +413,11 @@ export function DataTableAutoPagination<TData, TValue>({
                             <ContextMenuItem
                               className="cursor-pointer"
                               key={c.key}
-                              onClick={() => c.onClick(row.original as TData)}
+                              onClick={() => c.onClick?.(row.original as TData)}
                             >
-                              {c.content}
+                              {typeof c.content === "function"
+                                ? c.content(row.original as TData)
+                                : c.content}
                             </ContextMenuItem>
                           ))}
                         </ContextMenuGroup>
