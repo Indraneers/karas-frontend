@@ -1,5 +1,5 @@
 import { SaleResponseDto } from "../types/sale.dto";
-import { BadgeDollarSign, Edit, Printer, Trash2 } from "lucide-react";
+import { BadgeDollarSign, Edit, Printer } from "lucide-react";
 import { useNavigate } from "@tanstack/react-router";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { paySale } from "../api/sale";
