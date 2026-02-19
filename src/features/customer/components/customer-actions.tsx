@@ -5,7 +5,7 @@ import { Edit, Trash } from "lucide-react";
 import { CustomerDto } from "../types/customer.dto";
 import { Customer } from "../types/customer";
 import { DropdownActionItem } from "@/types/context-options";
-
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface CustomerActionsProps {
   value: Customer;
@@ -15,9 +15,9 @@ interface CustomerActionsProps {
 export function CustomerActions({ value, handleDelete }: CustomerActionsProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customers'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["customers"] }),
   });
 
   const dropdownActionItems: DropdownActionItem<Customer>[] = [
@@ -26,16 +26,29 @@ export function CustomerActions({ value, handleDelete }: CustomerActionsProps) {
       onClick: (customer) => {
         navigate({ to: `/customers/edit/` + customer.id });
       },
-      content: <><Edit /> Edit Customer</>
+      content: (
+        <>
+          <Edit /> Edit Customer
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (customer) => {
-        mutatation.mutate(customer.id);
-      },
-      content: <><Trash /> Delete Customer</>
-    }
+      content: (vehicle) => (
+        <DeleteWithConfirmation
+          object="customer"
+          onConfirm={() => mutation.mutate(vehicle.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
 
-  return <DropdownAction label='Customer Actions' items={dropdownActionItems} value={value} />;
+  return (
+    <DropdownAction
+      label="Customer Actions"
+      items={dropdownActionItems}
+      value={value}
+    />
+  );
 }

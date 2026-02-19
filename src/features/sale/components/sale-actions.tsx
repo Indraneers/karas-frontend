@@ -7,21 +7,22 @@ import { onClickUrl } from "@/lib/link";
 import { DropdownAction } from "@/components/dropdown-action";
 import { Sale } from "../types/sale";
 import { DropdownActionItem } from "@/types/context-options";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface SaleActionsProps {
-  value: Sale
-  handleDelete: (d: string) => Promise<SaleResponseDto>
+  value: Sale;
+  handleDelete: (d: string) => Promise<SaleResponseDto>;
 }
 
 export function SaleActions({ value, handleDelete }: SaleActionsProps) {
   const queryClient = useQueryClient();
   const payMutation = useMutation({
     mutationFn: async (id: string) => paySale(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sales"] }),
   });
-  const deleteMutatation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sales"] }),
   });
 
   const navigate = useNavigate();
@@ -30,32 +31,49 @@ export function SaleActions({ value, handleDelete }: SaleActionsProps) {
     {
       key: 1,
       onClick: (sale) => {
-        payMutation.mutate(sale.id || '');
+        payMutation.mutate(sale.id || "");
       },
-      content: <><BadgeDollarSign /> Set Paid</>
+      content: (
+        <>
+          <BadgeDollarSign /> Set Paid
+        </>
+      ),
     },
     {
       key: 2,
       onClick: (sale) => {
-        (onClickUrl('/invoice/' + sale.id + '?print=true'))();
+        onClickUrl("/invoice/" + sale.id + "?print=true")();
       },
-      content: <><Printer /> Print</>
+      content: (
+        <>
+          <Printer /> Print
+        </>
+      ),
     },
     {
       key: 3,
       onClick: (sale) => {
-        navigate({ to: '/sales/edit/' + sale.id });
+        navigate({ to: "/sales/edit/" + sale.id });
       },
-      content: <><Edit /> Edit</>
+      content: (
+        <>
+          <Edit /> Edit
+        </>
+      ),
     },
     {
       key: 4,
-      onClick: (sale) => {
-        deleteMutatation.mutate(sale.id || '');
-      },
-      content: <><Trash2 /> Delete</>
-    }
+      content: (sale) => (
+        <DeleteWithConfirmation
+          object="sale"
+          onConfirm={() => deleteMutation.mutate(sale.id || "")}
+          isLoading={deleteMutation.isPending}
+        />
+      ),
+    },
   ];
 
-  return <DropdownAction label='Sales Action' items={dropdownItems} value={value} />;
+  return (
+    <DropdownAction label="Sales Action" items={dropdownItems} value={value} />
+  );
 }
