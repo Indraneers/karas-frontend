@@ -38,13 +38,13 @@ const defaultData: CustomerDto = {
 interface CustomerFormProps {
   handleSubmit: (values: CustomerDto) => void;
   data?: CustomerDto | undefined;
-  isPopover?: boolean;
+  isSheet?: boolean;
 }
 
 export function CustomerForm({
   data = defaultData,
   handleSubmit = console.log,
-  isPopover,
+  isSheet,
 }: CustomerFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
@@ -57,7 +57,7 @@ export function CustomerForm({
   function onSubmit(values: z.infer<typeof formSchema>) {
     handleSubmit(values);
     form.reset();
-    if (!isPopover) {
+    if (!isSheet) {
       navigate({ to: "/customers" });
       router.invalidate();
     }
@@ -66,85 +66,6 @@ export function CustomerForm({
   useEffect(() => {
     form.reset(data);
   }, [form, data]);
-
-  if (isPopover) {
-    return (
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormGroup title="General Information">
-            <div className="items-center gap-4 grid grid-cols-2">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Customer Name</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: John Smith" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                      Set the Customer name. Min. 3 Max. 50
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="contact"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Phone Number</FormLabel>
-                    <FormControl>
-                      <Input placeholder="Ex: 012 345 567" {...field} />
-                    </FormControl>
-                    <FormDescription>Set the Phone Number</FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </div>
-
-            <FormField
-              control={form.control}
-              name="address"
-              render={({ field }) => (
-                <FormItem className="mt-4">
-                  <FormLabel>Address</FormLabel>
-                  <FormControl>
-                    <Input
-                      className="w-[500px]"
-                      placeholder="Ex: 012 345 567"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Set the Customer Address</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="note"
-              render={({ field }) => (
-                <FormItem className="mt-4">
-                  <FormLabel>Note</FormLabel>
-                  <FormControl>
-                    <Textarea {...field} />
-                  </FormControl>
-                  <FormDescription>Set the Customer Note</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </FormGroup>
-          <Button type="submit">Submit</Button>
-        </form>
-      </Form>
-    );
-  }
 
   return (
     <Form {...form}>
@@ -198,8 +119,8 @@ export function CustomerForm({
                 <FormLabel>Address</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-[500px]"
-                    placeholder="Ex: 012 345 567"
+                    className={isSheet ? "w-75" : "w-125"}
+                    placeholder="Ex: St 598, Phnom Penh"
                     {...field}
                   />
                 </FormControl>

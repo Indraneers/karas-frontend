@@ -70,7 +70,7 @@ const defaultData: VehicleDto = {
 interface VehicleFormProps {
   handleSubmit: (vehicleDto: VehicleDto) => void;
   data?: VehicleDto | undefined;
-  isPopover?: boolean;
+  isSheet?: boolean;
   defaultCustomer?: CustomerDto;
 }
 
@@ -78,7 +78,7 @@ export function VehicleForm({
   data = defaultData,
   defaultCustomer,
   handleSubmit,
-  isPopover = false,
+  isSheet = false,
 }: VehicleFormProps) {
   const router = useRouter();
   const navigate = useNavigate();
@@ -94,7 +94,7 @@ export function VehicleForm({
     values.id = "";
     await handleSubmit(values);
     form.reset();
-    if (!isPopover) {
+    if (!isSheet) {
       navigate({ to: "/vehicles", replace: true });
       router.invalidate();
     }
@@ -107,11 +107,11 @@ export function VehicleForm({
     }
   }, [data, defaultCustomer, form]);
 
-  if (isPopover) {
+  if (isSheet) {
     return (
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormGroup title="General Information">
+          <FormGroup title="General Information" className="mb-4">
             <div className="gap-4 grid grid-cols-[1fr_2fr]">
               <FormField
                 control={form.control}
@@ -173,7 +173,7 @@ export function VehicleForm({
               )}
             />
           </FormGroup>
-          <FormGroup title="Vehicle Detail">
+          <FormGroup title="Vehicle Detail" className="mb-4">
             <div className="gap-4 grid grid-cols-2">
               <FormField
                 control={form.control}
@@ -267,7 +267,7 @@ export function VehicleForm({
                 <FormItem className="mt-4">
                   <FormLabel>Note</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea rows={1} {...field} />
                   </FormControl>
                   <FormDescription>Set the Vehicle Note</FormDescription>
                   <FormMessage />

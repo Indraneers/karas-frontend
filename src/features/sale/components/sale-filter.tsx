@@ -92,7 +92,7 @@ function RadioOption({
             flex items-center w-full px-4 py-1.5 text-xs rounded-md border cursor-pointer transition-all
             ${
               isSelected
-                ? "border-accent bg-accent text-surface"
+                ? "border-accent bg-accent text-surface text-accent-foreground"
                 : "border-border hover:border-accent"
             }
           `}
