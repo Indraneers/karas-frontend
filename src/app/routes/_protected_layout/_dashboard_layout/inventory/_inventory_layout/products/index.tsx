@@ -1,47 +1,54 @@
-import { SectionContent } from '@/components/section-content';
-import { SectionHeader } from '@/components/section-header';
-import { Card, CardContent } from '@/components/ui/card';
-import { TypographyH1 } from '@/components/ui/typography/h1';
-import { getProducts } from '@/features/product/api/product';
-import { NewProductButton } from '@/features/product/components/new-product-btn';
-import { ProductSearch } from '@/features/product/components/product-search';
-import { ProductTable } from '@/features/product/components/product-table';
-import { useSearchPagination } from '@/hooks/use-search-pagination';
-import { createFileRoute } from '@tanstack/react-router';
+import { SectionContent } from "@/components/section-content";
+import { SectionHeader } from "@/components/section-header";
+import { Card, CardContent } from "@/components/ui/card";
+import { TypographyH1 } from "@/components/ui/typography/h1";
+import { getProducts } from "@/features/product/api/product";
+import { NewProductButton } from "@/features/product/components/new-product-btn";
+import { ProductSearch } from "@/features/product/components/product-search";
+import { ProductTable } from "@/features/product/components/product-table";
+import { useSearchPagination } from "@/hooks/use-search-pagination";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/')({
-  component: () => <ProductPage />
+interface ProductParams {
+  page?: number;
+}
+
+export const Route = createFileRoute(
+  "/_protected_layout/_dashboard_layout/inventory/_inventory_layout/products/",
+)({
+  component: () => <ProductPage />,
+  validateSearch: (search: Record<string, unknown>): ProductParams => {
+    return {
+      page: (search.page as number) || 1,
+    };
+  },
 });
 
 function ProductPage() {
+  const { page } = Route.useSearch();
   const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({
     getEntity: getProducts,
-    key: ['products']
+    page,
+    key: ["products"],
   });
 
   return (
     <>
       <SectionHeader>
-        <TypographyH1>
-        Product
-        </TypographyH1>
+        <TypographyH1>Product</TypographyH1>
       </SectionHeader>
-      <SectionContent className='flex flex-col h-full'>
-        <div className='flex justify-between'>
-          <ProductSearch 
-            className='w-[400px]'
-            value={q}
-            onChange={setQ}
-          />
-          <div className='flex flex-row-reverse gap-4'>
+      <SectionContent className="flex flex-col h-full">
+        <div className="flex justify-between">
+          <ProductSearch className="w-[400px]" value={q} onChange={setQ} />
+          <div className="flex flex-row-reverse gap-4">
             <NewProductButton />
           </div>
         </div>
-        <Card className='mt-4'>
-          <CardContent className='mt-4'>
-            <ProductTable 
-              isLoading={isLoading} 
-              products={data?.content || []} 
+        <Card className="mt-4">
+          <CardContent className="mt-4">
+            <ProductTable
+              isLoading={isLoading}
+              products={data?.content || []}
               paginationDetail={paginationDetail}
             />
           </CardContent>

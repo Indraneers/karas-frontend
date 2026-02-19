@@ -11,4 +11,5 @@ export interface UseSearch<T> {
 export interface SearchPaginatedState<T> extends UsePaginationState<T> {
     enabled?: boolean;
     query?: Record<string, string | number | undefined | Date>;
+    page?: number;
 }
