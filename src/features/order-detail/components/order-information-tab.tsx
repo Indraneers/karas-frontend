@@ -22,7 +22,6 @@ import { Edit, Phone, RotateCcw, SquarePlus } from "lucide-react";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { PopoverButton } from "./popover-button";
 import { CustomerForm } from "@/features/customer/components/customer-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import {
@@ -39,6 +38,8 @@ function CustomerInformation({
   customer,
   className,
 }: CustomerInformationProps) {
+  const [openCreate, setOpenCreate] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { setCustomer, setDefaultVehicleAndCustomer } = usePosStore();
 
@@ -92,7 +93,7 @@ function CustomerInformation({
         </div>
         <Separator className="hidden xl:block" orientation="vertical" />
         <div className="flex xl:justify-center items-center gap-2">
-          <Sheet>
+          <Sheet open={openCreate} onOpenChange={setOpenCreate}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <SquarePlus />
@@ -109,13 +110,14 @@ function CustomerInformation({
                     const customer =
                       await createMutation.mutateAsync(customerDto);
                     setCustomer(customer);
+                    setOpenCreate(false);
                   }}
                   isSheet
                 />
               </div>
             </SheetContent>
           </Sheet>
-          <Sheet>
+          <Sheet open={openEdit} onOpenChange={setOpenEdit}>
             <SheetTrigger asChild>
               <Button disabled={!customer.id} variant="ghost" size="icon">
                 <Edit />
@@ -135,6 +137,7 @@ function CustomerInformation({
                     const customer =
                       await updateMutation.mutateAsync(customerDto);
                     setCustomer(customer);
+                    setOpenEdit(false);
                   }}
                   isSheet
                 />
@@ -173,6 +176,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet";
+import { useState } from "react";
 
 interface VehicleInformationProps {
   className?: string;
@@ -183,6 +187,8 @@ export function VehicleInformation({
   className,
   vehicle,
 }: VehicleInformationProps) {
+  const [openCreate, setOpenCreate] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
   const { customer, setVehicle, setDefaultVehicle } = usePosStore();
   const queryClient = useQueryClient();
 
@@ -196,7 +202,7 @@ export function VehicleInformation({
         queryKey: ["vehicle-" + vehicle?.id],
       });
       queryClient.invalidateQueries({
-        queryKey: ["vehicles-customer-" + customer.id || ""],
+        queryKey: ["vehicles-customer", customer.id || ""],
       });
       setVehicle(data);
     },
@@ -216,7 +222,7 @@ export function VehicleInformation({
         queryKey: ["vehicle-" + vehicle?.id],
       });
       queryClient.invalidateQueries({
-        queryKey: ["vehicles-customer-" + customer.id || ""],
+        queryKey: ["vehicles-customer", customer.id || ""],
       });
       setVehicle(data);
     },
@@ -242,7 +248,7 @@ export function VehicleInformation({
         </InfoField>
         <Separator className="hidden xl:block" orientation="vertical" />
         <div className="flex gap-2">
-          <Sheet>
+          <Sheet open={openCreate} onOpenChange={setOpenCreate}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
                 <SquarePlus />
@@ -260,13 +266,14 @@ export function VehicleInformation({
                   defaultCustomer={customer}
                   handleSubmit={async (vehicleDto: VehicleDto) => {
                     createMutation.mutate(vehicleDto);
+                    setOpenCreate(false);
                   }}
                   isSheet
                 />
               </div>
             </SheetContent>
           </Sheet>
-          <Sheet>
+          <Sheet open={openEdit} onOpenChange={setOpenEdit}>
             <SheetTrigger asChild>
               <Button disabled={!vehicle.id} variant="ghost" size="icon">
                 <Edit />
@@ -285,6 +292,7 @@ export function VehicleInformation({
                   defaultCustomer={customer}
                   handleSubmit={async (vehicleDto: VehicleDto) => {
                     updateMutation.mutate(vehicleDto);
+                    setOpenEdit(false);
                   }}
                   isSheet
                 />
