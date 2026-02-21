@@ -10,9 +10,10 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContextOption } from "@/types/context-options";
 import { onClickUrl } from "@/lib/link";
-import { BadgeDollarSign, Printer, Edit, Trash2 } from "lucide-react";
+import { BadgeDollarSign, Printer, Edit } from "lucide-react";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
 import { SaleFilter } from "../../types/sale-filter";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 function getQueryKeys(queryKey: string[], saleFilter: SaleFilter): string[] {
   const queryKeys = [...queryKey];
@@ -51,7 +52,7 @@ export function SalesTable({
     mutationFn: async (id: string) => paySale(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sales"] }),
   });
-  const deleteMutatation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: async (id: string) => deleteSale(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sales"] }),
   });
@@ -92,13 +93,12 @@ export function SalesTable({
     },
     {
       key: 4,
-      onClick: (sale) => {
-        deleteMutatation.mutate(sale.id || "");
-      },
-      content: (
-        <>
-          <Trash2 /> Delete
-        </>
+      content: (sale) => (
+        <DeleteWithConfirmation
+          object="sale"
+          onConfirm={() => deleteMutation.mutate(sale.id || "")}
+          isLoading={deleteMutation.isPending}
+        />
       ),
     },
   ];

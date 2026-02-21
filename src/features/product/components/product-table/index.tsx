@@ -7,9 +7,9 @@ import { useState } from "react";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { deleteProduct } from "../../api/product";
-
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface ProductTablePage {
   className?: string;
@@ -18,13 +18,18 @@ interface ProductTablePage {
   paginationDetail: PaginationDetail;
 }
 
-export function ProductTable({ isLoading, className, products, paginationDetail }: ProductTablePage) {
+export function ProductTable({
+  isLoading,
+  className,
+  products,
+  paginationDetail,
+}: ProductTablePage) {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => deleteProduct(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['products'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
   });
 
   const contextOptions: ContextOption<Product>[] = [
@@ -33,24 +38,31 @@ export function ProductTable({ isLoading, className, products, paginationDetail 
       onClick: (product) => {
         navigate({ to: `/inventory/products/edit/` + product.id });
       },
-      content: <><Edit /> Edit Product</>
+      content: (
+        <>
+          <Edit /> Edit Product
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (product) => {
-        mutatation.mutate(product.id);
-      },
-      content: <><Trash /> Delete Product</>
-    }
+      content: (product) => (
+        <DeleteWithConfirmation
+          object="product"
+          onConfirm={() => mutation.mutate(product.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
   return (
     <div className={cn(className)}>
-      <DataTablePagination 
+      <DataTablePagination
         rowSelection={rowSelection}
         onRowSelectionChange={setRowSelection}
-        isLoading={isLoading} 
-        columns={columns} 
-        data={products} 
+        isLoading={isLoading}
+        columns={columns}
+        data={products}
         paginationDetail={paginationDetail}
         contextLabel="Product Actions"
         contextOptions={contextOptions}

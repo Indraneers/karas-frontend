@@ -7,9 +7,10 @@ import { useState } from "react";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { Vehicle } from "../../types/vehicle";
 import { deleteVehicle } from "../../api/vehicle";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface VehicleTableProps {
   className?: string;
@@ -17,13 +18,17 @@ interface VehicleTableProps {
   paginationDetail: PaginationDetail;
 }
 
-export function VehicleTable({ className, data, paginationDetail } : VehicleTableProps) {
+export function VehicleTable({
+  className,
+  data,
+  paginationDetail,
+}: VehicleTableProps) {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => deleteVehicle(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['vehicles'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["vehicles"] }),
   });
 
   const contextOptions: ContextOption<Vehicle>[] = [
@@ -32,24 +37,31 @@ export function VehicleTable({ className, data, paginationDetail } : VehicleTabl
       onClick: (vehicle) => {
         navigate({ to: `/vehicles/edit/` + vehicle.id });
       },
-      content: <><Edit /> Edit Vehicle</>
+      content: (
+        <>
+          <Edit /> Edit Vehicle
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (vehicle) => {
-        mutatation.mutate(vehicle.id || '');
-      },
-      content: <><Trash /> Delete Vehicle</>
-    }
+      content: (vehicle) => (
+        <DeleteWithConfirmation
+          object="vehicle"
+          onConfirm={() => mutation.mutate(vehicle.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
   return (
     <div className={className}>
-      <DataTablePagination 
+      <DataTablePagination
         rowSelection={rowSelection}
         onRowSelectionChange={setRowSelection}
-        paginationDetail={paginationDetail} 
-        data={data.map(v => convertVehicleDtoToVehicle(v))} 
-        columns={columns} 
+        paginationDetail={paginationDetail}
+        data={data.map((v) => convertVehicleDtoToVehicle(v))}
+        columns={columns}
         contextLabel="Vehicle Actions"
         contextOptions={contextOptions}
       />

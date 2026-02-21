@@ -6,7 +6,8 @@ import { deleteSubcategory } from "../../api/subcategory";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface SubcategoryTableProps {
   className?: string;
@@ -14,12 +15,17 @@ interface SubcategoryTableProps {
   isLoading?: boolean;
 }
 
-export function SubcategoryTable({ isLoading, className, subcategories }: SubcategoryTableProps) {
+export function SubcategoryTable({
+  isLoading,
+  className,
+  subcategories,
+}: SubcategoryTableProps) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => deleteSubcategory(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['subcategories'] })
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["subcategories"] }),
   });
 
   const contextOptions: ContextOption<Subcategory>[] = [
@@ -28,25 +34,30 @@ export function SubcategoryTable({ isLoading, className, subcategories }: Subcat
       onClick: (subcategory) => {
         navigate({ to: `/inventory/subcategories/edit/` + subcategory.id });
       },
-      content: <><Edit /> Edit Subcategory</>
+      content: (
+        <>
+          <Edit /> Edit Subcategory
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (subcategory) => {
-        mutatation.mutate(subcategory.id);
-      },
-      content: <><Trash /> Delete Subcategory</>
-    }
+      content: (subcategory) => (
+        <DeleteWithConfirmation
+          object="subcategory"
+          onConfirm={() => mutation.mutate(subcategory.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
   return (
-    <div className={cn([
-      className
-    ])}>
+    <div className={cn([className])}>
       <DataTableAutoPagination
         isLoading={isLoading}
         columns={columns}
         data={subcategories}
-        contextLabel='Subcategory Actions'
+        contextLabel="Subcategory Actions"
         contextOptions={contextOptions}
       />
     </div>
