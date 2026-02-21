@@ -189,7 +189,10 @@ export function DataTablePagination<TData, TValue>({
                             <ContextMenuItem
                               className="cursor-pointer"
                               key={c.key}
-                              onClick={() => c.onClick?.(row.original as TData)}
+                              onClick={(event) => {
+                                c.onClick?.(row.original as TData);
+                                event.preventDefault();
+                              }}
                             >
                               {typeof c.content === "function"
                                 ? c.content(row.original as TData)
