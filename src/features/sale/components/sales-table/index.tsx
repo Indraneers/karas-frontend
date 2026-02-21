@@ -12,33 +12,18 @@ import { ContextOption } from "@/types/context-options";
 import { onClickUrl } from "@/lib/link";
 import { BadgeDollarSign, Printer, Edit } from "lucide-react";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
-import { SaleFilter } from "../../types/sale-filter";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
-
-function getQueryKeys(queryKey: string[], saleFilter: SaleFilter): string[] {
-  const queryKeys = [...queryKey];
-  for (const val in saleFilter) {
-    if (val in saleFilter) {
-      queryKeys.push(String(val));
-    }
-  }
-
-  return queryKeys;
-}
 
 export function SalesTable({
   className,
-  saleFilter,
   queryKey = ["sales"],
 }: {
   className?: string;
-  saleFilter: SaleFilter;
   queryKey: string[];
 }) {
   const { isLoading, data, paginationDetail } = useSearchPagination({
-    key: getQueryKeys(queryKey, saleFilter),
+    key: queryKey,
     getEntity: getSales,
-    query: saleFilter,
   });
   const navigate = useNavigate();
 
