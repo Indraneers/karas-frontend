@@ -27,10 +27,8 @@ export const Route = createFileRoute(
 });
 
 function VehiclePage() {
-  const { page } = Route.useSearch();
   const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({
     getEntity: getVehicles,
-    page,
     key: ["vehicles"],
   });
 

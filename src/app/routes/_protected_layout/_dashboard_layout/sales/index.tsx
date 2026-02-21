@@ -35,7 +35,6 @@ export const Route = createFileRoute(
 });
 
 function SalesPage() {
-  const saleFilter = Route.useSearch();
   return (
     <Section className="flex flex-col h-full">
       <SectionHeader>
@@ -45,11 +44,7 @@ function SalesPage() {
         <SalesPopupFilter />
         <Card className="mt-4">
           <CardContent className="mt-4">
-            <SalesTable
-              className="mt-4"
-              saleFilter={saleFilter}
-              queryKey={["sales"]}
-            />
+            <SalesTable className="mt-4" queryKey={["sales"]} />
           </CardContent>
         </Card>
       </SectionContent>

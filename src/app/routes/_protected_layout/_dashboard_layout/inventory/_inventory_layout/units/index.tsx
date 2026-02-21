@@ -27,10 +27,8 @@ export const Route = createFileRoute(
 });
 
 function UnitPage() {
-  const { page } = Route.useSearch();
   const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({
     getEntity: getUnits,
-    page,
     key: ["units"],
   });
 

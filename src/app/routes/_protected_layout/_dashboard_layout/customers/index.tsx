@@ -27,9 +27,8 @@ export const Route = createFileRoute(
 });
 
 export function CustomerPage() {
-  const { page } = Route.useSearch();
   const { q, setQ, data, isLoading, ...paginationDetail } = useSearchPagination(
-    { getEntity: getCustomers, page, key: ["customers"] },
+    { getEntity: getCustomers, key: ["customers"] },
   );
 
   return (

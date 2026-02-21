@@ -25,10 +25,8 @@ export const Route = createFileRoute(
 });
 
 function ProductPage() {
-  const { page } = Route.useSearch();
   const { q, setQ, data, isLoading, paginationDetail } = useSearchPagination({
     getEntity: getProducts,
-    page,
     key: ["products"],
   });
 
