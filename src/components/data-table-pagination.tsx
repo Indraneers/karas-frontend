@@ -257,7 +257,7 @@ export function DataTablePagination<TData, TValue>({
         </div>
         <div className="flex items-center space-x-2">
           <span className="mr-4 text-muted-foreground text-sm">
-            Page {paginationDetail.pagination.pageIndex + 1} of{" "}
+            Page {paginationDetail.pagination.pageIndex} of{" "}
             {paginationDetail.pageCount}
           </span>
           <Button

@@ -37,7 +37,7 @@ export function useSearchPagination<T>({
 
   useEffect(() => {
     if (!data) return;
-    if (pageCount !== data.totalPages) setPageCount(data.totalPages);
+    if (pageCount !== data.totalPages + 1) setPageCount(data.totalPages + 1);
     if (rowCount !== data.totalElements) setRowCount(data.totalElements);
   }, [data]);
 
@@ -57,7 +57,7 @@ export function useSearchPagination<T>({
         ({
           ...prev,
           q,
-          page: 0,
+          page: 1,
         }) as never,
     });
   };
