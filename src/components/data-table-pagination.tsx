@@ -145,7 +145,7 @@ export function DataTablePagination<TData, TValue>({
               table.getRowModel().rows.map((row) => (
                 <>
                   {contextOptions && (
-                    <ContextMenu>
+                    <ContextMenu modal={false}>
                       <ContextMenuTrigger asChild>
                         <TableRow
                           className={cn([

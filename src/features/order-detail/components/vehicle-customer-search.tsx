@@ -73,82 +73,80 @@ export function VehicleCustomerSearch({
           </div>
           <Separator orientation="horizontal" />
           <div className="relative mt-1 h-80">
-            <div className="absolute inset-0 flex flex-col gap-1 h-full max-h-full">
-              <ScrollArea>
-                <div>
-                  {(customerQuery.isLoading || vehicleQuery.isLoading) && (
-                    <SearchLoading />
+            <div className="absolute inset-0 flex flex-col gap-1 h-full max-h-full overflow-y-scroll">
+              <div>
+                {(customerQuery.isLoading || vehicleQuery.isLoading) && (
+                  <SearchLoading />
+                )}
+                <SearchGroup
+                  title="Customer"
+                  isOpen={customerQuery.q !== "" && isCustomerDataNotEmpty}
+                  placeholder="customer"
+                  fetchNextPage={customerQuery.fetchNextPage}
+                  hasNextPage={customerQuery.hasNextPage}
+                >
+                  {customerQuery.isError && "Error"}
+                  {customerQuery.q !== "" &&
+                    customerQuery.data &&
+                    customerQuery.data.pages.map((p, i) => (
+                      <React.Fragment key={i}>
+                        {p.content.map((c, index) => (
+                          <CustomerSearchItem
+                            key={c.id || index}
+                            setQ={customerQuery.setQ}
+                            customer={c}
+                            setOpen={setOpen}
+                          />
+                        ))}
+                      </React.Fragment>
+                    ))}
+                </SearchGroup>
+                <Separator
+                  className={cn([
+                    "my-2 hidden",
+                    customerQuery.q !== "" &&
+                      isVehicleDataNotEmpty &&
+                      isCustomerDataNotEmpty &&
+                      "block",
+                  ])}
+                />
+                <SearchGroup
+                  title="Vehicles"
+                  isOpen={vehicleQuery.q !== "" && isVehicleDataNotEmpty}
+                  placeholder="vehicle"
+                  fetchNextPage={vehicleQuery.fetchNextPage}
+                  hasNextPage={vehicleQuery.hasNextPage}
+                >
+                  {vehicleQuery.isError && "Error"}
+                  {vehicleQuery.isLoading && (
+                    <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">
+                      Loading...
+                    </div>
                   )}
-                  <SearchGroup
-                    title="Customer"
-                    isOpen={customerQuery.q !== "" && isCustomerDataNotEmpty}
-                    placeholder="customer"
-                    fetchNextPage={customerQuery.fetchNextPage}
-                    hasNextPage={customerQuery.hasNextPage}
-                  >
-                    {customerQuery.isError && "Error"}
-                    {customerQuery.q !== "" &&
-                      customerQuery.data &&
-                      customerQuery.data.pages.map((p, i) => (
-                        <React.Fragment key={i}>
-                          {p.content.map((c, index) => (
-                            <CustomerSearchItem
-                              key={c.id || index}
-                              setQ={customerQuery.setQ}
-                              customer={c}
-                              setOpen={setOpen}
-                            />
-                          ))}
-                        </React.Fragment>
-                      ))}
-                  </SearchGroup>
-                  <Separator
-                    className={cn([
-                      "my-2 hidden",
-                      customerQuery.q !== "" &&
-                        isVehicleDataNotEmpty &&
-                        isCustomerDataNotEmpty &&
-                        "block",
-                    ])}
-                  />
-                  <SearchGroup
-                    title="Vehicles"
-                    isOpen={vehicleQuery.q !== "" && isVehicleDataNotEmpty}
-                    placeholder="vehicle"
-                    fetchNextPage={vehicleQuery.fetchNextPage}
-                    hasNextPage={vehicleQuery.hasNextPage}
-                  >
-                    {vehicleQuery.isError && "Error"}
-                    {vehicleQuery.isLoading && (
-                      <div className="place-content-center grid row-span-3 text-foreground/50 text-xl">
-                        Loading...
-                      </div>
-                    )}
-                    {vehicleQuery.q !== "" &&
-                      vehicleQuery.data &&
-                      vehicleQuery.data.pages.map((p, i) => (
-                        <React.Fragment key={i}>
-                          {p.content.map((v, index) => (
-                            <VehicleSearchItem
-                              key={v.id || index}
-                              setQ={vehicleQuery.setQ}
-                              vehicle={v}
-                              setOpen={setOpen}
-                            />
-                          ))}
-                        </React.Fragment>
-                      ))}
-                  </SearchGroup>
-                  {((!isCustomerDataNotEmpty && !isVehicleDataNotEmpty) ||
-                    vehicleQuery.q === "") &&
-                    !vehicleQuery.isLoading &&
-                    !customerQuery.isLoading && (
-                      <div className="place-content-center grid row-span-3 mt-8 text-foreground/50 text-lg">
-                        Empty...
-                      </div>
-                    )}
-                </div>
-              </ScrollArea>
+                  {vehicleQuery.q !== "" &&
+                    vehicleQuery.data &&
+                    vehicleQuery.data.pages.map((p, i) => (
+                      <React.Fragment key={i}>
+                        {p.content.map((v, index) => (
+                          <VehicleSearchItem
+                            key={v.id || index}
+                            setQ={vehicleQuery.setQ}
+                            vehicle={v}
+                            setOpen={setOpen}
+                          />
+                        ))}
+                      </React.Fragment>
+                    ))}
+                </SearchGroup>
+                {((!isCustomerDataNotEmpty && !isVehicleDataNotEmpty) ||
+                  vehicleQuery.q === "") &&
+                  !vehicleQuery.isLoading &&
+                  !customerQuery.isLoading && (
+                    <div className="place-content-center grid row-span-3 mt-8 text-foreground/50 text-lg">
+                      Empty...
+                    </div>
+                  )}
+              </div>
             </div>
           </div>
         </PopoverContent>
