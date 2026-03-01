@@ -9,10 +9,7 @@ interface SectionProps {
 export function Section({ children, className, variant }: SectionProps) {
   return (
     <section
-      className={cn(
-        variant === "card" && "rounded-xl border p-4",
-        className
-      )}
+      className={cn(variant === "card" && "rounded-xl border p-4", className)}
     >
       {children}
     </section>
