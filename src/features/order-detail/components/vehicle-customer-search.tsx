@@ -74,7 +74,7 @@ export function VehicleCustomerSearch({
           <Separator orientation="horizontal" />
           <div className="relative mt-1 h-80">
             <div className="absolute inset-0 flex flex-col gap-1 h-full max-h-full overflow-y-scroll">
-              <div>
+              <ScrollArea>
                 {(customerQuery.isLoading || vehicleQuery.isLoading) && (
                   <SearchLoading />
                 )}
@@ -146,7 +146,7 @@ export function VehicleCustomerSearch({
                       Empty...
                     </div>
                   )}
-              </div>
+              </ScrollArea>
             </div>
           </div>
         </PopoverContent>
@@ -155,7 +155,6 @@ export function VehicleCustomerSearch({
   );
 }
 
-import { VehicleDto } from "../../vehicle/types/vehicle.dto";
 import { usePosStore } from "@/features/pos/store/pos";
 
 interface VehicleSearchItemProps {
