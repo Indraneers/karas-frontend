@@ -188,6 +188,7 @@ function VehicleSearchItem({
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { User } from "lucide-react";
 import { VehicleItem } from "@/features/vehicle/components/vehicle-item";
+import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 
 interface CustomerSearchItemProps {
   className?: string;

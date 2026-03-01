@@ -141,7 +141,6 @@ import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { TypographyH1 } from "@/components/ui/typography/h1";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 export function ItemSkeletonList() {
   return (
