@@ -21,7 +21,7 @@ export const Route = createFileRoute(
   component: () => <VehiclePage />,
   validateSearch: (search: Record<string, unknown>): VehicleParams => {
     return {
-      page: (search.page as number) || 1,
+      page: (search.page as number) || 0,
     };
   },
 });

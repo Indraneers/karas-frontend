@@ -19,7 +19,7 @@ export const Route = createFileRoute(
   component: () => <ProductPage />,
   validateSearch: (search: Record<string, unknown>): ProductParams => {
     return {
-      page: (search.page as number) || 1,
+      page: (search.page as number) || 0,
     };
   },
 });

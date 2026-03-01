@@ -18,7 +18,7 @@ export function useSearchPagination<T>({
 
   const navigate = useNavigate();
 
-  const routePage = (search.page as number | undefined) ?? 1;
+  const routePage = (search.page as number | undefined) ?? 0;
   const routeQ = (search.q as string | undefined) ?? "";
 
   const { page: _p, q: _q, ...queryParams } = search;
@@ -31,7 +31,7 @@ export function useSearchPagination<T>({
   const { isError, isLoading, data } = useQuery({
     queryKey: [...key, routePage, debouncedQ, queryParams],
     queryFn: () =>
-      getEntity({ page: routePage - 1, q: debouncedQ, ...queryParams }),
+      getEntity({ page: routePage, q: debouncedQ, ...queryParams }),
     enabled: enabled ?? true,
   });
 
@@ -57,7 +57,7 @@ export function useSearchPagination<T>({
         ({
           ...prev,
           q,
-          page: 1,
+          page: 0,
         }) as never,
     });
   };

@@ -29,7 +29,7 @@ export const Route = createFileRoute(
       userId: (search.userId as string) || undefined,
       paymentType: (search.paymentType as PaymentType) || undefined,
       status: (search.status as StatusEnum) || undefined,
-      page: (search.page as number) || 1,
+      page: (search.page as number) || 0,
     };
   },
 });
