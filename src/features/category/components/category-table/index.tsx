@@ -7,6 +7,7 @@ import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
 import { Edit, Trash } from "lucide-react";
 import { deleteCategory } from "../../api/category";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface CategoryTablePage {
   className?: string;
@@ -14,12 +15,17 @@ interface CategoryTablePage {
   isLoading?: boolean;
 }
 
-export function CategoryTable({ isLoading, className, categories }: CategoryTablePage) {
+export function CategoryTable({
+  isLoading,
+  className,
+  categories,
+}: CategoryTablePage) {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => deleteCategory(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['categories'] })
+    onSuccess: () =>
+      queryClient.invalidateQueries({ queryKey: ["categories"] }),
   });
 
   const contextOptions: ContextOption<Category>[] = [
@@ -28,22 +34,29 @@ export function CategoryTable({ isLoading, className, categories }: CategoryTabl
       onClick: (category) => {
         navigate({ to: `/inventory/categories/edit/` + category.id });
       },
-      content: <><Edit /> Edit Category</>
+      content: (
+        <>
+          <Edit /> Edit Category
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (category) => {
-        mutatation.mutate(category.id);
-      },
-      content: <><Trash /> Delete Category</>
-    }
+      content: (category) => (
+        <DeleteWithConfirmation
+          object="category"
+          onConfirm={() => mutation.mutate(category.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
   return (
     <div className={cn(className)}>
-      <DataTableAutoPagination 
-        isLoading={isLoading} 
-        columns={columns} 
-        data={categories} 
+      <DataTableAutoPagination
+        isLoading={isLoading}
+        columns={columns}
+        data={categories}
         contextLabel="Category Action"
         contextOptions={contextOptions}
       />
