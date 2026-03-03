@@ -8,7 +8,8 @@ import { ContextOption } from "@/types/context-options";
 import { deleteUnit } from "../../api/unit";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
 interface UnitTablePage {
   className?: string;
@@ -17,13 +18,18 @@ interface UnitTablePage {
   paginationDetail: PaginationDetail;
 }
 
-export function UnitTable({ isLoading, className, units, paginationDetail }: UnitTablePage) {
+export function UnitTable({
+  isLoading,
+  className,
+  units,
+  paginationDetail,
+}: UnitTablePage) {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => deleteUnit(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['units'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["units"] }),
   });
 
   const contextOptions: ContextOption<Unit>[] = [
@@ -32,25 +38,32 @@ export function UnitTable({ isLoading, className, units, paginationDetail }: Uni
       onClick: (unit) => {
         navigate({ to: `/inventory/units/edit/` + unit.id });
       },
-      content: <><Edit /> Edit Unit</>
+      content: (
+        <>
+          <Edit /> Edit Unit
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (unit) => {
-        mutatation.mutate(unit.id);
-      },
-      content: <><Trash /> Delete Unit</>
-    }
+      content: (unit) => (
+        <DeleteWithConfirmation
+          object="unit"
+          onConfirm={() => mutation.mutate(unit.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
   return (
     <div className={cn([className])}>
-      <DataTablePagination 
+      <DataTablePagination
         rowSelection={rowSelection}
         onRowSelectionChange={setRowSelection}
-        paginationDetail={paginationDetail} 
-        isLoading={isLoading} 
+        paginationDetail={paginationDetail}
+        isLoading={isLoading}
         columns={columns}
-        data={units} 
+        data={units}
         contextLabel="Unit Actions"
         contextOptions={contextOptions}
       />

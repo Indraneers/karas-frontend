@@ -9,4 +9,5 @@ export type SaleFilter = {
   userId?: string;
   paymentType?: PaymentType;
   status?: StatusEnum;
+  page?: number;
 }

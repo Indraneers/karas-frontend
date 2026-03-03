@@ -2,7 +2,7 @@ import * as React from 'react';
 
 import { cn } from '@/lib/utils';
 import { format, parse, isValid, getYear } from 'date-fns';
-import { useRef, useState, useMemo, useEffect, useLayoutEffect, useCallback } from 'react';
+import { useRef, useState, useMemo, useEffect, useLayoutEffect, useCallback, MutableRefObject, RefObject } from 'react';
 import { CalendarIcon, CircleAlert, CircleCheck } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useFormContext } from 'react-hook-form';
@@ -66,12 +66,19 @@ const mergeRefs = (...refs: any) => {
     }
   };
 };
-const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((options: DateTimeInputProps, ref) => {
+const DateTimeInput = (
+  {
+    ref,
+    ...options
+  }: DateTimeInputProps & {
+    ref: React.RefObject<HTMLInputElement>;
+  }
+) => {
   const { format: formatProp, value: _value, timezone } = options;
   const value = useMemo(() => _value ? new TZDate(_value, timezone) : undefined, [_value, timezone]);
   const form = useFormContext();
   const formatStr = React.useMemo(() => formatProp || 'dd/MM/yyyy-hh:mm aa', [formatProp]);
-  const inputRef = useRef<HTMLInputElement>();
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const [segments, setSegments] = useState<Segment[]>([]);
   const [selectedSegmentAt, setSelectedSegmentAt] = useState<number | undefined>(undefined);
@@ -275,7 +282,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
     <div
       ref={ref}
       className={cn(
-        'flex h-10 items-center justify-start rounded-md border border-border bg-background text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground  disabled:cursor-not-allowed disabled:opacity-50',
+        'flex justify-start items-center bg-background file:bg-transparent disabled:opacity-50 border border-border file:border-0 rounded-md ring-offset-background h-10 file:font-medium placeholder:text-muted-foreground file:text-foreground text-sm file:text-sm disabled:cursor-not-allowed',
         isFocused ? 'outline-none ring-2 ring-ring ring-offset-2' : '',
         options.hideCalendarIcon && 'ps-2',
         options.className
@@ -288,7 +295,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
       )}
       <input
         ref={mergeRefs(inputRef)}
-        className="flex-grow bg-transparent disabled:opacity-50 py-1 pe-2 focus:outline-none min-w-0 font-mono text-sm disabled:cursor-not-allowed"
+        className="bg-transparent disabled:opacity-50 py-1 pe-2 focus:outline-none min-w-0 font-mono text-sm disabled:cursor-not-allowed grow"
         onFocus={() => setIsFocused(true)}
         onBlur={() => setIsFocused(false)}
         onClick={onClick}
@@ -319,7 +326,7 @@ const DateTimeInput = React.forwardRef<HTMLInputElement, DateTimeInputProps>((op
       </div>
     </div>
   );
-});
+};
 
 DateTimeInput.displayName = 'DateTimeInput';
 
@@ -373,9 +380,18 @@ const safeDate = (timezone?: string) => {
 
 const isAndroid = () => /Android/i.test(navigator.userAgent);
 
-function setSelection(ref: React.MutableRefObject<HTMLInputElement | undefined>, segment?: Segment) {
-  if (!ref.current || !segment) return;
-  safeSetSelection(ref.current, segment.index, segment.index + segment.symbols.length);
+function setSelection(
+  ref: RefObject<HTMLInputElement | null> | MutableRefObject<HTMLInputElement | null | undefined> | null, 
+  segment?: Segment
+) {
+  const element = ref?.current;
+
+  if (!element || !segment) return;
+
+  const start = segment.index;
+  const end = segment.index + (segment.symbols?.length ?? 0);
+
+  safeSetSelection(element, start, end);
 }
 
 function safeSetSelection(element: HTMLInputElement, selectionStart: number, selectionEnd: number) {

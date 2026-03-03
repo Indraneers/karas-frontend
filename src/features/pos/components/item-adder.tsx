@@ -30,9 +30,9 @@ interface ItemAdderPanelStateInterface {
 }
 
 interface ItemAdderPanelRefsInterface {
-  priceInput: React.RefObject<HTMLInputElement>;
-  discountInput: React.RefObject<HTMLInputElement>;
-  qtyInput: React.RefObject<HTMLInputElement>
+  priceInput: React.RefObject<HTMLInputElement | null>;
+  discountInput: React.RefObject<HTMLInputElement | null>;
+  qtyInput: React.RefObject<HTMLInputElement | null>;
 }
 
 
@@ -122,7 +122,7 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
    */
   useEffect(() => {
     if (priceInput && priceInput.current) {
-      priceInput.current.focus();
+      priceInput.current?.focus();
     }
   }, [priceInput]);
 
@@ -167,9 +167,9 @@ export function ItemAdder({ item, setOpen }: ItemAdderProps) {
       </div>
       <div 
         onKeyDown={handleOnEnter}
-        className="bg-background p-2 rounded-[2.5rem] w-[40vw] lg:w-[30vw] xl:w-[22.5vw]"
+        className="bg-background p-2 rounded-[2rem] w-[40vw] lg:w-[30vw] xl:w-[22.5vw]"
       >
-        <div className="bg-accent rounded-[2rem] text-background">
+        <div className="bg-accent rounded-4xl text-background">
           {/* Input screen */}
           <div className="p-4">
             {
@@ -542,10 +542,10 @@ export function Numpad({
   }
 
   return (
-    <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-[2rem] text-3xl">
+    <div className="grid grid-cols-3 grid-rows-3 bg-background rounded-4xl text-3xl">
       <NumpadKey
         onClick={() => handleNumpadKey(7)}
-        className="rounded-tl-[2rem]"
+        className="rounded-tl-4xl"
       >
       7
       </NumpadKey>
@@ -556,7 +556,7 @@ export function Numpad({
       </NumpadKey>
       <NumpadKey 
         onClick={() => handleNumpadKey(9)}
-        className="rounded-tr-[2rem]"
+        className="rounded-tr-4xl"
       >
       9
       </NumpadKey>
@@ -612,7 +612,7 @@ export function Numpad({
         !(currentElementIndex === 2) &&
       <NumpadKey 
         onClick={() => setCurrentElementIndex(currentElementIndex + 1)}
-        className="col-span-3 bg-amber-500 hover:bg-amber-400 py-4 rounded-b-[2rem] aspect-auto text-background"
+        className="col-span-3 bg-amber-500 hover:bg-amber-400 py-4 rounded-b-4xl aspect-auto text-background"
       >
         <ArrowRight />
       </NumpadKey>
@@ -620,7 +620,7 @@ export function Numpad({
       {
         currentElementIndex === 2 &&
       <NumpadKey 
-        className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-[2rem] aspect-auto text-background"
+        className="col-span-3 bg-green-500 hover:bg-green-400 py-4 rounded-b-4xl aspect-auto text-background"
         onClick={() => handleSubmit()}
       >
         <Check />

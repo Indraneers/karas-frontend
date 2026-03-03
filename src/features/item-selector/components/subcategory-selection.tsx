@@ -15,7 +15,7 @@ export function SubcategorySelection({ className }: SubcategorySelectionProps) {
   return (
     <div className={
       cn([
-        'h-full w-full grid grid-rows-[auto,1fr] gap-2',
+        'h-full w-full grid grid-rows-[auto_1fr] gap-2',
         className
       ])
     }>
@@ -79,7 +79,7 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
           </div>
         }
       </CardHeader>
-      <CardContent className="flex-grow p-0" />
+      <CardContent className="grow p-0" />
       <CardFooter className="flex flex-col items-start">
         <div className={cn([
           "font-medium text-xs lg:text-base xl:text-lg",

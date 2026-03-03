@@ -1,5 +1,4 @@
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { AvatarImage } from "@radix-ui/react-avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useAuth } from "react-oidc-context";
 
 export function UserProfile() {

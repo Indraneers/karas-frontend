@@ -4,7 +4,12 @@ import { cn } from "@/lib/utils";
 import { ItemCartInput } from "../features/cart/components/item-cart-input";
 import { useEffect, useState } from "react";
 import { isValidVariableQty } from "@/lib/variable";
-import { convertBaseQuantityToDisplayQuantity, convertBaseQuantityToQuantity, convertDiscreteQuantityToVariableQuantity, convertDisplayQuantityToVariableQuantity } from "@/features/unit/util/convert";
+import {
+  convertBaseQuantityToDisplayQuantity,
+  convertBaseQuantityToQuantity,
+  convertDiscreteQuantityToVariableQuantity,
+  convertDisplayQuantityToVariableQuantity,
+} from "@/features/unit/util/convert";
 
 interface CounterProps {
   className?: string;
@@ -15,14 +20,21 @@ interface CounterProps {
   setValue: (v: number) => void;
 }
 
-export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className, value, setValue }: CounterProps) {
+export function ItemCounter({
+  variable = false,
+  toBaseUnit,
+  baseUnit,
+  className,
+  value,
+  setValue,
+}: CounterProps) {
   const [displayQuantity, setDisplayQuantity] = useState<string>();
 
   function handleInput(event: React.FormEvent<HTMLInputElement>) {
     const { value } = event.currentTarget;
     if (isValidVariableQty(value)) {
-      const quantity = variable ? 
-        convertDisplayQuantityToVariableQuantity(value) 
+      const quantity = variable
+        ? convertDisplayQuantityToVariableQuantity(value)
         : convertDiscreteQuantityToVariableQuantity(toBaseUnit, Number(value));
       setValue(quantity);
       setDisplayQuantity(value);
@@ -32,8 +44,8 @@ export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className,
   function updateValue(value: number) {
     const formattedValue = String(value);
     if (isValidVariableQty(formattedValue)) {
-      const quantity = variable ? 
-        convertDisplayQuantityToVariableQuantity(value) 
+      const quantity = variable
+        ? convertDisplayQuantityToVariableQuantity(value)
         : convertDiscreteQuantityToVariableQuantity(toBaseUnit, Number(value));
       setValue(quantity);
     }
@@ -41,34 +53,41 @@ export function ItemCounter({ variable = false, toBaseUnit, baseUnit, className,
 
   useEffect(() => {
     if (variable) {
-      setDisplayQuantity(String(convertBaseQuantityToDisplayQuantity(Number(value))));
-    }
-    else {
-      setDisplayQuantity(String(convertBaseQuantityToQuantity(toBaseUnit, value)));
+      setDisplayQuantity(
+        String(convertBaseQuantityToDisplayQuantity(Number(value))),
+      );
+    } else {
+      setDisplayQuantity(
+        String(convertBaseQuantityToQuantity(toBaseUnit, value)),
+      );
     }
   }, [value, variable, toBaseUnit]);
 
   return (
-    <div className={cn([
-      "gap-2 items-center grid grid-cols-[auto,1fr,auto]",
-      className
-    ])}>
-      <Button 
-        variant='ghost' 
-        onClick={() => updateValue(Number(displayQuantity) - 1)} 
-        className="w-6 xl:w-5 h-6 xl:h-5" 
+    <div
+      className={cn([
+        "gap-2 items-center grid grid-cols-[auto_1fr_auto]",
+        className,
+      ])}
+    >
+      <Button
+        variant="ghost"
+        onClick={() => updateValue(Number(displayQuantity) - 1)}
+        className="w-6 xl:w-5 h-6 xl:h-5"
         size="icon"
       >
         <Minus />
       </Button>
-      <ItemCartInput 
-        className={cn([
-          "w-full h-full"
-        ])} suffix={variable ? (baseUnit || '') : 'Qty'} value={displayQuantity} onInput={handleInput} />
-      <Button 
-        variant='ghost' 
-        onClick={() => updateValue(Number(displayQuantity) + 1)} 
-        className="w-6 xl:w-5 h-6 xl:h-5" 
+      <ItemCartInput
+        className={cn(["w-full h-full"])}
+        suffix={variable ? baseUnit || "" : "Qty"}
+        value={displayQuantity}
+        onInput={handleInput}
+      />
+      <Button
+        variant="ghost"
+        onClick={() => updateValue(Number(displayQuantity) + 1)}
+        className="w-6 xl:w-5 h-6 xl:h-5"
         size="icon"
       >
         <Plus />

@@ -5,7 +5,7 @@ import { CustomerDto } from "@/features/customer/types/customer.dto";
 export function CustomerInfo({ customer, className }: { customer: CustomerDto, className?: string }) {
   return (
     <div className={cn([
-      "items-center grid grid-cols-[auto,1fr]",
+      "items-center grid grid-cols-[auto_1fr]",
       className
     ])}>
       <h3 className="font-bold text-lg">Customer</h3>

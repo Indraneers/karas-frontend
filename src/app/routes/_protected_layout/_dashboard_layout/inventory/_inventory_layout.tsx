@@ -57,7 +57,7 @@ export function InventoryLayout() {
           }
         </TabsList>
       </Tabs>
-      <div className='flex flex-col flex-grow mt-4 h-full'>
+      <div className='flex flex-col grow mt-4 h-full'>
         <Outlet />
       </div>
     </Section>

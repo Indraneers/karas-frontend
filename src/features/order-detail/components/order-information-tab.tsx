@@ -5,15 +5,14 @@ import { Separator } from "@/components/ui/separator";
 export function OrderInformationTab() {
   const { vehicle, customer } = usePosStore();
   return (
-    <div className="grid grid-rows-[auto,1fr] h-full">
+    <div className="grid grid-rows-[auto_1fr] h-full">
       <VehicleCustomerSearch />
-      <ScrollArea className="p-4">
+      <div className="p-4 overflow-scroll">
         <CustomerInformation customer={customer} />
         <Separator className="mt-4" />
         <VehicleInformation className="mt-4" vehicle={vehicle} />
-      </ScrollArea>
+      </div>
     </div>
-
   );
 }
 
@@ -23,17 +22,24 @@ import { Edit, Phone, RotateCcw, SquarePlus } from "lucide-react";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { PopoverButton } from "./popover-button";
 import { CustomerForm } from "@/features/customer/components/customer-form";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { createCustomer, updateCustomer } from "@/features/customer/api/customer";
+import {
+  createCustomer,
+  updateCustomer,
+} from "@/features/customer/api/customer";
 
 interface CustomerInformationProps {
   className?: string;
   customer: CustomerDto | undefined;
 }
 
-function CustomerInformation({ customer, className } : CustomerInformationProps) {
+function CustomerInformation({
+  customer,
+  className,
+}: CustomerInformationProps) {
+  const [openCreate, setOpenCreate] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
   const queryClient = useQueryClient();
   const { setCustomer, setDefaultVehicleAndCustomer } = usePosStore();
 
@@ -41,46 +47,44 @@ function CustomerInformation({ customer, className } : CustomerInformationProps)
     mutationFn: (customerDto: CustomerDto) => createCustomer(customerDto),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['customers']
+        queryKey: ["customers"],
       });
-    }
+    },
   });
 
   const updateMutation = useMutation({
-    mutationFn: (customerDto: CustomerDto) => updateCustomer(customer?.id || '', customerDto),
+    mutationFn: (customerDto: CustomerDto) =>
+      updateCustomer(customer?.id || "", customerDto),
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['customers']
+        queryKey: ["customers"],
       });
       queryClient.invalidateQueries({
-        queryKey: ['customer-' + customer?.id]
+        queryKey: ["customer-" + customer?.id],
       });
-    }
+    },
   });
 
   if (!customer) {
-    return 'empty...';
+    return "empty...";
   }
 
   return (
-    <div className={cn([
-      className
-    ])}>
-      <TypographyH3>
-        Customer Information
-      </TypographyH3>
-      <div className="gap-2 grid xl:grid-cols-[2fr,auto,1fr] mt-2">
+    <div className={cn([className])}>
+      <TypographyH3>Customer Information</TypographyH3>
+      <div className="gap-2 grid xl:grid-cols-[2fr_auto_1fr] mt-2">
         <div>
-          <div className="justify-start items-start lg:gap-2 grid xl:grid-cols-[1fr,auto]">
-            <div className="min-h-6 font-medium text-md">
-              {customer.name}
-            </div>
-            <Badge variant="outline" className={cn([
-              "border-primary px-1 py-0 mt-1 rounded-full h-4 font-normal text-[10px] text-primary",
-              'hidden',
-              customer.contact && 'flex'
-            ])}>
-              <Phone className="mr-1 w-3" /> {customer.contact || '-'}
+          <div className="justify-start items-start lg:gap-2 grid xl:grid-cols-[1fr_auto]">
+            <div className="min-h-6 font-medium text-md">{customer.name}</div>
+            <Badge
+              variant="outline"
+              className={cn([
+                "border-primary px-1 py-0 mt-1 rounded-full h-4 font-normal text-[10px] text-primary",
+                "hidden",
+                customer.contact && "flex",
+              ])}
+            >
+              <Phone className="mr-1 w-3" /> {customer.contact || "-"}
             </Badge>
           </div>
           <div className="mt-2 xl:mt-0 min-h-8 font-medium text-[10px] text-muted-foreground">
@@ -89,39 +93,62 @@ function CustomerInformation({ customer, className } : CustomerInformationProps)
         </div>
         <Separator className="hidden xl:block" orientation="vertical" />
         <div className="flex xl:justify-center items-center gap-2">
-          <PopoverButton 
-            trigger={
-              <Button variant="ghost"  size="icon">
+          <Sheet open={openCreate} onOpenChange={setOpenCreate}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
                 <SquarePlus />
               </Button>
-            }
-          >
-            <CustomerForm 
-              handleSubmit={async (customerDto: CustomerDto) => {
-                const customer = await createMutation.mutateAsync(customerDto);
-                setCustomer(customer);
-              }}
-              isPopover
-            />
-          </PopoverButton>
-          <PopoverButton 
-            disabled={!customer.id}
-            trigger={
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Create Customer</SheetTitle>
+                <SheetDescription>Create a customer data</SheetDescription>
+              </SheetHeader>
+              <div className="px-4 pb-4 overflow-y-scroll">
+                <CustomerForm
+                  handleSubmit={async (customerDto: CustomerDto) => {
+                    const customer =
+                      await createMutation.mutateAsync(customerDto);
+                    setCustomer(customer);
+                    setOpenCreate(false);
+                  }}
+                  isSheet
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Sheet open={openEdit} onOpenChange={setOpenEdit}>
+            <SheetTrigger asChild>
               <Button disabled={!customer.id} variant="ghost" size="icon">
                 <Edit />
               </Button>
-            }
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Edit Customer</SheetTitle>
+                <SheetDescription>
+                  Make changes to a customer data
+                </SheetDescription>
+              </SheetHeader>
+              <div className="px-4 pb-4 overflow-y-scroll">
+                <CustomerForm
+                  data={customer}
+                  handleSubmit={async (customerDto: CustomerDto) => {
+                    const customer =
+                      await updateMutation.mutateAsync(customerDto);
+                    setCustomer(customer);
+                    setOpenEdit(false);
+                  }}
+                  isSheet
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Button
+            variant="ghost"
+            onClick={setDefaultVehicleAndCustomer}
+            size="icon"
           >
-            <CustomerForm 
-              data={customer}
-              handleSubmit={async (customerDto: CustomerDto) => {
-                const customer = await updateMutation.mutateAsync(customerDto);
-                setCustomer(customer);
-              }}
-              isPopover
-            />
-          </PopoverButton>
-          <Button variant="ghost" onClick={setDefaultVehicleAndCustomer} size='icon'>
             <RotateCcw />
           </Button>
         </div>
@@ -141,120 +168,156 @@ import { vehicleTypeList } from "@/features/vehicle/utils/vehicle";
 import { VehicleIcon } from "@/features/vehicle/components/vehicle-icon";
 import { VehicleType } from "@/features/vehicle/types/vehicle";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet";
+import { useState } from "react";
 
 interface VehicleInformationProps {
   className?: string;
   vehicle: VehicleDto;
 }
 
-export function VehicleInformation({ className, vehicle }: VehicleInformationProps) {
+export function VehicleInformation({
+  className,
+  vehicle,
+}: VehicleInformationProps) {
+  const [openCreate, setOpenCreate] = useState<boolean>(false);
+  const [openEdit, setOpenEdit] = useState<boolean>(false);
   const { customer, setVehicle, setDefaultVehicle } = usePosStore();
   const queryClient = useQueryClient();
-  
+
   const createMutation = useMutation({
     mutationFn: (vehicleDto: VehicleDto) => createVehicle(vehicleDto),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ['vehicles']
+        queryKey: ["vehicles"],
       });
       queryClient.invalidateQueries({
-        queryKey: ['vehicle-' + vehicle?.id]
+        queryKey: ["vehicle-" + vehicle?.id],
       });
       queryClient.invalidateQueries({
-        queryKey: ['vehicles-customer-' + customer.id || '']
+        queryKey: ["vehicles-customer", customer.id || ""],
       });
       setVehicle(data);
     },
     onError: (error) => {
       toast(error.message);
-    }
+    },
   });
 
   const updateMutation = useMutation({
-    mutationFn: (vehicleDto: VehicleDto) => updateVehicle(vehicle?.id || '', vehicleDto),
+    mutationFn: (vehicleDto: VehicleDto) =>
+      updateVehicle(vehicle?.id || "", vehicleDto),
     onSuccess: (data) => {
       queryClient.invalidateQueries({
-        queryKey: ['vehicles']
+        queryKey: ["vehicles"],
       });
       queryClient.invalidateQueries({
-        queryKey: ['vehicle-' + vehicle?.id]
+        queryKey: ["vehicle-" + vehicle?.id],
       });
       queryClient.invalidateQueries({
-        queryKey: ['vehicles-customer-' + customer.id || '']
+        queryKey: ["vehicles-customer", customer.id || ""],
       });
       setVehicle(data);
     },
     onError: (error) => {
       toast(error.message);
-    }
+    },
   });
 
-
   if (!vehicle) {
-    return 'empty...';
+    return "empty...";
   }
 
-  const vehicleObj = vehicleTypeList.find(t => t.value === vehicle.vehicleType) || vehicleTypeList[0];
-  
+  const vehicleObj =
+    vehicleTypeList.find((t) => t.value === vehicle.vehicleType) ||
+    vehicleTypeList[0];
+
   return (
-    <div className={cn([
-      className
-    ])}>
-      <TypographyH3>
-          Vehicle Information
-      </TypographyH3>
-      <div className="items-center gap-4 grid xl:grid-cols-[2fr,auto,1fr] mt-3">
+    <div className={cn([className])}>
+      <TypographyH3>Vehicle Information</TypographyH3>
+      <div className="items-center gap-4 grid xl:grid-cols-[2fr_auto_1fr] mt-3">
         <InfoField className="w-full" label="Vehicle">
           <VehicleSelect className="mt-2" />
         </InfoField>
         <Separator className="hidden xl:block" orientation="vertical" />
         <div className="flex gap-2">
-          <PopoverButton 
-            trigger={
-              <Button variant="ghost"  size="icon">
+          <Sheet open={openCreate} onOpenChange={setOpenCreate}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon">
                 <SquarePlus />
               </Button>
-            }
-          >
-            <VehicleForm 
-              defaultCustomer={customer}
-              handleSubmit={async (vehicleDto: VehicleDto) => {
-                createMutation.mutate(vehicleDto);
-              }}
-              isPopover
-            />
-          </PopoverButton>
-          <PopoverButton 
-            disabled={!vehicle.id}
-            trigger={
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Create Vehicle</SheetTitle>
+                <SheetDescription>
+                  Create a vehicle data for a customer
+                </SheetDescription>
+              </SheetHeader>
+              <div className="px-4 pb-4 overflow-y-scroll">
+                <VehicleForm
+                  defaultCustomer={customer}
+                  handleSubmit={async (vehicleDto: VehicleDto) => {
+                    createMutation.mutate(vehicleDto);
+                    setOpenCreate(false);
+                  }}
+                  isSheet
+                />
+              </div>
+            </SheetContent>
+          </Sheet>
+          <Sheet open={openEdit} onOpenChange={setOpenEdit}>
+            <SheetTrigger asChild>
               <Button disabled={!vehicle.id} variant="ghost" size="icon">
                 <Edit />
               </Button>
-            }
-          >
-            <VehicleForm
-              data={vehicle}
-              defaultCustomer={customer}
-              handleSubmit={async (vehicleDto: VehicleDto) => {
-                updateMutation.mutate(vehicleDto);
-              }}
-              isPopover
-            />
-          </PopoverButton>
-          <Button variant="ghost" onClick={setDefaultVehicle} size='icon'>
+            </SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Edit Vehicle</SheetTitle>
+                <SheetDescription>
+                  Make changes to a customer data
+                </SheetDescription>
+              </SheetHeader>
+              <ScrollArea className="px-4 pb-4 overflow-y-scroll">
+                <VehicleForm
+                  data={vehicle}
+                  defaultCustomer={customer}
+                  handleSubmit={async (vehicleDto: VehicleDto) => {
+                    updateMutation.mutate(vehicleDto);
+                    setOpenEdit(false);
+                  }}
+                  isSheet
+                />
+              </ScrollArea>
+            </SheetContent>
+          </Sheet>
+          <Button variant="ghost" onClick={setDefaultVehicle} size="icon">
             <RotateCcw />
           </Button>
         </div>
       </div>
-      <div  className="xl:flex gap-6 mt-4">
+      <div className="xl:flex gap-6 mt-4">
         <InfoField label="Make and Model">
           <span className="font-medium">{vehicle.makeAndModel}</span>
         </InfoField>
         <div className="flex items-center gap-2 mt-2 xl:mt-0">
-          {vehicle.vehicleType !== VehicleType.EMPTY && vehicle.vehicleType ? 
-            <VehicleIcon className="w-8 h-8" iconClassName="h-6 w-6" icon={vehicleObj.icon} /> 
-            : 
-            ''}
+          {vehicle.vehicleType !== VehicleType.EMPTY && vehicle.vehicleType ? (
+            <VehicleIcon
+              className="w-8 h-8"
+              iconClassName="h-6 w-6"
+              icon={vehicleObj.icon}
+            />
+          ) : (
+            ""
+          )}
           <InfoField className="" label="Vehicle Type">
             <span className="flex items-center gap-2 m- font-medium">
               {vehicle.vehicleType ? vehicleObj.content : VehicleType.EMPTY}

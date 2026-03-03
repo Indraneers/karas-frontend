@@ -2,63 +2,82 @@ import { SearchPaginatedState } from "@/types/use-search";
 import { useQuery } from "@tanstack/react-query";
 import { useDebounce } from "@uidotdev/usehooks";
 import { useEffect, useState } from "react";
-import _ from 'lodash';
+import { useNavigate, useSearch } from "@tanstack/react-router";
 
-export function useSearchPagination<T>({ key, getEntity, enabled, query } : SearchPaginatedState<T>) {
-  const [q, setQ] = useState<string>('');
-  const [queryParams, setQueryParams] = useState(query);
-  const debouncedQ = useDebounce(q, 500);
+const PAGE_SIZE = 10;
+
+export function useSearchPagination<T>({
+  key,
+  getEntity,
+  enabled,
+}: SearchPaginatedState<T>) {
+  const search = useSearch({ strict: false }) as Record<string, unknown> & {
+    page?: number;
+    q?: string;
+  };
+
+  const navigate = useNavigate();
+
+  const routePage = (search.page as number | undefined) ?? 0;
+  const routeQ = (search.q as string | undefined) ?? "";
+
+  const { page: _p, q: _q, ...queryParams } = search;
+
+  const debouncedQ = useDebounce(routeQ, 500);
 
   const [rowCount, setRowCount] = useState(1);
-    
-  const [pagination, setPagination] = useState({
-    pageSize: 10,
-    pageIndex: 0
-  });
-
-  const { isError, isLoading, data } = useQuery({
-    queryKey: [
-      ...key, 
-      pagination.pageIndex, 
-      q,
-      ...Object.entries(queryParams ?? {}).map(([k, v]) => `${ String(k) }-${ String(v) }`)
-    ],
-    queryFn: () => getEntity({ page: pagination.pageIndex, q, ...queryParams }),
-    enabled: enabled || (debouncedQ !== '' || q !== undefined) // More robust enabled condition
-  });
-
   const [pageCount, setPageCount] = useState(1);
 
-  useEffect(() => {
-    if (data && pageCount != data.totalPages) {
-      setPageCount(data.totalPages);
-    }
-    if (data && rowCount != data.totalElements) {
-      setRowCount(data.totalElements);
-    }
-  }, [data, pageCount, rowCount]);
+  const { isError, isLoading, data } = useQuery({
+    queryKey: [...key, routePage, debouncedQ, queryParams],
+    queryFn: () =>
+      getEntity({ page: routePage, q: debouncedQ, ...queryParams }),
+    enabled: enabled ?? true,
+  });
 
   useEffect(() => {
-    if (data && pagination.pageSize != data.pageable.pageSize) {
-      setPagination({
-        ...pagination,
-        pageSize: data.pageable.pageSize
-      });
-    }
-  }, [data, pagination]);
+    if (!data) return;
+    if (pageCount !== data.totalPages) setPageCount(data.totalPages);
+    if (rowCount !== data.totalElements) setRowCount(data.totalElements);
+  }, [data]);
 
-  useEffect(() => {
-    if (!_.isEqual(queryParams, query)) {
-      setQueryParams(query);
-      setPagination({
-        pageIndex: 0,
-        pageSize: 10
-      });
-    }
-  }, [queryParams, query]);
+  const setPage = (pageIndex: number) => {
+    void navigate({
+      search: (prev: Record<string, unknown>) =>
+        ({
+          ...prev,
+          page: pageIndex,
+        }) as never,
+    });
+  };
 
-  const onPaginationChange = setPagination;
-  
+  const setQ = (q: string) => {
+    void navigate({
+      search: (prev: Record<string, unknown>) =>
+        ({
+          ...prev,
+          q,
+          page: 0,
+        }) as never,
+    });
+  };
+
+  const pagination = {
+    pageIndex: routePage,
+    pageSize: PAGE_SIZE,
+  };
+
+  const onPaginationChange = (
+    updater:
+      | typeof pagination
+      | ((prev: typeof pagination) => typeof pagination),
+  ) => {
+    const next = typeof updater === "function" ? updater(pagination) : updater;
+    if (next.pageIndex !== routePage) {
+      setPage(next.pageIndex);
+    }
+  };
+
   return {
     onPaginationChange,
     pageCount,
@@ -68,12 +87,12 @@ export function useSearchPagination<T>({ key, getEntity, enabled, query } : Sear
       onPaginationChange,
       pageCount,
       rowCount,
-      pagination
+      pagination,
     },
     isError,
     isLoading,
     data,
-    q,
-    setQ
+    q: routeQ,
+    setQ,
   };
 }

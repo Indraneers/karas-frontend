@@ -5,7 +5,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
 import { convertServiceFormToServiceDto } from "../utils/service";
 import { useEffect } from "react";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { FormGroup } from "@/components/form-group";
 import { Input } from "@/components/ui/input";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
@@ -21,39 +29,36 @@ export interface ServiceForm {
 
 const formSchema = z.object({
   id: z.string(),
-  name: z.string({ message: 'Name is required' }).min(2).max(75),
+  name: z.string({ message: "Name is required" }).min(2).max(75),
   price: z.number(),
-  active: z.boolean()
+  active: z.boolean(),
 });
 
-const defaultData: ServiceForm = {
-  id: '',
-  name: '',
-  price: 0,
-  active: true
-};
+const defaultData: ServiceForm = { id: "", name: "", price: 0, active: true };
 
 interface ServiceFormProps {
   handleSubmit: (serviceDto: ServiceDto) => void;
   data?: ServiceForm | undefined;
 }
 
-export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormProps) {
+export function ServiceForm({
+  data = defaultData,
+  handleSubmit,
+}: ServiceFormProps) {
   const router = useRouter();
   const navigate = useNavigate();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: data
+    defaultValues: data,
   });
 
-
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    values.id = '';
+    values.id = "";
     const serviceDto = convertServiceFormToServiceDto(values);
-    handleSubmit(serviceDto);  
+    handleSubmit(serviceDto);
     form.reset();
-    navigate({ to: '/services', replace: true });
+    navigate({ to: "/services", replace: true });
     router.invalidate();
   }
 
@@ -66,7 +71,6 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormGroup title="General Information">
           <div className="gap-4 grid grid-cols-3">
-
             <FormField
               control={form.control}
               name="name"
@@ -77,7 +81,7 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
                     <Input placeholder="Ex: Oil Change" {...field} />
                   </FormControl>
                   <FormDescription>
-                  Set the Service name. Min. 3 Max. 75
+                    Set the Service name. Min. 3 Max. 75
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -86,7 +90,6 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
           </div>
         </FormGroup>
         <FormGroup title="Stock Information (Price)">
-                        
           <FormField
             control={form.control}
             name="price"
@@ -100,12 +103,12 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
                     disableGroupSeparators
                     value={field.value}
                     onValueChange={(value) => {
-                      field.onChange(value); 
-                    }}  
+                      field.onChange(value);
+                    }}
                   />
                 </FormControl>
                 <FormDescription>
-                    Set the service price in dollar
+                  Set the service price in dollar
                 </FormDescription>
                 <FormMessage />
               </FormItem>
@@ -117,7 +120,7 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
               control={form.control}
               name="active"
               render={({ field }) => (
-                <FormItem className="flex flex-row justify-between items-center bg-surface shadow-sm p-4 border border-border rounded-lg">
+                <FormItem className="flex flex-row justify-between items-center bg-surface shadow-xs p-4 border border-border rounded-lg">
                   <div className="space-y-0.5">
                     <FormLabel>Status</FormLabel>
                     <FormDescription>
@@ -126,22 +129,17 @@ export function ServiceForm({ data = defaultData, handleSubmit }: ServiceFormPro
                   </div>
                   <FormControl>
                     <Switch
+                      className="z-100"
                       checked={field.value}
                       onCheckedChange={field.onChange}
-                      aria-readonly
                     />
                   </FormControl>
                 </FormItem>
               )}
             />
-
           </div>
         </FormGroup>
-        <Button
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

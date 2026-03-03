@@ -5,7 +5,15 @@ import { useNavigate } from "@tanstack/react-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 import { FormGroup } from "@/components/form-group";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,69 +22,80 @@ import { FormSearchPaginated } from "@/components/form-search-paginated";
 import { CustomerDto } from "@/features/customer/types/customer.dto";
 import { getCustomers } from "@/features/customer/api/customer";
 import { VehicleType } from "../types/vehicle";
-import { Select, SelectContent, SelectItem, SelectTrigger } from "@/components/ui/select";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+} from "@/components/ui/select";
 import { SelectValue } from "@radix-ui/react-select";
 import { vehicleTypeList } from "../utils/vehicle";
 import { VehicleIcon } from "./vehicle-icon";
 
 const formSchema = z.object({
   id: z.string(),
-  plateNumber: z.string({ message: 'Plate Number is required' }).min(3).max(75),
-  makeAndModel: z.string({ message: 'Make and Model are required' }).min(3).max(75),
+  plateNumber: z.string({ message: "Plate Number is required" }).min(3).max(75),
+  makeAndModel: z
+    .string({ message: "Make and Model are required" })
+    .min(3)
+    .max(75),
   customer: z.object({
     id: z.string(),
     name: z.string(),
     note: z.string(),
     address: z.string(),
-    contact: z.string()
+    contact: z.string(),
   }),
   mileage: z.coerce.number().int(),
   vinNo: z.string(),
   engineNo: z.string(),
   note: z.string().max(75),
-  vehicleType: z.nativeEnum(VehicleType)
+  vehicleType: z.nativeEnum(VehicleType),
 });
 
 const defaultData: VehicleDto = {
-  id: '',
-  plateNumber: '',
-  makeAndModel: '',
-  customer: {
-    id: '',
-    name: '',
-    note: '',
-    address: '',
-    contact: ''
-  },
+  id: "",
+  plateNumber: "",
+  makeAndModel: "",
+  customer: { id: "", name: "", note: "", address: "", contact: "" },
   mileage: 0,
-  vinNo: '',
-  engineNo: '',
-  note: '',
-  vehicleType: VehicleType.PASSENGER_CAR
+  vinNo: "",
+  engineNo: "",
+  note: "",
+  vehicleType: VehicleType.PASSENGER_CAR,
 };
 
 interface VehicleFormProps {
   handleSubmit: (vehicleDto: VehicleDto) => void;
   data?: VehicleDto | undefined;
-  isPopover?: boolean;
+  isSheet?: boolean;
   defaultCustomer?: CustomerDto;
 }
 
-export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit, isPopover = false }: VehicleFormProps) {
+export function VehicleForm({
+  data = defaultData,
+  defaultCustomer,
+  handleSubmit,
+  isSheet = false,
+}: VehicleFormProps) {
   const router = useRouter();
   const navigate = useNavigate();
-  
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-    defaultValues: data
+
+  type VehicleFormValues = z.infer<typeof formSchema>;
+
+  const form = useForm<VehicleFormValues>({
+    resolver: zodResolver(formSchema) as any,
+    defaultValues: data as VehicleFormValues,
   });
-  
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    values.id = '';
+    values.id = "";
     await handleSubmit(values);
     form.reset();
-    if (!isPopover) {
-      navigate({ to: '/vehicles', replace: true });
+    if (!isSheet) {
+      navigate({ to: "/vehicles", replace: true });
       router.invalidate();
     }
   }
@@ -88,13 +107,12 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
     }
   }, [data, defaultCustomer, form]);
 
-  if (isPopover) {
+  if (isSheet) {
     return (
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-          <FormGroup title="General Information">
-            <div className="gap-4 grid grid-cols-[1fr,2fr]">
-  
+          <FormGroup title="General Information" className="mb-4">
+            <div className="gap-4 grid grid-cols-[1fr_2fr]">
               <FormField
                 control={form.control}
                 name="plateNumber"
@@ -105,7 +123,7 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                       <Input placeholder="Ex: 7XLF906" {...field} />
                     </FormControl>
                     <FormDescription>
-                  Set the Plate Number. Min. 3 Max. 75
+                      Set the Plate Number. Min. 3 Max. 75
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
@@ -122,14 +140,14 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                       <Input placeholder="Ex: Toyota Prius 2024" {...field} />
                     </FormControl>
                     <FormDescription>
-                  Set the Make and Model. Min. 3 Max. 75
+                      Set the Make and Model. Min. 3 Max. 75
                     </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-  
+
             <FormField
               control={form.control}
               name="customer"
@@ -142,8 +160,8 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                         value={field.value}
                         onChange={field.onChange}
                         getEntity={getCustomers}
-                        placeholder='Search for customers'
-                        entityName='customer'
+                        placeholder="Search for customers"
+                        entityName="customer"
                       />
                     </div>
                   </FormControl>
@@ -154,35 +172,38 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 </FormItem>
               )}
             />
-  
-          </FormGroup>  
-          <FormGroup title="Vehicle Detail">
+          </FormGroup>
+          <FormGroup title="Vehicle Detail" className="mb-4">
             <div className="gap-4 grid grid-cols-2">
               <FormField
                 control={form.control}
                 name="vehicleType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>VeicleType</FormLabel>
+                    <FormLabel>Vehicle Type</FormLabel>
                     <FormControl>
-                      <Select onValueChange={field.onChange} defaultValue={field.value}>
-                        <SelectTrigger className="w-[200px]">
-                          <SelectValue placeholder="Select vehicle type" />
+                      <Select
+                        onValueChange={field.onChange}
+                        defaultValue={field.value}
+                      >
+                        <SelectTrigger className="w-50">
+                          <SelectValue placeholder="Select a vehicle type" />
                         </SelectTrigger>
-                        <SelectContent>
-                          {vehicleTypeList.map(t => (
-                            <SelectItem key={t.content} value={t.value}>
-                              <div className="flex items-center gap-2">
-                                <VehicleIcon icon={t.icon} /> {t.content}
-                              </div>
-                            </SelectItem>
-                          ))}
+                        <SelectContent align="start">
+                          <SelectGroup>
+                            <SelectLabel>Select a vehicle type</SelectLabel>
+                            {vehicleTypeList.map((t) => (
+                              <SelectItem key={t.content} value={t.value}>
+                                <div className="flex items-center gap-2">
+                                  <VehicleIcon icon={t.icon} /> {t.content}
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectGroup>
                         </SelectContent>
                       </Select>
                     </FormControl>
-                    <FormDescription>
-                    Set Vehicle Type
-                    </FormDescription>
+                    <FormDescription>Set Vehicle Type</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
@@ -194,17 +215,19 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                   <FormItem>
                     <FormLabel>Mileage</FormLabel>
                     <FormControl>
-                      <Input type="number" placeholder="Ex: 60000 miles" {...field} />
+                      <Input
+                        type="number"
+                        placeholder="Ex: 60000 miles"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormDescription>
-                    Set Mileage
-                    </FormDescription>
+                    <FormDescription>Set Mileage</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-  
+
             <div className="gap-4 grid grid-cols-2 mt-4">
               <FormField
                 control={form.control}
@@ -215,14 +238,12 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                     <FormControl>
                       <Input placeholder="Ex: 2HGFG21588H705472" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Set Vin Number
-                    </FormDescription>
+                    <FormDescription>Set Vin Number</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-  
+
               <FormField
                 control={form.control}
                 name="engineNo"
@@ -232,37 +253,29 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                     <FormControl>
                       <Input placeholder="Ex: 2HGFG21588H705472" {...field} />
                     </FormControl>
-                    <FormDescription>
-                      Set Engine Number
-                    </FormDescription>
+                    <FormDescription>Set Engine Number</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
             </div>
-  
+
             <FormField
               control={form.control}
               name="note"
               render={({ field }) => (
-                <FormItem className='mt-4'>
+                <FormItem className="mt-4">
                   <FormLabel>Note</FormLabel>
                   <FormControl>
-                    <Textarea {...field} />
+                    <Textarea rows={1} {...field} />
                   </FormControl>
-                  <FormDescription>
-                    Set the Vehicle Note
-                  </FormDescription>
+                  <FormDescription>Set the Vehicle Note</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
             />
-          </FormGroup>  
-          <Button
-            type="submit"
-          >
-            Submit
-          </Button>
+          </FormGroup>
+          <Button type="submit">Submit</Button>
         </form>
       </Form>
     );
@@ -273,7 +286,6 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
         <FormGroup title="General Information">
           <div className="grid grid-cols-3">
-
             <FormField
               control={form.control}
               name="plateNumber"
@@ -281,10 +293,14 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem>
                   <FormLabel>Plate Number</FormLabel>
                   <FormControl>
-                    <Input className="w-[200px]" placeholder="Ex: 7XLF906" {...field} />
+                    <Input
+                      className="w-[200px]"
+                      placeholder="Ex: 7XLF906"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
-                Set the Plate Number. Min. 3 Max. 75
+                    Set the Plate Number. Min. 3 Max. 75
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -298,10 +314,14 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem>
                   <FormLabel>Make and Model</FormLabel>
                   <FormControl>
-                    <Input className="w-[300px]" placeholder="Ex: Toyota Prius 2024" {...field} />
+                    <Input
+                      className="w-75"
+                      placeholder="Ex: Toyota Prius 2024"
+                      {...field}
+                    />
                   </FormControl>
                   <FormDescription>
-                Set the Make and Model. Min. 3 Max. 75
+                    Set the Make and Model. Min. 3 Max. 75
                   </FormDescription>
                   <FormMessage />
                 </FormItem>
@@ -321,23 +341,21 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                       value={field.value}
                       onChange={field.onChange}
                       getEntity={getCustomers}
-                      placeholder='Search for customers'
-                      entityName='customer'
+                      placeholder="Search for customers"
+                      entityName="customer"
                     />
                   </div>
                 </FormControl>
                 <FormDescription>
-                 Search and Select for Customer
+                  Search and Select for Customer
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-
-        </FormGroup>  
+        </FormGroup>
         <FormGroup title="Vehicle Detail">
-
-          <div className='grid grid-cols-3 mt-4'>
+          <div className="grid grid-cols-3 mt-4">
             <FormField
               control={form.control}
               name="vehicleType"
@@ -345,24 +363,28 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem>
                   <FormLabel>VeicleType</FormLabel>
                   <FormControl>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
                       <SelectTrigger className="w-[300px]">
-                        <SelectValue placeholder="Select vehicle type" />
+                        <SelectValue placeholder="Select a vehicle type" />
                       </SelectTrigger>
-                      <SelectContent>
-                        {vehicleTypeList.map(t => (
-                          <SelectItem key={t.content} value={t.value}>
-                            <div className="flex items-center gap-2">
-                              <VehicleIcon icon={t.icon} /> {t.content}
-                            </div>
-                          </SelectItem>
-                        ))}
+                      <SelectContent align="start">
+                        <SelectGroup>
+                          <SelectLabel>Select a vehicle type</SelectLabel>
+                          {vehicleTypeList.map((t) => (
+                            <SelectItem key={t.content} value={t.value}>
+                              <div className="flex items-center gap-2">
+                                <VehicleIcon icon={t.icon} /> {t.content}
+                              </div>
+                            </SelectItem>
+                          ))}
+                        </SelectGroup>
                       </SelectContent>
                     </Select>
                   </FormControl>
-                  <FormDescription>
-                    Set Vehicle Type
-                  </FormDescription>
+                  <FormDescription>Set Vehicle Type</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -374,11 +396,14 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem>
                   <FormLabel>Mileage</FormLabel>
                   <FormControl>
-                    <Input type="number" className="w-[200px]" placeholder="Ex: 60000 miles" {...field} />
+                    <Input
+                      type="number"
+                      className="w-[200px]"
+                      placeholder="Ex: 60000 miles"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>
-                  Set Mileage
-                  </FormDescription>
+                  <FormDescription>Set Mileage</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -393,11 +418,13 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem>
                   <FormLabel>Vin N.O</FormLabel>
                   <FormControl>
-                    <Input className="w-[300px]" placeholder="Ex: 2HGFG21588H705472" {...field} />
+                    <Input
+                      className="w-[300px]"
+                      placeholder="Ex: 2HGFG21588H705472"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>
-                Set Vin Number
-                  </FormDescription>
+                  <FormDescription>Set Vin Number</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -410,11 +437,13 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
                 <FormItem>
                   <FormLabel>Engine N.O</FormLabel>
                   <FormControl>
-                    <Input className="w-[300px]" placeholder="Ex: 2HGFG21588H705472" {...field} />
+                    <Input
+                      className="w-[300px]"
+                      placeholder="Ex: 2HGFG21588H705472"
+                      {...field}
+                    />
                   </FormControl>
-                  <FormDescription>
-                    Set Engine Number
-                  </FormDescription>
+                  <FormDescription>Set Engine Number</FormDescription>
                   <FormMessage />
                 </FormItem>
               )}
@@ -425,24 +454,18 @@ export function VehicleForm({ data = defaultData, defaultCustomer, handleSubmit,
             control={form.control}
             name="note"
             render={({ field }) => (
-              <FormItem className='my-4'>
+              <FormItem className="my-4">
                 <FormLabel>Note</FormLabel>
                 <FormControl>
                   <Textarea {...field} />
                 </FormControl>
-                <FormDescription>
-                Set the Vehicle Note
-                </FormDescription>
+                <FormDescription>Set the Vehicle Note</FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-        </FormGroup>  
-        <Button
-          type="submit"
-        >
-          Submit
-        </Button>
+        </FormGroup>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

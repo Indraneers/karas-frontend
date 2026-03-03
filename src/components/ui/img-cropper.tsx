@@ -1,32 +1,29 @@
 "use client";
 
-import React, { type SyntheticEvent } from "react";
-
+import * as React from "react";
 import ReactCrop, {
   centerCrop,
   makeAspectCrop,
   type Crop,
-  type PixelCrop
+  type PixelCrop,
 } from "react-image-crop";
-
+import { CropIcon, Trash2Icon, ImageIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogClose,
   DialogContent,
   DialogFooter,
-  DialogTrigger
+  DialogTrigger,
 } from "@/components/ui/dialog";
 import {
   FormControl,
   FormField,
   FormItem,
-  FormLabel
+  FormLabel,
 } from "@/components/ui/form";
-
-import "react-image-crop/dist/ReactCrop.css";
-import { CropIcon, Trash2Icon, ImageIcon } from "lucide-react";
 import { TypographyH3 } from "./typography/h3";
+import "react-image-crop/dist/ReactCrop.css";
 
 interface ImageCropperFormFieldProps {
   form: any; // Your form instance
@@ -39,7 +36,7 @@ export function ImageCropperFormField({
   form,
   name,
   label = "Upload Image",
-  className = ""
+  className = "",
 }: ImageCropperFormFieldProps) {
   const aspect = 1;
 
@@ -52,7 +49,7 @@ export function ImageCropperFormField({
   const [originalImageUrl, setOriginalImageUrl] = React.useState<string>("");
   const [previewUrl, setPreviewUrl] = React.useState<string>("");
 
-  function onImageLoad(e: SyntheticEvent<HTMLImageElement>) {
+  function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
     if (aspect) {
       const { width, height } = e.currentTarget;
       setCrop(centerAspectCrop(width, height, aspect));
@@ -88,7 +85,7 @@ export function ImageCropperFormField({
         0,
         0,
         crop.width * scaleX,
-        crop.height * scaleY
+        crop.height * scaleY,
       );
     }
 
@@ -97,8 +94,8 @@ export function ImageCropperFormField({
 
   // Convert data URL to File object
   function dataURLtoFile(dataurl: string, filename: string): File {
-    const arr = dataurl.split(',');
-    const mime = arr[0].match(/:(.*?);/)?.[1] || 'image/png';
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)?.[1] || "image/png";
     const bstr = atob(arr[1]);
     let n = bstr.length;
     const u8arr = new Uint8Array(n);
@@ -108,38 +105,41 @@ export function ImageCropperFormField({
     return new File([u8arr], filename, { type: mime });
   }
 
-  async function onCrop(onChange: (file: File) => void) {
+  function onCrop(onChange: (file: File) => void) {
     try {
       if (croppedImageUrl) {
-        const croppedFile = dataURLtoFile(croppedImageUrl, 'cropped-image.png');
+        const croppedFile = dataURLtoFile(croppedImageUrl, "cropped-image.png");
         onChange(croppedFile);
         setPreviewUrl(croppedImageUrl);
         setDialogOpen(false);
       }
-    }
-    catch (error) {
+    } catch (error) {
+      console.error("Error cropping image:", error);
       alert("Something went wrong!");
     }
   }
 
-  function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>, onChange: (file: File) => void) {
+  function handleFileSelect(
+    event: React.ChangeEvent<HTMLInputElement>,
+    onChange: (file: File) => void,
+  ) {
     const file = event.target.files?.[0];
     if (file) {
       const url = URL.createObjectURL(file);
+      console.log(url);
       setOriginalImageUrl(url);
       setPreviewUrl(url);
       setCroppedImageUrl(""); // Reset cropped image when new file is selected
       onChange(file);
     }
     // Reset the input value to allow selecting the same file again
-    event.target.value = '';
+    event.target.value = "";
   }
 
   function handleImageClick(currentFile: File | null) {
     if (currentFile) {
       setDialogOpen(true);
-    }
-    else {
+    } else {
       fileInputRef.current?.click();
     }
   }
@@ -149,7 +149,7 @@ export function ImageCropperFormField({
       control={form.control}
       name={name}
       render={({ field: { value, onChange, ...fieldProps } }) => (
-        <FormItem className={`mt-6 ${ className }`}>
+        <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
           <FormControl>
             <>
@@ -161,7 +161,7 @@ export function ImageCropperFormField({
                 onChange={(e) => handleFileSelect(e, onChange)}
                 className="hidden"
               />
-              
+
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
                   <div
@@ -177,21 +177,26 @@ export function ImageCropperFormField({
                     ) : (
                       <div className="flex flex-col justify-center items-center h-full text-slate-500">
                         <ImageIcon className="mb-2 w-8 h-8" />
-                        <span className="font-medium text-sm">Click to upload POS icon</span>
-                        <span className="text-slate-400 text-xs">PNG, JPG up to 10MB</span>
+                        <span className="font-medium text-sm">
+                          Click to upload POS icon
+                        </span>
+                        <span className="text-slate-400 text-xs">
+                          PNG, JPG up to 10MB
+                        </span>
                       </div>
                     )}
-                    
+
                     {previewUrl && (
-                      <div className="absolute inset-0 flex justify-center items-center bg-black bg-opacity-0 hover:bg-opacity-20 rounded-xl transition-all">
-                        <div className="bg-white opacity-0 hover:opacity-100 shadow-lg p-2 rounded-full transition-opacity">
-                          <CropIcon className="w-4 h-4 text-slate-600" />
+                      <div className="group absolute inset-0 flex justify-center items-center rounded-xl transition-all duration-300">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 rounded-xl transition-colors" />
+                        <div className="z-10 relative bg-white opacity-0 group-hover:opacity-100 shadow-xl p-3 rounded-full scale-90 group-hover:scale-100 transition-all duration-200">
+                          <CropIcon className="w-5 h-5 text-slate-700" />
                         </div>
                       </div>
                     )}
                   </div>
                 </DialogTrigger>
-                
+
                 <DialogContent className="gap-0 p-0 max-w-2xl">
                   <div className="p-6 size-full">
                     <TypographyH3>Upload and Crop Image</TypographyH3>
@@ -218,17 +223,17 @@ export function ImageCropperFormField({
                   <DialogFooter className="justify-center p-6 pt-0">
                     <DialogClose asChild>
                       <Button
-                        size={"sm"}
+                        size="sm"
                         type="reset"
                         className="w-fit"
-                        variant={"outline"}
+                        variant="outline"
                         onClick={() => {
                           onChange(null);
                           setPreviewUrl("");
                           setOriginalImageUrl("");
                           setCroppedImageUrl("");
                           if (fileInputRef.current) {
-                            fileInputRef.current.value = '';
+                            fileInputRef.current.value = "";
                           }
                         }}
                       >
@@ -236,10 +241,10 @@ export function ImageCropperFormField({
                         Remove
                       </Button>
                     </DialogClose>
-                    <Button 
-                      type="button" 
-                      size={"sm"} 
-                      className="w-fit" 
+                    <Button
+                      type="button"
+                      size="sm"
+                      className="w-fit"
                       onClick={() => onCrop(onChange)}
                     >
                       <CropIcon className="mr-1.5 size-4" />
@@ -260,20 +265,20 @@ export function ImageCropperFormField({
 export function centerAspectCrop(
   mediaWidth: number,
   mediaHeight: number,
-  aspect: number
+  aspect: number,
 ): Crop {
   return centerCrop(
     makeAspectCrop(
       {
         unit: "%",
         width: 50,
-        height: 50
+        height: 50,
       },
       aspect,
       mediaWidth,
-      mediaHeight
+      mediaHeight,
     ),
     mediaWidth,
-    mediaHeight
+    mediaHeight,
   );
 }
