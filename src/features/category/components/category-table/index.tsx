@@ -5,7 +5,7 @@ import { DataTableAutoPagination } from "@/components/data-table-pagination";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import { useNavigate } from "@tanstack/react-router";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { deleteCategory } from "../../api/category";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
