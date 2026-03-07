@@ -52,7 +52,7 @@ function TableRow({
   return (
     <tr
       className={cn(
-        "data-[state=selected]:bg-muted hover:bg-muted/50 border-b last:border-b-0 transition-colors",
+        "data-[state=selected]:bg-muted hover:bg-muted/50 border-b last:border-b-0 transition-colors select-text",
         className,
       )}
       {...props}
