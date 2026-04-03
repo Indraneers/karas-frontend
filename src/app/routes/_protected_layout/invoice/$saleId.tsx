@@ -12,8 +12,7 @@ import { convertSaleResponseDtoToSale } from "@/features/sale/utils/sale";
 import { cn } from "@/lib/utils";
 import { useQueries } from "@tanstack/react-query";
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef, useState } from "react";
-import { useReactToPrint } from "react-to-print";
+import { useEffect, useRef } from "react";
 import { format } from "date-fns";
 import { getConfig } from "@/features/app-config/api/app-config";
 
@@ -48,32 +47,18 @@ export function InvoicePage() {
   });
 
   const contentRef = useRef<HTMLDivElement>(null);
-  const reactToPrintFn = useReactToPrint({
-    contentRef,
-    onAfterPrint: () => {
-      window.close();
-    },
-  });
-
-  const [isReadyToPrint, setIsReadyToPrint] = useState(false);
 
   useEffect(() => {
     if (print && saleQuery.isSuccess && configQuery.isSuccess) {
       const raf = requestAnimationFrame(() => {
-        const raf2 = requestAnimationFrame(() => {
-          setIsReadyToPrint(true);
+        requestAnimationFrame(() => {
+          window.print();
+          window.close();
         });
-        return () => cancelAnimationFrame(raf2);
       });
       return () => cancelAnimationFrame(raf);
     }
   }, [configQuery.isSuccess, print, saleQuery.isSuccess]);
-
-  useEffect(() => {
-    if (isReadyToPrint) {
-      reactToPrintFn();
-    }
-  }, [isReadyToPrint, reactToPrintFn]);
 
   if (saleQuery.isError || configQuery.isError) {
     return "error";
