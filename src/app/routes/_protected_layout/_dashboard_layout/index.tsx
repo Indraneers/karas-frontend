@@ -1,69 +1,114 @@
-import { Separator } from '@/components/ui/separator';
-import { TypographyH1 } from '@/components/ui/typography/h1';
-import { TypographyH2 } from '@/components/ui/typography/h2';
-import { MonthlyCustomersCard, MonthlySalesCard, MonthlyVehiclesCard, TotalMonthlCustomersCard, TotalMonthlVehiclesCard, TotalMonthlySalesCard, TotalWeeklyCustomersCard, TotalWeeklySalesCard, TotalWeeklyVehiclesCard, WeeklyCustomerCard, WeeklySalesCard, WeeklyVehiclesCard } from '@/features/analytic/components/analytic-card';
-import { createFileRoute } from '@tanstack/react-router';
+import { Section } from "@/components/section";
+import { SectionContent } from "@/components/section-content";
+import { SectionHeader } from "@/components/section-header";
+import { TypographyH1 } from "@/components/ui/typography/h1";
+import {
+  AverageOrderValueCard,
+  MonthlyCustomersCard,
+  MonthlySalesCard,
+  MonthlyVehiclesCard,
+  PaymentMixCard,
+  StaffPerformanceCard,
+  TopCustomersCard,
+  TopProductsCard,
+  TotalMonthlCustomersCard,
+  TotalMonthlVehiclesCard,
+  TotalMonthlySalesCard,
+  TotalWeeklyCustomersCard,
+  TotalWeeklySalesCard,
+  TotalWeeklyVehiclesCard,
+  WeeklyCustomerCard,
+  WeeklySalesCard,
+  WeeklyVehiclesCard
+} from "@/features/analytic/components/analytic-card";
+import { createFileRoute } from "@tanstack/react-router";
 
-export const Route = createFileRoute('/_protected_layout/_dashboard_layout/')({
+export const Route = createFileRoute("/_protected_layout/_dashboard_layout/")({
   component: () => <Homepage />
 });
 
+interface BlockProps {
+  label: string;
+  children: React.ReactNode;
+}
+
+function Block({ label, children }: BlockProps) {
+  return (
+    <section className="space-y-4">
+      <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-muted-foreground">
+        {label}
+      </h2>
+      {children}
+    </section>
+  );
+}
+
 export function Homepage() {
   return (
-    <div>
-      <TypographyH1>Dashboard</TypographyH1>
-      <Separator className="mt-4" orientation="horizontal" />
-      <TypographyH2 className='mt-6 text-3xl'>Sales Analytics</TypographyH2>
-      {/* Responsive Grid Layout */}
-      <div className="space-y-6 mt-4">
-        {/* Top Row - Total Cards */}
-        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-          <TotalWeeklySalesCard />
-          <TotalMonthlySalesCard />
-        </div>
-        
-        {/* Bottom Row - Chart Cards - Same Height */}
-        <div className="gap-4 grid grid-cols-1 lg:grid-cols-3">
-          <div className="lg:col-span-1 h-[280px]">
-            <WeeklySalesCard />
+    <Section className="pb-12">
+      <SectionHeader>
+        <TypographyH1>Dashboard</TypographyH1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          A snapshot of revenue, customers, and vehicles across the past month.
+        </p>
+      </SectionHeader>
+      <SectionContent className="space-y-10">
+        <Block label="At a glance">
+          <div className="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+            <TotalWeeklySalesCard />
+            <TotalWeeklyCustomersCard />
+            <TotalWeeklyVehiclesCard />
+            <TotalMonthlySalesCard />
+            <TotalMonthlCustomersCard />
+            <TotalMonthlVehiclesCard />
           </div>
-          <div className="lg:col-span-2 h-[280px]">
-            <MonthlySalesCard />
+        </Block>
+
+        <Block label="Sales">
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+            <div className="lg:col-span-1">
+              <WeeklySalesCard />
+            </div>
+            <div className="lg:col-span-2">
+              <MonthlySalesCard />
+            </div>
           </div>
-        </div>
-      </div>
-      <TypographyH2 className='mt-6 text-3xl'>Customer Analytics</TypographyH2>
-      <div className='space-y-6 mt-4'>
-        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-          <TotalWeeklyCustomersCard />
-          <TotalMonthlCustomersCard />
-        </div>
-      
-        <div className="gap-4 grid grid-cols-1 lg:grid-cols-3">
-          <div className="lg:col-span-1 h-[280px]">
-            <WeeklyCustomerCard />
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+            <TopProductsCard />
+            <AverageOrderValueCard />
           </div>
-          <div className="lg:col-span-2 h-[280px]">
-            <MonthlyCustomersCard />
+        </Block>
+
+        <Block label="Customers">
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+            <div className="lg:col-span-1">
+              <WeeklyCustomerCard />
+            </div>
+            <div className="lg:col-span-2">
+              <MonthlyCustomersCard />
+            </div>
           </div>
-        </div>
-      </div>
-      <TypographyH2 className='mt-6 text-3xl'>Vehicle Analytics</TypographyH2>
-      <div className='space-y-6 mt-4'>
-        <div className="gap-4 grid grid-cols-1 md:grid-cols-2">
-          <TotalWeeklyVehiclesCard />
-          <TotalMonthlVehiclesCard />
-        </div>
-      
-        <div className="gap-4 grid grid-cols-1 lg:grid-cols-3">
-          <div className="lg:col-span-1 h-[280px]">
-            <WeeklyVehiclesCard />
+          <TopCustomersCard />
+        </Block>
+
+        <Block label="Vehicles">
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-3">
+            <div className="lg:col-span-1">
+              <WeeklyVehiclesCard />
+            </div>
+            <div className="lg:col-span-2">
+              <MonthlyVehiclesCard />
+            </div>
           </div>
-          <div className="lg:col-span-2 h-[280px]">
-            <MonthlyVehiclesCard />
+        </Block>
+
+        <Block label="Operations">
+          <div className="grid gap-4 grid-cols-1 lg:grid-cols-2">
+            <PaymentMixCard />
+            <StaffPerformanceCard />
           </div>
-        </div>
-      </div>
-    </div>
+        </Block>
+      </SectionContent>
+    </Section>
   );
 }

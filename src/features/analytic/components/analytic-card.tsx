@@ -1,120 +1,169 @@
-// analytic-card.tsx
 import { Card, CardHeader, CardContent } from "@/components/ui/card";
-import { TypographyH3 } from "@/components/ui/typography/h3";
-import { useQuery } from "@tanstack/react-query";
-import { getTotalCustomerInAMonth, getTotalCustomerInAWeek, getTotalSaleInAMonth, getTotalSaleInAWeek, getTotalVehicleInAMonth, getTotalVehicleInAWeek } from "../api/analytic";
-import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/charts";
+import { useQuery, UseQueryResult } from "@tanstack/react-query";
+import {
+  getAverageOrderValue,
+  getPaymentTypeBreakdown,
+  getRevenueByStaff,
+  getTopCustomers,
+  getTopProducts,
+  getTotalCustomerInAMonth,
+  getTotalCustomerInAWeek,
+  getTotalSaleInAMonth,
+  getTotalSaleInAWeek,
+  getTotalVehicleInAMonth,
+  getTotalVehicleInAWeek
+} from "../api/analytic";
+import { RevenueBreakdownDTO, TopProductDTO } from "../type/analytic";
+import {
+  ChartConfig,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent
+} from "@/components/ui/charts";
 import { BarChart, CartesianGrid, XAxis, Bar, YAxis } from "recharts";
 import { convertRawCurrencyToDisplayCurrency } from "@/features/currency/utils/currency";
+import { Skeleton } from "@/components/ui/skeleton";
 
-// Skeleton Components
-function ChartSkeleton() {
-  return (
-    <div className="w-full h-[175px]">
-      <div className="flex justify-between items-end space-x-2 px-4 h-full">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <div
-            key={i}
-            className="bg-muted rounded-t animate-pulse"
-            style={{
-              height: `${ Math.random() * 60 + 40 }%`,
-              width: `${ 100 / 7 - 2 }%`
-            }}
-          />
-        ))}
-      </div>
-      <div className="flex justify-between mt-2 px-4">
-        {Array.from({ length: 7 }).map((_, i) => (
-          <div key={i} className="bg-muted rounded w-8 h-3 animate-pulse" />
-        ))}
-      </div>
-    </div>
-  );
+type Point = { date: string; value: string | number };
+type AnalyticQuery = UseQueryResult<Point[]>;
+
+function sumValues(data: Point[] | undefined): number {
+  if (!data) return 0;
+  return data.reduce((acc, p) => acc + Number(p.value), 0);
 }
 
-function TotalSkeleton() {
-  return (
-    <div className="space-y-2">
-      <div className="bg-muted rounded w-32 h-8 animate-pulse" />
-      <div className="bg-muted rounded w-24 h-4 animate-pulse" />
-    </div>
-  );
+function formatCurrency(rawCents: number): string {
+  return `$${convertRawCurrencyToDisplayCurrency(rawCents)}`;
 }
 
-export function WeeklySalesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['weekly-sales'],
-    queryFn: () => getTotalSaleInAWeek()
+function formatDate(value: unknown): string {
+  if (value === undefined || value === null) return "";
+  return new Date(value as string | number).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric"
   });
+}
 
+function formatDateLong(value: unknown): string {
+  if (value === undefined || value === null) return "";
+  return new Date(value as string | number).toLocaleDateString("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  });
+}
+
+/* ------------------------------------------------------------------ */
+/* Primitives                                                          */
+/* ------------------------------------------------------------------ */
+
+interface StatCardProps {
+  label: string;
+  description: string;
+  isLoading: boolean;
+  value: string;
+}
+
+function StatCard({ label, description, isLoading, value }: StatCardProps) {
+  return (
+    <Card className="h-full">
+      <CardHeader className="pb-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+          {label}
+        </p>
+        <p className="text-xs text-muted-foreground/80">{description}</p>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <Skeleton className="h-9 w-32" />
+        ) : (
+          <span className="block font-display text-3xl font-medium tabular-nums tracking-tight text-foreground lg:text-4xl">
+            {value}
+          </span>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+interface ChartCardProps {
+  label: string;
+  description: string;
+  isLoading: boolean;
+  data: Point[] | undefined;
+  unit: "currency" | "count";
+}
+
+function ChartCard({ label, description, isLoading, data, unit }: ChartCardProps) {
   const chartConfig = {
     value: {
-      label: "Revenue from Sale ($)",
+      label: unit === "currency" ? "Revenue ($)" : "Count",
       color: "var(--chart-1)"
     }
   } satisfies ChartConfig;
 
+  const seriesData = data?.map((p) => ({
+    ...p,
+    value: unit === "currency" ? Number(p.value) / 100 : Number(p.value)
+  }));
+
   return (
     <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Weekly Sale</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing revenue for the past 7 days</p>
-        </div>
+      <CardHeader className="pb-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+          {label}
+        </p>
+        <p className="text-xs text-muted-foreground/80">{description}</p>
       </CardHeader>
       <CardContent>
-        {isLoading && <ChartSkeleton />}
-        {data && (
+        {isLoading || !seriesData ? (
+          <Skeleton className="h-[175px] w-full" />
+        ) : (
           <ChartContainer className="w-full h-[175px]" config={chartConfig}>
             <BarChart
               accessibilityLayer
-              data={data.map(d => ({ ...d, value: Number(d.value) / 100 }))}
-              margin={{
-                left: 12,
-                right: 12
-              }}
-              maxBarSize={60}
+              data={seriesData}
+              margin={{ left: 12, right: 12 }}
+              maxBarSize={48}
             >
-              <CartesianGrid vertical={false} />
+              <CartesianGrid vertical={false} strokeOpacity={0.4} />
               <XAxis
                 dataKey="date"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={8}
                 minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric"
-                  });
-                }}
+                tickFormatter={formatDate}
+                className="text-xs"
               />
               <YAxis
                 tickLine={false}
                 axisLine={false}
                 width={40}
-                tickFormatter={(value) => `$${ value.toLocaleString() }`}
+                tickFormatter={(v) =>
+                  unit === "currency" ? `$${Number(v).toLocaleString()}` : String(v)
+                }
+                className="text-xs"
               />
               <ChartTooltip
                 content={
                   <ChartTooltipContent
-                    className="w-[150px]"
+                    className="w-[160px]"
                     nameKey="views"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      });
-                    }}
-                    formatter={(value) => [
-                      `Daily Revenue: $${ Number(value).toLocaleString() }`
+                    labelFormatter={formatDateLong}
+                    formatter={(v) => [
+                      unit === "currency"
+                        ? `Daily Revenue: $${Number(v).toLocaleString()}`
+                        : `Daily Count: ${v}`
                     ]}
                   />
                 }
               />
-              <Bar dataKey={"value"} fill={`var(--color-value)`} />
+              <Bar
+                dataKey="value"
+                fill="var(--color-value)"
+                radius={[4, 4, 0, 0]}
+              />
             </BarChart>
           </ChartContainer>
         )}
@@ -122,588 +171,451 @@ export function WeeklySalesCard() {
     </Card>
   );
 }
+
+/* ------------------------------------------------------------------ */
+/* Hooks                                                               */
+/* ------------------------------------------------------------------ */
+
+const useWeeklySales = () =>
+  useQuery({ queryKey: ["weekly-sales"], queryFn: getTotalSaleInAWeek }) as AnalyticQuery;
+const useMonthlySales = () =>
+  useQuery({ queryKey: ["monthly-sales"], queryFn: getTotalSaleInAMonth }) as AnalyticQuery;
+const useWeeklyCustomers = () =>
+  useQuery({ queryKey: ["weekly-customers"], queryFn: getTotalCustomerInAWeek }) as AnalyticQuery;
+const useMonthlyCustomers = () =>
+  useQuery({ queryKey: ["monthly-customers"], queryFn: getTotalCustomerInAMonth }) as AnalyticQuery;
+const useWeeklyVehicles = () =>
+  useQuery({ queryKey: ["weekly-vehicles"], queryFn: getTotalVehicleInAWeek }) as AnalyticQuery;
+const useMonthlyVehicles = () =>
+  useQuery({ queryKey: ["monthly-vehicles"], queryFn: getTotalVehicleInAMonth }) as AnalyticQuery;
+
+/* ------------------------------------------------------------------ */
+/* Stat cards                                                          */
+/* ------------------------------------------------------------------ */
 
 export function TotalWeeklySalesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['weekly-sales'],
-    queryFn: () => getTotalSaleInAWeek()
-  });
-
-  const total = data ? data.reduce((prev, next) => {
-    return prev + Number(next.value);
-  }, 0) : 0;
-
+  const { data, isLoading } = useWeeklySales();
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Total Weekly Sale</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing total revenue for the past 7 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <TotalSkeleton />}
-        {data && (
-          <div className="font-bold text-emerald-500 text-3xl lg:text-4xl">
-            ${convertRawCurrencyToDisplayCurrency(total)}
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-export function MonthlySalesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['monthly-sales'],
-    queryFn: () => getTotalSaleInAMonth()
-  });
-
-  const chartConfig = {
-    value: {
-      label: "Revenue from Sale ($)",
-      color: "var(--chart-1)"
-    }
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Monthly Sale</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing revenue for the past 30 days</p>
-        </div>
-      </CardHeader>
-      <CardContent className="">
-        {isLoading && <ChartSkeleton />}
-        {data && (
-          <ChartContainer className="w-full h-[175px]" config={chartConfig}>
-            <BarChart
-              accessibilityLayer
-              data={data.map(d => ({ ...d, value: Number(d.value) / 100 }))}
-              margin={{
-                left: 12,
-                right: 12
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric"
-                  });
-                }}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                width={40}
-                tickFormatter={(value) => `$${ value.toLocaleString() }`}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="views"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      });
-                    }}
-                    formatter={(value) => [
-                      `Daily Revenue: $${ Number(value).toLocaleString() }`
-                    ]}
-                  />
-                }
-              />
-              <Bar dataKey={"value"} fill={`var(--color-value)`} />
-            </BarChart>
-          </ChartContainer>
-        )}
-      </CardContent>
-    </Card>
+    <StatCard
+      label="Total Weekly Sale"
+      description="Past 7 days"
+      isLoading={isLoading}
+      value={formatCurrency(sumValues(data))}
+    />
   );
 }
 
 export function TotalMonthlySalesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['monthly-sales'],
-    queryFn: () => getTotalSaleInAMonth() // Fixed: was getTotalSaleInAWeek()
-  });
-
-  const total = data ? data.reduce((prev, next) => {
-    return prev + Number(next.value);
-  }, 0) : 0;
-
+  const { data, isLoading } = useMonthlySales();
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Total Monthly Sale</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing total revenue for the past 30 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <TotalSkeleton />}
-        {data && (
-          <div className="font-bold text-emerald-500 text-3xl lg:text-4xl">
-            ${convertRawCurrencyToDisplayCurrency(total)}
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-export function WeeklyCustomerCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['weekly-customers'],
-    queryFn: () => getTotalCustomerInAWeek()
-  });
-
-  const chartConfig = {
-    value: {
-      label: "Customers Gained",
-      color: "var(--chart-1)"
-    }
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Weekly New Customers</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing new customers for the past 7 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <ChartSkeleton />}
-        {data && (
-          <ChartContainer className="w-full h-[175px]" config={chartConfig}>
-            <BarChart
-              accessibilityLayer
-              data={data.map(d => ({ ...d, value: Number(d.value) }))}
-              margin={{
-                left: 12,
-                right: 12
-              }}
-              maxBarSize={60}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric"
-                  });
-                }}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                width={40}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="views"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      });
-                    }}
-                    formatter={(value) => [
-                      `Daily New Customers: ${ value }`
-                    ]}
-                  />
-                }
-              />
-              <Bar dataKey={"value"} fill={`var(--color-value)`} />
-            </BarChart>
-          </ChartContainer>
-        )}
-      </CardContent>
-    </Card>
+    <StatCard
+      label="Total Monthly Sale"
+      description="Past 30 days"
+      isLoading={isLoading}
+      value={formatCurrency(sumValues(data))}
+    />
   );
 }
 
 export function TotalWeeklyCustomersCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['weekly-customers'],
-    queryFn: () => getTotalCustomerInAWeek()
-  });
-
-  const total = data ? data.reduce((prev, next) => {
-    return prev + Number(next.value);
-  }, 0) : 0;
-
+  const { data, isLoading } = useWeeklyCustomers();
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Total Weekly New Customer</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing new customers for the past 7 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <TotalSkeleton />}
-        {data && (
-          <div className="font-bold text-emerald-500 text-3xl lg:text-4xl">
-            {total} Customers
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-export function MonthlyCustomersCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['monthly-customers'],
-    queryFn: () => getTotalCustomerInAMonth()
-  });
-
-  const chartConfig = {
-    value: {
-      label: "Customers Gained",
-      color: "var(--chart-1)"
-    }
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Monthly New Customers</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing total new customers for the past 30 days</p>
-        </div>
-      </CardHeader>
-      <CardContent className="">
-        {isLoading && <ChartSkeleton />}
-        {data && (
-          <ChartContainer className="w-full h-[175px]" config={chartConfig}>
-            <BarChart
-              accessibilityLayer
-              data={data.map(d => ({ ...d, value: Number(d.value) }))}
-              margin={{
-                left: 12,
-                right: 12
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric"
-                  });
-                }}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                width={40}
-                tickFormatter={(value) => `$${ value.toLocaleString() }`}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="views"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      });
-                    }}
-                    formatter={(value) => [
-                      `Daily New Customers: ${ value }`
-                    ]}
-                  />
-                }
-              />
-              <Bar dataKey={"value"} fill={`var(--color-value)`} />
-            </BarChart>
-          </ChartContainer>
-        )}
-      </CardContent>
-    </Card>
+    <StatCard
+      label="New Customers — Week"
+      description="Past 7 days"
+      isLoading={isLoading}
+      value={String(sumValues(data))}
+    />
   );
 }
 
 export function TotalMonthlCustomersCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['monthly-customers'],
-    queryFn: () => getTotalCustomerInAMonth()
-  });
-
-  const total = data ? data.reduce((prev, next) => {
-    return prev + Number(next.value);
-  }, 0) : 0;
-
+  const { data, isLoading } = useMonthlyCustomers();
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Total Monthly New Customer</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing total new customers for the past 30 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <TotalSkeleton />}
-        {data && (
-          <div className="font-bold text-emerald-500 text-3xl lg:text-4xl">
-            {total} Customers
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-export function WeeklyVehiclesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['weekly-vehicles'],
-    queryFn: () => getTotalVehicleInAWeek()
-  });
-
-  const chartConfig = {
-    value: {
-      label: "Vehicles Gained",
-      color: "var(--chart-1)"
-    }
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Weekly New Vehicles</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing new vehicles for the past 7 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <ChartSkeleton />}
-        {data && (
-          <ChartContainer className="w-full h-[175px]" config={chartConfig}>
-            <BarChart
-              accessibilityLayer
-              data={data.map(d => ({ ...d, value: Number(d.value) }))}
-              margin={{
-                left: 12,
-                right: 12
-              }}
-              maxBarSize={60}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric"
-                  });
-                }}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                width={40}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="views"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      });
-                    }}
-                    formatter={(value) => [
-                      `Daily New Vehicles: ${ value }`
-                    ]}
-                  />
-                }
-              />
-              <Bar dataKey={"value"} fill={`var(--color-value)`} />
-            </BarChart>
-          </ChartContainer>
-        )}
-      </CardContent>
-    </Card>
+    <StatCard
+      label="New Customers — Month"
+      description="Past 30 days"
+      isLoading={isLoading}
+      value={String(sumValues(data))}
+    />
   );
 }
 
 export function TotalWeeklyVehiclesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['weekly-vehicles'],
-    queryFn: () => getTotalVehicleInAWeek()
-  });
-
-  const total = data ? data.reduce((prev, next) => {
-    return prev + Number(next.value);
-  }, 0) : 0;
-
+  const { data, isLoading } = useWeeklyVehicles();
   return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Total Weekly New Vehicles</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing new vehicles for the past 7 days</p>
-        </div>
-      </CardHeader>
-      <CardContent>
-        {isLoading && <TotalSkeleton />}
-        {data && (
-          <div className="font-bold text-emerald-500 text-3xl lg:text-4xl">
-            {total} Vehicles
-          </div>
-        )}
-      </CardContent>
-    </Card>
-  );
-}
-
-export function MonthlyVehiclesCard() {
-  const { data, isLoading } = useQuery({
-    queryKey: ['monthly-vehicles'],
-    queryFn: () => getTotalVehicleInAMonth()
-  });
-
-  const chartConfig = {
-    value: {
-      label: "Vehicles Gained",
-      color: "var(--chart-1)"
-    }
-  } satisfies ChartConfig;
-
-  return (
-    <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Monthly New Vehicles</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing total new vehicles for the past 30 days</p>
-        </div>
-      </CardHeader>
-      <CardContent className="">
-        {isLoading && <ChartSkeleton />}
-        {data && (
-          <ChartContainer className="w-full h-[175px]" config={chartConfig}>
-            <BarChart
-              accessibilityLayer
-              data={data.map(d => ({ ...d, value: Number(d.value) }))}
-              margin={{
-                left: 12,
-                right: 12
-              }}
-            >
-              <CartesianGrid vertical={false} />
-              <XAxis
-                dataKey="date"
-                tickLine={false}
-                axisLine={false}
-                tickMargin={8}
-                minTickGap={32}
-                tickFormatter={(value) => {
-                  const date = new Date(value);
-                  return date.toLocaleDateString("en-US", {
-                    month: "short",
-                    day: "numeric"
-                  });
-                }}
-              />
-              <YAxis
-                tickLine={false}
-                axisLine={false}
-                width={40}
-                tickFormatter={(value) => `$${ value.toLocaleString() }`}
-              />
-              <ChartTooltip
-                content={
-                  <ChartTooltipContent
-                    className="w-[150px]"
-                    nameKey="views"
-                    labelFormatter={(value) => {
-                      return new Date(value).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric"
-                      });
-                    }}
-                    formatter={(value) => [
-                      `Daily New Vehicles: ${ value }`
-                    ]}
-                  />
-                }
-              />
-              <Bar dataKey={"value"} fill={`var(--color-value)`} />
-            </BarChart>
-          </ChartContainer>
-        )}
-      </CardContent>
-    </Card>
+    <StatCard
+      label="New Vehicles — Week"
+      description="Past 7 days"
+      isLoading={isLoading}
+      value={String(sumValues(data))}
+    />
   );
 }
 
 export function TotalMonthlVehiclesCard() {
+  const { data, isLoading } = useMonthlyVehicles();
+  return (
+    <StatCard
+      label="New Vehicles — Month"
+      description="Past 30 days"
+      isLoading={isLoading}
+      value={String(sumValues(data))}
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Chart cards                                                         */
+/* ------------------------------------------------------------------ */
+
+export function WeeklySalesCard() {
+  const { data, isLoading } = useWeeklySales();
+  return (
+    <ChartCard
+      label="Weekly Sale"
+      description="Revenue for the past 7 days"
+      isLoading={isLoading}
+      data={data}
+      unit="currency"
+    />
+  );
+}
+
+export function MonthlySalesCard() {
+  const { data, isLoading } = useMonthlySales();
+  return (
+    <ChartCard
+      label="Monthly Sale"
+      description="Revenue for the past 30 days"
+      isLoading={isLoading}
+      data={data}
+      unit="currency"
+    />
+  );
+}
+
+export function WeeklyCustomerCard() {
+  const { data, isLoading } = useWeeklyCustomers();
+  return (
+    <ChartCard
+      label="Weekly New Customers"
+      description="New customers for the past 7 days"
+      isLoading={isLoading}
+      data={data}
+      unit="count"
+    />
+  );
+}
+
+export function MonthlyCustomersCard() {
+  const { data, isLoading } = useMonthlyCustomers();
+  return (
+    <ChartCard
+      label="Monthly New Customers"
+      description="New customers for the past 30 days"
+      isLoading={isLoading}
+      data={data}
+      unit="count"
+    />
+  );
+}
+
+export function WeeklyVehiclesCard() {
+  const { data, isLoading } = useWeeklyVehicles();
+  return (
+    <ChartCard
+      label="Weekly New Vehicles"
+      description="New vehicles for the past 7 days"
+      isLoading={isLoading}
+      data={data}
+      unit="count"
+    />
+  );
+}
+
+export function MonthlyVehiclesCard() {
+  const { data, isLoading } = useMonthlyVehicles();
+  return (
+    <ChartCard
+      label="Monthly New Vehicles"
+      description="New vehicles for the past 30 days"
+      isLoading={isLoading}
+      data={data}
+      unit="count"
+    />
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* New analytics                                                       */
+/* ------------------------------------------------------------------ */
+
+export function TopProductsCard() {
   const { data, isLoading } = useQuery({
-    queryKey: ['monthly-Vehicles'],
-    queryFn: () => getTotalVehicleInAMonth()
+    queryKey: ["top-products"],
+    queryFn: () => getTopProducts(30, 5)
   });
 
-  const total = data ? data.reduce((prev, next) => {
-    return prev + Number(next.value);
-  }, 0) : 0;
+  const items: TopProductDTO[] = data ?? [];
+  const max = items.reduce((m, p) => Math.max(m, p.revenue), 0);
 
   return (
     <Card className="h-full">
-      <CardHeader>
-        <div>
-          <TypographyH3 className="">Total Monthly New Vehicles</TypographyH3>
-          <p className="text-muted-foreground text-sm">Showing total new vehicles for the past 30 days</p>
-        </div>
+      <CardHeader className="pb-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+          Top Products
+        </p>
+        <p className="text-xs text-muted-foreground/80">
+          Revenue leaders for the past 30 days
+        </p>
       </CardHeader>
       <CardContent>
-        {isLoading && <TotalSkeleton />}
-        {data && (
-          <div className="font-bold text-emerald-500 text-3xl lg:text-4xl">
-            {total} Vehicles
+        {isLoading ? (
+          <div className="space-y-2">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} className="h-7 w-full" />
+            ))}
           </div>
+        ) : items.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No sales recorded yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {items.map((p) => {
+              const pct = max > 0 ? (p.revenue / max) * 100 : 0;
+              return (
+                <li key={p.productId} className="text-sm">
+                  <div className="flex items-baseline justify-between gap-3 mb-1">
+                    <span className="truncate font-medium text-foreground">
+                      {p.productName}
+                    </span>
+                    <span className="font-display tabular-nums text-foreground/80">
+                      ${(p.revenue / 100).toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full bg-foreground/70 rounded-full transition-all"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         )}
       </CardContent>
     </Card>
   );
 }
+
+export function AverageOrderValueCard() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["aov-30"],
+    queryFn: () => getAverageOrderValue(30)
+  });
+
+  const values = data?.map((p) => Number(p.value)) ?? [];
+  const overall =
+    values.length === 0
+      ? 0
+      : values.reduce((sum, v) => sum + v, 0) / values.length;
+
+  return (
+    <Card className="h-full">
+      <CardHeader className="pb-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+          Average Order Value
+        </p>
+        <p className="text-xs text-muted-foreground/80">
+          Avg. dollar amount per order — past 30 days
+        </p>
+      </CardHeader>
+      <CardContent className="space-y-3">
+        {isLoading ? (
+          <Skeleton className="h-9 w-32" />
+        ) : (
+          <span className="block font-display text-3xl font-medium tabular-nums tracking-tight text-foreground lg:text-4xl">
+            ${(overall / 100).toFixed(2)}
+          </span>
+        )}
+        <ChartCardLine isLoading={isLoading} data={data ?? []} />
+      </CardContent>
+    </Card>
+  );
+}
+
+function ChartCardLine({
+  isLoading,
+  data
+}: {
+  isLoading: boolean;
+  data: Point[];
+}) {
+  const chartConfig = {
+    value: { label: "AOV ($)", color: "var(--chart-1)" }
+  } satisfies ChartConfig;
+  const seriesData = data.map((p) => ({
+    ...p,
+    value: Number(p.value) / 100
+  }));
+  if (isLoading) return <Skeleton className="h-[120px] w-full" />;
+  return (
+    <ChartContainer className="w-full h-[120px]" config={chartConfig}>
+      <BarChart
+        accessibilityLayer
+        data={seriesData}
+        margin={{ left: 4, right: 4 }}
+        maxBarSize={20}
+      >
+        <CartesianGrid vertical={false} strokeOpacity={0.4} />
+        <XAxis
+          dataKey="date"
+          tickLine={false}
+          axisLine={false}
+          tickMargin={6}
+          minTickGap={32}
+          tickFormatter={formatDate}
+          className="text-xs"
+        />
+        <YAxis hide />
+        <ChartTooltip
+          content={
+            <ChartTooltipContent
+              className="w-[160px]"
+              nameKey="views"
+              labelFormatter={formatDateLong}
+              formatter={(v) => [`AOV: $${Number(v).toFixed(2)}`]}
+            />
+          }
+        />
+        <Bar dataKey="value" fill="var(--color-value)" radius={[4, 4, 0, 0]} />
+      </BarChart>
+    </ChartContainer>
+  );
+}
+
+/* ------------------------------------------------------------------ */
+/* Revenue breakdown cards (Top Customers, Payment Mix, Staff)         */
+/* ------------------------------------------------------------------ */
+
+interface RevenueBreakdownCardProps {
+  label: string;
+  description: string;
+  isLoading: boolean;
+  items: RevenueBreakdownDTO[];
+  showOrderCount?: boolean;
+  formatValue?: (revenue: number) => string;
+}
+
+function RevenueBreakdownCard({
+  label,
+  description,
+  isLoading,
+  items,
+  showOrderCount,
+  formatValue
+}: RevenueBreakdownCardProps) {
+  const max = items.reduce((m, i) => Math.max(m, i.revenue), 0);
+  const display = formatValue ?? ((v: number) => `$${(v / 100).toFixed(2)}`);
+
+  return (
+    <Card className="h-full">
+      <CardHeader className="pb-3">
+        <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
+          {label}
+        </p>
+        <p className="text-xs text-muted-foreground/80">{description}</p>
+      </CardHeader>
+      <CardContent>
+        {isLoading ? (
+          <div className="space-y-2">
+            {Array.from({ length: 5 }).map((_, i) => (
+              <Skeleton key={i} className="h-7 w-full" />
+            ))}
+          </div>
+        ) : items.length === 0 ? (
+          <p className="text-sm text-muted-foreground">No data yet.</p>
+        ) : (
+          <ul className="space-y-2">
+            {items.map((item) => {
+              const pct = max > 0 ? (item.revenue / max) * 100 : 0;
+              return (
+                <li key={item.id} className="text-sm">
+                  <div className="flex items-baseline justify-between gap-3 mb-1">
+                    <span className="truncate font-medium text-foreground">
+                      {item.label}
+                      {showOrderCount && (
+                        <span className="ml-1.5 text-muted-foreground/80 text-xs font-normal">
+                          · {item.orderCount} {item.orderCount === 1 ? "order" : "orders"}
+                        </span>
+                      )}
+                    </span>
+                    <span className="font-display tabular-nums text-foreground/80">
+                      {display(item.revenue)}
+                    </span>
+                  </div>
+                  <div className="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                    <div
+                      className="h-full bg-foreground/70 rounded-full transition-all"
+                      style={{ width: `${pct}%` }}
+                    />
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        )}
+      </CardContent>
+    </Card>
+  );
+}
+
+export function TopCustomersCard() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["top-customers"],
+    queryFn: () => getTopCustomers(30, 5)
+  });
+  return (
+    <RevenueBreakdownCard
+      label="Top Customers"
+      description="Highest spenders for the past 30 days"
+      isLoading={isLoading}
+      items={data ?? []}
+      showOrderCount
+    />
+  );
+}
+
+export function PaymentMixCard() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["payment-mix"],
+    queryFn: () => getPaymentTypeBreakdown(30)
+  });
+  return (
+    <RevenueBreakdownCard
+      label="Payment Mix"
+      description="Revenue by payment type — past 30 days"
+      isLoading={isLoading}
+      items={data ?? []}
+      showOrderCount
+    />
+  );
+}
+
+export function StaffPerformanceCard() {
+  const { data, isLoading } = useQuery({
+    queryKey: ["staff-performance"],
+    queryFn: () => getRevenueByStaff(30, 5)
+  });
+  return (
+    <RevenueBreakdownCard
+      label="Staff Performance"
+      description="Revenue closed by staff — past 30 days"
+      isLoading={isLoading}
+      items={data ?? []}
+      showOrderCount
+    />
+  );
+}
+
