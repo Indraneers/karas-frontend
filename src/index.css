@@ -48,30 +48,39 @@
   --color-sidebar-ring: var(--sidebar-ring);
 
   --font-body: "Lato", "Noto Sans Khmer", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Lato", "Moul", ui-serif, Georgia, serif;
+  --font-display: "Noto Serif", "Moul", ui-serif, Georgia, serif;
+
+  --color-surface: var(--surface);
+  --color-surface-strong: var(--surface-strong);
 }
 
 :root {
-  --radius: 0.625rem;
-  --background: oklch(1 0 0);
+  --radius: 0.75rem;
+  /* Cool off-white page bg — lets brand red be the only warm element. */
+  --background: oklch(0.985 0.004 250);
   --foreground: oklch(0.3552 0.0321 262.99);
-  --card: oklch(1 0 0);
+  /* Surfaces are a touch off-white (not pure) so they don't shock against the page bg. */
+  --card: oklch(0.997 0.003 250);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
+  --popover: oklch(0.997 0.003 250);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.5744 0.2338 27.93);
   --primary-foreground: oklch(1 0 0);
   --secondary: oklch(0.207 0.038 265.07);
   --secondary-foreground: oklch(0.9699 0.0013 106.42);
-  --muted: oklch(0.9683 0.0069 247.9);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted: oklch(0.965 0.006 250);
+  --muted-foreground: oklch(0.5 0.012 250);
   --accent: oklch(0.6488 0.1904 20.58);
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
+  /* Hairline border — same cool hue as bg, just darker. */
+  --border: oklch(0.93 0.005 250);
+  --input: oklch(0.93 0.005 250);
   --ring: oklch(0.708 0 0);
+  /* Shaded surfaces (no extra border needed). */
+  --surface: oklch(0.975 0.005 250);
+  --surface-strong: oklch(0.955 0.007 250);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
@@ -79,13 +88,13 @@
   --chart-5: oklch(0.769 0.188 70.08);
   --tab: oklch(0.6488 0.1904 20.58);
   --tab-foreground: oklch(1 0 0);
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar: oklch(0.955 0.006 250);
+  --sidebar-foreground: oklch(0.25 0.012 270);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent: oklch(0.925 0.008 250);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-border: oklch(0.91 0.007 250);
   --sidebar-ring: oklch(0.708 0 0);
 }
 
@@ -137,6 +146,19 @@
 }
 
 @layer utilities {
+  /* Use sparingly: sticky header, command palette, modals. */
+  .glass {
+    background-color: color-mix(in oklab, var(--background) 45%, transparent) !important;
+    backdrop-filter: saturate(200%) blur(20px);
+    -webkit-backdrop-filter: saturate(200%) blur(20px);
+  }
+
+  .glass-strong {
+    background-color: color-mix(in oklab, var(--background) 40%, transparent) !important;
+    backdrop-filter: saturate(220%) blur(32px);
+    -webkit-backdrop-filter: saturate(220%) blur(32px);
+  }
+
   .a4-page {
     width: 210mm;
     height: 297mm;
@@ -201,8 +223,7 @@
   @media print {
     .a4-page {
       width: 210mm;
-      height: 297mm;
-      page-break-after: always;
+      min-height: 297mm;
     }
   }
 }
