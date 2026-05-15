@@ -35,32 +35,33 @@ export const itemColumns: ColumnDef<Item>[] = [
   },
   {
     accessorKey: 'price',
-    header: () => <div>ថ្លៃឯកតា ($)<br></br>Price ($)</div>,
+    header: () => <div className="text-right">ថ្លៃឯកតា ($)<br/>Price ($)</div>,
     cell: ({ row }) => (
-      <div className="text-green-600 text-nowrap">
+      <div className="text-right tabular-nums text-neutral-900 text-nowrap">
         <Currency amount={row.original.price} />
       </div>
     )
   },
   {
     accessorKey: 'discount',
-    header: () => <div className="text-nowrap">បញ្ចុះតម្លៃ ($)<br></br>Discount ($)</div>,
+    header: () => <div className="text-right text-nowrap">បញ្ចុះតម្លៃ ($)<br/>Discount ($)</div>,
     cell: ({ row }) => (
-      <div className="text-primary text-nowrap">
+      <div className="text-right tabular-nums text-neutral-600 text-nowrap">
+        {row.original.discount > 0 ? "−" : ""}
         <Currency amount={row.original.discount} />
       </div>
     )
   },
   {
     accessorKey: 'quantity',
-    header: () => <div className="text-nowrap">បរិមាណ<br></br>Qty</div>,
-    cell: ({ row }) => <ItemQuantity item={row.original} />
+    header: () => <div className="text-right text-nowrap">បរិមាណ<br/>Qty</div>,
+    cell: ({ row }) => <div className="text-right text-neutral-900"><ItemQuantity item={row.original} /></div>
   },
   {
     accessorKey: 'Total',
-    header: () => <div className="text-nowrap">ថ្លៃទំនិញ ($)<br></br>Total ($)</div>,
+    header: () => <div className="text-right text-nowrap">ថ្លៃទំនិញ ($)<br/>Total ($)</div>,
     cell: ({ row }) => (
-      <div className="font-medium text-green-700 text-nowrap">
+      <div className="text-right font-medium tabular-nums text-neutral-900 text-nowrap">
         <Currency amount={
           calculateUnitItemTotalCost(
             row.original.price,

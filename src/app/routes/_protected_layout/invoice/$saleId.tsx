@@ -88,34 +88,32 @@ export function InvoicePage() {
   }
 
   return (
-    <div className="flex justify-center items-center bg-white w-full">
-      <div className="p-8 font-body a4-page" ref={contentRef}>
-        <div className="flex justify-between items-center">
-          <h1 className="font-bold text-[42px]">INVOICE</h1>
+    <div className="flex justify-center items-center bg-white w-full text-black">
+      <div className="p-10 font-body a4-page" ref={contentRef}>
+        <div className="flex justify-between items-start">
+          <h1 className="font-display font-medium text-[44px] tracking-tight leading-none">
+            Invoice
+          </h1>
           <InvoiceNumber id={saleQuery.data.id || ""} />
         </div>
-        <div className="gap-8 grid grid-cols-2 mt-4 py-4">
+        <div className="gap-8 grid grid-cols-2 mt-8">
           <CompanyLogoName config={configQuery.data} />
           <CompanyInfo config={configQuery.data} />
         </div>
-        <Separator className="mt-2" />
-        <CustomerInfo customer={saleQuery.data.customer} className="my-1" />
-        <Separator />
-        <VehicleInfo vehicle={saleQuery.data.vehicle} className="my-1" />
-        <Separator className="mb-2" />
-        <div className="flex justify-between items-center gap-4 mt-2">
-          <div className="flex items-center gap-4">
-            <div className="space-x-4">
-              <InvoiceStatusBadge statusEnum={saleQuery.data.status} />
-              <InvoicePaymentTypeBadge
-                paymentType={saleQuery.data.paymentType}
-              />
-            </div>
+        <Separator className="mt-6 bg-neutral-200" />
+        <CustomerInfo customer={saleQuery.data.customer} className="my-2" />
+        <Separator className="bg-neutral-200" />
+        <VehicleInfo vehicle={saleQuery.data.vehicle} className="my-2" />
+        <Separator className="mb-4 bg-neutral-200" />
+        <div className="flex justify-between items-end gap-4 mt-3">
+          <div className="flex items-center gap-3">
+            <InvoiceStatusBadge statusEnum={saleQuery.data.status} />
+            <InvoicePaymentTypeBadge paymentType={saleQuery.data.paymentType} />
             <InvoiceDetailElement
-              className={cn([
+              className={cn(
                 "hidden",
-                saleQuery.data.status === StatusEnum.HOLD && "block",
-              ])}
+                saleQuery.data.status === StatusEnum.HOLD && "block"
+              )}
               label="Due By"
             >
               <span className="font-medium">
@@ -123,11 +121,9 @@ export function InvoicePage() {
               </span>
             </InvoiceDetailElement>
           </div>
-          <div className="flex gap-2">
+          <div className="flex gap-8">
             <InvoiceDetailElement label="Initiated By">
-              <span className="font-medium">
-                {saleQuery.data.user.username}
-              </span>
+              <span className="font-medium">{saleQuery.data.user.username}</span>
             </InvoiceDetailElement>
             <InvoiceDetailElement label="Transaction Time">
               <span className="font-medium">
@@ -151,13 +147,13 @@ export function InvoiceStatusBadge({ statusEnum }: { statusEnum: StatusEnum }) {
   return (
     <>
       {statusEnum === StatusEnum.PAID && (
-        <Badge className="bg-emerald-500 shadow-none font-bold text-xl">
-          PAID
+        <Badge className="bg-emerald-600 text-white border-transparent shadow-none font-semibold text-sm uppercase tracking-[0.16em] px-3.5 py-1 rounded-md">
+          Paid
         </Badge>
       )}
       {statusEnum === StatusEnum.HOLD && (
-        <Badge className="bg-amber-500 shadow-none font-bold text-xl">
-          HOLD
+        <Badge className="bg-amber-500 text-white border-transparent shadow-none font-semibold text-sm uppercase tracking-[0.16em] px-3.5 py-1 rounded-md">
+          Hold
         </Badge>
       )}
     </>
@@ -172,12 +168,12 @@ export function InvoicePaymentTypeBadge({
   return (
     <>
       {paymentType === PaymentType.BANK && (
-        <Badge className="bg-blue-500 shadow-none font-bold text-xl">
+        <Badge className="bg-sky-600 text-white border-transparent shadow-none font-semibold text-sm uppercase tracking-[0.16em] px-3.5 py-1 rounded-md">
           By Bank
         </Badge>
       )}
       {paymentType === PaymentType.CASH && (
-        <Badge className="bg-green-500 shadow-none font-bold text-xl">
+        <Badge className="bg-emerald-600 text-white border-transparent shadow-none font-semibold text-sm uppercase tracking-[0.16em] px-3.5 py-1 rounded-md">
           By Cash
         </Badge>
       )}

@@ -35,7 +35,10 @@ export const columns: ColumnDef<Sale>[] = [
   },
   {
     accessorKey: 'id',
-    header: 'Invoice ID'
+    header: 'Invoice ID',
+    cell: ({ row }) => (
+      <span className="font-mono text-xs text-foreground">{String(row.original.id)}</span>
+    )
   },
   {
     accessorKey: 'customer.name',
@@ -51,7 +54,8 @@ export const columns: ColumnDef<Sale>[] = [
     header: 'Vehicle',
     cell: ({ row }) => (
       <CustomLink to={'/vehicles/' + row.original.vehicle.id}>
-        {row.original.vehicle.makeAndModel} <span className="font-light text-xs">({row.original.vehicle.plateNumber})</span>
+        {row.original.vehicle.makeAndModel}{" "}
+        <span className="font-mono text-xs text-muted-foreground">{row.original.vehicle.plateNumber}</span>
       </CustomLink>
     )
   },
@@ -73,16 +77,14 @@ export const columns: ColumnDef<Sale>[] = [
   },
   {
     id: 'subtotal',
-    header: 'Subtotal ($)',
+    header: () => <div className="text-right">Subtotal</div>,
     cell: ({ row }) => {
       const { items } = row.original;
-      // const services = items.filter((i) => i.type === 'service');
-
       return (
-        <div className="font-medium text-green-600">
+        <div className="text-right font-display tabular-nums text-foreground">
           <Currency amount={
-            getSubtotal({ 
-              items, 
+            getSubtotal({
+              items,
               maintenanceServices: row.original.maintenance ? row.original.maintenance.services : []
             })
           } />
@@ -92,28 +94,32 @@ export const columns: ColumnDef<Sale>[] = [
   },
   {
     id: 'discount',
-    header: 'Discount ($)',
+    header: () => <div className="text-right">Discount</div>,
     cell: ({ row }) => (
-      <div className="font-medium text-primary">
+      <div
+        className={
+          row.original.discount > 0
+            ? "text-right font-display tabular-nums text-destructive"
+            : "text-right font-display tabular-nums text-muted-foreground/50"
+        }
+      >
+        {row.original.discount > 0 ? "−" : ""}
         <Currency amount={row.original.discount} />
       </div>
     )
   },
   {
     id: 'total',
-    header: 'Total ($)',
+    header: () => <div className="text-right">Total</div>,
     cell: ({ row }) => {
       const { items } = row.original;
-    
-      // const services = items.filter((i) => i.type === 'service');
-      const total = getTotal({ 
-        items, 
+      const total = getTotal({
+        items,
         maintenanceServices: row.original.maintenance ? row.original.maintenance.services : [],
-        discount: row.original.discount 
+        discount: row.original.discount
       });
-
       return (
-        <div className="font-medium text-green-700">
+        <div className="text-right font-display tabular-nums font-medium text-foreground">
           <Currency amount={total} />
         </div>
       );

@@ -6,25 +6,24 @@ import { Check, Clock4 } from "lucide-react";
 export function StatusBadge({ status, className }: { status: StatusEnum, className?: string }) {
   return (
     <>
-      {status === "PAID" && 
-    <Badge variant='info-dark-green' className={cn(
-      className
-    )}>
-      <Check className="mr-1 w-3 h-3" />
-      Paid
-    </Badge>
-      }
-      {status === "HOLD" && 
-    <Badge 
-      variant='info-amber-dark'
-      className={cn([
-        className
-      ])}
-    >
-      <Clock4 className="mr-1 w-3 h-3" />
-      Hold
-    </Badge>
-      }
+      {status === "PAID" && (
+        <Badge className={cn(
+          "bg-emerald-600 text-white border-transparent rounded-md font-medium text-[11px] gap-1 px-2 py-0.5",
+          className
+        )}>
+          <Check className="size-3" strokeWidth={2.5} />
+          Paid
+        </Badge>
+      )}
+      {status === "HOLD" && (
+        <Badge className={cn(
+          "bg-amber-500 text-white border-transparent rounded-md font-medium text-[11px] gap-1 px-2 py-0.5",
+          className
+        )}>
+          <Clock4 className="size-3" strokeWidth={2.5} />
+          Hold
+        </Badge>
+      )}
     </>
   );
 }
