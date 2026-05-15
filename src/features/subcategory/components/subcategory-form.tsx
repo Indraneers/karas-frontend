@@ -67,7 +67,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit } : Subcatego
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 pb-6">
         <FormGroup title="General Information">
           <FormField
             control={form.control}

@@ -103,7 +103,7 @@ export function ProductForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 pb-6">
         <FormGroup title="General Information">
           <FormField
             control={form.control}
@@ -180,7 +180,7 @@ export function ProductForm({
               control={form.control}
               name="variable"
               render={({ field }) => (
-                <FormItem className="flex flex-row justify-between items-center shadow-xs p-4 border rounded-lg">
+                <FormItem className="flex flex-row justify-between items-center bg-surface p-4 border border-border/60 rounded-lg">
                   <div className="space-y-0.5">
                     <FormLabel>Variable Status</FormLabel>
                     <FormDescription>

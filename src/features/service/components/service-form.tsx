@@ -68,7 +68,7 @@ export function ServiceForm({
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 pb-6">
         <FormGroup title="General Information">
           <div className="gap-4 grid grid-cols-3">
             <FormField
@@ -120,7 +120,7 @@ export function ServiceForm({
               control={form.control}
               name="active"
               render={({ field }) => (
-                <FormItem className="flex flex-row justify-between items-center bg-surface shadow-xs p-4 border border-border rounded-lg">
+                <FormItem className="flex flex-row justify-between items-center bg-surface p-4 border border-border/60 rounded-lg">
                   <div className="space-y-0.5">
                     <FormLabel>Status</FormLabel>
                     <FormDescription>
