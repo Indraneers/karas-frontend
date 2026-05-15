@@ -1,8 +1,10 @@
 import { CategorySelection } from '@/features/item-selector/components/category-selection';
 import { ItemSelector } from '@/features/item-selector/components/item-selector';
 import { OrderDetails } from '@/features/order-detail/components/order-details';
+import { PosContactBar } from '@/features/order-detail/components/pos-contact-bar';
 import { ProductSelection } from '@/features/item-selector/components/product-selection';
 import { UnitSelection } from '@/features/item-selector/components/unit-selection';
+import { UnitQuickSearch } from '@/features/item-selector/components/unit-quick-search';
 import { useItemSelectionStore } from '@/features/item-selector/store/item-selection';
 import { ItemSelectionEnum } from '@/features/item-selector/types/item-selection-enum';
 import { useQuery } from '@tanstack/react-query';
@@ -53,16 +55,19 @@ export function PosForm({ saleId, handlePayment }: PosFormProps) {
   
 
   return (
-    <>
-      <div className='gap-8 grid md:grid-cols-2 xl:grid-cols-[5fr_3fr] grid-rows-2 md:grid-rows-1 py-4 h-full lg:max-h-full lg:overflow-hidden'>
+    <div className='gap-4 grid md:grid-cols-2 xl:grid-cols-[3fr_2fr] grid-rows-2 md:grid-rows-1 py-4 h-full lg:max-h-full lg:overflow-hidden'>
+      <UnitQuickSearch className='min-h-0'>
         <ItemSelector>
           { (selector === ItemSelectionEnum.CATEGORY) && <CategorySelection /> }
           { (selector === ItemSelectionEnum.SUBCATEGORY) && <SubcategorySelection /> }
           { (selector === ItemSelectionEnum.PRODUCT) && <ProductSelection /> }
           { (selector === ItemSelectionEnum.UNIT) && <UnitSelection /> }
         </ItemSelector>
+      </UnitQuickSearch>
+      <div className='flex flex-col min-h-0 gap-3'>
+        <PosContactBar />
         <OrderDetails saleId={saleId} handlePayment={handlePayment} />
       </div>
-    </>
+    </div>
   );
 }

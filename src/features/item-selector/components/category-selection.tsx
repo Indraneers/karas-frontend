@@ -1,5 +1,4 @@
 import { cn } from "@/lib/utils";
-import { CategorySearch } from "@/features/category/components/category-search";
 import { useCategorySearch } from "@/features/category/hooks/category-search";
 import { ItemEmpty, ItemCardList, ItemSkeletonList } from "./item-selector";
 
@@ -8,22 +7,19 @@ interface CategorySelectionProps {
 }
 
 export function CategorySelection({ className }: CategorySelectionProps) {
-  const { q, setQ, isLoading, isError, data } = useCategorySearch();
+  const { isLoading, isError, data } = useCategorySearch();
   return (
-    <div className={cn(["h-full w-full", className])}>
-      <div className="gap-2 grid grid-rows-[auto_1fr] h-full overflow-hidden">
-        <CategorySearch value={q} onChange={setQ} />
-        {isError && "error"}
-        {!isLoading && data?.length === 0 && <ItemEmpty />}
-        {(isLoading || (data && data.length > 0)) && (
-          <ItemCardList className="mt-2 min-h-0">
-            {isLoading && <ItemSkeletonList />}
-            {data?.map((c) => (
-              <CategorySelectionCard category={c} key={c.id} />
-            ))}
-          </ItemCardList>
-        )}
-      </div>
+    <div className={cn("h-full w-full", className)}>
+      {isError && "error"}
+      {!isLoading && data?.length === 0 && <ItemEmpty />}
+      {(isLoading || (data && data.length > 0)) && (
+        <ItemCardList className="min-h-0">
+          {isLoading && <ItemSkeletonList />}
+          {data?.map((c) => (
+            <CategorySelectionCard category={c} key={c.id} />
+          ))}
+        </ItemCardList>
+      )}
     </div>
   );
 }
@@ -38,6 +34,7 @@ import { CategoryDto } from "@/features/category/types/category.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { FilterIcon } from "@/components/filter-icon";
+import { softenColor } from "@/lib/color";
 
 interface CategorySelectionCardProps {
   category: CategoryDto;
@@ -53,42 +50,31 @@ export function CategorySelectionCard({
     setCategory(category);
   }
 
+  const tint = softenColor(category.color);
+
   return (
     <Card
-      className={cn([
-        "flex flex-col border-primary border-2 hover:!bg-accent shadow-none w-full hover:text-background transition cursor-pointer aspect-square group",
-        category.color && "border-none" + "bg-[#" + category.color + "]",
-      ])}
-      style={{ background: category.color }}
+      className={cn(
+        "flex flex-col border border-border/60 shadow-none w-full transition cursor-pointer aspect-square group",
+        "hover:border-foreground/20"
+      )}
+      style={tint ? { background: tint } : undefined}
       onClick={handleClick}
     >
       <CardHeader className="pb-0">
         {category.img && category.img.length > 0 && (
           <FilterIcon
-            className={cn([
-              "group-hover:bg-accent",
-              category.color ? "bg-background" : "bg-accent",
-            ])}
+            className="bg-card/80 group-hover:bg-card"
             src={category.img}
           />
         )}
       </CardHeader>
       <CardContent className="p-0 grow" />
       <CardFooter className="flex flex-col items-start text-md">
-        <div
-          className={cn([
-            "font-medium text-xs lg:text-base xl:text-lg",
-            category.color && "text-background",
-          ])}
-        >
+        <div className="font-medium text-xs lg:text-base xl:text-lg text-foreground">
           {category.name}
         </div>
-        <div
-          className={cn([
-            "group-hover:text-background text-foreground text-xs lg:text-sm",
-            category.color && "text-background/80",
-          ])}
-        >
+        <div className="text-muted-foreground text-xs lg:text-sm">
           {category.subcategoryCount || 0} subcategories
         </div>
       </CardFooter>

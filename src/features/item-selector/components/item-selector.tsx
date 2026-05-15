@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import { ChevronLeft } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
@@ -26,43 +25,28 @@ export function ItemSelector({ children }: ItemSelectionProps) {
     }
   }
 
+  const showBack = selector !== ItemSelectionEnum.CATEGORY;
+
   return (
     <div className="flex flex-col h-full">
-      <ItemSelectorHeader>
-        <TypographyH1>Items</TypographyH1>
-        <Separator className="h-4" orientation="vertical" />
-        <div className="flex justify-between items-center w-full h-12">
-          <ItemSelectorBreadCrumb />
+      <div className="flex items-center justify-between h-8 mb-2">
+        <ItemSelectorBreadCrumb />
+        {showBack && (
           <Button
-            className={cn([
-              "text-accent display h-8 ml-2",
-              selector === ItemSelectionEnum.CATEGORY && "hidden",
-            ])}
+            className="h-7 px-2 text-muted-foreground hover:text-foreground"
             variant="ghost"
+            size="sm"
             onClick={handleBackBtn}
           >
-            <span>
-              <ChevronLeft />
-            </span>
-            Back
+            <ChevronLeft className="size-3.5" /> Back
           </Button>
-        </div>
-      </ItemSelectorHeader>
+        )}
+      </div>
       <div className="relative grow">
-        <Card className="absolute inset-0 flex flex-col mt-4">
-          <CardContent className="my-4 grow">{children}</CardContent>
-        </Card>
+        <div className="absolute inset-0 flex flex-col">{children}</div>
       </div>
     </div>
   );
-}
-
-export function ItemSelectorHeader({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
-  return <div className="flex items-center space-x-4 min-h-8">{children}</div>;
 }
 
 import {
@@ -76,7 +60,6 @@ export function ItemSelectorBreadCrumb() {
   const { selector, setSelector, category, subcategory, product } =
     useItemSelectionStore();
 
-  // Helper to determine if we are at or past a certain level
   const isAtLevel = (level: ItemSelectionEnum) => {
     const hierarchy = [
       ItemSelectionEnum.CATEGORY,
@@ -101,15 +84,15 @@ export function ItemSelectorBreadCrumb() {
     {
       level: ItemSelectionEnum.UNIT,
       label: product?.name,
-      target: null, // Last item usually isn't clickable
+      target: null,
     },
   ];
 
   return (
     <Breadcrumb>
-      <BreadcrumbList>
+      <BreadcrumbList className="text-xs">
         <BreadcrumbItem
-          className="text-accent hover:underline cursor-pointer"
+          className="text-muted-foreground hover:text-foreground cursor-pointer"
           onClick={() => setSelector(ItemSelectionEnum.CATEGORY)}
         >
           Categories
@@ -119,12 +102,13 @@ export function ItemSelectorBreadCrumb() {
           (item) =>
             isAtLevel(item.level) && (
               <React.Fragment key={item.level}>
-                <BreadcrumbSeparator className="text-accent" />
+                <BreadcrumbSeparator className="text-muted-foreground/40" />
                 <BreadcrumbItem
                   onClick={() => item.target && setSelector(item.target)}
                   className={cn(
-                    "text-accent",
-                    item.target && "cursor-pointer hover:underline",
+                    "text-muted-foreground",
+                    item.target && "cursor-pointer hover:text-foreground",
+                    !item.target && "text-foreground font-medium"
                   )}
                 >
                   {item.label || "..."}
@@ -139,8 +123,6 @@ export function ItemSelectorBreadCrumb() {
 
 import { Skeleton } from "@/components/ui/skeleton";
 import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { TypographyH1 } from "@/components/ui/typography/h1";
 
 export function ItemSkeletonList() {
   return (

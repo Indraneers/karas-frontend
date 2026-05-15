@@ -1,4 +1,3 @@
-import { ProductSearch } from "@/features/product/components/product-search";
 import { ItemCardList, ItemEmpty, ItemSkeletonList } from "./item-selector";
 import { useInfiniteSearch } from "@/hooks/use-infinite-search";
 import { getProducts } from "@/features/product/api/product";
@@ -13,8 +12,6 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   const { subcategory } = useItemSelectionStore();
 
   const {
-    q,
-    setQ,
     data,
     isLoading,
     isError,
@@ -31,11 +28,8 @@ export function ProductSelection({ className }: ProductSelectionProps) {
     (event: React.UIEvent<HTMLDivElement>) => {
       const { scrollHeight, clientHeight, scrollTop } = event.currentTarget;
       const threshold = 50;
-
       if (scrollHeight - clientHeight <= scrollTop + threshold) {
-        if (hasNextPage && fetchNextPage) {
-          fetchNextPage();
-        }
+        if (hasNextPage && fetchNextPage) fetchNextPage();
       }
     },
     [fetchNextPage, hasNextPage],
@@ -49,17 +43,11 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   }, [initialLoad, hasNextPage, fetchNextPage]);
 
   return (
-    <div
-      className={cn([
-        "h-full w-full grid grid-rows-[auto_1fr] gap-2",
-        className,
-      ])}
-    >
-      <ProductSearch value={q} onChange={setQ} />
+    <div className={cn("h-full w-full", className)}>
       {isError && "error"}
       {!isLoading && totalElements === 0 && <ItemEmpty />}
       {(isLoading || (data && data.pages && totalElements > 0)) && (
-        <ItemCardList onScroll={onScrollEvent} className="mt-2">
+        <ItemCardList onScroll={onScrollEvent}>
           {isLoading && <ItemSkeletonList />}
           {data?.pages.map((p, i) => (
             <React.Fragment key={i}>
@@ -96,7 +84,7 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
 
   return (
     <Card
-      className="group relative grid hover:bg-accent py-2 border-2 border-primary w-full aspect-square overflow-hidden hover:text-background transition cursor-pointer"
+      className="group relative grid py-2 border border-border/60 w-full aspect-square overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:bg-muted/40"
       onClick={handleClick}
     >
       {product.img && product.img.length > 0 && <ItemImgBg src={product.img} />}
