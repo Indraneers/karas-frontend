@@ -6,6 +6,7 @@ import {
 import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { Paintbrush } from "lucide-react";
+import { SOFT_PALETTE, softenColor } from "@/lib/color";
 
 export function ColorPicker({
   background,
@@ -16,48 +17,13 @@ export function ColorPicker({
   setBackground: (background: string) => void;
   className?: string;
 }) {
-  const solids = [
-    "#dc2626",
-    "#dc2626",
-    "#f97316",
-    "#ea580c",
-    "#f59e0b",
-    "#d97706",
-    "#eab308",
-    "#ca8a04",
-    "#84cc16",
-    "#65a30d",
-    "#22c55e",
-    "#16a34a",
-    "#10b981",
-    "#059669",
-    "#14b8a6",
-    "#0d9488",
-    "#06b6d4",
-    "#0891b2",
-    "#0ea5e9",
-    "#0284c7",
-    "#3b82f6",
-    "#2563eb",
-    "#6366f1",
-    "#4f46e5",
-    "#8b5cf6",
-    "#7c3aed",
-    "#a855f7",
-    "#9333ea",
-    "#d946ef",
-    "#c026d3",
-    "#ec4899",
-    "#db2777",
-    "#f43f5e",
-    "#e11d48",
-  ];
+  const preview = softenColor(background);
 
   return (
     <Popover>
       <PopoverTrigger asChild>
         <Button
-          variant={"outline"}
+          variant="outline"
           className={cn(
             "justify-start py-1.5 w-[220px] h-9 font-normal text-left",
             !background && "text-muted-foreground",
@@ -67,9 +33,9 @@ export function ColorPicker({
           <div className="flex items-center gap-2 w-full">
             {background ? (
               <div
-                className="bg-center! bg-cover! rounded w-4 h-4 transition-all"
-                style={{ background }}
-              ></div>
+                className="rounded-md w-4 h-4 border border-border/60"
+                style={{ background: preview }}
+              />
             ) : (
               <Paintbrush className="w-4 h-4" />
             )}
@@ -79,16 +45,23 @@ export function ColorPicker({
           </div>
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="bg-card p-2 border rounded-md w-64">
-        <div className="flex flex-wrap gap-1 mt-0">
-          {solids.map((s) => (
-            <div
-              key={s}
-              style={{ background: s }}
-              className="rounded-md w-6 h-6 active:scale-105 cursor-pointer"
-              onClick={() => setBackground(s)}
-            />
-          ))}
+      <PopoverContent className="bg-card p-2 border border-border/60 rounded-md w-64 shadow-md">
+        <div className="grid grid-cols-8 gap-1.5">
+          {SOFT_PALETTE.map((s) => {
+            const selected = background === s;
+            return (
+              <button
+                key={s}
+                type="button"
+                style={{ background: s }}
+                className={cn(
+                  "rounded-md w-6 h-6 transition-transform hover:scale-110 active:scale-95",
+                  selected && "ring-2 ring-foreground/40 ring-offset-1"
+                )}
+                onClick={() => setBackground(s)}
+              />
+            );
+          })}
         </div>
       </PopoverContent>
     </Popover>

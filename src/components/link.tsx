@@ -9,10 +9,10 @@ export function CustomLink({ children, className, ...props }: CustomLinkProps) {
   return (
     <Link
       onClick={(e) => e.stopPropagation()}
-      className={cn([
-        'text-accent font-medium hover:underline hover:text-primary',
+      className={cn(
+        "text-foreground font-medium underline-offset-2 decoration-foreground/30 hover:underline hover:decoration-foreground",
         className
-      ])}
+      )}
       {...props}
     >
       {children}

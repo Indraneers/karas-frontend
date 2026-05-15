@@ -1,5 +1,4 @@
 import { Minus, Plus } from "lucide-react";
-import { Button } from "./ui/button";
 import { cn } from "@/lib/utils";
 import { ItemCartInput } from "../features/cart/components/item-cart-input";
 import { useEffect, useState } from "react";
@@ -35,7 +34,7 @@ export function ItemCounter({
     if (isValidVariableQty(value)) {
       const quantity = variable
         ? convertDisplayQuantityToVariableQuantity(value)
-        : convertDiscreteQuantityToVariableQuantity(toBaseUnit, Number(value));
+        : convertDiscreteQuantityToVariableQuantity(Number(value), toBaseUnit);
       setValue(quantity);
       setDisplayQuantity(value);
     }
@@ -46,7 +45,7 @@ export function ItemCounter({
     if (isValidVariableQty(formattedValue)) {
       const quantity = variable
         ? convertDisplayQuantityToVariableQuantity(value)
-        : convertDiscreteQuantityToVariableQuantity(toBaseUnit, Number(value));
+        : convertDiscreteQuantityToVariableQuantity(Number(value), toBaseUnit);
       setValue(quantity);
     }
   }
@@ -65,33 +64,33 @@ export function ItemCounter({
 
   return (
     <div
-      className={cn([
-        "gap-2 items-center grid grid-cols-[auto_1fr_auto]",
+      className={cn(
+        "items-center grid grid-cols-[auto_1fr_auto] h-7",
         className,
-      ])}
+      )}
     >
-      <Button
-        variant="ghost"
+      <button
+        type="button"
         onClick={() => updateValue(Number(displayQuantity) - 1)}
-        className="w-6 xl:w-5 h-6 xl:h-5"
-        size="icon"
+        aria-label="Decrease"
+        className="flex items-center justify-center w-6 h-6 rounded text-muted-foreground hover:text-foreground hover:bg-foreground/[0.05]"
       >
-        <Minus />
-      </Button>
+        <Minus className="size-3.5" strokeWidth={2} />
+      </button>
       <ItemCartInput
-        className={cn(["w-full h-full"])}
+        className="w-full h-full"
         suffix={variable ? baseUnit || "" : "Qty"}
         value={displayQuantity}
         onInput={handleInput}
       />
-      <Button
-        variant="ghost"
+      <button
+        type="button"
         onClick={() => updateValue(Number(displayQuantity) + 1)}
-        className="w-6 xl:w-5 h-6 xl:h-5"
-        size="icon"
+        aria-label="Increase"
+        className="flex items-center justify-center w-6 h-6 rounded text-muted-foreground hover:text-foreground hover:bg-foreground/[0.05]"
       >
-        <Plus />
-      </Button>
+        <Plus className="size-3.5" strokeWidth={2} />
+      </button>
     </div>
   );
 }

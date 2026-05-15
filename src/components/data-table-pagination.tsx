@@ -150,7 +150,7 @@ export function DataTablePagination<TData, TValue>({
                         <TableRow
                           className={cn([
                             onRowClick && "cursor-pointer",
-                            "cursor-pointer hover:bg-primary/10",
+                            "cursor-pointer hover:bg-muted/60",
                           ])}
                           onClick={() =>
                             onRowClick && !isLoading && onRowClick(row.original)
@@ -255,7 +255,7 @@ export function DataTablePagination<TData, TValue>({
       </div>
 
       <div className="flex justify-end items-center pt-4">
-        <div className="flex-1 text-accent text-sm">
+        <div className="flex-1 text-muted-foreground text-sm">
           {totalSelectedRows} of {paginationDetail.rowCount} row(s) selected.
         </div>
         <div className="flex items-center space-x-2">
@@ -478,7 +478,7 @@ export function DataTableAutoPagination<TData, TValue>({
         </Table>
       </div>
       <div className="flex justify-end items-center px-4 py-2 pt-4">
-        <div className="flex-1 text-accent text-sm">
+        <div className="flex-1 text-muted-foreground text-sm">
           {table.getSelectedRowModel().rows.length} of {table.getRowCount()}{" "}
           row(s) selected.
         </div>

@@ -20,6 +20,7 @@ export interface DatePickerInputProps extends Omit<
   value?: Date;
   onChange?: (date: Date | undefined) => void;
   formatString?: string;
+  placeholder?: string;
   onDayClick?: DayEventHandler<React.MouseEvent<Element, MouseEvent>>;
 }
 
@@ -39,6 +40,7 @@ export const DatePickerInput = React.forwardRef<
       onChange,
       onDayClick,
       formatString = "MMM dd, yyyy",
+      placeholder = "Select Date",
       className,
       ...props
     },
@@ -48,7 +50,7 @@ export const DatePickerInput = React.forwardRef<
 
     // Derived State: Instant sync with parent props
     const displayValue =
-      value && isValid(value) ? format(value, formatString) : "Select Date";
+      value && isValid(value) ? format(value, formatString) : placeholder;
 
     const handleSelect: SelectSingleEventHandler = (selectedDate) => {
       onChange?.(selectedDate);
@@ -63,7 +65,7 @@ export const DatePickerInput = React.forwardRef<
             type="button"
             variant="outline"
             className={cn(
-              "justify-between px-4 py-1.5 h-auto font-normal text-xs",
+              "justify-between px-3 h-8 font-normal text-xs focus-visible:ring-0 focus-visible:ring-offset-0",
               !value && "text-muted-foreground",
               className,
             )}
@@ -79,12 +81,16 @@ export const DatePickerInput = React.forwardRef<
             <CalendarIcon className="opacity-50 ml-2 w-3.5 h-3.5" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-auto" align="start" sideOffset={8}>
+        <PopoverContent
+          className="p-2 w-auto rounded-xl border-border/60 shadow-lg"
+          align="start"
+          sideOffset={8}
+        >
           <Calendar
             mode="single"
             selected={value}
             onSelect={handleSelect}
-            onDayClick={onDayClick} // Restored property
+            onDayClick={onDayClick}
             initialFocus
           />
         </PopoverContent>

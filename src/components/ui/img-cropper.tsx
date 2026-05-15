@@ -166,7 +166,7 @@ export function ImageCropperFormField({
                 <DialogTrigger asChild>
                   <div
                     onClick={() => handleImageClick(value)}
-                    className="relative bg-slate-50 hover:bg-slate-100 border-2 border-slate-300 hover:border-slate-400 border-dashed rounded-xl w-[300px] h-[300px] transition-colors cursor-pointer"
+                    className="relative bg-muted/40 hover:bg-muted/70 border-2 border-border hover:border-muted-foreground/40 border-dashed rounded-xl w-[300px] h-[300px] transition-colors cursor-pointer"
                   >
                     {previewUrl ? (
                       <img
@@ -175,12 +175,12 @@ export function ImageCropperFormField({
                         className="rounded-xl w-full h-full object-cover"
                       />
                     ) : (
-                      <div className="flex flex-col justify-center items-center h-full text-slate-500">
-                        <ImageIcon className="mb-2 w-8 h-8" />
+                      <div className="flex flex-col justify-center items-center h-full text-muted-foreground">
+                        <ImageIcon strokeWidth={1.5} className="mb-2 w-8 h-8" />
                         <span className="font-medium text-sm">
                           Click to upload POS icon
                         </span>
-                        <span className="text-slate-400 text-xs">
+                        <span className="text-muted-foreground/70 text-xs">
                           PNG, JPG up to 10MB
                         </span>
                       </div>

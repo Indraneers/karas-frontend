@@ -2,7 +2,7 @@ import { Command, CommandInput, CommandEmpty, CommandGroup, CommandItem, Command
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { Check, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { LoadingSpinner } from "./loading-spinner";
 import { Page } from "@/types/page";
@@ -95,7 +95,7 @@ export function FormSearchPaginated<T extends Entity | VehicleDto>({
   }, [entity, value, onEntityChange]);
 
   return (
-    <div className="relative w-full">
+    <div className="w-full">
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <Button
@@ -103,7 +103,7 @@ export function FormSearchPaginated<T extends Entity | VehicleDto>({
             role="combobox"
             aria-expanded={open}
             className={cn([
-              "justify-between absolute inset-0",
+              "justify-between w-full",
               buttonClassName
             ])}
           >
@@ -114,7 +114,7 @@ export function FormSearchPaginated<T extends Entity | VehicleDto>({
                 <span className="text-muted-foreground">{`Select ${ entityName }...`}</span>
               }
             </span>
-            <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
+            <ChevronDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
           </Button>
         </PopoverTrigger>
         <PopoverContent className="p-0 w-[300px]">
