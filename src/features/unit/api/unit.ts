@@ -14,6 +14,13 @@ export const getUnits = async (query?: UnitQuery): Promise<Page<UnitResponseDto>
     params: query
   });
 
+export const searchUnits = async (q: string, limit = 10): Promise<UnitResponseDto[]> =>
+  request({
+    url: '/units/search',
+    method: 'GET',
+    params: { q, limit }
+  });
+
 export const getUnitById = async (unitId: string): Promise<UnitResponseDto>  =>
   request({
     url: '/units/' + unitId,
