@@ -1,7 +1,11 @@
 import { EditButton } from "@/components/edit-button";
 import { InfoField } from "@/components/info-field";
+import { Section } from "@/components/section";
+import { SectionContent } from "@/components/section-content";
+import { SectionHeader } from "@/components/section-header";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TypographyH1 } from "@/components/ui/typography/h1";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { getCustomerById } from "@/features/customer/api/customer";
 import { SalesTable } from "@/features/sale/components/sales-table";
@@ -81,6 +85,14 @@ function CustomerDetailPage() {
   }
 
   return (
+    <Section>
+      <SectionHeader>
+        <TypographyH1>{customerQuery.data?.name || "Customer"}</TypographyH1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Customer profile, vehicles, and sales history.
+        </p>
+      </SectionHeader>
+      <SectionContent>
     <div className="gap-4 grid grid-cols-1 xl:grid-cols-4">
       <div className="xl:block flex gap-4 w-full xl:w-auto">
         <Card className="px-1">
@@ -123,5 +135,7 @@ function CustomerDetailPage() {
         </Card>
       </div>
     </div>
+      </SectionContent>
+    </Section>
   );
 }

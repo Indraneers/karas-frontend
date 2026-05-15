@@ -7,10 +7,10 @@ interface MainContentProps {
 
 export function MainContent({ children, className }: MainContentProps) {
   return (
-    <div className={cn([
-      "grow bg-background w-full container",
+    <div className={cn(
+      "grow bg-background w-full px-4 lg:px-6",
       className
-    ])}>
+    )}>
       {children}
     </div>
   );

@@ -1,5 +1,9 @@
+import { Section } from "@/components/section";
+import { SectionContent } from "@/components/section-content";
+import { SectionHeader } from "@/components/section-header";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TypographyH1 } from "@/components/ui/typography/h1";
 import { TypographyH2 } from "@/components/ui/typography/h2";
 import { getAuditById } from "@/features/audit/api/audit";
 import { AuditInfo } from "@/features/audit/components/audit-info";
@@ -43,10 +47,18 @@ export function AuditDetailPage() {
   };
 
   return (
+    <Section>
+      <SectionHeader>
+        <TypographyH1>Audit Detail</TypographyH1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Snapshot of what changed in this audit entry.
+        </p>
+      </SectionHeader>
+      <SectionContent>
     <div className="flex flex-col gap-4 h-full">
       <Card className="p-2">
         <CardHeader>
-          <TypographyH2>Audit Detail</TypographyH2>
+          <TypographyH2>Overview</TypographyH2>
         </CardHeader>
         <CardContent className="gap-4 grid grid-cols-3 mt-4">
           <AuditInfo label="Name">{data?.name || "-"}</AuditInfo>
@@ -101,5 +113,7 @@ export function AuditDetailPage() {
         </CardContent>
       </Card>
     </div>
+      </SectionContent>
+    </Section>
   );
 }

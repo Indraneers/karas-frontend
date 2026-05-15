@@ -5,11 +5,5 @@ interface SectionHeaderProps {
   className?: string;
 }
 export function SectionHeader({ className, children }: SectionHeaderProps) {
-  return (
-    <div className={cn([
-      className
-    ])}>
-      {children}
-    </div>
-  );
+  return <div className={cn("mt-1 mb-1", className)}>{children}</div>;
 }

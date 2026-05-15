@@ -1,7 +1,11 @@
 import { LoadingSpinner } from "@/components/loading-spinner";
+import { Section } from "@/components/section";
+import { SectionContent } from "@/components/section-content";
+import { SectionHeader } from "@/components/section-header";
 import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
+import { TypographyH1 } from "@/components/ui/typography/h1";
 import { getSaleById } from "@/features/sale/api/sale";
 import { CustomerInformation } from "@/features/sale/components/customer-information";
 import { SaleInformation } from "@/features/sale/components/sale-information";
@@ -56,6 +60,12 @@ function SaleDetailPage() {
 
   if (isLoading || !data) {
     return (
+      <Section>
+        <SectionHeader>
+          <TypographyH1>Sale</TypographyH1>
+          <p className="mt-1 text-sm text-muted-foreground">Loading sale details…</p>
+        </SectionHeader>
+        <SectionContent>
       <div className="gap-4 grid grid-cols-1 xl:grid-cols-4 py-4 h-full">
         <div className="xl:block flex space-x-6 xl:space-x-0 xl:space-y-4">
           <Card>
@@ -92,12 +102,22 @@ function SaleDetailPage() {
           )}
         </div>
       </div>
+        </SectionContent>
+      </Section>
     );
   }
 
   const sale = convertSaleResponseDtoToSale(data);
 
   return (
+    <Section>
+      <SectionHeader>
+        <TypographyH1>Sale</TypographyH1>
+        <p className="mt-1 text-sm text-muted-foreground">
+          Invoice details and items for this sale.
+        </p>
+      </SectionHeader>
+      <SectionContent>
     <div className="gap-4 grid grid-cols-1 xl:grid-cols-4 py-4 h-full">
       <div className="xl:block flex space-x-4 xl:space-x-0 xl:space-y-4">
         <Card>
@@ -122,5 +142,7 @@ function SaleDetailPage() {
         </CardContent>
       </Card>
     </div>
+      </SectionContent>
+    </Section>
   );
 }
