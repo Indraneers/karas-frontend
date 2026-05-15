@@ -1,21 +1,9 @@
-import { Section } from "@/components/section";
-import { SectionContent } from "@/components/section-content";
-import { SectionHeader } from "@/components/section-header";
 import {
   SaleRequestDto,
   SaleResponseDto,
 } from "@/features/sale/types/sale.dto";
-import { Tabs } from "@/components/ui/tabs";
-import {
-  BorderedTabsList,
-  BorderedTabsTrigger,
-} from "@/components/bordered-tabs";
-import { TabsContent } from "@radix-ui/react-tabs";
-import { OrderInformationTab } from "./order-information-tab";
 import { PaymentTab } from "./payment-tab";
-import { MaintenanceTab } from "./maintenance-tab";
 import { Badge } from "@/components/ui/badge";
-import { TypographyH1 } from "@/components/ui/typography/h1";
 
 interface OrderDetailsProps {
   saleId?: string;
@@ -24,44 +12,20 @@ interface OrderDetailsProps {
 
 export function OrderDetails({ saleId, handlePayment }: OrderDetailsProps) {
   return (
-    <Section className="flex flex-col h-full overflow-y-scroll">
-      <SectionHeader className="relative">
-        <TypographyH1 className="flex items-center gap-2 h-12">
-          Order Details
-        </TypographyH1>
+    <aside className="flex flex-col flex-1 min-h-0 border border-border/60 rounded-xl bg-card overflow-hidden shadow-sm">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-border/60 bg-muted/30">
+        <h2 className="font-display text-base font-medium tracking-tight text-foreground">
+          Order
+        </h2>
         {saleId && (
-          <Badge className="top-0 right-0 absolute m-4">{saleId}</Badge>
+          <Badge variant="outline" className="font-mono text-[10px]">
+            {saleId.slice(0, 8)}
+          </Badge>
         )}
-      </SectionHeader>
-      <SectionContent className="mt-4 border rounded-xl w-full">
-        <Tabs
-          className="inset-0 flex flex-col w-full h-full overflow-y-hidden"
-          defaultValue="order-info"
-        >
-          <BorderedTabsList className="w-full xl:text-base">
-            <BorderedTabsTrigger value="order-info">
-              Order Info
-            </BorderedTabsTrigger>
-            <BorderedTabsTrigger value="maintenance">
-              Maintenance
-            </BorderedTabsTrigger>
-            <BorderedTabsTrigger value="payment">Payment</BorderedTabsTrigger>
-          </BorderedTabsList>
-          <TabsContent className="relative h-full grow" value="order-info">
-            <div className="absolute inset-0">
-              <OrderInformationTab />
-            </div>
-          </TabsContent>
-          <TabsContent className="relative grow" value="maintenance">
-            <div className="absolute inset-0">
-              <MaintenanceTab />
-            </div>
-          </TabsContent>
-          <TabsContent className="h-full grow" value="payment">
-            <PaymentTab saleId={saleId} handlePayment={handlePayment} />
-          </TabsContent>
-        </Tabs>
-      </SectionContent>
-    </Section>
+      </div>
+      <div className="flex flex-col flex-1 min-h-0">
+        <PaymentTab saleId={saleId} handlePayment={handlePayment} />
+      </div>
+    </aside>
   );
 }

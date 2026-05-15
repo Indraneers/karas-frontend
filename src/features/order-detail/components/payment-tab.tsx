@@ -13,40 +13,40 @@ interface PaymentTabProps {
 export function PaymentTab({ saleId, handlePayment }: PaymentTabProps) {
   const { maintenance, items } = usePosStore();
   const { services } = maintenance;
+  const empty = items.length === 0 && services.length === 0;
+
   return (
-    <div className="flex flex-col h-full">
-      <ItemCart className="grow mt-2 xl:mt-4 px-2 xl:px-4">
-        { items.length === 0 && services.length == 0 &&
-            <div className="place-content-center grid w-full h-full text-muted-foreground text-center">
-              Empty...
-            </div>
-        }
+    <div className="flex flex-col h-full min-h-0">
+      <ItemCart className="flex-1 min-h-0 overflow-y-auto px-3 pt-3 pb-2 space-y-2">
+        {empty && (
+          <div className="grid place-content-center w-full h-full text-muted-foreground text-sm text-center">
+            Cart is empty — pick an item to start.
+          </div>
+        )}
         {items.map((i) => (
           <ItemCartUnit item={i} key={i.id} />
         ))}
-        { (items.length > 0 &&  services.length > 0) &&
-            <Separator className="bg-gray-400 my-2" />
-        }
-        { (services.length > 0) &&
-            services.map((s) => (
-              <ItemCartService maintenanceService={s} key={s.service.id} />
-            ))
-        }
+        {items.length > 0 && services.length > 0 && (
+          <Separator className="my-2" />
+        )}
+        {services.length > 0 &&
+          services.map((s) => (
+            <ItemCartService maintenanceService={s} key={s.service.id} />
+          ))}
       </ItemCart>
-      <Separator className="mt-2" />
-      <PaymentDetail className="my-4 px-4">
-        <POSActions
-          saleId={saleId}
-          handlePayment={handlePayment} 
-          className="mt-4"
-        />
-      </PaymentDetail>  
+      <div className="shrink-0 border-t border-border/60 bg-card/60 backdrop-blur-sm">
+        <PaymentDetail className="px-4 py-3">
+          <POSActions
+            saleId={saleId}
+            handlePayment={handlePayment}
+            className="mt-3"
+          />
+        </PaymentDetail>
+      </div>
     </div>
   );
 }
 
-import { TypographyH3 } from "@/components/ui/typography/h3";
-import { WalletCards } from "lucide-react";
 import { PrefixedCurrencyInput } from "@/components/prefixed-currency-input";
 import { getSubtotal } from "@/features/sale/utils/sale";
 // import { getCheckedServiceItem } from "@/features/service-selector/utils/service-selector";
@@ -61,38 +61,27 @@ export function PaymentDetail({ children, className } : { children: React.ReactN
   const total = subTotal - discount;
 
   return (
-    <div className={cn([
-      className
-    ])}>
-      <div>
-        <TypographyH3 className="flex items-center gap-2">
-          <WalletCards />
-            Payment Details
-        </TypographyH3>
-
-        <div className="mt-2">
-          <PaymentDetailElement className="mt-4" label="Sub Total">
-            <Currency amount={subTotal} />
-          </PaymentDetailElement>
-          <PaymentDetailElement className="mt-1" label="Discount">
-            <PrefixedCurrencyInput 
-              defaultValue={discount}
-              onValueChange={(value) => {
-                setDiscount(value);
-              }}
-            />
-          </PaymentDetailElement>
-          <Separator className="mt-2" />
-          <PaymentDetailElement className="mt-2" label="Total">
+    <div className={cn(className)}>
+      <div className="space-y-2">
+        <PaymentDetailElement label="Sub Total">
+          <Currency amount={subTotal} />
+        </PaymentDetailElement>
+        <PaymentDetailElement label="Discount">
+          <PrefixedCurrencyInput
+            defaultValue={discount}
+            onValueChange={(value) => setDiscount(value)}
+          />
+        </PaymentDetailElement>
+        <Separator />
+        <PaymentDetailElement
+          label={<span className="text-foreground font-medium">Total</span>}
+        >
+          <span className="font-display text-lg font-medium tabular-nums">
             <Currency amount={total} />
-          </PaymentDetailElement>
-        </div>
-        
+          </span>
+        </PaymentDetailElement>
       </div>
-
-      <div className="mt-2">
-        {children}
-      </div>
+      {children}
     </div>
   );
 }

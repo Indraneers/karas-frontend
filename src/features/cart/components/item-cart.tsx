@@ -1,4 +1,3 @@
-import { TypographyH3 } from "@/components/ui/typography/h3";
 import { cn } from "@/lib/utils";
 
 interface ItemCartProps {
@@ -6,59 +5,72 @@ interface ItemCartProps {
   children?: React.ReactNode;
 }
 
-export function ItemCart({ className, children } : ItemCartProps) {
+export function ItemCart({ className, children }: ItemCartProps) {
+  return <div className={cn("flex flex-col", className)}>{children}</div>;
+}
+
+import { Currency } from "@/components/currency";
+import { Wrench, X } from "lucide-react";
+
+/**
+ * Invoice-style cart row shell. The product/service component owns its
+ * own layout below; this just wraps in a hover-able strip and pins the
+ * Remove affordance at the top-right.
+ */
+function CartRow({
+  children,
+  onClickRemove,
+}: {
+  children: React.ReactNode;
+  onClickRemove?: () => void;
+}) {
   return (
-    <div className={cn([
-      'overflow-hidden flex flex-col min-h-40',
-      className
-    ])}>
-      <TypographyH3 className="text-base sm:text-lg">
-        Item Cart
-      </TypographyH3>
-      <div className="relative grow mt-2 h-full">
-        <div className="absolute inset-0 flex flex-col gap-2 sm:gap-3 pt-1.5 pl-1.5 overflow-scroll">
-          { children }
-        </div>
-      </div>
+    <div className="group relative py-3 border-b border-border/40 last:border-b-0 hover:bg-muted/20 -mx-3 px-3 transition-colors">
+      {onClickRemove && (
+        <button
+          type="button"
+          onClick={onClickRemove}
+          aria-label="Remove item"
+          className="absolute top-2.5 right-2.5 flex items-center justify-center w-5 h-5 rounded text-muted-foreground/50 hover:text-destructive hover:bg-destructive/10 opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+          <X className="size-3.5" />
+        </button>
+      )}
+      {children}
     </div>
   );
 }
 
-import { Currency } from "@/components/currency";
-import { Button } from "@/components/ui/button";
-import { ProductRequestDto } from "@/features/product/types/product.dto";
-import { Box, Wrench, X } from "lucide-react";
-import { MouseEventHandler } from "react";
-
-interface ItemCartItemProps {
-  children?: React.ReactNode;
-  product?: ProductRequestDto;
-  totalCost: number;
-  onClickRemove?: MouseEventHandler<HTMLButtonElement>;
-}
-
-export function ItemCartItem
-({ children, totalCost, onClickRemove }: ItemCartItemProps) {
+/**
+ * Pill-shaped grouped input: a static prefix label + an editable input,
+ * sharing a single muted background so price + discount visually group
+ * together as a related "money" cluster.
+ */
+function PriceField({
+  prefix,
+  value,
+  onChange,
+  className,
+}: {
+  prefix: string;
+  value: number;
+  onChange: (next: number) => void;
+  className?: string;
+}) {
   return (
-    <div className={cn([
-      "relative border border-accent bg-white rounded-xl shadow-sm hover:shadow-md transition-shadow"
-    ])}>
-      <Button
-        onClick={onClickRemove}
-        className="-top-2 -left-2 absolute hover:bg-primary/80 border w-5 h-5" 
-        size='icon'>
-        <X className="w-3! h-3!" />
-      </Button>
-      <div className="rounded-xl w-full h-full overflow-hidden">
-        <div className="flex flex-col h-full">
-          <div className="bg-linear-to-br from-surface/50 to-surface/80 p-2 rounded-t-xl w-full">
-            {children}
-          </div>
-          <div className="bg-primary px-3 py-2 rounded-b-xl font-semibold text-primary-foreground text-sm text-center">
-            <Currency amount={totalCost} />
-          </div>
-        </div>
-      </div>
+    <div
+      className={cn(
+        "inline-flex items-center bg-foreground/[0.07] rounded-md h-7 text-xs pl-2 pr-1 gap-1",
+        className
+      )}
+    >
+      <span className="text-muted-foreground/80 tabular-nums">{prefix}</span>
+      <ItemCartCurrencyInput
+        className="w-10 bg-transparent border-0 px-0 text-foreground font-medium tabular-nums focus-visible:ring-0"
+        prefix=""
+        defaultValue={value}
+        onValueChange={onChange}
+      />
     </div>
   );
 }
@@ -68,6 +80,7 @@ import { calculateTotalCost, calculateUnitItemTotalCost } from "@/features/sale/
 import { usePosStore } from "../../pos/store/pos";
 import { Item } from "@/features/sale/types/item";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
+import { Box } from "lucide-react";
 
 export function ItemCartUnit({ item }: { item: Item }) {
   const { updateItem, removeItem } = usePosStore();
@@ -75,73 +88,62 @@ export function ItemCartUnit({ item }: { item: Item }) {
   const price = item.price;
   const discount = item.discount;
   const qty = item.quantity;
-
   const product = item.unit.product;
   const unit = item.unit;
-
   const totalCost = calculateUnitItemTotalCost(price, discount, item);
-  
+
   return (
-    <ItemCartItem 
-      product={item.unit.product}
-      totalCost={totalCost} 
-      onClickRemove={() => removeItem(item?.id || '')}
-    >
-      <div className="flex flex-col gap-3 min-w-0">
-        {/* Header with Image and Product Info */}
-        <div className="flex items-start gap-3">
-          {/* Product Image */}
-          <div className="relative shrink-0 w-12 sm:w-14 h-12 sm:h-14">
-            {unit.img ? (
-              <img 
-                className="absolute inset-0 border border-border rounded-lg w-full h-full object-cover" 
-                src={unit.img} 
-                alt={product.name}
-              />
-            ) : (
-              <div className="absolute inset-0 flex justify-center items-center bg-muted/30 border border-border rounded-lg">
-                <Box strokeWidth={1} className="w-6 h-6 text-muted-foreground" />
-              </div>
-            )}
-          </div>
-          
-          {/* Product Details */}
-          <div className="flex flex-col flex-1 justify-between min-w-0">
-            <div className="flex flex-col gap-0.5">
-              <div className="font-semibold text-xs lg:text-sm xl:text-base wrap-break-word leading-tight">
-                {product.name}
-              </div>
-              <div className="flex justify-between">
-                <ProductIdentifier 
-                  className="text-muted-foreground text-xs" 
-                  identifier={product.identifier} 
-                />
-                <Badge variant='info-orange' className="ml-auto p-0 px-2 text-xs text-right">
-                  {unit.name || 'Unit'}
-                </Badge>
-              </div>
+    <CartRow onClickRemove={() => removeItem(item?.id || "")}>
+      <div className="flex items-start gap-2.5 min-w-0 pr-6">
+        <div className="relative shrink-0 w-9 h-9">
+          {unit.img ? (
+            <img
+              className="absolute inset-0 border border-border/60 rounded-md w-full h-full object-cover"
+              src={unit.img}
+              alt={product.name}
+            />
+          ) : (
+            <div className="absolute inset-0 flex items-center justify-center bg-muted/40 border border-border/60 rounded-md">
+              <Box strokeWidth={1.5} className="size-4 text-muted-foreground/70" />
+            </div>
+          )}
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="font-medium text-sm text-foreground truncate">
+              {product.name}
+            </div>
+            <div className="font-display tabular-nums text-sm font-medium text-foreground shrink-0">
+              <Currency amount={totalCost} />
             </div>
           </div>
-        </div>
-
-        {/* Controls Section */}
-        <div className="flex lg:flex-row flex-col justify-between items-center gap-2 lg:gap-4">
-          <div className="flex gap-4 lg:gap-2">
-            <ItemCartCurrencyInput 
-              className="lg:w-16"
-              prefix="$"
-              defaultValue={price}
-              onValueChange={(value) => updateItem(item.id, { ...item, price: value })}
-            />
-            <ItemCartCurrencyInput 
-              className="lg:w-16"
-              prefix="-$"
-              defaultValue={discount}
-              onValueChange={(value) => updateItem(item.id, { ...item, discount: value })}
-            />
+          <div className="flex items-center gap-1.5 text-xs text-muted-foreground mt-0.5 truncate">
+            {product.identifier && (
+              <ProductIdentifier
+                className="text-muted-foreground"
+                identifier={product.identifier}
+              />
+            )}
+            {product.identifier && unit.name && <span className="text-muted-foreground/40">·</span>}
+            <span className="truncate">{unit.name || "Unit"}</span>
           </div>
+        </div>
+      </div>
+
+      <div className="mt-2.5 flex items-center gap-1.5 pl-[2.875rem]">
+        <PriceField
+          prefix="$"
+          value={price}
+          onChange={(value) => updateItem(item.id, { ...item, price: value })}
+        />
+        <PriceField
+          prefix="−$"
+          value={discount}
+          onChange={(value) => updateItem(item.id, { ...item, discount: value })}
+        />
+        <div className="ml-auto bg-foreground/[0.07] rounded-md h-7 flex items-center px-0.5">
           <ItemCounter
-            className="lg:w-32 h-6"
+            className="h-7 w-28 gap-0"
             variable={product.variable}
             baseUnit={product.baseUnit}
             value={qty}
@@ -150,63 +152,54 @@ export function ItemCartUnit({ item }: { item: Item }) {
           />
         </div>
       </div>
-    </ItemCartItem>
+    </CartRow>
   );
 }
 
 import { MaintenanceService } from "@/features/maintenance/types/maintenance-service";
 
-export function ItemCartService({ maintenanceService } : { maintenanceService: MaintenanceService }) {
+export function ItemCartService({ maintenanceService }: { maintenanceService: MaintenanceService }) {
   const { updateService, removeService } = usePosStore();
   const price = maintenanceService.price;
   const discount = maintenanceService.discount;
   const totalCost = calculateTotalCost(price, discount, 1);
 
   return (
-    <ItemCartItem 
-      totalCost={totalCost} 
-      onClickRemove={() => removeService(maintenanceService.service.id)}
-    >
-      <div className="flex flex-col gap-3 min-w-0">
-        {/* Service Header */}
-        <div className="flex items-center gap-3">
-          <div className="relative shrink-0 w-12 sm:w-14 h-12 sm:h-14">
-            <div className="absolute inset-0 flex justify-center items-center bg-linear-to-br from-blue-50 to-blue-100 border border-accent rounded-lg">
-              <div className="flex justify-center items-center w-6 h-6">
-                <span className="font-bold text-blue-500 text-xs"><Wrench /></span>
-              </div>
-            </div>
-          </div>
-          
-          <div className="flex flex-col flex-1 justify-between min-w-0 h-12 sm:h-14">
-            <div className="flex flex-col gap-0.5">
-              <div className="font-semibold text-sm sm:text-base wrap-break-word leading-tight">
-                {maintenanceService.service?.name}
-              </div>
-              <div className="font-medium text-blue-600 text-xs">
-                Service Check
-              </div>
-            </div>
-          </div>
+    <CartRow onClickRemove={() => removeService(maintenanceService.service.id)}>
+      <div className="flex items-start gap-2.5 min-w-0 pr-6">
+        <div className="flex items-center justify-center w-9 h-9 bg-foreground/[0.06] border border-border/60 rounded-md shrink-0">
+          <Wrench strokeWidth={1.5} className="size-4 text-foreground/70" />
         </div>
-        
-        {/* Service Controls */}
-        <div className="flex gap-2">
-          <ItemCartCurrencyInput 
-            className="w-16"
-            prefix="$"
-            defaultValue={price}
-            onValueChange={(value) => updateService(maintenanceService.service.id, { ...maintenanceService, price: value })}
-          />
-          <ItemCartCurrencyInput 
-            className="w-16"
-            prefix="-$"
-            defaultValue={discount}
-            onValueChange={(value) => updateService(maintenanceService.service.id, { ...maintenanceService, discount: value })}
-          />
+        <div className="flex-1 min-w-0">
+          <div className="flex items-baseline justify-between gap-2">
+            <div className="font-medium text-sm text-foreground truncate">
+              {maintenanceService.service?.name}
+            </div>
+            <div className="font-display tabular-nums text-sm font-medium text-foreground shrink-0">
+              <Currency amount={totalCost} />
+            </div>
+          </div>
+          <div className="text-xs text-muted-foreground mt-0.5">Service</div>
         </div>
       </div>
-    </ItemCartItem>
+
+      <div className="mt-2.5 flex items-center gap-1.5 pl-[2.875rem]">
+        <PriceField
+          prefix="$"
+          value={price}
+          onChange={(value) =>
+            updateService(maintenanceService.service.id, { ...maintenanceService, price: value })
+          }
+        />
+        <PriceField
+          prefix="−$"
+          value={discount}
+          onChange={(value) =>
+            updateService(maintenanceService.service.id, { ...maintenanceService, discount: value })
+          }
+        />
+      </div>
+    </CartRow>
   );
 }
 
@@ -215,7 +208,6 @@ import CurrencyInput from "react-currency-input-field";
 import { toastError } from "@/lib/toast";
 import { convertCurrencyStringToRawCurrency, convertRawCurrencyToCurrencyString } from "@/features/currency/utils/currency";
 import { GenericCurrencyInputProps } from "@/features/currency/types/generic-currency-input-props";
-import { Badge } from "@/components/ui/badge";
 
 const ItemCartCurrencyInput = React.forwardRef<HTMLInputElement, GenericCurrencyInputProps>(
   ({ className, value, defaultValue, onValueChange, type, prefix, ...props }, ref) => {
