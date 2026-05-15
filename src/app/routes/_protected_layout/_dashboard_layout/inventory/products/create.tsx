@@ -31,7 +31,7 @@ function CreateProductPage() {
         </TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <ProductForm handleSubmit={mutation.mutate} />
+        <ProductForm handleSubmit={mutation.mutateAsync} />
       </SectionContent>
     </Section>
   );

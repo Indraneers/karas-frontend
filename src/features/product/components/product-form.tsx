@@ -11,7 +11,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
+  FormMessage
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,8 +19,7 @@ import { useEffect } from "react";
 import { Switch } from "@/components/ui/switch";
 import { useSubcategorySearch } from "@/features/subcategory/hooks/subcategory-search";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
-import { toast } from "sonner";
-import axios from "axios";
+import { handleFormError } from "@/lib/form-error";
 import { FormSearch } from "@/components/form-search";
 import { ImageCropperFormField } from "@/components/ui/img-cropper";
 
@@ -38,9 +37,9 @@ const formSchema = z
     file: z
       .any()
       .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-        message: "Only SVG and PNG files are allowed",
+        message: "Only SVG and PNG files are allowed"
       })
-      .optional(),
+      .optional()
   })
   .refine(
     (schema) => {
@@ -48,8 +47,8 @@ const formSchema = z
     },
     {
       message: "Base Unit is required if variable is true",
-      path: ["baseUnit"],
-    },
+      path: ["baseUnit"]
+    }
   );
 
 const defaultData: ProductRequestDto = {
@@ -59,43 +58,42 @@ const defaultData: ProductRequestDto = {
   subcategoryId: "",
   unitCount: 0,
   variable: false,
-  baseUnit: "",
+  baseUnit: ""
 };
 
 interface ProductFormProps {
   handleSubmit: ({
     productDto,
-    file,
+    file
   }: {
     productDto: ProductRequestDto;
     file?: File;
-  }) => void;
+  }) => Promise<unknown>;
   data?: ProductRequestDto | undefined;
 }
 
 export function ProductForm({
   data = defaultData,
-  handleSubmit = console.log,
+  handleSubmit
 }: ProductFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: data,
+    defaultValues: data
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const { file, ...productDto } = values;
     try {
-      const { file, ...productDto } = values;
-      handleSubmit({ productDto, file });
+      await handleSubmit({ productDto, file });
       form.reset();
       navigate({ to: "/inventory/products" });
       router.invalidate();
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        toast(error.message);
-      }
+    }
+    catch (error: unknown) {
+      handleFormError(error, form);
     }
   }
 

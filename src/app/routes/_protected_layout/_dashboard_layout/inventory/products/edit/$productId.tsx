@@ -83,7 +83,7 @@ function UpdateProductPage() {
         }
         {
           !productQuery.isLoading &&
-          <ProductForm data={convertProductResponseDtoToProductRequestDto(productQuery.data)} handleSubmit={mutation.mutate} />
+          <ProductForm data={convertProductResponseDtoToProductRequestDto(productQuery.data)} handleSubmit={mutation.mutateAsync} />
         }
       </SectionContent>
     </Section>

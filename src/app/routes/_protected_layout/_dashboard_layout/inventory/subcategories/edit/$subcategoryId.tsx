@@ -56,7 +56,7 @@ function EditSubcategoryPage() {
         }
         {
           !isLoading && data &&
-          <SubcategoryForm data={convertSCResponseDtoToSCRequestDto(data)} handleSubmit={mutation.mutate} />
+          <SubcategoryForm data={convertSCResponseDtoToSCRequestDto(data)} handleSubmit={mutation.mutateAsync} />
         }
       </SectionContent>
     </Section>

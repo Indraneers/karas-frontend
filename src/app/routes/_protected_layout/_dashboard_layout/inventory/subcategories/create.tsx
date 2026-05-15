@@ -29,7 +29,7 @@ function CreateSubcategoryPage() {
         <TypographyH1>Create Subcategory</TypographyH1>
       </SectionHeader>
       <SectionContent>
-        <SubcategoryForm handleSubmit={mutation.mutate} />
+        <SubcategoryForm handleSubmit={mutation.mutateAsync} />
       </SectionContent>
     </Section>
   );

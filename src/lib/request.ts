@@ -1,5 +1,6 @@
 import { getUser } from '@/features/auth/utils/get-user';
-import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { toApiError } from './api-error';
 
 export const client = (() => {
   const instance = axios.create({
@@ -33,13 +34,7 @@ export const request = async(options: AxiosRequestConfig) => {
     return response?.data;
   };
 
-  const onError = function (error: AxiosError) {
-    return Promise.reject({
-      message: error.message,
-      code: error.code,
-      response: error.response
-    });
-  };
+  const onError = (error: unknown) => Promise.reject(toApiError(error));
 
   return client(options).then(onSuccess).catch(onError);
 };

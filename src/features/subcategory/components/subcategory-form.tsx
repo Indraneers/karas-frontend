@@ -13,8 +13,7 @@ import { FormSearch } from "@/components/form-search";
 import { useCategorySearch } from "@/features/category/hooks/category-search";
 import { SubcategoryRequestDto } from "../types/subcategory.dto";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
-import { toast } from "sonner";
-import axios from "axios";
+import { handleFormError } from "@/lib/form-error";
 import { ColorPicker } from "@/components/color-picker";
 
 const formSchema = z.object({
@@ -36,11 +35,11 @@ const defaultData: SubcategoryRequestDto = {
 };
 
 interface SubcategoryFormProps {
-  handleSubmit: ({ scDto, file } : { scDto: SubcategoryRequestDto, file?: File}) => void;
+  handleSubmit: ({ scDto, file } : { scDto: SubcategoryRequestDto, file?: File}) => Promise<unknown>;
   data?: SubcategoryRequestDto | undefined;
 }
 
-export function SubcategoryForm({ data = defaultData, handleSubmit = console.log } : SubcategoryFormProps) {
+export function SubcategoryForm({ data = defaultData, handleSubmit } : SubcategoryFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
@@ -49,18 +48,16 @@ export function SubcategoryForm({ data = defaultData, handleSubmit = console.log
     defaultValues: data
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
+  async function onSubmit(values: z.infer<typeof formSchema>) {
     const { file, ...scDto } = values;
     try {
-      handleSubmit({ scDto, file });
+      await handleSubmit({ scDto, file });
       form.reset();
       navigate({ to: '/inventory/subcategories' });
       router.invalidate();
     }
     catch(error: unknown) {
-      if (axios.isAxiosError(error))  {
-        toast(error.message);
-      }
+      handleFormError(error, form);
     }
   }
 
