@@ -10,14 +10,8 @@ interface VehicleIcon {
 
 export function VehicleIcon({ icon: Icon, className, iconClassName } : VehicleIcon) {
   return (
-    <div className={cn([
-      "bg-accent p-1 rounded-sm",
-      className
-    ])}>
-      <Icon className={cn([
-        "w-4 h-4 text-white",
-        iconClassName
-      ])} />
+    <div className={cn("flex items-center justify-center text-muted-foreground", className)}>
+      <Icon className={cn("w-4 h-4", iconClassName)} />
     </div>
   );
 }

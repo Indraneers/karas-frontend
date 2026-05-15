@@ -1,4 +1,4 @@
-import { IconInput } from "@/components/ui/icon-input";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverAnchor,
@@ -49,18 +49,17 @@ export function VehicleCustomerSearch({
     <div onBlur={(e) => !e.relatedTarget && setOpen(false)}>
       <Popover open={open}>
         <PopoverAnchor>
-          <div className={cn([className])}>
-            <IconInput
-              className="shadow-none border-0 border-b rounded-none focus-within:ring-0 focus-within:ring-muted-foreground h-10 text"
+          <div className={cn("relative", className)}>
+            <Search
+              className="absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none"
+              strokeWidth={1.8}
+            />
+            <Input
+              className="pl-9 h-10"
               value={value}
               onFocus={() => setOpen(true)}
               onInput={handleOnInput}
-              icon={Search}
-              iconProps={{
-                behavior: "prepend",
-                className: "text-muted-foreground",
-              }}
-              placeholder="Search For Customer Or Vehicle"
+              placeholder="Search customer or vehicle"
             />
           </div>
         </PopoverAnchor>
@@ -214,18 +213,20 @@ export function CustomerSearchItem({
   return (
     <div
       onClick={handleClick}
-      className={cn([
-        "hover:bg-accent group gap-2 hover:text-background items-center grid grid-cols-[auto_1fr] p-1 rounded-md cursor-pointer",
-        className,
-      ])}
+      className={cn(
+        "group grid grid-cols-[auto_1fr] gap-2.5 items-center p-2 rounded-md cursor-pointer transition-colors hover:bg-muted/60",
+        className
+      )}
     >
-      <div className={cn(["bg-accent p-1 rounded-sm h-8 w-8", className])}>
-        <User className={cn(["w-6 h-6 text-white"])} />
+      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-rose-100/70 text-rose-700 shrink-0">
+        <User className="size-4" strokeWidth={1.8} />
       </div>
-      <div className="flex flex-col">
-        <div className="font-medium text-sm">{customer.name}</div>
-        <div className="font-light text-muted-foreground group-hover:text-background text-xs">
-          {customer.contact}
+      <div className="flex flex-col min-w-0">
+        <div className="font-medium text-sm text-foreground truncate">
+          {customer.name}
+        </div>
+        <div className="text-xs text-muted-foreground truncate">
+          {customer.contact || "—"}
         </div>
       </div>
     </div>
