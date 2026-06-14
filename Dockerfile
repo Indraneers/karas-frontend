@@ -16,20 +16,14 @@ COPY . .
 # Build the React app
 RUN npm run build
 
-# Use an official Nginx runtime as a parent image
-FROM nginx:1.21.0-alpine
+# Serve with Caddy (automatic HTTPS: issues + renews certs itself, no certbot)
+FROM caddy:2-alpine
 
-# Copy the main nginx configuration (nginx.conf)
-COPY conf.d/nginx.conf /etc/nginx/nginx.conf
+# Caddy config (reverse proxy + SPA + auto-TLS)
+COPY Caddyfile /etc/caddy/Caddyfile
 
-# Copy all templates file to the template folder
-COPY conf.d/*.template /etc/nginx/templates/
+# Static build output served by Caddy (matches `root * /srv` in the Caddyfile)
+COPY --from=build /app/dist /srv
 
-# Copy the React app build files to the container
-COPY --from=build /app/dist /usr/share/nginx/html
-
-# Expose port 80 for Nginx
-EXPOSE 80
-
-# Start Nginx when the container starts
-CMD ["nginx", "-g", "daemon off;"]
+# HTTP + HTTPS (Caddy redirects 80 -> 443 automatically)
+EXPOSE 80 443

@@ -94,7 +94,7 @@ export const columns: ColumnDef<Sale>[] = [
     id: 'discount',
     header: 'Discount ($)',
     cell: ({ row }) => (
-      <div className="font-medium text-primary">
+      <div className="font-medium text-red-600">
         <Currency amount={row.original.discount} />
       </div>
     )
