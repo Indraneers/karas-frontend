@@ -1,13 +1,12 @@
-{
-	# Automatic HTTPS is on by default (Let's Encrypt + ZeroSSL, auto-renew).
-	# While testing, uncomment the staging CA to avoid hitting rate limits,
-	# then re-comment for production:
-	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
-	# email admin@granttcambodia.com
-}
+# Behind Cloudflare proxy (orange cloud) with SSL mode "Full": Cloudflare accepts
+# any origin cert, so Caddy serves its own self-signed cert via `tls internal`
+# (auto-generated + auto-renewed, no ACME, no rate limits). Users see Cloudflare's
+# edge cert. If you ever go gray-cloud / "Full (strict)", swap `tls internal` for a
+# real cert (Cloudflare Origin Cert, or remove it to let Caddy use Let's Encrypt).
 
 # ---- Main app: SPA + API/auth reverse proxy ----
 {$HOSTNAME} {
+	tls internal
 	encode zstd gzip
 
 	# Spring backend (prefix preserved, matches old nginx /api -> backend:8080/api)
@@ -30,6 +29,7 @@
 
 # ---- MinIO: S3 API + web console ----
 {$MINIO_HOSTNAME} {
+	tls internal
 	# Console (strips /minio/ui prefix, like the old nginx rewrite). Websockets work automatically.
 	handle_path /minio/ui/* {
 		reverse_proxy minio:9001
