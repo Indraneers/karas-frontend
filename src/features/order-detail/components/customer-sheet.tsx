@@ -15,6 +15,7 @@ import { useState, type ReactNode } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateCustomer } from "@/features/customer/api/customer";
 import { CustomerForm } from "@/features/customer/components/customer-form";
+import { RecentSales } from "@/features/sale/components/recent-sales";
 
 interface CustomerSheetProps {
   customer: CustomerDto;
@@ -78,21 +79,8 @@ export function CustomerSheet({ customer, open, onOpenChange }: CustomerSheetPro
             </section>
 
             <section className="space-y-2">
-              <div className="flex items-baseline justify-between">
-                <h3 className="font-display text-sm font-medium text-foreground">Recent sales</h3>
-                <span className="text-[11px] text-muted-foreground">Coming soon</span>
-              </div>
-              <ul className="space-y-1.5 text-xs">
-                {[1, 2, 3].map((i) => (
-                  <li
-                    key={i}
-                    className="flex items-center justify-between rounded-md border border-dashed border-border/60 bg-muted/30 px-3 py-2 text-muted-foreground"
-                  >
-                    <span>Sale placeholder #{i}</span>
-                    <span className="tabular-nums">— · — items · $—</span>
-                  </li>
-                ))}
-              </ul>
+              <h3 className="font-display text-sm font-medium text-foreground">Recent sales</h3>
+              {customer.id && <RecentSales customerId={customer.id} />}
             </section>
           </div>
 

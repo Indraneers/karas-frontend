@@ -14,6 +14,7 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateVehicle } from "@/features/vehicle/api/vehicle";
 import { VehicleForm } from "@/features/vehicle/components/vehicle-form";
+import { RecentSales } from "@/features/sale/components/recent-sales";
 
 interface VehicleSheetProps {
   vehicle: VehicleDto;
@@ -95,21 +96,8 @@ export function VehicleSheet({ vehicle, open, onOpenChange }: VehicleSheetProps)
             </section>
 
             <section className="space-y-2">
-              <div className="flex items-baseline justify-between">
-                <h3 className="font-display text-sm font-medium text-foreground">Service history</h3>
-                <span className="text-[11px] text-muted-foreground">Coming soon</span>
-              </div>
-              <ul className="space-y-1.5 text-xs">
-                {[1, 2, 3].map((i) => (
-                  <li
-                    key={i}
-                    className="flex items-center justify-between rounded-md border border-dashed border-border/60 bg-muted/30 px-3 py-2 text-muted-foreground"
-                  >
-                    <span>Visit placeholder #{i}</span>
-                    <span className="tabular-nums">— km · — services</span>
-                  </li>
-                ))}
-              </ul>
+              <h3 className="font-display text-sm font-medium text-foreground">Recent sales</h3>
+              {vehicle.id && <RecentSales vehicleId={vehicle.id} />}
             </section>
           </div>
 
