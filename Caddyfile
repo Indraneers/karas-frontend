@@ -1,0 +1,42 @@
+{
+	# Automatic HTTPS is on by default (Let's Encrypt + ZeroSSL, auto-renew).
+	# While testing, uncomment the staging CA to avoid hitting rate limits,
+	# then re-comment for production:
+	# acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+	# email admin@granttcambodia.com
+}
+
+# ---- Main app: SPA + API/auth reverse proxy ----
+{$HOSTNAME} {
+	encode zstd gzip
+
+	# Spring backend (prefix preserved, matches old nginx /api -> backend:8080/api)
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+
+	# Keycloak (prefix preserved)
+	handle /auth/* {
+		reverse_proxy keycloak:3000
+	}
+
+	# Single-page app: serve static build, fall back to index.html for client routing
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+# ---- MinIO: S3 API + web console ----
+{$MINIO_HOSTNAME} {
+	# Console (strips /minio/ui prefix, like the old nginx rewrite). Websockets work automatically.
+	handle_path /minio/ui/* {
+		reverse_proxy minio:9001
+	}
+
+	# S3 API (large uploads stream fine; Caddy has no default body-size limit)
+	handle {
+		reverse_proxy minio:9000
+	}
+}

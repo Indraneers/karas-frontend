@@ -18,19 +18,14 @@ services:
       - "80:80"
       - "443:443"
     volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
+      # Bind mounts (not named volumes) so the deploy's `docker system prune --volumes`
+      # can't wipe the issued certs / ACME account. ./caddy/data is the important one.
+      - ./caddy/data:/data
+      - ./caddy/config:/config
     networks:
       - nginx_network
     logging: *default-logging
 
-  certbot:
-    image: certbot/certbot:latest
-    volumes:
-      - ./certbot/www/:/var/www/certbot/:rw
-      - ./certbot/conf/:/etc/letsencrypt/:rw
-    entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
-    logging: *default-logging
 networks:
   nginx_network:
     external: true
