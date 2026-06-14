@@ -25,14 +25,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  getCustomerById,
-  getCustomers,
-} from "@/features/customer/api/customer";
-import { FormSearchPaginated } from "@/components/form-search-paginated";
-import { getVehicleById, getVehicles } from "@/features/vehicle/api/vehicle";
-import { CustomerDto } from "@/features/customer/types/customer.dto";
-import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 import { PaymentType, StatusEnum } from "../types/sale";
 import { isEqual } from "date-fns";
 import { useQuery } from "@tanstack/react-query";
@@ -107,8 +99,6 @@ export function SalesPopupFilter() {
 
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState<UserDto>();
-  const [customer, setCustomer] = useState<CustomerDto>();
-  const [vehicle, setVehicle] = useState<VehicleDto>();
   const [paymentType, setPaymentType] = useState<PaymentType>(
     searchFilter.paymentType
       ? (searchFilter.paymentType.toUpperCase() as PaymentType)
@@ -137,21 +127,7 @@ export function SalesPopupFilter() {
     enabled: !!searchFilter.userId,
   });
 
-  const customerQuery = useQuery({
-    queryKey: ["user", searchFilter.customerId],
-    queryFn: () => getCustomerById(searchFilter.customerId || ""),
-    enabled: !!searchFilter.customerId,
-  });
-
-  const vehicleQuery = useQuery({
-    queryKey: ["user", searchFilter.vehicleId],
-    queryFn: () => getVehicleById(searchFilter.vehicleId || ""),
-    enabled: !!searchFilter.vehicleId,
-  });
-
   const handleClearFilters = () => {
-    setCustomer(undefined);
-    setVehicle(undefined);
     setStatus(StatusEnum.NONE);
     setPaymentType(PaymentType.NONE);
     setCreatedAtFrom(undefined);
@@ -175,29 +151,7 @@ export function SalesPopupFilter() {
     } else {
       setUser(undefined);
     }
-
-    if (searchFilter.customerId && customerQuery.data) {
-      setCustomer(customerQuery.data);
-    } else {
-      setCustomer(undefined);
-    }
-
-    if (searchFilter.vehicleId && vehicleQuery.data) {
-      setVehicle(vehicleQuery.data);
-    } else {
-      setVehicle(undefined);
-    }
-  }, [
-    customer,
-    customerQuery.data,
-    searchFilter.customerId,
-    searchFilter.userId,
-    searchFilter.vehicleId,
-    user,
-    userQuery.data,
-    vehicle,
-    vehicleQuery.data,
-  ]);
+  }, [searchFilter.userId, user, userQuery.data]);
 
   return (
     <Popover open={isOpen} onOpenChange={setIsOpen}>
@@ -342,48 +296,6 @@ export function SalesPopupFilter() {
                 </SelectGroup>
               </SelectContent>
             </Select>
-          </div>
-
-          <div>
-            <FieldLabel>Customer</FieldLabel>
-            <FormSearchPaginated
-              value={customer}
-              onChange={(c) => {
-                if (customer && c.id === customer.id) {
-                  navigate({
-                    search: { ...searchFilter, customerId: undefined },
-                  });
-                  setCustomer(undefined);
-                } else {
-                  navigate({ search: { ...searchFilter, customerId: c.id } });
-                }
-              }}
-              getEntity={getCustomers}
-              placeholder="Search customer"
-              entityName="customer"
-              buttonClassName="h-8 text-xs w-full"
-            />
-          </div>
-
-          <div>
-            <FieldLabel>Vehicle</FieldLabel>
-            <FormSearchPaginated
-              value={vehicle}
-              onChange={(v) => {
-                if (vehicle && v.id == vehicle.id) {
-                  setVehicle(undefined);
-                  navigate({
-                    search: { ...searchFilter, vehicleId: undefined },
-                  });
-                } else {
-                  navigate({ search: { ...searchFilter, vehicleId: v.id } });
-                }
-              }}
-              getEntity={getVehicles}
-              placeholder="Search vehicle"
-              entityName="vehicle"
-              buttonClassName="h-8 text-xs w-full"
-            />
           </div>
         </div>
 
