@@ -1,0 +1,42 @@
+# Behind Cloudflare proxy (orange cloud) with SSL mode "Full": Cloudflare accepts
+# any origin cert, so Caddy serves its own self-signed cert via `tls internal`
+# (auto-generated + auto-renewed, no ACME, no rate limits). Users see Cloudflare's
+# edge cert. If you ever go gray-cloud / "Full (strict)", swap `tls internal` for a
+# real cert (Cloudflare Origin Cert, or remove it to let Caddy use Let's Encrypt).
+
+# ---- Main app: SPA + API/auth reverse proxy ----
+{$HOSTNAME} {
+	tls internal
+	encode zstd gzip
+
+	# Spring backend (prefix preserved, matches old nginx /api -> backend:8080/api)
+	handle /api/* {
+		reverse_proxy backend:8080
+	}
+
+	# Keycloak (prefix preserved)
+	handle /auth/* {
+		reverse_proxy keycloak:3000
+	}
+
+	# Single-page app: serve static build, fall back to index.html for client routing
+	handle {
+		root * /srv
+		try_files {path} /index.html
+		file_server
+	}
+}
+
+# ---- MinIO: S3 API + web console ----
+{$MINIO_HOSTNAME} {
+	tls internal
+	# Console (strips /minio/ui prefix, like the old nginx rewrite). Websockets work automatically.
+	handle_path /minio/ui/* {
+		reverse_proxy minio:9001
+	}
+
+	# S3 API (large uploads stream fine; Caddy has no default body-size limit)
+	handle {
+		reverse_proxy minio:9000
+	}
+}
