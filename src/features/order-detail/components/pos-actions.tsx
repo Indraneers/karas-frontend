@@ -105,7 +105,7 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
             setOpenDialog(true);
             setStatus(StatusEnum.PAID);
           }}
-          className="bg-green-500 hover:bg-green-400 rounded-r-none rounded-l-xl font-semibold"
+          className="bg-red-600 hover:bg-red-500 text-white rounded-r-none rounded-l-xl font-semibold"
         >
           <span>
             <ShoppingCart />
