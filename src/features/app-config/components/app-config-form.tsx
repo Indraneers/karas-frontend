@@ -59,7 +59,7 @@ export function AppConfigForm({ data, handleSubmit }: AppConfigFormProps) {
               <FormItem>
                 <FormLabel>English Branch Name</FormLabel>
                 <FormControl>
-                  <Input className="w-[500px]" placeholder="Ex: KK Lube Express" {...field} />
+                  <Input className="w-[500px]" placeholder="Ex: Grantt Oil" {...field} />
                 </FormControl>
                 <FormDescription>
                   Set the English Branch Name
