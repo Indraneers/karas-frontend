@@ -15,7 +15,7 @@ export function ItemCart({ className, children } : ItemCartProps) {
       <TypographyH3 className="text-base sm:text-lg">
         Item Cart
       </TypographyH3>
-      <div className="relative flex-grow mt-2 h-full">
+      <div className="relative grow mt-2 h-full">
         <div className="absolute inset-0 flex flex-col gap-2 sm:gap-3 pt-1.5 pl-1.5 overflow-scroll">
           { children }
         </div>
@@ -45,13 +45,13 @@ export function ItemCartItem
     ])}>
       <Button
         onClick={onClickRemove}
-        className="top-[-0.5rem] left-[-0.5rem] absolute hover:bg-primary/80 border w-5 h-5" 
+        className="-top-2 -left-2 absolute hover:bg-primary/80 border w-5 h-5" 
         size='icon'>
-        <X className="!w-3 !h-3" />
+        <X className="w-3! h-3!" />
       </Button>
       <div className="rounded-xl w-full h-full overflow-hidden">
         <div className="flex flex-col h-full">
-          <div className="bg-gradient-to-br from-surface/50 to-surface/80 p-2 rounded-t-xl w-full">
+          <div className="bg-linear-to-br from-surface/50 to-surface/80 p-2 rounded-t-xl w-full">
             {children}
           </div>
           <div className="bg-primary px-3 py-2 rounded-b-xl font-semibold text-primary-foreground text-sm text-center">
@@ -91,7 +91,7 @@ export function ItemCartUnit({ item }: { item: Item }) {
         {/* Header with Image and Product Info */}
         <div className="flex items-start gap-3">
           {/* Product Image */}
-          <div className="relative flex-shrink-0 w-12 sm:w-14 h-12 sm:h-14">
+          <div className="relative shrink-0 w-12 sm:w-14 h-12 sm:h-14">
             {unit.img ? (
               <img 
                 className="absolute inset-0 border border-border rounded-lg w-full h-full object-cover" 
@@ -108,7 +108,7 @@ export function ItemCartUnit({ item }: { item: Item }) {
           {/* Product Details */}
           <div className="flex flex-col flex-1 justify-between min-w-0">
             <div className="flex flex-col gap-0.5">
-              <div className="font-semibold text-xs lg:text-sm xl:text-base break-words leading-tight">
+              <div className="font-semibold text-xs lg:text-sm xl:text-base wrap-break-word leading-tight">
                 {product.name}
               </div>
               <div className="flex justify-between">
@@ -170,8 +170,8 @@ export function ItemCartService({ maintenanceService } : { maintenanceService: M
       <div className="flex flex-col gap-3 min-w-0">
         {/* Service Header */}
         <div className="flex items-center gap-3">
-          <div className="relative flex-shrink-0 w-12 sm:w-14 h-12 sm:h-14">
-            <div className="absolute inset-0 flex justify-center items-center bg-gradient-to-br from-blue-50 to-blue-100 border border-accent rounded-lg">
+          <div className="relative shrink-0 w-12 sm:w-14 h-12 sm:h-14">
+            <div className="absolute inset-0 flex justify-center items-center bg-linear-to-br from-blue-50 to-blue-100 border border-accent rounded-lg">
               <div className="flex justify-center items-center w-6 h-6">
                 <span className="font-bold text-blue-500 text-xs"><Wrench /></span>
               </div>
@@ -180,7 +180,7 @@ export function ItemCartService({ maintenanceService } : { maintenanceService: M
           
           <div className="flex flex-col flex-1 justify-between min-w-0 h-12 sm:h-14">
             <div className="flex flex-col gap-0.5">
-              <div className="font-semibold text-sm sm:text-base break-words leading-tight">
+              <div className="font-semibold text-sm sm:text-base wrap-break-word leading-tight">
                 {maintenanceService.service?.name}
               </div>
               <div className="font-medium text-blue-600 text-xs">

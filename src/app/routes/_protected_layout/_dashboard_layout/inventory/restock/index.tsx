@@ -156,7 +156,7 @@ function RestockPage() {
   return (
     <Section className='flex flex-col h-full'>
       <SectionHeader>
-        <Card className="gap-4 xl:gap-8 grid grid-cols-[auto,auto,1fr] shadow-none p-4 xl:p-8">
+        <Card className="gap-4 xl:gap-8 grid grid-cols-[auto_auto_1fr] shadow-none p-4 xl:p-8">
           <div>
             <TypographyH1>
               Restock
@@ -204,7 +204,7 @@ function RestockPage() {
           </div>
         </Card>
       </SectionHeader>
-      <SectionContent className='flex flex-col flex-grow pt-8'>
+      <SectionContent className='flex flex-col grow pt-8'>
         <div className='flex gap-8'>
           <div className='relative' onBlur={(e) => !e.relatedTarget && setOpen(false)}>
             <Popover open={open}>
@@ -238,7 +238,7 @@ function RestockPage() {
             Restock
           </Button>
         </div>
-        <div className='flex-grow py-4'>
+        <div className='grow py-4'>
           <div className='relative h-full'>
             <RestockItemList className='absolute inset-0 pr-4'>
               {!restockItems && 

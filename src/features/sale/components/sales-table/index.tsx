@@ -10,97 +10,99 @@ import { useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { ContextOption } from "@/types/context-options";
 import { onClickUrl } from "@/lib/link";
-import { BadgeDollarSign, Printer, Edit, Trash2 } from "lucide-react";
+import { BadgeDollarSign, Printer, Edit } from "lucide-react";
 import { useSearchPagination } from "@/hooks/use-search-pagination";
-import { SaleFilter } from "../../types/sale-filter";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
-function getQueryKeys(queryKey: string[], saleFilter: SaleFilter): string[] {
-  const queryKeys = [...queryKey];
-  for (const val in saleFilter) {
-    if (val in saleFilter) {
-      queryKeys.push(String(val));
-    }
-  }
-
-  return queryKeys;
-}
-
-export function SalesTable({ className, saleFilter, queryKey = ['sales'] } : { 
-  className?: string,
-  saleFilter: SaleFilter,
-  queryKey: string[],
+export function SalesTable({
+  className,
+  queryKey = ["sales"],
+}: {
+  className?: string;
+  queryKey: string[];
 }) {
-  const { isLoading, data, paginationDetail } = 
-        useSearchPagination({ 
-          key: getQueryKeys(queryKey, saleFilter), 
-          getEntity: getSales,
-          query: saleFilter
-        });
+  const { isLoading, data, paginationDetail } = useSearchPagination({
+    key: queryKey,
+    getEntity: getSales,
+  });
   const navigate = useNavigate();
 
-  const sales = data ? data.content.map(s => convertSaleResponseDtoToSale(s)) : [];
-  
+  const sales = data
+    ? data.content.map((s) => convertSaleResponseDtoToSale(s))
+    : [];
+
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
   const queryClient = useQueryClient();
   const payMutation = useMutation({
     mutationFn: async (id: string) => paySale(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sales"] }),
   });
-  const deleteMutatation = useMutation({
+  const deleteMutation = useMutation({
     mutationFn: async (id: string) => deleteSale(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['sales'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["sales"] }),
   });
 
   const contextOptions: ContextOption<Sale>[] = [
     {
       key: 1,
       onClick: (sale) => {
-        payMutation.mutate(sale.id || '');
+        payMutation.mutate(sale.id || "");
       },
-      content: <><BadgeDollarSign /> Set Paid</>
+      content: (
+        <>
+          <BadgeDollarSign /> Set Paid
+        </>
+      ),
     },
     {
       key: 2,
       onClick: (sale) => {
-        (onClickUrl('/invoice/' + sale.id + '?print=true'))();
+        onClickUrl("/invoice/" + sale.id + "?print=true")();
       },
-      content: <><Printer /> Print</>
+      content: (
+        <>
+          <Printer /> Print
+        </>
+      ),
     },
     {
       key: 3,
       onClick: (sale) => {
-        navigate({ to: '/sales/edit/' + sale.id });
+        navigate({ to: "/sales/edit/" + sale.id });
       },
-      content: <><Edit /> Edit</>
+      content: (
+        <>
+          <Edit /> Edit
+        </>
+      ),
     },
     {
       key: 4,
-      onClick: (sale) => {
-        deleteMutatation.mutate(sale.id || '');
-      },
-      content: <><Trash2 /> Delete</>
-    }
+      content: (sale) => (
+        <DeleteWithConfirmation
+          object="sale"
+          onConfirm={() => deleteMutation.mutate(sale.id || "")}
+          isLoading={deleteMutation.isPending}
+        />
+      ),
+    },
   ];
-
 
   return (
     <div className={cn(className)}>
-      {
-        isLoading &&
-        <PageLoading />
-      }
-      {!isLoading && 
-        <DataTablePagination 
+      {isLoading && <PageLoading />}
+      {!isLoading && (
+        <DataTablePagination
           rowSelection={rowSelection}
           onRowSelectionChange={setRowSelection}
-          onRowClick={(data: Sale) => navigate({ to: '/sales/' + data.id })}
+          onRowClick={(data: Sale) => navigate({ to: "/sales/" + data.id })}
           columns={columns}
           data={sales}
           paginationDetail={paginationDetail}
           contextOptions={contextOptions}
           contextLabel="Sales Actions"
         />
-      }
+      )}
     </div>
   );
 }

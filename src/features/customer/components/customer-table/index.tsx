@@ -8,17 +8,26 @@ import { useNavigate } from "@tanstack/react-router";
 import { Customer } from "../../types/customer";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { Edit, Trash } from "lucide-react";
+import { Edit } from "lucide-react";
 import { deleteCustomer } from "../../api/customer";
+import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
 
-export function CustomerTable({ className, data, paginationDetail } : { className?: string, data: CustomerDto[], paginationDetail: PaginationDetail }) {
+export function CustomerTable({
+  className,
+  data,
+  paginationDetail,
+}: {
+  className?: string;
+  data: CustomerDto[];
+  paginationDetail: PaginationDetail;
+}) {
   const navigate = useNavigate();
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
 
   const queryClient = useQueryClient();
-  const mutatation = useMutation({
+  const mutation = useMutation({
     mutationFn: async (id: string) => deleteCustomer(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['customers'] })
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["customers"] }),
   });
 
   const contextOptions: ContextOption<Customer>[] = [
@@ -27,24 +36,33 @@ export function CustomerTable({ className, data, paginationDetail } : { classNam
       onClick: (customer) => {
         navigate({ to: `/customers/edit/` + customer.id });
       },
-      content: <><Edit /> Edit Customer</>
+      content: (
+        <>
+          <Edit /> Edit Customer
+        </>
+      ),
     },
     {
       key: 2,
-      onClick: (customer) => {
-        mutatation.mutate(customer.id);
-      },  
-      content: <><Trash /> Delete Customer</>
-    }
+      content: (vehicle) => (
+        <DeleteWithConfirmation
+          object="customer"
+          onConfirm={() => mutation.mutate(vehicle.id || "")}
+          isLoading={mutation.isPending}
+        />
+      ),
+    },
   ];
-  
+
   return (
     <div className={className}>
-      <DataTablePagination 
-        data={data.map(c => convertCustomerDtoToCustomer(c))} 
-        onRowClick={(data: Customer) => navigate({ to: '/customers/' + data.id })}
-        columns={columns} 
-        paginationDetail={paginationDetail} 
+      <DataTablePagination
+        data={data.map((c) => convertCustomerDtoToCustomer(c))}
+        onRowClick={(data: Customer) =>
+          navigate({ to: "/customers/" + data.id })
+        }
+        columns={columns}
+        paginationDetail={paginationDetail}
         rowSelection={rowSelection}
         onRowSelectionChange={setRowSelection}
         contextLabel="Customer Actions"

@@ -50,9 +50,9 @@ export function RestockItemElement({ restockItem, updateRestockItem, removeResto
   
   return (
     <>    
-      <Card className="relative gap-4 grid grid-cols-[auto,1fr] mt-4 p-4">
+      <Card className="relative gap-4 grid grid-cols-[auto_1fr] mt-4 p-4">
         <Button 
-          className="top-[-0.75rem] right-[-0.75rem] absolute w-6 h-6" size='icon'
+          className="-top-3 -right-3 absolute w-6 h-6" size='icon'
           onClick={() => removeRestockItem(restockItem)}
         >
           <X />

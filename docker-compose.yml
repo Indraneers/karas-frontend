@@ -1,4 +1,10 @@
-version: '3.9'
+x-logging: &default-logging
+  driver: "json-file"
+  options:
+    max-size: "10m"
+    max-file: "3"
+
+version: "3.9"
 
 services:
   frontend:
@@ -16,6 +22,7 @@ services:
       - ./certbot/conf/:/etc/letsencrypt/:rw
     networks:
       - nginx_network
+    logging: *default-logging
 
   certbot:
     image: certbot/certbot:latest
@@ -23,6 +30,7 @@ services:
       - ./certbot/www/:/var/www/certbot/:rw
       - ./certbot/conf/:/etc/letsencrypt/:rw
     entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done;'"
+    logging: *default-logging
 networks:
   nginx_network:
     external: true

@@ -5,7 +5,7 @@ import { VehicleDto } from "@/features/vehicle/types/vehicle.dto";
 export function VehicleInfo({ vehicle, className }: { vehicle: VehicleDto, className?: string }) {
   return (
     <div className={cn([
-      "items-center grid grid-cols-[auto,1fr]",
+      "items-center grid grid-cols-[auto_1fr]",
       className
     ])}>
       <h3 className="font-bold text-lg">Vehicle</h3>

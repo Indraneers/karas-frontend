@@ -17,7 +17,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
   const product = unit.product;
 
   return (
-    <div className="group items-center gap-2 grid grid-cols-[auto,1fr] hover:bg-accent p-1 rounded-md cursor-pointer">
+    <div className="group items-center gap-2 grid grid-cols-[auto_1fr] hover:bg-accent p-1 rounded-md cursor-pointer">
       <div className="self-stretch group-hover:bg-background p-2 border-2 border-accent rounded h-10 aspect-square">
         { !unit.subcategoryImg ?
           <Box className="w-full h-full text-accent" />
@@ -38,7 +38,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               product.variable && ` (${ convertBaseQuantityToDisplayQuantity(unit.toBaseUnit) }${ product.baseUnit })`
             }
           </div>
-          <div className="flex-shrink-0">
+          <div className="shrink-0">
             <UnitDtoQuantityBadge 
               variable={product.variable}
               baseUnit={product.baseUnit}
@@ -46,7 +46,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
               toBaseUnit={unit.toBaseUnit}
             />
             <ProductTypeBadge 
-              className='ml-2 font-semibold !text-xs'
+              className='ml-2 font-semibold text-xs!'
               variable={product.variable}
             />
           </div>

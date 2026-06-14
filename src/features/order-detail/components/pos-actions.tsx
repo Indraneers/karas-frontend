@@ -161,11 +161,11 @@ export function POSActions({ saleId, className, handlePayment } : PosActionsProp
           <DialogFooter>
             <div className="flex justify-center space-x-4 w-full">
               <Button onClick={() => handlePOSAction(status, PaymentType.BANK)} className="bg-blue-500 hover:bg-blue-600 w-full h-12">
-                <Landmark className="!w-6 !h-6" strokeWidth={2} />
+                <Landmark className="w-6! h-6!" strokeWidth={2} />
                   PAY BY BANK
               </Button>
               <Button onClick={() => handlePOSAction(status, PaymentType.CASH)} className="bg-emerald-500 hover:bg-emerald-600 w-full h-12">
-                <Banknote className="!w-6 !h-6"  strokeWidth={2} />
+                <Banknote className="w-6! h-6!"  strokeWidth={2} />
                   PAY BY CASH
               </Button>
             </div>

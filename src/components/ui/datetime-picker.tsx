@@ -245,9 +245,10 @@ function Calendar({
       };
     }
     return genMonths(locale);
-  }, []);
+  }, [props.locale]);
 
-  const YEARS = React.useMemo(() => genYears(yearRange), []);
+  const YEARS = React.useMemo(() => genYears(yearRange), [yearRange]);
+  
   const disableLeftNavigation = () => {
     const today = new Date();
     const startDate = new Date(today.getFullYear() - yearRange, 0, 1);
@@ -259,6 +260,7 @@ function Calendar({
     }
     return false;
   };
+  
   const disableRightNavigation = () => {
     const today = new Date();
     const endDate = new Date(today.getFullYear() + yearRange, 11, 31);
@@ -367,7 +369,6 @@ function Calendar({
     />
   );
 }
-Calendar.displayName = 'Calendar';
 
 interface PeriodSelectorProps {
   period: Period;
@@ -420,8 +421,6 @@ const TimePeriodSelect = React.forwardRef<HTMLButtonElement, PeriodSelectorProps
     );
   }
 );
-
-TimePeriodSelect.displayName = 'TimePeriodSelect';
 
 interface TimePickerInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   picker: TimePickerType;
@@ -514,7 +513,7 @@ const TimePickerInput = React.forwardRef<HTMLInputElement, TimePickerInputProps>
         id={id || picker}
         name={name || picker}
         className={cn(
-          'focus:bg-accent focus:text-accent-foreground w-[48px] text-center font-mono text-base tabular-nums caret-transparent [&::-webkit-inner-spin-button]:appearance-none',
+          'focus:bg-accent w-[48px] font-mono tabular-nums text-base text-center focus:text-accent-foreground [&::-webkit-inner-spin-button]:appearance-none caret-transparent',
           className
         )}
         value={value || calculatedValue}
@@ -533,8 +532,6 @@ const TimePickerInput = React.forwardRef<HTMLInputElement, TimePickerInputProps>
     );
   }
 );
-
-TimePickerInput.displayName = 'TimePickerInput';
 
 interface TimePickerProps {
   date?: Date | null;
@@ -571,6 +568,7 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
       }),
       [minuteRef, hourRef, secondRef]
     );
+    
     return (
       <div className="flex justify-center items-center gap-2">
         <label htmlFor="datetime-picker-hour-input" className="cursor-pointer">
@@ -614,6 +612,7 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
         {hourCycle === 12 && (
           <div className="gap-1 grid text-center">
             <TimePeriodSelect
+              ref={periodRef}
               period={period}
               setPeriod={setPeriod}
               date={date}
@@ -626,7 +625,6 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
                   setPeriod('AM');
                 }
               }}
-              ref={periodRef}
               onLeftFocus={() => secondRef?.current?.focus()}
             />
           </div>
@@ -635,7 +633,6 @@ const TimePicker = React.forwardRef<TimePickerRef, TimePickerProps>(
     );
   }
 );
-TimePicker.displayName = 'TimePicker';
 
 type Granularity = 'day' | 'hour' | 'minute' | 'second';
 
@@ -777,7 +774,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
           <Button
             variant="outline"
             className={cn(
-              'w-full justify-start text-left font-normal',
+              'justify-start w-full font-normal text-left',
               !displayDate && 'text-muted-foreground',
               className
             )}
@@ -818,7 +815,7 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
             {...props}
           />
           {granularity !== 'day' && (
-            <div className="p-3 border-t border-border">
+            <div className="p-3 border-border border-t">
               <TimePicker
                 onChange={(value) => {
                   onChange?.(value);
@@ -838,8 +835,6 @@ const DateTimePicker = React.forwardRef<Partial<DateTimePickerRef>, DateTimePick
     );
   }
 );
-
-DateTimePicker.displayName = 'DateTimePicker';
 
 export { DateTimePicker, TimePickerInput, TimePicker };
 export type { TimePickerType, DateTimePickerProps, DateTimePickerRef };

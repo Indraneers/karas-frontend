@@ -34,7 +34,7 @@ export function MaintenanceTab() {
   }, [serviceQuery.data]);
 
   return (
-    <div className="grid grid-rows-[auto,1fr] py-4 h-full">
+    <div className="grid grid-rows-[auto_1fr] py-4 h-full">
       <TypographyH3 className="px-4">Services</TypographyH3>
       <ScrollArea className="mr-2 pl-2">
         {serviceSelectorItems.map(service => (

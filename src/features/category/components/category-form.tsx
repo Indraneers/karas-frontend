@@ -1,11 +1,19 @@
 import { FormGroup } from "@/components/form-group";
 import { Button } from "@/components/ui/button";
-import { Form, FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "@/components/ui/form";
+import {
+  Form,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useRouter } from "@tanstack/react-router";
-import { useForm } from 'react-hook-form';
-import { z } from 'zod';
+import { useForm } from "react-hook-form";
+import { z } from "zod";
 import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
@@ -13,43 +21,54 @@ import { ColorPicker } from "@/components/color-picker";
 
 const formSchema = z.object({
   id: z.string(),
-  name: z.string({ message: 'Name is required' }).min(2).max(50),
+  name: z.string({ message: "Name is required" }).min(2).max(50),
   subcategoryCount: z.number(),
-  file: z.any()
-    .refine(file => ACCEPTED_IMAGE_TYPES.includes(file.type), {
-      message: "Only SVG and PNG files are allowed"
-    }).optional(),
+  file: z
+    .any()
+    .refine((file) => ACCEPTED_IMAGE_TYPES.includes(file.type), {
+      message: "Only SVG and PNG files are allowed",
+    })
+    .optional(),
   img: z.string().optional(),
-  color: z.string().optional()
+  color: z.string().optional(),
 });
 
 const defaultData: CategoryDto = {
-  id: '',
-  name: '',
+  id: "",
+  name: "",
   subcategoryCount: 0,
-  img: '',
-  color: ''
+  img: "",
+  color: "",
 };
 
 interface CategoryFormProps {
-  handleSubmit: ({ categoryDto, file } : {categoryDto: CategoryDto, file?: File}) => void;
+  handleSubmit: ({
+    categoryDto,
+    file,
+  }: {
+    categoryDto: CategoryDto;
+    file?: File;
+  }) => void;
   data?: CategoryDto | undefined;
 }
 
-export function CategoryForm({ data = defaultData, handleSubmit = console.log } : CategoryFormProps) {
+export function CategoryForm({
+  data = defaultData,
+  handleSubmit = console.log,
+}: CategoryFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: data
+    defaultValues: data,
   });
 
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { file, ...categoryDto } = values;
     handleSubmit({ categoryDto, file });
     form.reset();
-    navigate({ to: '/inventory/categories' });
+    navigate({ to: "/inventory/categories" });
     router.invalidate();
   }
 
@@ -68,27 +87,31 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
               <FormItem>
                 <FormLabel>Category Name</FormLabel>
                 <FormControl>
-                  <Input className="w-[500px]" placeholder="Ex: Engine Oil" {...field} />
+                  <Input
+                    className="w-[500px]"
+                    placeholder="Ex: Engine Oil"
+                    {...field}
+                  />
                 </FormControl>
                 <FormDescription>
-                Set the category name. Min. 3 Max. 50
+                  Set the category name. Min. 3 Max. 50
                 </FormDescription>
                 <FormMessage />
               </FormItem>
             )}
           />
-          <FormField 
+          <FormField
             control={form.control}
             name="file"
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
             render={({ field: { value, onChange, ...fieldProps } }) => (
               <FormItem className="mt-4">
                 <FormLabel>Set POS Icon</FormLabel>
-                <Input 
+                <Input
                   {...fieldProps}
-                  id="picture" 
+                  id="picture"
                   type="file"
-                  className="w-[300px] cursor-pointer"
+                  className="py-1.5 w-[300px] cursor-pointer"
                   accept="image/*"
                   onChange={(event) =>
                     onChange(event.target.files && event.target.files[0])
@@ -97,28 +120,23 @@ export function CategoryForm({ data = defaultData, handleSubmit = console.log } 
               </FormItem>
             )}
           />
-          <FormField 
+          <FormField
             control={form.control}
             name="color"
-             
             render={({ field: { value, onChange, ...fieldProps } }) => (
               <FormItem className="mt-4">
                 <FormLabel>Set POS Color</FormLabel>
                 <ColorPicker
                   {...fieldProps}
                   className="block"
-                  background={value || ''}
+                  background={value || ""}
                   setBackground={onChange}
                 />
               </FormItem>
             )}
           />
         </FormGroup>
-        <Button 
-          type="submit"
-        >
-          Submit
-        </Button>
+        <Button type="submit">Submit</Button>
       </form>
     </Form>
   );

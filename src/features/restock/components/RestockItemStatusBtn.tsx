@@ -11,7 +11,7 @@ export function RestockItemStatusButton
       className={cn([
         'border-border shadow-none font-semibold hover:bg-transparent hover:text-foreground',
         className,
-        selected && 'border-primary border-[2px]'
+        selected && 'border-primary border-2'
       ])}
     >
       {children}
