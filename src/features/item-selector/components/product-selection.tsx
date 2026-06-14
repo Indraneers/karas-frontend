@@ -88,23 +88,23 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
   return (
     <ItemContextMenu label="product" name={product.name}>
       <Card
-        className="group relative flex flex-col h-full p-3 rounded-lg border border-border bg-card shadow-sm w-full aspect-square overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5 text-left"
+        className="group relative flex flex-col h-full p-3 rounded-2xl border border-border bg-card shadow-sm w-full aspect-square overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5 text-left"
         onClick={handleClick}
       >
         {product.img && product.img.length > 0 && <ItemImgBg src={product.img} />}
-        {/* Name + identifier — identifier is the quick-scan target, kept prominent top-right. */}
-        <div className="z-10 flex items-start gap-1.5 min-w-0">
-          <span
+        {/* Name, then a big identifier underneath — the identifier is the quick-scan target. */}
+        <div className="z-10 min-w-0">
+          <div
             className={cn(
-              "font-semibold text-sm text-foreground truncate flex-1",
+              "font-semibold text-sm text-foreground truncate",
               product.img && "text-background"
             )}
           >
             {product.name}
-          </span>
+          </div>
           <ProductIdentifier
             identifier={product.identifier}
-            className="shrink-0 text-[11px]"
+            className="mt-1.5 text-base px-2 py-0.5"
           />
         </div>
         {/* Unit count de-emphasized at the bottom. */}

@@ -13,8 +13,8 @@ export function VehicleItem({ vehicle, className, showCustomer = true } : { vehi
         className
       )}
     >
-      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-sky-100/70 text-sky-700 shrink-0">
-        <VehicleIcon className="size-5" iconClassName="size-4" icon={vehicleIcon} />
+      <div className="flex items-center justify-center w-9 h-9 rounded-md bg-sky-100/70 text-sky-700 shrink-0">
+        <VehicleIcon className="size-[22px]" iconClassName="size-[18px]" icon={vehicleIcon} />
       </div>
       <div className="flex flex-col min-w-0">
         <div className="font-medium text-sm text-foreground truncate">

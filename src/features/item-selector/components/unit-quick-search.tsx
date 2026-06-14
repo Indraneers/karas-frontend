@@ -51,13 +51,17 @@ export function UnitQuickSearch({
 
       <div className="flex-1 min-h-0">
         {isSearching ? (
-          <ItemCardList className="min-h-0">
-            {isLoading && data.length === 0 && <ItemSkeletonList />}
-            {!isLoading && data.length === 0 && <ItemEmpty />}
-            {data.map((u) => (
-              <UnitSearchResultCard key={u.id} unit={convertUnitDtoToUnit(u)} />
-            ))}
-          </ItemCardList>
+          !isLoading && data.length === 0 ? (
+            // Empty must sit outside the grid, else it collapses into the first cell (top-left).
+            <ItemEmpty title="No matches" hint={`Nothing matches “${q.trim()}”.`} />
+          ) : (
+            <ItemCardList className="min-h-0">
+              {isLoading && data.length === 0 && <ItemSkeletonList />}
+              {data.map((u) => (
+                <UnitSearchResultCard key={u.id} unit={convertUnitDtoToUnit(u)} />
+              ))}
+            </ItemCardList>
+          )
         ) : (
           children
         )}

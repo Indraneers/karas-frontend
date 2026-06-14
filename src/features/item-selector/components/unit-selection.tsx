@@ -111,7 +111,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
       <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full h-full">
-          <div className="group relative flex flex-col h-full p-3 rounded-lg border border-border/60 bg-card transition cursor-pointer hover:border-foreground/20 hover:bg-muted/30 text-left overflow-hidden">
+          <div className="group relative flex flex-col h-full p-3 rounded-2xl border border-border bg-card shadow-sm transition cursor-pointer hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5 text-left overflow-hidden">
             {unit.img && unit.img.length > 0 && <ItemImgBg src={unit.img} />}
             <div className="z-10 flex items-center gap-1.5 min-w-0">
               <span className="font-semibold text-sm text-foreground truncate flex-1">

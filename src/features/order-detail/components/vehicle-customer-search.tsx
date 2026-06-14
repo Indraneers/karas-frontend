@@ -218,8 +218,8 @@ export function CustomerSearchItem({
         className
       )}
     >
-      <div className="flex items-center justify-center w-8 h-8 rounded-md bg-rose-100/70 text-rose-700 shrink-0">
-        <User className="size-4" strokeWidth={1.8} />
+      <div className="flex items-center justify-center w-9 h-9 rounded-md bg-rose-100/70 text-rose-700 shrink-0">
+        <User className="size-[18px]" strokeWidth={1.8} />
       </div>
       <div className="flex flex-col min-w-0">
         <div className="font-medium text-sm text-foreground truncate">
