@@ -44,7 +44,7 @@ export const serviceColumns: ColumnDef<MaintenanceService>[] = [
     accessorKey: 'discount',
     header: 'Discount ($)',
     cell: ({ row }) => (
-      <div className="text-primary">
+      <div className="text-red-600">
         <Currency amount={row.original.discount} />
       </div>
     )

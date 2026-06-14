@@ -46,7 +46,7 @@ export const itemColumns: ColumnDef<Item>[] = [
     accessorKey: 'discount',
     header: () => <div className="text-right text-nowrap">បញ្ចុះតម្លៃ ($)<br/>Discount ($)</div>,
     cell: ({ row }) => (
-      <div className="text-right tabular-nums text-neutral-600 text-nowrap">
+      <div className="text-right tabular-nums text-red-600 text-nowrap">
         {row.original.discount > 0 ? "−" : ""}
         <Currency amount={row.original.discount} />
       </div>

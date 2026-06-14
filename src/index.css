@@ -56,45 +56,46 @@
 
 :root {
   --radius: 0.75rem;
-  /* Cool off-white page bg — lets brand red be the only warm element. */
-  --background: oklch(0.985 0.004 250);
+  /* Warm cream page bg — ties to the Grantt gold. Dialed subtle via low chroma;
+     bump the chroma (e.g. 0.014 -> 0.03) to push it more yellow. */
+  --background: oklch(0.985 0.014 92);
   --foreground: oklch(0.3552 0.0321 262.99);
-  /* Surfaces are a touch off-white (not pure) so they don't shock against the page bg. */
-  --card: oklch(0.997 0.003 250);
+  /* Surfaces sit just above the cream so cards read as raised. */
+  --card: oklch(0.995 0.008 92);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(0.997 0.003 250);
+  --popover: oklch(0.995 0.008 92);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.8 0.16 82);
   --primary-foreground: oklch(0.2 0 0);
   --secondary: oklch(0.207 0.038 265.07);
   --secondary-foreground: oklch(0.9699 0.0013 106.42);
-  --muted: oklch(0.965 0.006 250);
-  --muted-foreground: oklch(0.5 0.012 250);
+  --muted: oklch(0.965 0.016 92);
+  --muted-foreground: oklch(0.5 0.02 92);
   --accent: oklch(0.8 0.16 82);
   --accent-foreground: oklch(0.2 0 0);
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: oklch(1 0 0);
-  /* Hairline border — same cool hue as bg, just darker. */
-  --border: oklch(0.93 0.005 250);
-  --input: oklch(0.93 0.005 250);
+  /* Hairline border — warm hue, just darker than bg. */
+  --border: oklch(0.92 0.016 92);
+  --input: oklch(0.92 0.016 92);
   --ring: oklch(0.708 0 0);
   /* Shaded surfaces (no extra border needed). */
-  --surface: oklch(0.975 0.005 250);
-  --surface-strong: oklch(0.955 0.007 250);
+  --surface: oklch(0.975 0.016 92);
+  --surface-strong: oklch(0.95 0.022 92);
   --chart-1: oklch(0.646 0.222 41.116);
   --chart-2: oklch(0.6 0.118 184.704);
   --chart-3: oklch(0.398 0.07 227.392);
   --chart-4: oklch(0.828 0.189 84.429);
   --chart-5: oklch(0.769 0.188 70.08);
-  --tab: oklch(0.97 0.007 248);
+  --tab: oklch(0.965 0.016 92);
   --tab-foreground: oklch(0.556 0 0);
-  --sidebar: oklch(0.955 0.006 250);
-  --sidebar-foreground: oklch(0.25 0.012 270);
+  --sidebar: oklch(0.96 0.02 92);
+  --sidebar-foreground: oklch(0.28 0.02 92);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.925 0.008 250);
+  --sidebar-accent: oklch(0.92 0.022 92);
   --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.91 0.007 250);
+  --sidebar-border: oklch(0.9 0.02 92);
   --sidebar-ring: oklch(0.708 0 0);
 }
 

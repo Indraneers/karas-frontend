@@ -120,7 +120,7 @@ export function InvoiceTable({ sale, className } : { sale: Sale, className?: str
             </TableRow>
             <TableRow>
               <TableCell colSpan={5}>Discount ($)</TableCell>
-              <TableCell className="text-right">
+              <TableCell className="text-right text-red-600">
                 <Currency amount={sale.discount} />
               </TableCell>
             </TableRow>
