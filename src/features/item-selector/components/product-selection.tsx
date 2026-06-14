@@ -62,13 +62,14 @@ export function ProductSelection({ className }: ProductSelectionProps) {
   );
 }
 
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { ProductResponseDto } from "@/features/product/types/product.dto";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { ItemImgBg } from "./item-img-bg";
+import { ProductIdentifier } from "@/features/product/components/product-identifier";
+import { ItemContextMenu } from "./item-context-menu";
 
 interface ProductSelectionCardProps {
   product: ProductResponseDto;
@@ -82,40 +83,40 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
     setProduct(product);
   }
 
+  const units = product.unitCount || 0;
+
   return (
-    <Card
-      className="group relative grid py-2 border border-border/60 w-full aspect-square overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:bg-muted/40"
-      onClick={handleClick}
-    >
-      {product.img && product.img.length > 0 && <ItemImgBg src={product.img} />}
-      <CardContent className={cn(["z-10 text-sm w-full"])}>
-        <div
-          className={cn([
-            "font-bold xl:text-sm text-xs",
-            product.img && "text-background",
-          ])}
-        >
-          {product.name}
-        </div>
-        <div
-          className={cn([
-            "group-hover:text-background flex flex-col items-start gap-1 font-medium text-background mt-2",
-          ])}
-        >
-          <Badge
-            variant="info-amber"
-            className={cn(["hidden", product.identifier && "inline-block"])}
+    <ItemContextMenu label="product" name={product.name}>
+      <Card
+        className="group relative flex flex-col h-full p-3 rounded-lg border border-border bg-card shadow-sm w-full aspect-square overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5 text-left"
+        onClick={handleClick}
+      >
+        {product.img && product.img.length > 0 && <ItemImgBg src={product.img} />}
+        {/* Name + identifier — identifier is the quick-scan target, kept prominent top-right. */}
+        <div className="z-10 flex items-start gap-1.5 min-w-0">
+          <span
+            className={cn(
+              "font-semibold text-sm text-foreground truncate flex-1",
+              product.img && "text-background"
+            )}
           >
-            {product.identifier}
-          </Badge>
-          <Badge
-            variant="info-blue"
-            className={cn([product.identifier && "mt-1"])}
-          >
-            {product.unitCount || 0} units
-          </Badge>
+            {product.name}
+          </span>
+          <ProductIdentifier
+            identifier={product.identifier}
+            className="shrink-0 text-[11px]"
+          />
         </div>
-      </CardContent>
-    </Card>
+        {/* Unit count de-emphasized at the bottom. */}
+        <div
+          className={cn(
+            "z-10 mt-auto pt-2 text-xs tabular-nums text-muted-foreground",
+            product.img && "text-background/80"
+          )}
+        >
+          {units} {units === 1 ? "unit" : "units"}
+        </div>
+      </Card>
+    </ItemContextMenu>
   );
 }

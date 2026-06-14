@@ -32,6 +32,7 @@ import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { SubcategoryResponseDto } from "@/features/subcategory/types/subcategory.dto";
 import { FilterIcon } from "@/components/filter-icon";
 import { softenColor } from "@/lib/color";
+import { ItemContextMenu } from "./item-context-menu";
 
 interface SubcategorySelectionCardProps {
   subcategory: SubcategoryResponseDto
@@ -48,10 +49,11 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
   const tint = softenColor(subcategory.color);
 
   return (
+    <ItemContextMenu label="subcategory" name={subcategory.name}>
     <Card
       className={cn(
-        "flex flex-col border border-border/60 shadow-none w-full transition cursor-pointer aspect-square group",
-        "hover:border-foreground/20"
+        "flex flex-col border border-border shadow-sm w-full transition cursor-pointer aspect-square group",
+        "hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5"
       )}
       style={tint ? { backgroundColor: tint } : undefined}
       onClick={handleClick}
@@ -76,5 +78,6 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
         </div>
       </CardFooter>
     </Card>
+    </ItemContextMenu>
   );
 }

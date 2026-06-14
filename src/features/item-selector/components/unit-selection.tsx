@@ -83,6 +83,7 @@ import { Item } from "@/features/sale/types/item";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { Badge } from "@/components/ui/badge";
 import { ItemImgBg } from "./item-img-bg";
+import { ItemContextMenu } from "./item-context-menu";
 
 interface UnitSelectionCardProps {
   unit: Unit;
@@ -106,7 +107,8 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   const lowStock = stockCount > 0 && stockCount <= 3;
 
   return (
-    <div className="w-full aspect-square">
+    <ItemContextMenu label="unit" name={unit.product.name}>
+      <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full h-full">
           <div className="group relative flex flex-col h-full p-3 rounded-lg border border-border/60 bg-card transition cursor-pointer hover:border-foreground/20 hover:bg-muted/30 text-left overflow-hidden">
@@ -155,7 +157,8 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
           <ItemAdder item={item} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </ItemContextMenu>
   );
 }
 
@@ -184,7 +187,8 @@ export function UnitSearchResultCard({ unit }: { unit: Unit }) {
   const lowStock = stockCount > 0 && stockCount <= 3;
 
   return (
-    <div className="w-full aspect-square">
+    <ItemContextMenu label="unit" name={unit.product.name}>
+      <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full h-full">
           <Card className="group relative flex flex-col h-full border border-border/60 bg-card overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:bg-muted/30 p-3 text-left">
@@ -225,6 +229,7 @@ export function UnitSearchResultCard({ unit }: { unit: Unit }) {
           <ItemAdder item={item} setOpen={setOpen} />
         </DialogContent>
       </Dialog>
-    </div>
+      </div>
+    </ItemContextMenu>
   );
 }

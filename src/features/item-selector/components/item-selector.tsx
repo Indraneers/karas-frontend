@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, PackageSearch } from "lucide-react";
 import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { cn } from "@/lib/utils";
@@ -166,10 +166,24 @@ export const ItemCardList = React.forwardRef<
 });
 ItemCardList.displayName = "ItemCardList";
 
-export function ItemEmpty() {
+export function ItemEmpty({
+  title = "Nothing here",
+  hint,
+}: {
+  title?: string;
+  hint?: string;
+}) {
   return (
-    <div className="place-content-center grid h-full text-md text-muted-foreground">
-      Empty
+    <div className="flex flex-col items-center justify-center gap-3 h-full text-center px-6">
+      <div className="flex items-center justify-center size-14 rounded-full bg-muted text-muted-foreground/70">
+        <PackageSearch className="size-7" strokeWidth={1.6} />
+      </div>
+      <div className="space-y-0.5">
+        <p className="text-sm font-medium text-foreground">{title}</p>
+        <p className="text-xs text-muted-foreground">
+          {hint ?? "Try a different category or search term."}
+        </p>
+      </div>
     </div>
   );
 }

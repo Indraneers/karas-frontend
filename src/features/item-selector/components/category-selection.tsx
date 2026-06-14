@@ -35,6 +35,7 @@ import { useItemSelectionStore } from "../store/item-selection";
 import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { FilterIcon } from "@/components/filter-icon";
 import { softenColor } from "@/lib/color";
+import { ItemContextMenu } from "./item-context-menu";
 
 interface CategorySelectionCardProps {
   category: CategoryDto;
@@ -53,10 +54,11 @@ export function CategorySelectionCard({
   const tint = softenColor(category.color);
 
   return (
+    <ItemContextMenu label="category" name={category.name}>
     <Card
       className={cn(
-        "flex flex-col border border-border/60 shadow-none w-full transition cursor-pointer aspect-square group",
-        "hover:border-foreground/20"
+        "flex flex-col border border-border shadow-sm w-full transition cursor-pointer aspect-square group",
+        "hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5"
       )}
       style={tint ? { background: tint } : undefined}
       onClick={handleClick}
@@ -79,5 +81,6 @@ export function CategorySelectionCard({
         </div>
       </CardFooter>
     </Card>
+    </ItemContextMenu>
   );
 }
