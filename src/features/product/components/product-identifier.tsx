@@ -5,7 +5,7 @@ export function ProductIdentifier({ identifier, className } : { identifier?: str
   return (
     <span
       className={cn(
-        "inline-flex items-center px-1.5 py-0.5 rounded text-[10px] font-semibold uppercase tracking-wider bg-amber-100/70 text-amber-900",
+        "inline-flex items-center px-1.5 py-0.5 rounded-md text-[10px] font-semibold uppercase tracking-wider bg-amber-100/70 text-amber-900",
         className
       )}
     >

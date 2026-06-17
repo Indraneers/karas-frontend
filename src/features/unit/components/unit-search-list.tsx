@@ -2,7 +2,7 @@ import { cn } from "@/lib/utils";
 import { UnitResponseDto } from "../types/unit.dto";
 import { Box } from "lucide-react";
 import { ProductTypeBadge } from "@/features/product/components/product-type-badge";
-import { UnitDtoQuantityBadge } from "./unit-quantity-badge";
+import { UnitQuantityBadge } from "./unit-quantity-badge";
 import { convertBaseQuantityToDisplayQuantity } from "../util/convert";
 import { SearchLoading } from "@/components/search-loading";
 import { FilterIcon } from "@/components/filter-icon";
@@ -18,7 +18,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
 
   return (
     <div className="group items-center gap-2 grid grid-cols-[auto_1fr] hover:bg-accent p-1 rounded-md cursor-pointer">
-      <div className="self-stretch group-hover:bg-background p-2 border-2 border-accent rounded h-10 aspect-square">
+      <div className="self-stretch group-hover:bg-background p-2 border-2 border-accent rounded-md h-10 aspect-square">
         { !unit.subcategoryImg ?
           <Box className="w-full h-full text-accent" />
           :
@@ -39,7 +39,7 @@ export function UnitSearchItem({ unit } : { unit: UnitResponseDto}) {
             }
           </div>
           <div className="shrink-0">
-            <UnitDtoQuantityBadge 
+            <UnitQuantityBadge
               variable={product.variable}
               baseUnit={product.baseUnit}
               quantity={unit.quantity}

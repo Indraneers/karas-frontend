@@ -31,7 +31,7 @@ function IconInput({ className, type, icon, iconProps, ...props }: InputProps) {
   return (
     <div
       className={cn(
-        "flex justify-center items-center bg-white disabled:opacity-50 shadow-sm m-0 p-0 px-3 py-0 border border-border rounded-md focus-within:outline-none focus-within:ring-1 focus-within:ring-ring text-sm transition-colors disabled:cursor-not-allowed",
+        "flex justify-center items-center bg-white disabled:opacity-50 shadow-sm m-0 p-0 px-3 py-0 border border-border rounded-lg focus-within:outline-none focus-within:ring-1 focus-within:ring-ring text-sm transition-colors disabled:cursor-not-allowed",
         className,
       )}
     >
