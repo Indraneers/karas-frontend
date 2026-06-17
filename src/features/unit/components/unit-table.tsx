@@ -59,13 +59,13 @@ export function UnitQuantityCell({ product, quantity, toBaseUnit }: UnitQuantity
       {
         product.variable &&
       <>
-        {convertVariableQuantityToDiscreteQuantity(toBaseUnit, quantity)} Qty
+        {convertVariableQuantityToDiscreteQuantity(quantity, toBaseUnit)} Qty
         {' '}({convertVariableQuantityToDisplayQuantity(quantity)}{product.baseUnit})
       </>
       }
       {
         !product.variable &&
-      <>{convertVariableQuantityToDiscreteQuantity(toBaseUnit, quantity)} Qty</>
+      <>{convertVariableQuantityToDiscreteQuantity(quantity, toBaseUnit)} Qty</>
       }
     </>
   );

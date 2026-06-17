@@ -7,7 +7,6 @@ import { UnitResponseDto, UnitRequestDto } from "../types/unit.dto";
 import { UnitForm } from "../components/unit-form";
 import { Unit } from "../types/unit";
 import { Item } from "@/features/sale/types/item";
-import { RestockItem } from "@/features/restock/types/restock-item";
 
 const UNIVERSAL_BASE_UNIT_QTY = 1000;
 
@@ -126,7 +125,6 @@ export function convertDisplayQuantityToVariableQuantity(displayQuantity: number
 } 
 
 export function convertDiscreteQuantityToVariableQuantity(discreteQuantity: number | string, toBaseUnit: number): number {
-  console.log(discreteQuantity, toBaseUnit);
   return Math.trunc(Number(discreteQuantity) * (toBaseUnit || 1000));
 }
 
@@ -149,8 +147,3 @@ export function getQuantityFromItem(item: Item): number {
   return getQuantity(item.quantity, unit.toBaseUnit, product.variable);
 }
 
-export function getQuantityFromRestockItem(restockItem: RestockItem) : number {
-  const unit = restockItem.unit;
-  
-  return convertVariableQuantityToDiscreteQuantity(restockItem.quantity, unit.toBaseUnit);
-}

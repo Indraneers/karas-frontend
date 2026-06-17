@@ -516,7 +516,6 @@ export function Numpad({
       else {
         qtyString = (newInput + key);
         if (isDiscreteQuantity)  {
-          console.log('HEY');
           variableQty = convertDiscreteQuantityToVariableQuantity(qtyString, unit.toBaseUnit);
         }
         else {
