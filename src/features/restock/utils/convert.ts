@@ -15,6 +15,7 @@ export function convertRestockToRestockDto(restock: Restock): RestockRequestDto 
   return {
     id: restock.id,
     userId: restock.user.id,
+    note: restock.note,
     items: restockItemDtos
   };
 }

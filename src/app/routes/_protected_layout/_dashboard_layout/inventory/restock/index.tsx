@@ -14,6 +14,7 @@ import { ProductRequestDto } from '@/features/product/types/product.dto';
 import { createRestock } from '@/features/restock/api/restock';
 import { RestockHeaderElement } from '@/features/restock/components/RestockHeaderElement';
 import { RestockItemElement, RestockItemList } from '@/features/restock/components/RestockItemList';
+import { RestockUnitDeltas } from '@/features/restock/components/RestockUnitDeltas';
 import { Restock } from '@/features/restock/types/restock';
 import { RestockItem } from '@/features/restock/types/restock-item';
 import { RestockRequestDto } from '@/features/restock/types/restock.dto';
@@ -24,7 +25,7 @@ import { UnitSearch } from '@/features/unit/components/unit-search';
 import { UnitSearchList } from '@/features/unit/components/unit-search-list';
 import { Unit } from '@/features/unit/types/unit';
 import { UnitResponseDto } from '@/features/unit/types/unit.dto';
-import { convertUnitDtoToUnit, getQuantityFromRestockItem } from '@/features/unit/util/convert';
+import { convertUnitDtoToUnit } from '@/features/unit/util/convert';
 import { useInfiniteSearch } from '@/hooks/use-infinite-search';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { createFileRoute, useNavigate } from '@tanstack/react-router';
@@ -42,6 +43,7 @@ function RestockPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const [restockItems, setRestockItems] = useState<RestockItem[]>([]);
+  const [note, setNote] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
 
   const { q, setQ, isLoading, data, totalElements, fetchNextPage, hasNextPage } = useInfiniteSearch({
@@ -91,18 +93,6 @@ function RestockPage() {
       return arr;
     }, []);
 
-  const unitQtyRestocked = restockItems
-    .filter(ri => ri.status === StockUpdate.RESTOCK)
-    .reduce((total, curr) => {
-      return total + getQuantityFromRestockItem(curr);
-    }, 0);
-
-  const unitQtyDeducted = restockItems
-    .filter(ri => (ri.status === StockUpdate.DEDUCT || ri.status === StockUpdate.LOST))
-    .reduce((total, curr) => {
-      return total + getQuantityFromRestockItem(curr);
-    }, 0);
-
   const restockMutation = useMutation({
     mutationFn: (restockDto: RestockRequestDto) => createRestock(restockDto),
     onSuccess: () => {
@@ -146,6 +136,7 @@ function RestockPage() {
         username: user?.name || '',
         id: user?.sub || ''
       },
+      note,
       items: restockItems
     };
 
@@ -168,7 +159,12 @@ function RestockPage() {
               <Label>
                 Note
               </Label>
-              <Textarea className='w-[300px]' rows={3} />
+              <Textarea
+                className='w-[300px]'
+                rows={3}
+                value={note}
+                onChange={(e) => setNote(e.target.value)}
+              />
             </div>
           </div>
 
@@ -176,29 +172,30 @@ function RestockPage() {
 
           <div>
             <TypographyH2>Restock Information</TypographyH2>
-            <div className='gap-4 grid grid-cols-3 grid-rows-2 pt-4'>
-              <RestockHeaderElement label='Product Affected'>
+            <div className='gap-4 grid grid-cols-[1fr_1fr_2fr] grid-rows-2 pt-4'>
+              <RestockHeaderElement label='Products Affected'>
                 {products.length} Products
-              </RestockHeaderElement>
-            
-              <RestockHeaderElement label='Unit Restocked' color='GREEN'>
-              +{unitsRestocked.length} Units
-              </RestockHeaderElement>
-
-              <RestockHeaderElement label='Total Quantity Restocked' color='GREEN'>
-              +{unitQtyRestocked.toFixed(2)}
               </RestockHeaderElement>
 
               <RestockHeaderElement label='Units Affected'>
                 {units.length} Units
               </RestockHeaderElement>
 
-              <RestockHeaderElement label='Unit Deducted/Lost' color='RED'>
-              -{unitsDeducted.length} Units
+              <div className='row-span-2'>
+                <div className='text-muted-foreground text-xs xl:text-sm capitalize'>
+                  Quantity Changes by Unit
+                </div>
+                <div className='mt-2'>
+                  <RestockUnitDeltas restockItems={restockItems} />
+                </div>
+              </div>
+
+              <RestockHeaderElement label='Units Restocked' color='GREEN'>
+              +{unitsRestocked.length} Units
               </RestockHeaderElement>
 
-              <RestockHeaderElement label='Total Quantity Deducted/Lost' color='RED'>
-              -{unitQtyDeducted.toFixed(2)}
+              <RestockHeaderElement label='Units Deducted/Lost' color='RED'>
+              -{unitsDeducted.length} Units
               </RestockHeaderElement>
             </div>
           </div>
@@ -233,27 +230,30 @@ function RestockPage() {
               </PopoverContent>
             </Popover>
           </div>
-          <Button onClick={() => submitRestock()}>
+          <Button
+            onClick={() => submitRestock()}
+            disabled={restockItems.length === 0 || restockMutation.isPending}
+          >
             <Check />
-            Restock
+            {restockMutation.isPending ? 'Restocking…' : 'Restock'}
           </Button>
         </div>
         <div className='grow py-4'>
           <div className='relative h-full'>
             <RestockItemList className='absolute inset-0 pr-4'>
-              {!restockItems && 
+              {restockItems.length === 0 &&
             <div className='place-content-center grid w-full h-full text-muted-foreground text-center'>
               Add a unit to get started
             </div>
               }
               {
-                restockItems &&
+                restockItems.length > 0 &&
             restockItems.map((r, i) => (
-              <RestockItemElement 
-                updateRestockItem={updateRestockItem} 
+              <RestockItemElement
+                updateRestockItem={updateRestockItem}
                 removeRestockItem={removeRestockItem}
-                restockItem={r} 
-                key={i} 
+                restockItem={r}
+                key={i}
               />
             ))
               }
