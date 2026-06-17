@@ -116,9 +116,9 @@ function ServiceItem({ service }: { service: ServiceSelectorItem }) {
     >
       <span
         className={cn(
-          "flex items-center justify-center size-9 rounded-lg shrink-0 transition-colors",
+          "flex items-center justify-center size-9 rounded-md shrink-0 transition-colors",
           isSelected
-            ? "bg-primary text-primary-foreground"
+            ? "bg-primary text-white"
             : "bg-muted text-muted-foreground"
         )}
       >

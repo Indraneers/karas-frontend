@@ -56,14 +56,14 @@
 
 :root {
   --radius: 0.75rem;
-  /* Warm cream page bg — ties to the Grantt gold. Dialed subtle via low chroma;
-     bump the chroma (e.g. 0.014 -> 0.03) to push it more yellow. */
-  --background: oklch(0.985 0.014 92);
+  /* Soft warm-white page bg — dropped a step below the cards so cards lift off
+     the page. Hue nudged to 90 to align with the Grantt gold (hue ~82). */
+  --background: oklch(0.972 0.010 90);
   --foreground: oklch(0.3552 0.0321 262.99);
-  /* Surfaces sit just above the cream so cards read as raised. */
-  --card: oklch(0.995 0.008 92);
+  /* Cards sit at near-pure white so they clearly read as raised. */
+  --card: oklch(0.999 0.004 90);
   --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(0.995 0.008 92);
+  --popover: oklch(0.999 0.004 90);
   --popover-foreground: oklch(0.145 0 0);
   --primary: oklch(0.8 0.16 82);
   --primary-foreground: oklch(0.2 0 0);
