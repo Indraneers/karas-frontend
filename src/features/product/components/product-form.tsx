@@ -70,11 +70,20 @@ interface ProductFormProps {
     file?: File;
   }) => Promise<unknown>;
   data?: ProductRequestDto | undefined;
+  /** When rendered inside a sheet, skip page navigation on submit. */
+  isSheet?: boolean;
+  /** Existing POS icon URL to preview when editing. */
+  existingImg?: string;
+  /** Disable the submit button while the mutation is in flight. */
+  isSubmitting?: boolean;
 }
 
 export function ProductForm({
   data = defaultData,
-  handleSubmit
+  handleSubmit,
+  isSheet = false,
+  existingImg,
+  isSubmitting = false
 }: ProductFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
@@ -88,9 +97,11 @@ export function ProductForm({
     const { file, ...productDto } = values;
     try {
       await handleSubmit({ productDto, file });
-      form.reset();
-      navigate({ to: "/inventory/products" });
-      router.invalidate();
+      if (!isSheet) {
+        form.reset();
+        navigate({ to: "/inventory/products" });
+        router.invalidate();
+      }
     }
     catch (error: unknown) {
       handleFormError(error, form);
@@ -113,7 +124,7 @@ export function ProductForm({
                 <FormLabel>Product Name</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-[300px]"
+                    className={isSheet ? "w-full" : "w-[300px]"}
                     placeholder="Ex: TW ProTech F-1"
                     {...field}
                   />
@@ -133,7 +144,7 @@ export function ProductForm({
                 <FormLabel>Product Identifier</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-[200px]"
+                    className={isSheet ? "w-full" : "w-[200px]"}
                     placeholder="Ex: API SP SAE 5W-30"
                     {...field}
                   />
@@ -172,10 +183,11 @@ export function ProductForm({
             name="file"
             label="Set POS Icon"
             className="mt-6"
+            initialPreviewUrl={existingImg}
           />
         </FormGroup>
         <FormGroup title="Stock Information">
-          <div className="items-center gap-8 grid grid-cols-3 mt-4">
+          <div className={isSheet ? "items-center gap-4 grid grid-cols-1 mt-4" : "items-center gap-8 grid grid-cols-3 mt-4"}>
             <FormField
               control={form.control}
               name="variable"
@@ -218,7 +230,9 @@ export function ProductForm({
             />
           </div>
         </FormGroup>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSubmitting} className={isSheet ? "w-full" : undefined}>
+          {isSubmitting ? "Saving…" : "Submit"}
+        </Button>
       </form>
     </Form>
   );

@@ -36,6 +36,8 @@ import { ItemSelectionEnum } from "../types/item-selection-enum";
 import { FilterIcon } from "@/components/filter-icon";
 import { softenColor } from "@/lib/color";
 import { ItemContextMenu } from "./item-context-menu";
+import { useState } from "react";
+import { CategoryFormSheet } from "@/features/category/components/category-form-sheet";
 
 interface CategorySelectionCardProps {
   category: CategoryDto;
@@ -45,6 +47,7 @@ export function CategorySelectionCard({
   category,
 }: CategorySelectionCardProps) {
   const { setSelector, setCategory } = useItemSelectionStore();
+  const [editOpen, setEditOpen] = useState(false);
 
   function handleClick() {
     setSelector(ItemSelectionEnum.SUBCATEGORY);
@@ -54,7 +57,8 @@ export function CategorySelectionCard({
   const tint = softenColor(category.color);
 
   return (
-    <ItemContextMenu label="category" name={category.name}>
+    <>
+    <ItemContextMenu label="category" name={category.name} onEdit={() => setEditOpen(true)}>
     <Card
       className={cn(
         "flex flex-col border border-border shadow-sm w-full transition cursor-pointer aspect-square group",
@@ -82,5 +86,12 @@ export function CategorySelectionCard({
       </CardFooter>
     </Card>
     </ItemContextMenu>
+    <CategoryFormSheet
+      open={editOpen}
+      onOpenChange={setEditOpen}
+      categoryId={category.id}
+      existingImg={category.img}
+    />
+    </>
   );
 }

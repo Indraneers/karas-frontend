@@ -1,11 +1,12 @@
 import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Edit } from "lucide-react";
+import { useState } from "react";
 import { UnitResponseDto } from "../types/unit.dto";
 import { Unit } from "../types/unit";
 import { DropdownActionItem } from "@/types/context-options";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { UnitFormSheet } from "./unit-form-sheet";
 
 interface UnitActionsProps {
   value: Unit;
@@ -14,7 +15,7 @@ interface UnitActionsProps {
 
 export function UnitActions({ value, handleDelete }: UnitActionsProps) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const [editOpen, setEditOpen] = useState(false);
   const mutation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["units"] }),
@@ -23,8 +24,8 @@ export function UnitActions({ value, handleDelete }: UnitActionsProps) {
   const dropdownActionItems: DropdownActionItem<Unit>[] = [
     {
       key: 1,
-      onClick: (unit) => {
-        navigate({ to: `/inventory/units/edit/` + unit.id });
+      onClick: () => {
+        setEditOpen(true);
       },
       content: (
         <>
@@ -45,10 +46,18 @@ export function UnitActions({ value, handleDelete }: UnitActionsProps) {
   ];
 
   return (
-    <DropdownAction
-      label="Unit Actions"
-      items={dropdownActionItems}
-      value={value}
-    />
+    <>
+      <DropdownAction
+        label="Unit Actions"
+        items={dropdownActionItems}
+        value={value}
+      />
+      <UnitFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        unitId={value.id}
+        existingImg={value.img}
+      />
+    </>
   );
 }

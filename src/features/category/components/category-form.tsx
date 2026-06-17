@@ -18,6 +18,7 @@ import { CategoryDto } from "../types/category.dto";
 import { useEffect } from "react";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 import { ColorPicker } from "@/components/color-picker";
+import { ImageCropperFormField } from "@/components/ui/img-cropper";
 
 const formSchema = z.object({
   id: z.string(),
@@ -50,11 +51,20 @@ interface CategoryFormProps {
     file?: File;
   }) => void;
   data?: CategoryDto | undefined;
+  /** When rendered inside a sheet, skip page navigation on submit. */
+  isSheet?: boolean;
+  /** Existing POS icon URL to preview when editing. */
+  existingImg?: string;
+  /** Disable the submit button while the mutation is in flight. */
+  isSubmitting?: boolean;
 }
 
 export function CategoryForm({
   data = defaultData,
   handleSubmit = console.log,
+  isSheet = false,
+  existingImg,
+  isSubmitting = false,
 }: CategoryFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
@@ -67,9 +77,11 @@ export function CategoryForm({
   function onSubmit(values: z.infer<typeof formSchema>) {
     const { file, ...categoryDto } = values;
     handleSubmit({ categoryDto, file });
-    form.reset();
-    navigate({ to: "/inventory/categories" });
-    router.invalidate();
+    if (!isSheet) {
+      form.reset();
+      navigate({ to: "/inventory/categories" });
+      router.invalidate();
+    }
   }
 
   useEffect(() => {
@@ -88,7 +100,7 @@ export function CategoryForm({
                 <FormLabel>Category Name</FormLabel>
                 <FormControl>
                   <Input
-                    className="w-[500px]"
+                    className={isSheet ? "w-full" : "w-[500px]"}
                     placeholder="Ex: Engine Oil"
                     {...field}
                   />
@@ -100,25 +112,12 @@ export function CategoryForm({
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
+          <ImageCropperFormField
+            form={form}
             name="file"
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-4">
-                <FormLabel>Set POS Icon</FormLabel>
-                <Input
-                  {...fieldProps}
-                  id="picture"
-                  type="file"
-                  className="py-1.5 w-[300px] cursor-pointer"
-                  accept="image/*"
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
-                />
-              </FormItem>
-            )}
+            label="Set POS Icon"
+            className="mt-4"
+            initialPreviewUrl={existingImg}
           />
           <FormField
             control={form.control}
@@ -136,7 +135,9 @@ export function CategoryForm({
             )}
           />
         </FormGroup>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSubmitting} className={isSheet ? "w-full" : undefined}>
+          {isSubmitting ? "Saving…" : "Submit"}
+        </Button>
       </form>
     </Form>
   );

@@ -50,9 +50,21 @@ const defaultData: UnitForm = {
 interface UnitFormProps {
   handleSubmit: ({ unitDto, file } : { unitDto: UnitRequestDto, file?: File }) => void;
   data?: UnitForm | undefined;
+  /** When rendered inside a sheet, skip page navigation on submit. */
+  isSheet?: boolean;
+  /** Existing POS icon URL to preview when editing. */
+  existingImg?: string;
+  /** Disable the submit button while the mutation is in flight. */
+  isSubmitting?: boolean;
 }
 
-export function UnitForm({ data = defaultData, handleSubmit = console.log }: UnitFormProps) {
+export function UnitForm({
+  data = defaultData,
+  handleSubmit = console.log,
+  isSheet = false,
+  existingImg,
+  isSubmitting = false
+}: UnitFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
@@ -80,9 +92,11 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
     const { file, ...unit } = values;
     const unitDto = convertUnitFormToUnitDto(unit, product.variable);
     handleSubmit({ unitDto, file });
-    form.reset();
-    navigate({ to: '/inventory/units', replace: true });
-    router.invalidate();
+    if (!isSheet) {
+      form.reset();
+      navigate({ to: '/inventory/units', replace: true });
+      router.invalidate();
+    }
   }
 
   useEffect(() => {
@@ -93,7 +107,7 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10 pb-6">
         <FormGroup title="General Information">
-          <div className='gap-8 grid grid-cols-3'>
+          <div className={isSheet ? 'grid grid-cols-1' : 'gap-8 grid grid-cols-3'}>
             <FormField
               control={form.control}
               name="name"
@@ -131,15 +145,16 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
               </FormItem>
             )}
           />
-          <ImageCropperFormField 
+          <ImageCropperFormField
             form={form}
             name="file"
             label="Set POS Icon"
             className="mt-6"
+            initialPreviewUrl={existingImg}
           />
         </FormGroup>
         <FormGroup title="Stock Information (Quantity and Price)">
-          <div className="items-center gap-8 grid grid-cols-3">
+          <div className={isSheet ? 'items-center gap-4 grid grid-cols-2' : 'items-center gap-8 grid grid-cols-3'}>
             <FormField
               control={form.control}
               name="price"
@@ -200,8 +215,10 @@ export function UnitForm({ data = defaultData, handleSubmit = console.log }: Uni
         </FormGroup>
         <Button
           type="submit"
+          disabled={isSubmitting}
+          className={isSheet ? 'w-full' : undefined}
         >
-          Submit
+          {isSubmitting ? 'Saving…' : 'Submit'}
         </Button>
       </form>
     </Form>

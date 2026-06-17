@@ -15,6 +15,7 @@ import { SubcategoryRequestDto } from "../types/subcategory.dto";
 import { ACCEPTED_IMAGE_TYPES } from "@/lib/file";
 import { handleFormError } from "@/lib/form-error";
 import { ColorPicker } from "@/components/color-picker";
+import { ImageCropperFormField } from "@/components/ui/img-cropper";
 
 const formSchema = z.object({
   id: z.string(),
@@ -37,9 +38,21 @@ const defaultData: SubcategoryRequestDto = {
 interface SubcategoryFormProps {
   handleSubmit: ({ scDto, file } : { scDto: SubcategoryRequestDto, file?: File}) => Promise<unknown>;
   data?: SubcategoryRequestDto | undefined;
+  /** When rendered inside a sheet, skip page navigation on submit. */
+  isSheet?: boolean;
+  /** Existing POS icon URL to preview when editing. */
+  existingImg?: string;
+  /** Disable the submit button while the mutation is in flight. */
+  isSubmitting?: boolean;
 }
 
-export function SubcategoryForm({ data = defaultData, handleSubmit } : SubcategoryFormProps) {
+export function SubcategoryForm({
+  data = defaultData,
+  handleSubmit,
+  isSheet = false,
+  existingImg,
+  isSubmitting = false
+} : SubcategoryFormProps) {
   const navigate = useNavigate();
   const router = useRouter();
 
@@ -52,9 +65,11 @@ export function SubcategoryForm({ data = defaultData, handleSubmit } : Subcatego
     const { file, ...scDto } = values;
     try {
       await handleSubmit({ scDto, file });
-      form.reset();
-      navigate({ to: '/inventory/subcategories' });
-      router.invalidate();
+      if (!isSheet) {
+        form.reset();
+        navigate({ to: '/inventory/subcategories' });
+        router.invalidate();
+      }
     }
     catch(error: unknown) {
       handleFormError(error, form);
@@ -76,7 +91,7 @@ export function SubcategoryForm({ data = defaultData, handleSubmit } : Subcatego
               <FormItem>
                 <FormLabel>Subcategory Name</FormLabel>
                 <FormControl>
-                  <Input className="w-[800px]" placeholder="Ex: Diesel Engine Oil" {...field} />
+                  <Input className={isSheet ? "w-full" : "w-[800px]"} placeholder="Ex: Diesel Engine Oil" {...field} />
                 </FormControl>
                 <FormDescription>
                 Set the subcategory name. Min. 3 Max. 50
@@ -85,26 +100,14 @@ export function SubcategoryForm({ data = defaultData, handleSubmit } : Subcatego
               </FormItem>
             )}
           />
-          <FormField 
-            control={form.control}
+          <ImageCropperFormField
+            form={form}
             name="file"
-            render={({ field: { value, onChange, ...fieldProps } }) => (
-              <FormItem className="mt-4">
-                <FormLabel>Set POS Icon</FormLabel>
-                <Input 
-                  {...fieldProps}
-                  id="picture" 
-                  type="file"
-                  className="w-[300px] cursor-pointer"
-                  accept="image/*"
-                  onChange={(event) =>
-                    onChange(event.target.files && event.target.files[0])
-                  }
-                />
-              </FormItem>
-            )}
+            label="Set POS Icon"
+            className="mt-4"
+            initialPreviewUrl={existingImg}
           />
-          <FormField 
+          <FormField
             control={form.control}
             name="color"
              
@@ -144,10 +147,12 @@ export function SubcategoryForm({ data = defaultData, handleSubmit } : Subcatego
             )}
           />
         </FormGroup>
-        <Button 
+        <Button
           type="submit"
+          disabled={isSubmitting}
+          className={isSheet ? "w-full" : undefined}
         >
-          Submit
+          {isSubmitting ? "Saving…" : "Submit"}
         </Button>
       </form>
     </Form>

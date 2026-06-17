@@ -1,15 +1,18 @@
 import { Button } from "@/components/ui/button";
-import { useNavigate } from "@tanstack/react-router";
 import { Plus } from "lucide-react";
+import { useState } from "react";
+import { SubcategoryFormSheet } from "./subcategory-form-sheet";
 
 export function NewSubcategoryButton() {
-  const navigate = useNavigate();
+  const [open, setOpen] = useState(false);
+
   return (
-    <Button 
-      onClick={() => navigate({ to: 'create' })}
-    >
-      <span><Plus className='font-bold' size={16} /></span>
-      New Subcategory
-    </Button>
+    <>
+      <Button onClick={() => setOpen(true)}>
+        <span><Plus className='font-bold' size={16} /></span>
+        New Subcategory
+      </Button>
+      <SubcategoryFormSheet open={open} onOpenChange={setOpen} />
+    </>
   );
 }

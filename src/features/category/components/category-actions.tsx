@@ -1,11 +1,12 @@
 import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Edit } from "lucide-react";
+import { useState } from "react";
 import { CategoryDto } from "../types/category.dto";
 import { Category } from "../types/category";
 import { DropdownActionItem } from "@/types/context-options";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { CategoryFormSheet } from "./category-form-sheet";
 
 interface CategoryActionsProps {
   value: Category;
@@ -14,7 +15,7 @@ interface CategoryActionsProps {
 
 export function CategoryActions({ value, handleDelete }: CategoryActionsProps) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const [editOpen, setEditOpen] = useState(false);
   const mutation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
     onSuccess: () =>
@@ -24,8 +25,8 @@ export function CategoryActions({ value, handleDelete }: CategoryActionsProps) {
   const dropdownActionItems: DropdownActionItem<Category>[] = [
     {
       key: 1,
-      onClick: (category) => {
-        navigate({ to: `/inventory/categories/edit/` + category.id });
+      onClick: () => {
+        setEditOpen(true);
       },
       content: (
         <>
@@ -46,10 +47,18 @@ export function CategoryActions({ value, handleDelete }: CategoryActionsProps) {
   ];
 
   return (
-    <DropdownAction
-      label="Category Actions"
-      items={dropdownActionItems}
-      value={value}
-    />
+    <>
+      <DropdownAction
+        label="Category Actions"
+        items={dropdownActionItems}
+        value={value}
+      />
+      <CategoryFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        categoryId={value.id}
+        existingImg={value.img}
+      />
+    </>
   );
 }

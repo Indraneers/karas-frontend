@@ -33,6 +33,8 @@ import { SubcategoryResponseDto } from "@/features/subcategory/types/subcategory
 import { FilterIcon } from "@/components/filter-icon";
 import { softenColor } from "@/lib/color";
 import { ItemContextMenu } from "./item-context-menu";
+import { useState } from "react";
+import { SubcategoryFormSheet } from "@/features/subcategory/components/subcategory-form-sheet";
 
 interface SubcategorySelectionCardProps {
   subcategory: SubcategoryResponseDto
@@ -40,6 +42,7 @@ interface SubcategorySelectionCardProps {
 
 export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCardProps) {
   const { setSelector, setSubcategory } = useItemSelectionStore();
+  const [editOpen, setEditOpen] = useState(false);
 
   function handleClick() {
     setSelector(ItemSelectionEnum.PRODUCT);
@@ -49,7 +52,8 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
   const tint = softenColor(subcategory.color);
 
   return (
-    <ItemContextMenu label="subcategory" name={subcategory.name}>
+    <>
+    <ItemContextMenu label="subcategory" name={subcategory.name} onEdit={() => setEditOpen(true)}>
     <Card
       className={cn(
         "flex flex-col border border-border shadow-sm w-full transition cursor-pointer aspect-square group",
@@ -79,5 +83,12 @@ export function SubcategorySelectionCard({ subcategory }: SubcategorySelectionCa
       </CardFooter>
     </Card>
     </ItemContextMenu>
+    <SubcategoryFormSheet
+      open={editOpen}
+      onOpenChange={setEditOpen}
+      subcategoryId={subcategory.id}
+      existingImg={subcategory.img}
+    />
+    </>
   );
 }

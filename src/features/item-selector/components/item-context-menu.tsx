@@ -9,8 +9,8 @@ import { toast } from "sonner";
 
 /**
  * Wraps a selection card so right-clicking it opens an "Edit" action.
- * The edit sheet isn't built yet — for now the action is a placeholder toast.
- * Pass `onEdit` later to open the update sheet.
+ * Pass `onEdit` to open the update sheet; without it the action falls back to a
+ * "coming soon" toast.
  */
 export function ItemContextMenu({
   label,

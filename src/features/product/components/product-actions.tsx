@@ -1,11 +1,12 @@
 import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Edit } from "lucide-react";
+import { useState } from "react";
 import { ProductResponseDto } from "../types/product.dto";
 import { Product } from "../types/product";
 import { DropdownActionItem } from "@/types/context-options";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { ProductFormSheet } from "./product-form-sheet";
 
 interface ProductActionsProps {
   value: Product;
@@ -14,7 +15,7 @@ interface ProductActionsProps {
 
 export function ProductActions({ value, handleDelete }: ProductActionsProps) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const [editOpen, setEditOpen] = useState(false);
   const mutation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
@@ -23,8 +24,8 @@ export function ProductActions({ value, handleDelete }: ProductActionsProps) {
   const dropdownActionItems: DropdownActionItem<Product>[] = [
     {
       key: 1,
-      onClick: (product) => {
-        navigate({ to: `/inventory/products/edit/` + product.id });
+      onClick: () => {
+        setEditOpen(true);
       },
       content: (
         <>
@@ -45,10 +46,18 @@ export function ProductActions({ value, handleDelete }: ProductActionsProps) {
   ];
 
   return (
-    <DropdownAction
-      label="Product Actions"
-      items={dropdownActionItems}
-      value={value}
-    />
+    <>
+      <DropdownAction
+        label="Product Actions"
+        items={dropdownActionItems}
+        value={value}
+      />
+      <ProductFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        productId={value.id}
+        existingImg={value.img}
+      />
+    </>
   );
 }

@@ -87,7 +87,7 @@ export function ProductDetailedSearch({
             variant="outline"
             role="combobox"
             aria-expanded={open}
-            className={cn(["justify-between w-[500px] h-9"])}
+            className={cn(["justify-between w-full h-9"])}
           >
             {value
               ? entity
@@ -97,7 +97,10 @@ export function ProductDetailedSearch({
             <ChevronsUpDown className="opacity-50 ml-2 w-4 h-4 shrink-0" />
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="p-0 w-[500px]">
+        <PopoverContent
+          className="p-0"
+          style={{ width: 'var(--radix-popover-trigger-width)' }}
+        >
           <ProductSearch
             className="shadow-none border-none rounded-none rounded-t-md outline-none ring-0 focus-within:ring-0 h-10"
             value={q}

@@ -84,6 +84,7 @@ import { ProductIdentifier } from "@/features/product/components/product-identif
 import { Badge } from "@/components/ui/badge";
 import { ItemImgBg } from "./item-img-bg";
 import { ItemContextMenu } from "./item-context-menu";
+import { UnitFormSheet } from "@/features/unit/components/unit-form-sheet";
 
 interface UnitSelectionCardProps {
   unit: Unit;
@@ -91,6 +92,7 @@ interface UnitSelectionCardProps {
 
 export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
 
   if (!unit.id) return null;
 
@@ -107,7 +109,8 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
   const lowStock = stockCount > 0 && stockCount <= 3;
 
   return (
-    <ItemContextMenu label="unit" name={unit.product.name}>
+    <>
+    <ItemContextMenu label="unit" name={unit.product.name} onEdit={() => setEditOpen(true)}>
       <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full h-full">
@@ -159,6 +162,13 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
       </Dialog>
       </div>
     </ItemContextMenu>
+    <UnitFormSheet
+      open={editOpen}
+      onOpenChange={setEditOpen}
+      unitId={unit.id}
+      existingImg={unit.img}
+    />
+    </>
   );
 }
 
@@ -170,6 +180,7 @@ export function UnitSelectionCard({ unit }: UnitSelectionCardProps) {
  */
 export function UnitSearchResultCard({ unit }: { unit: Unit }) {
   const [open, setOpen] = useState(false);
+  const [editOpen, setEditOpen] = useState(false);
   if (!unit.id) return null;
 
   const item: Item = {
@@ -187,7 +198,8 @@ export function UnitSearchResultCard({ unit }: { unit: Unit }) {
   const lowStock = stockCount > 0 && stockCount <= 3;
 
   return (
-    <ItemContextMenu label="unit" name={unit.product.name}>
+    <>
+    <ItemContextMenu label="unit" name={unit.product.name} onEdit={() => setEditOpen(true)}>
       <div className="w-full aspect-square">
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger className="w-full h-full">
@@ -231,5 +243,12 @@ export function UnitSearchResultCard({ unit }: { unit: Unit }) {
       </Dialog>
       </div>
     </ItemContextMenu>
+    <UnitFormSheet
+      open={editOpen}
+      onOpenChange={setEditOpen}
+      unitId={unit.id}
+      existingImg={unit.img}
+    />
+    </>
   );
 }

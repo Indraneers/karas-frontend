@@ -4,10 +4,11 @@ import { Category } from "@/features/category/types/category";
 import { DataTableAutoPagination } from "@/components/data-table-pagination";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
+import { useState } from "react";
 import { Edit } from "lucide-react";
 import { deleteCategory } from "../../api/category";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { CategoryFormSheet } from "../category-form-sheet";
 
 interface CategoryTablePage {
   className?: string;
@@ -21,7 +22,7 @@ export function CategoryTable({
   categories,
 }: CategoryTablePage) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const [editCategory, setEditCategory] = useState<Category | null>(null);
   const mutation = useMutation({
     mutationFn: async (id: string) => deleteCategory(id),
     onSuccess: () =>
@@ -32,7 +33,7 @@ export function CategoryTable({
     {
       key: 1,
       onClick: (category) => {
-        navigate({ to: `/inventory/categories/edit/` + category.id });
+        setEditCategory(category);
       },
       content: (
         <>
@@ -59,6 +60,12 @@ export function CategoryTable({
         data={categories}
         contextLabel="Category Action"
         contextOptions={contextOptions}
+      />
+      <CategoryFormSheet
+        open={!!editCategory}
+        onOpenChange={(open) => !open && setEditCategory(null)}
+        categoryId={editCategory?.id}
+        existingImg={editCategory?.img}
       />
     </div>
   );

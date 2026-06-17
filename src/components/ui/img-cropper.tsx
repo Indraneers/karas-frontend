@@ -30,6 +30,8 @@ interface ImageCropperFormFieldProps {
   name: string; // Field name (e.g., "file")
   label?: string; // Form label
   className?: string;
+  /** Existing image URL to show as the initial preview (e.g. when editing). */
+  initialPreviewUrl?: string;
 }
 
 export function ImageCropperFormField({
@@ -37,6 +39,7 @@ export function ImageCropperFormField({
   name,
   label = "Upload Image",
   className = "",
+  initialPreviewUrl = "",
 }: ImageCropperFormFieldProps) {
   const aspect = 1;
 
@@ -47,7 +50,13 @@ export function ImageCropperFormField({
   const [crop, setCrop] = React.useState<Crop>();
   const [croppedImageUrl, setCroppedImageUrl] = React.useState<string>("");
   const [originalImageUrl, setOriginalImageUrl] = React.useState<string>("");
-  const [previewUrl, setPreviewUrl] = React.useState<string>("");
+  const [previewUrl, setPreviewUrl] = React.useState<string>(initialPreviewUrl);
+
+  // Seed the preview with the existing image when it arrives/changes and the
+  // user hasn't picked a new file yet.
+  React.useEffect(() => {
+    setPreviewUrl((current) => (current ? current : initialPreviewUrl));
+  }, [initialPreviewUrl]);
 
   function onImageLoad(e: React.SyntheticEvent<HTMLImageElement>) {
     if (aspect) {

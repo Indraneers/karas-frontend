@@ -70,6 +70,7 @@ import { cn } from "@/lib/utils";
 import { ItemImgBg } from "./item-img-bg";
 import { ProductIdentifier } from "@/features/product/components/product-identifier";
 import { ItemContextMenu } from "./item-context-menu";
+import { ProductFormSheet } from "@/features/product/components/product-form-sheet";
 
 interface ProductSelectionCardProps {
   product: ProductResponseDto;
@@ -77,6 +78,7 @@ interface ProductSelectionCardProps {
 
 export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
   const { setProduct, setSelector } = useItemSelectionStore();
+  const [editOpen, setEditOpen] = useState(false);
 
   function handleClick() {
     setSelector(ItemSelectionEnum.UNIT);
@@ -86,7 +88,8 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
   const units = product.unitCount || 0;
 
   return (
-    <ItemContextMenu label="product" name={product.name}>
+    <>
+    <ItemContextMenu label="product" name={product.name} onEdit={() => setEditOpen(true)}>
       <Card
         className="group relative flex flex-col h-full p-3 rounded-2xl border border-border bg-card shadow-sm w-full aspect-square overflow-hidden transition cursor-pointer hover:border-foreground/20 hover:shadow-md hover:-translate-y-0.5 text-left"
         onClick={handleClick}
@@ -118,5 +121,12 @@ export function ProductSelectionCard({ product }: ProductSelectionCardProps) {
         </div>
       </Card>
     </ItemContextMenu>
+    <ProductFormSheet
+      open={editOpen}
+      onOpenChange={setEditOpen}
+      productId={product.id}
+      existingImg={product.img}
+    />
+    </>
   );
 }

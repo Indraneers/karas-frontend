@@ -6,10 +6,10 @@ import { PaginationDetail } from "@/types/pagination";
 import { useState } from "react";
 import { ContextOption } from "@/types/context-options";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Edit } from "lucide-react";
 import { deleteProduct } from "../../api/product";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { ProductFormSheet } from "../product-form-sheet";
 
 interface ProductTablePage {
   className?: string;
@@ -25,8 +25,8 @@ export function ProductTable({
   paginationDetail,
 }: ProductTablePage) {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [editProduct, setEditProduct] = useState<Product | null>(null);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: async (id: string) => deleteProduct(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["products"] }),
@@ -36,7 +36,7 @@ export function ProductTable({
     {
       key: 1,
       onClick: (product) => {
-        navigate({ to: `/inventory/products/edit/` + product.id });
+        setEditProduct(product);
       },
       content: (
         <>
@@ -66,6 +66,12 @@ export function ProductTable({
         paginationDetail={paginationDetail}
         contextLabel="Product Actions"
         contextOptions={contextOptions}
+      />
+      <ProductFormSheet
+        open={!!editProduct}
+        onOpenChange={(open) => !open && setEditProduct(null)}
+        productId={editProduct?.id}
+        existingImg={editProduct?.img}
       />
     </div>
   );

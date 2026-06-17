@@ -7,9 +7,9 @@ import { useState } from "react";
 import { ContextOption } from "@/types/context-options";
 import { deleteUnit } from "../../api/unit";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Edit } from "lucide-react";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { UnitFormSheet } from "../unit-form-sheet";
 
 interface UnitTablePage {
   className?: string;
@@ -25,8 +25,8 @@ export function UnitTable({
   paginationDetail,
 }: UnitTablePage) {
   const [rowSelection, setRowSelection] = useState<Record<string, boolean>>({});
+  const [editUnit, setEditUnit] = useState<Unit | null>(null);
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
   const mutation = useMutation({
     mutationFn: async (id: string) => deleteUnit(id),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["units"] }),
@@ -36,7 +36,7 @@ export function UnitTable({
     {
       key: 1,
       onClick: (unit) => {
-        navigate({ to: `/inventory/units/edit/` + unit.id });
+        setEditUnit(unit);
       },
       content: (
         <>
@@ -66,6 +66,12 @@ export function UnitTable({
         data={units}
         contextLabel="Unit Actions"
         contextOptions={contextOptions}
+      />
+      <UnitFormSheet
+        open={!!editUnit}
+        onOpenChange={(open) => !open && setEditUnit(null)}
+        unitId={editUnit?.id}
+        existingImg={editUnit?.img}
       />
     </div>
   );

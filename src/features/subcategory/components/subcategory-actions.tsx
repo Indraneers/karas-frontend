@@ -1,11 +1,12 @@
 import { DropdownAction } from "@/components/dropdown-action";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "@tanstack/react-router";
 import { Edit } from "lucide-react";
+import { useState } from "react";
 import { SubcategoryResponseDto } from "../types/subcategory.dto";
 import { Subcategory } from "../types/subcategory";
 import { DropdownActionItem } from "@/types/context-options";
 import { DeleteWithConfirmation } from "@/components/delete-with-confirmation";
+import { SubcategoryFormSheet } from "./subcategory-form-sheet";
 
 interface SubcategoryActionsProps {
   value: Subcategory;
@@ -17,7 +18,7 @@ export function SubcategoryActions({
   handleDelete,
 }: SubcategoryActionsProps) {
   const queryClient = useQueryClient();
-  const navigate = useNavigate();
+  const [editOpen, setEditOpen] = useState(false);
   const mutation = useMutation({
     mutationFn: async (id: string) => handleDelete(id),
     onSuccess: () =>
@@ -27,8 +28,8 @@ export function SubcategoryActions({
   const dropdownActionItems: DropdownActionItem<Subcategory>[] = [
     {
       key: 1,
-      onClick: (subcategory) => {
-        navigate({ to: `/inventory/subcategories/edit/` + subcategory.id });
+      onClick: () => {
+        setEditOpen(true);
       },
       content: (
         <>
@@ -49,10 +50,17 @@ export function SubcategoryActions({
   ];
 
   return (
-    <DropdownAction
-      label="Subcategory Actions"
-      items={dropdownActionItems}
-      value={value}
-    />
+    <>
+      <DropdownAction
+        label="Subcategory Actions"
+        items={dropdownActionItems}
+        value={value}
+      />
+      <SubcategoryFormSheet
+        open={editOpen}
+        onOpenChange={setEditOpen}
+        subcategoryId={value.id}
+      />
+    </>
   );
 }
