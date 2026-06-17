@@ -31,6 +31,7 @@ export const Route = createFileRoute(
       paymentType: (search.paymentType as PaymentType) || undefined,
       status: (search.status as StatusEnum) || undefined,
       page: (search.page as number) || 0,
+      q: (search.q as string) || undefined,
     };
   },
 });
@@ -48,16 +49,9 @@ function SalesPage() {
         <div className="flex items-center gap-2">
           <SalesSearchBar
             className="flex-1"
-            customerId={search.customerId}
-            vehicleId={search.vehicleId}
-            onSelectCustomer={(id) =>
-              navigate({ search: { ...search, customerId: id, vehicleId: undefined, page: 0 } })
-            }
-            onSelectVehicle={(id) =>
-              navigate({ search: { ...search, vehicleId: id, customerId: undefined, page: 0 } })
-            }
-            onClear={() =>
-              navigate({ search: { ...search, customerId: undefined, vehicleId: undefined, page: 0 } })
+            value={search.q}
+            onChange={(q) =>
+              navigate({ search: { ...search, q: q || undefined, page: 0 } })
             }
           />
           <SalesPopupFilter />

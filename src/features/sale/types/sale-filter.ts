@@ -10,4 +10,5 @@ export type SaleFilter = {
   paymentType?: PaymentType;
   status?: StatusEnum;
   page?: number;
+  q?: string;
 }

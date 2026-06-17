@@ -9,6 +9,7 @@ export const getSales = async(saleQuery: APIQuery): Promise<Page<SaleResponseDto
     method: 'GET',
     params: {
       page: saleQuery.page,
+      q: saleQuery.q || undefined,
       createdAtFrom: saleQuery.createdAtFrom ? saleQuery.createdAtFrom as Date: undefined,
       createdAtTo: saleQuery.createdAtTo ? saleQuery.createdAtTo as Date : undefined,
       customerId: saleQuery.customerId,
