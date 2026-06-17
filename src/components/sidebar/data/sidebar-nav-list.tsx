@@ -1,4 +1,5 @@
 import { BadgeDollarSign, CalendarDays, CarFront, Cog, House, ListTodo, Logs, LucideIcon, NotepadText, ReceiptText, User, Users, Wrench } from "lucide-react";
+import { AppMode } from "@/features/app-config/utils/app-mode";
 
 export interface SideBarNavDataItem {
   icon: LucideIcon;
@@ -6,6 +7,7 @@ export interface SideBarNavDataItem {
   url: string;
   childRoutes?: RegExp[];
   children?: SideBarNavDataItem[];
+  hideInMode?: AppMode[];
 }
 
 export const sidebarUserList: SideBarNavDataItem[] = [
@@ -41,7 +43,8 @@ export const sidebarUserList: SideBarNavDataItem[] = [
     url: '/vehicles',
     childRoutes: [
       /^\/vehicles\/.*/
-    ]
+    ],
+    hideInMode: [AppMode.WHOLESALE]
   },
   {
     icon: ListTodo,
@@ -62,7 +65,8 @@ export const sidebarUserList: SideBarNavDataItem[] = [
   {
     icon: CalendarDays,
     title: 'Maintenance',
-    url: '/maintenance'
+    url: '/maintenance',
+    hideInMode: [AppMode.WHOLESALE]
   },
   {
     icon: Logs,

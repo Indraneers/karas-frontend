@@ -1,16 +1,23 @@
 import { usePosStore } from "@/features/pos/store/pos";
 import { VehicleCustomerSearch } from "./vehicle-customer-search";
 import { Separator } from "@/components/ui/separator";
+import { isWholesaleMode } from "@/features/app-config/utils/app-mode";
 
 export function OrderInformationTab() {
   const { vehicle, customer } = usePosStore();
+  const wholesale = isWholesaleMode();
+
   return (
     <div className="grid grid-rows-[auto_1fr] h-full">
       <VehicleCustomerSearch />
       <div className="p-4 overflow-scroll">
         <CustomerInformation customer={customer} />
-        <Separator className="mt-4" />
-        <VehicleInformation className="mt-4" vehicle={vehicle} />
+        {!wholesale && (
+          <>
+            <Separator className="mt-4" />
+            <VehicleInformation className="mt-4" vehicle={vehicle} />
+          </>
+        )}
       </div>
     </div>
   );
